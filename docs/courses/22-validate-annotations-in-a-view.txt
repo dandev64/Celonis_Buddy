@@ -1,0 +1,24 @@
+﻿========================================================================
+  CELONIS ACADEMY - VALIDATE ANNOTATIONS IN A VIEW
+  Extracted: 2026-09-09 15:55  |  Personal study use only
+  Source: https://academy.celonis.com/learn/course/validate-annotations-in-a-view
+  Lessons: 1
+========================================================================
+
+########################################################################
+  LESSON 1 : Main
+########################################################################
+
+[No extractable text - likely a video/interactive lesson]
+
+The AI Annotation Builder allows analysts to significantly enhance their data analysis by automating the creation and use of annotations. This tool streamlines the process of identifying and labeling key data points, enabling more accurate and efficient insights. By using AI, analysts can extract a deeper understanding from their data, leading to improved decision-making and strategic planning.
+From a technical perspective, annotations are stored as augmented attributes in your Knowledge Model and can be leveraged just as other data points inside the Views you build and even serve as the foundation for automating workflows.
+While you can integrate annotations from within your View, you can also enhance existing Views or even create entirely new Views right out of the AI Annotation Builder.
+To do so, navigate to an AI Annotation Builder asset that has been run at least once already. You will find a button saying "Use in a View" in the upper right corner of the overview screen. Hitting this button gives you two options: creating a new View with the annotations and their input data as a basis, or adding the annotations and their input data to an existing View.
+Note that in both cases, the annotations, as well as any data points used to generate annotations, are added as a table, alongside additional validation columns.
+Let's create a new View based on our annotations and inspect what exactly those validation columns or features are.
+Let's focus on the latter one, the validation columns, for a bit. The validation columns play a vital role in ensuring that the outputs the AI Annotation Builder generates are as accurate and meaningful as possible. Analysts or Business Users can provide feedback using the validation columns. This feedback can be provided either via free text or via dropdowns to correct a generated category value.
+The feedback provided then helps the person in charge of the AI Annotation Builder configuration to refine the setup and increase the accuracy level of generated annotations.
+Once you reach a level of accuracy that is satisfactory, you can, of course, remove the validation columns in the regular View edit mode and fully customize the View to make it yours. This not only helps you to speed up the View creation process, but also to integrate AI in the form of smart annotations into your View and its related workflows right from the beginning.
+If you're interested in going even deeper into what can be done with AI Annotation Builder, check out our course "Maximize Data Value with AI Annotation Builder". See you there!
+

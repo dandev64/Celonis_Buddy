@@ -1,0 +1,437 @@
+﻿========================================================================
+  CELONIS ACADEMY - PROCESS-RELATED FUNCTIONS IN PQL
+  Extracted: 2026-09-09 15:12  |  Personal study use only
+  Source: https://academy.celonis.com/learn/course/process-related-functions-in-pql
+  Lessons: 3
+========================================================================
+
+########################################################################
+  LESSON 1 : PROCESS-RELATED FUNCTIONS IN PQL
+########################################################################
+
+----- Page 1 -----
+
+Process-Related Functions in PQL
+PROCESS-RELATED FUNCTIONS IN PQL
+
+----- Page 2 -----
+
+Process-Related Functions in PQL
+PROCESS-RELATED FUNCTIONS IN PQL
+Introduction to Process-Related Functions
+
+Let's focus on the processes!
+
+
+When it comes to process-related queries, we’re entering the real power of PQL. As you already know, PQL has been designed by Celonis to empower you to create your process-specific queries as easy and straightforward as possible.
+
+There’s a multitude of process-specific formulas, so we’re going to tackle the most important ones now and come back to some others in more advanced PQL courses.
+
+The first and probably most prominent use case is defining a specific process flow and calculating ratios based on this process flow. There are different formulas you can use to define an order of activities. You will get to know two different functions within the next two videos.
+
+Let’s begin with the PROCESS EQUALS operator, which is less powerful than the MATCH_PROCESS_REGEX function, but simpler to use.
+
+Do you remember the example of Maverick Buying we have used in the Basic Coding with PQL course, introducing CASE WHEN statements? Maverick Buying happens when an invoice is recorded without a purchase order item being created. We’ve already announced there will be more on PROCESS EQUALS and here we are, diving right in!
+
+----- Page 3 -----
+
+Process-Related Functions in PQL
+PROCESS-RELATED FUNCTIONS IN PQL
+PROCESS EQUALS
+
+Let's watch the video below to understand Process Equals.
+
+----- Page 4 -----
+
+Process-Related Functions in PQL
+PROCESS-RELATED FUNCTIONS IN PQL
+MATCH_PROCESS REGEX
+
+Alright, take a deep breath in and recap what you have just learned about the powerful PROCESS EQUALS operator. We’ll directly move on to a related function, which is even more powerful: MATCH_PROCESS_REGEX. This function filters the process variants based on a regular expression applied to the activities.
+
+As you might know, RegEx or Regular Expressions are a way to search within a text according to a particular search pattern. Regular Expressions are built from a sequence of characters that define this search pattern. They are most commonly used in search engines, for search and replace functionalities and in other text processing applications.
+
+In Match Process Regex, the focus is not on sequences of characters but on activity patterns or to the sequence of values inside a case.
+
+So the pattern you can search for is not ‘T’ directly followed by ‘E’ directly followed by ‘S’ directly followed by ‘T’ to find all cases containing the activity called ‘Test’, but rather ‘Create Purchase Requisition Item’ directly followed by ‘Change Quantity’ directly followed by ‘Create Purchase Order Item’ to find all cases where these activities are performed in this order.
+
+----- Page 5 -----
+
+Process-Related Functions in PQL
+PROCESS-RELATED FUNCTIONS IN PQL
+CALC_THROUGHPUT
+
+In the following video you will get to know another useful PQL function – “Calculate Throughput time”. As the name suggests, this function is used to calculate the time between two activities for every case in your data set.
+
+
+
+
+In the video you have just seen the following PQL statement:
+AVG(CALC_THROUGHPUT 
+(FIRST_OCCURRENCE [ 'Create Purchase Order Item' ] 
+TO LAST_OCCURRENCE ['Scan Invoice'] , 
+REMAP_TIMESTAMPS ( "ACTIVITIES"."EVENTTIME", DAYS)))
+How would you adjust the formula to calculate the maximum throughput time between the start of the case and scanning the first invoice?
+Option 1: MAX(CALC_THROUGHPUT (CASE_START TO FIRST_OCCURRENCE ['Scan Invoice'] , REMAP_TIMESTAMPS ( "ACTIVITIES"."EVENTTIME", DAYS)))
+Option 2: MAX(CALC_THROUGHPUT (CASE_START TO FIRST_OCCURRENCE ['Scan Invoice']))
+Option 3: MAX(AVG(CALC_THROUGHPUT (CASE_START TO FIRST_OCCURRENCE ['Scan Invoice'] , REMAP_TIMESTAMPS ( "ACTIVITIES"."EVENTTIME", DAYS))))
+
+In the next section, you will learn how to calculate rework rates by using the “Calculate Rework” PQL function.
+
+----- Page 6 -----
+
+Process-Related Functions in PQL
+PROCESS-RELATED FUNCTIONS IN PQL
+CALC_REWORK
+
+Activities which are executed multiple times per case are a common use case in process optimization. Think of multiple manual quantity changes which cause additional rework effort for your colleagues in the business departments:
+
+For analyzing these rework activities, you can leverage the CALC_REWORK function.
+
+By using this function, you can check how often a specific activity occurred for a single case. To do so, add a filter specifying the activity you'd like to consider for the rework calculation to the formula:
+
+CALC_REWORK ( "ACTIVITIES"."ACTIVITY" = 'Change Quantity' )
+
+The function then returns the number of occurrences of this particular activity for every case:
+
+Let’s assume we are interested in purchase order items, where the activity “Change Quantity” occurred more than once and flag them accordingly.
+
+We again begin by specifying our Filter statement within CALC_REWORK, filtering on the activity 'Change Quantity':
+
+CALC_REWORK ( "ACTIVITIES"."ACTIVITY" = 'Change Quantity' )
+
+The formula we now created returns the number of occurrences of the activity “Change Quantity” for each individual case. As we are interested in cases where the activity “Change Quantity” occurred more than once, we need to add a “Case When” statement to our formula.
+
+CASE WHEN CALC_REWORK ("ACTIVITIES"."ACTIVITY" = 'Change Quantity') > 1
+THEN 'Rework' ELSE 'No Rework' END
+
+Remember, for a “Case When” statement, we always need a condition. In this example, the condition is that the “Calculate Rework” statement returns a value higher than 1.
+
+If this condition is fulfilled, we will return 'Rework'. If it is violated, we will return 'No Rework'.
+
+Don’t forget the “End” to complete your “Case When” statements!
+
+Instead of flagging cases, you might want to enhance the statement above and calculate rework ratios. Calculating those is very useful and applicable to almost any process you analyze. Instead of specifying "Rework" and "No Rework", just return 1 and 0 in the CASE WHEN statement and wrap the entire statement into an AVG function:
+
+AVG (CASE WHEN CALC_REWORK ("ACTIVITIES"."ACTIVITY" = 
+'Change Quantity') > 1 
+THEN 1 ELSE 0 END)
+
+Let's proceed to learn how to focus on certain parts of your process only.
+
+----- Page 7 -----
+
+Process-Related Functions in PQL
+PROCESS-RELATED FUNCTIONS IN PQL
+CALC_CROP
+
+Tired of lengthy processes? Want to crop your cases to a specified range of activities?
+
+Good news! In theory and for analysis purposes, this actually works! The function for this task is called CALC_CROP. Let’s look at the specifics of the CALC_CROP function to understand its use cases. 
+
+Just as before, we’re looking at an activity table with a couple of process steps:
+
+CALC_CROP is used to crop this case to a range of activities where all activities inside this range are flagged with 1 and activities outside the range are mapped to NULL.
+
+To specify the start and end activity that should be your "cropping points", you again use the FIRST_OCCURRENCE, LAST_OCCURRENCE, CASE_START and CASE_END operators that you are familiar with from the CALC_THROUGHPUT function.
+
+In our example, we would like to crop our case above from the case’s start to when we’re receiving goods for the first time:
+
+
+
+
+Let's answer couple of questions to clearly understand CALC_CROP.
+
+Question 1
+
+CALC_CROP(CASE_START TO FIRST_OCCURRENCE['Receive Goods'],"ACTIVITIES"."ACTIVITY")
+
+How would the above PQL statement look like if you’d like to crop from the first to the last time you have scanned an invoice?
+
+Option 1: CALC_CROP(CASE_START TO LAST_OCCURRENCE['Scan Invoice'], "ACTIVITIES"."ACTIVITY")
+Option 2: CALC_CROP(LAST_OCCURRENCE['Scan Invoice'] TO LAST_OCCURRENCE['Scan Invoice'], "ACTIVITIES"."ACTIVITY") B
+Option 3: CALC_CROP(FIRST_OCCURRENCE['Scan Invoice'] TO LAST_OCCURRENCE['Scan Invoice'], "ACTIVITIES"."ACTIVITY")
+Hint
+
+
+
+
+Question 2
+
+A colleague approaches you because he received a weird result, performing CALC_CROP on the ACTIVITIES table that you see below.
+CASEDID	ACTIVITY	EVENTTIME	RESULT
+1	Create Purchase Order Item	Tue Jan 01 2019 13:00:00.000	NULL
+1	Scan Invoice	Wed Jan 02 2019 15:01:00.000	NULL
+1	Scan Invoice	Fr Jan 04 2019 17:02:00.000	NULL
+1	Receive Goods	Mo Jan 07 2019 17:08:00.000	NULL
+1	Scan Invoice	Mo Jan 07 2019 17:20:00.000	NULL
+
+Which PQL statement(s) might your colleague have used?
+
+Option 1: CALC_CROP (LAST_OCCURRENCE ['Create Purchase Requisition Item'] TO CASE_END,  "ACTIVITIES"."ACTIVITY")
+Option 2: CALC_CROP (FIRST_OCCURRENCE ['Scan Invoice'] TO FIRST_OCCURRENCE ['Create Purchase Order Item'], "ACTIVITIES"."ACTIVITY")
+Option 3: Either Option 1 or Option 2, Both will give the same result shown in the result table.
+
+
+Note: If the activity name used in FIRST_OCCURRENCE or LAST_OCCURRENCE does not exist, all values are mapped to NULL.The same is true when the activities are in the wrong order as in the second scenario.
+
+
+CALC_CROP has some nice use cases. For example, it can be used to calculate the number of activities that happen between the two specified activities per case. Or it can be used in CASE WHEN or FILTER statements to only focus on this part of the process.
+
+One More Remark...
+
+What if you don’t want to map the activities inside your specified range to 1 but prefer to keep the value instead?
+
+Just use CALC_CROP_TO_NULL instead of CALC_CROP. The syntax and rationale behind CALC_CROP_TO_NULL remain the same:
+
+----- Page 8 -----
+
+Process-Related Functions in PQL
+PROCESS-RELATED FUNCTIONS IN PQL
+Process Index Functions
+
+Use index functions to get more structured insights into your process.
+
+
+We’ll now check out another group of functions, called process index functions.
+
+
+
+
+
+There is one more pair of index functions that we would like to cover in this lesson: INDEX_ACTIVITY_LOOP and INDEX_ACTIVITY_LOOP_REVERSE. They are very similar to INDEX_ACTIVITY_TYPE and INDEX_ACTIVITY_TYPE_REVERSE, but differ in one important aspect.
+
+Let’s play a little game and see whether you manage to find out this aspect on your own. Below you can find a new activity table and the results that you get from applying the functions:
+
+INDEX_ACTIVITY_TYPE("ACTIVITIES"."ACTIVITY")
+and
+INDEX_ACTIVITY_LOOP("ACTIVITIES"."ACTIVITY")
+
+INDEX_ACTIVITY_LOOP returns how many times an activity has occurred in direct succession within a single case. Also, INDEX_ACTIVITY_LOOP resets the counter to 1 if the next activity within the same case is not the same activity while INDEX_ACTIVITY_TYPE increases its count for a certain activity type within the same case, regardless of direct succession.
+
+Note that also INDEX_ACTIVITY_LOOP has a counterpart INDEX_ACTIVITY_LOOP_REVERSE that works on the same principle as the previous REVERSE-functions.
+
+Also, NULL values are ignored, meaning that the rows with a NULL value stay NULL in the result column and will not count as an index activity value.
+
+
+Last but not least...
+
+You might have noted that we used very small tables in our examples.
+
+
+In reality, you would not compare one particular case to another, but make use out of the standard aggregation or data flow functions to analyze large datasets.
+
+----- Page 9 -----
+
+Process-Related Functions in PQL
+PROCESS-RELATED FUNCTIONS IN PQL
+
+No topic content.
+
+########################################################################
+  LESSON 2 : Exercise: Process-Related Functions
+########################################################################
+
+----- Page 1 -----
+
+Process-Related Functions in PQL
+Exercise: Process-Related Functions
+Explanation on Exercise: Process-Related Functions 
+Let's practice!
+
+You learned about different process-related functions throughout this chapter. Let's apply them by examining the effect on our vendors' throughput time when a price change occurs.
+
+We are interested in two key metrics:
+
+the average throughput time per vendor when no price change activities are present
+the average throughput time per vendor when price changes are included
+
+This is how our final result should look like:
+
+
+Let's divide and conquer this exercise and have a look at the individual components of this dashboard, starting with the table in the upper left corner:  In the following page we have few questions on each of the component.
+
+----- Page 2 -----
+
+Process-Related Functions in PQL
+Exercise: Process-Related Functions
+
+Quiz
+
+Start
+
+----- Page 3 -----
+
+Process-Related Functions in PQL
+Exercise: Process-Related Functions
+
+No topic content.
+
+########################################################################
+  LESSON 3 : Support & Outlook
+########################################################################
+
+----- Page 1 -----
+
+Process-Related Functions in PQL
+Support & Outlook
+Best Practices
+
+Many roads lead to Rome, but some are faster than others!
+
+If you already have some coding experience - not necessarily with PQL but any other language - you might have run into situations where you couldn’t easily decide how to proceed.
+
+
+Which function to favor or how to design your code a bit leaner, cleaner and faster in terms of computation times?
+
+Here are some best practices we recommend when working with the functions and operators introduced throughout this course.
+
+Aggregations and Execution Times
+
+Our aggregation operators such as COUNT, MAX, SUM and AVG differ in terms of the timely amount that they require when performed.
+
+You can think of these execution times as a sort of cost label that each function is associated with:
+
+What does this imply for your daily work with Celonis PQL?
+
+We identified some major recommendations for you:
+
+If you have the choice between AVG and MEDIAN, choose AVG due to a better performance, i.e. less time and cost. However, if your dataset is highly skewed, it might often be more reasonable to use the median to drive meaningful conclusions.
+If you can choose between COUNT and COUNT DISTINCT, choose COUNT. Oftentimes, people use COUNT DISTINCT “just to make sure”, but you should always reflect if there are actually duplicate values in your data. If not, you can safely use COUNT.
+You might be indifferent whether to use SUM or COUNT in combination with a CASE WHEN statement:
+SUM (CASE WHEN column = 'A' THEN 1 ELSE 0)
+
+COUNT (CASE WHEN column = 'A' THEN 1 ELSE NULL) *
+
+
+
+Note that both statements return exactly the same result.
+
+However, by looking at the table above, choose COUNT to take advantage of the faster computation.
+
+Note that NULL should be returned here if the condition is not fulfilled. 0 would lead to COUNT including this value in its calculations.
+
+
+
+CASE WHEN vs. REMAP_VALUES
+
+You might have come across the thought that you could also use a CASE WHEN statement instead when we’ve introduced the REMAP_VALUES function.
+
+Our best practices advice to you: DON’T!
+
+REMAP_VALUES has been built exactly for its purpose and outperforms the CASE WHEN alternative by far. Not only the computation time is less when using REMAP_VALUES but also the syntax is more compact as you can see below:
+
+Hence, as a best practice, we recommend using the REMAP functions whenever possible.
+
+= vs. LIKE
+
+One very last tip:
+
+Whenever you know the exact pattern you're looking for, always use the "=" operator rather than LIKE. It will save you quite some computation time.
+
+
+By the way...
+
+Improving data load on our data centers not only increases the speed of your calculations, it's also making a difference when it comes to sustainability.
+
+For every byte that you reduce, the load results in less CO2 emission equivalents of the data centers.
+
+So next time you reflect on PQL performance, remember that your decision also has an environmental impact.
+
+If you can use all the functions and operators introduced throughout this course and even pay attention to the best practices we’ve proposed simultaneously, you’re on the best way to become a true PQL Master!
+
+----- Page 2 -----
+
+Process-Related Functions in PQL
+Support & Outlook
+PQL Function Library
+
+Afraid of being thrown into the cold water? No worries, we've got you covered!
+
+
+
+
+Detailed information on every available PQL function can be found in the “PQL Function Library”.
+
+You can access the library via the Celonis Documentation Page - simply search for PQL or navigate via “Process Query Language (PQL)” in the search bar.
+
+The PQL Function Library is the complete and most detailed collection of articles about all Process Query Language functions available in Celonis.
+
+In addition, you can find detailed use cases for advanced PQL usage in a separate section.
+
+However, you will also be able to find more advanced PQL courses on the Celonis learning platform soon. So stay tuned for the next level!
+
+----- Page 3 -----
+
+Process-Related Functions in PQL
+Support & Outlook
+Exchange on PQL
+
+Still not found what you were looking for? No problem, we have you covered with some additional resources.
+
+Celonis Support
+
+No matter if you’re coding with SQL, Python or C++ - the people who do the same coding always provide valuable practical advice. This is why there are numerous forums where people exchange on their coding challenges.
+
+So when it comes to PQL, why not ask other Celonis users?
+
+The Celonis Support Platform is the perfect place for your PQL questions.
+
+Not sure
+
+how to approach certain process questions
+which formulas to leverage or
+how to tackle certain blockers?
+
+Get help from other Celonis users like customers, partners, academics or Celonis employees. There’s certainly someone who experienced the same and has something up their sleeves.
+
+Register or log in on "Celonis Support" to see what others have already asked!
+
+Service and Support Desk
+
+
+Do you have a specific question you don’t want to share publicly? Our service desk colleagues are happy to help you 24/7 with every PQL question you have. Simply write a mail to servicedesk@celonis.com
+
+----- Page 4 -----
+
+Process-Related Functions in PQL
+Support & Outlook
+Congratulations! 
+
+You have completed the Process-Related Functions in PQL course!
+
+What's next?
+
+If you're taking this course as part of the Write PQL Queries training track, you can proceed to the next course about Joins & Filters in PQL.
+
+If you came here from somewhere else, we highly recommend checking out the full "Write PQL Queries" training track. It takes you on a journey from basic PQL to more advanced queries and the good thing is you have already completed one of the courses with this one.
+
+
+Want to dig deeper into the topic of this course? Join the Celonis Community to ask your product questions, hear about the latest product releases, and remain up-to-date by subscribing.
+
+We invite you to join our Celonis Academy Group to engage with your peers, get exclusive updates and answers directly from Academy experts, and stay connected!
+
+
+
+
+Thank you for taking this course, we hope you enjoyed it!
+
+Your feedback matters
+
+Remember to stop at our feedback page to help us improve our content
+
+- Your Celonis Academy
+
+----- Page 5 -----
+
+Process-Related Functions in PQL
+Support & Outlook
+
+Starting the survey…
+
+----- Page 6 -----
+
+Process-Related Functions in PQL
+Support & Outlook
+
+No topic content.

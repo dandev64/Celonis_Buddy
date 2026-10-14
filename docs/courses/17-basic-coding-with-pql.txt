@@ -1,0 +1,970 @@
+﻿========================================================================
+  CELONIS ACADEMY - BASIC CODING WITH PQL
+  Extracted: 2026-09-09 15:03  |  Personal study use only
+  Source: https://academy.celonis.com/learn/course/basic-coding-with-pql
+  Lessons: 8
+========================================================================
+
+########################################################################
+  LESSON 1 : Welcome!
+########################################################################
+
+----- Page 1 -----
+
+Basic Coding with PQL
+Welcome!
+Welcome to Basic Coding with PQL course!
+
+This course will give you an introduction to the basic functions of Celonis Process Query Language, short PQL.
+
+The training contains a modular structure consisting of different lessons and quizzes, as displayed below. You have the freedom to jump directly to a specific lesson or do the full training in the recommended order.
+
+Prerequisite: You don't need any prior knowledge of PQL to undertake this course. Being already familiar with basic principles of programming such as conditions as well as transforming data & formats will ease your understanding of PQL.
+
+This course teaches you PQL independently from the Celonis Platform, with all exercises performed directly in this course. 
+
+Duration: The full training will take about 1 hours 30 minutes.
+
+This training is designed to teach you the basics of the Process Query Language by Celonis, short Celonis PQL. Whenever you want to set up KPIs in your Views or Knowledge Models, PQL is the perfect tool to define precise queries and let you analyze exactly the things you need.
+
+You don’t have to be a coding expert to get started with Celonis PQL. In this course, we’ll take you by the hand and guide you through the first basic functions step by step. You’ll see - PQL is the perfect companion for all your process-related questions and completely flexible, no matter if you’re working on P2P, O2C, Production or Supply Chain!
+
+This content is available in multiple languages: English, German, French, Japanese, Spanish, and Portuguese. To switch your language, use the selector in the top navigation bar.
+
+In Courses: Switching languages will not affect your progress. If you are multilingual, comparing languages can even help deepen your understanding.
+In Exams: Do not switch the language once you start the exam. If you switch the language when you're already reviewing questions and answers, the page will refresh, causing your exam attempt to end prematurely. (Note: Once inside the exam course, you can switch the language anytime before clicking the Start Exam button.)
+
+
+
+
+If you encounter any technical or access issues during this course, check out our FAQs in the Support area or reach out to us via our Academy contact form.
+
+----- Page 2 -----
+
+Basic Coding with PQL
+Welcome!
+PQL Operators
+
+Celonis PQL provides more than 150 different operators to process event data. If you have completed the course "Introduction to PQL and the Celonis PQL Engine(opens in a new tab)", you’re already familiar with the available classes of operators.
+
+Click on the categories in the image below to find out more about the most important classes of operators
+
+Throughout the first chapter of this course we will dive deeper into Standard Aggregations, Data Flow and Predicate Functions, Data Type Conversions, String Modifications and last but not least DateTime Modifications - always accompanied with easy, hands-on examples and exercises.
+
+In the second chapter, you will get to know Process-Related Functions that help you address your process questions and calculate activity-related KPIs.
+
+To conclude this course, we will eventually provide you with important support sources such as the PQL Functions Library as well as the Community and Support platforms.
+
+Course Outline
+
+In a nutshell, after completing this course, you will be able to:
+
+Apply basic Celonis PQL queries containing conditions and basic functions.
+Modify string input and timestamps for further usage.
+Sounds exciting? Let's start right away!
+
+----- Page 3 -----
+
+Basic Coding with PQL
+Welcome!
+Introduction to P2P and relevant SAP tables (Optional)
+
+Before jumping into detail, let us have a look at our example use case that we will reference in the upcoming lessons: The Purchase to Pay Process or P2P.
+
+The P2P Process
+
+Generally speaking, P2P is the process of purchasing goods as a company. After creating a purchase order in the system containing information about the products and the vendor, the company receives the goods and pays the invoice from the vendor.
+
+As we want to analyze the process on a very granular level using Celonis PQL, the cases we are following through the process are purchase order items.
+
+
+
+
+Let’s say our P2P process is tracked and processed in SAP. There are some particular tables in SAP that store information on the P2P process. Check out the video below to familiarize yourself with the tables and their attributes.
+
+By now, you know everything about the P2P process to easily understand the examples of this course.
+
+Move on to the next lesson about activity tables unless you are already very familiar with them. If the latter is the case, you can directly dive into the next chapter and learn about standard aggregations.
+
+We have a recap on activity table in the next page. If you have only briefly touched on activity tables so far, you might want to take this short lesson.
+
+You can skip the next page and start right away with basic PQL functions if you already know what activity tables are.
+
+----- Page 4 -----
+
+Basic Coding with PQL
+Welcome!
+The Activity Table (Optional)
+
+Once we get to know process-related PQL functions, we will work a lot with the activity table, also called the event log.
+
+Click on the categories in the image below to find out more about the most important classes of operators.
+
+In our example, we’re looking at different purchase order items. So the purchase order item number is the central object ID or case key we follow through the process.
+
+Looking at how the activity table is structured, we see that for a given purchase order item number, there are different process steps/activities, such as creating the request, creating the item, receiving the goods and receiving the invoice. And every single process step has a corresponding event time.
+
+Furthermore, there are numerous other purchase order items with different numbers, so different case keys, for which we have different process steps, at different points in time.
+
+In general, the activity table contains all the information about the process flows for all the objects that we want to analyze - in this example the purchase order items.
+
+If you want to learn more about how the activity table is created, feel free to check out the training track "Get Data into Celonis".
+
+########################################################################
+  LESSON 2 : Basic Functions
+########################################################################
+
+----- Page 1 -----
+
+Basic Coding with PQL
+Basic Functions
+Standard Aggregations
+
+One of the earliest standard aggregation techniques you learned as a child was probably counting - for example, to express your age or how many matchbox cars you possess.
+
+Taking the example of matchbox cars further, you might have wondered how many distinct types your car collection consists of and how many cars you owned per type on average. Since your cars could have attributes like size and price, you could have also described your collection in terms of the total monetary value your cars sum up to altogether.
+
+You can easily map this intuitive example to what you can do with your data using the standard aggregation functions with Celonis PQL. Besides counting, distinct counting, average and sum, many more standard aggregations such as summary statistics (min, max, median, quartiles, standard deviation) await you.
+
+
+
+
+We basically distinguish between the following groups within standard aggregation functions:
+
+
+Counting
+Evaluating
+Stochastics
+
+COUNT
+
+COUNT_TABLE
+
+COUNT DISTINCT
+
+----- Page 2 -----
+
+Basic Coding with PQL
+Basic Functions
+Counting
+
+After introducing an example, you will directly have the opportunity to practice the standard aggregation functions. We will stick with the overarching example of matchbox cars but let’s put it into more technical terms, i.e. a table, first. We'll call this table Matchbox:
+
+Matchbox:
+MODEL
+	
+TYPE
+	
+SIZE (CM)
+	
+PRICE (€)
+
+
+Audi TT
+	
+Street Car
+	
+5.2
+	
+7.99
+
+
+Power Lift
+	
+Construction
+	
+8.9
+	
+12.99
+
+
+Quary Truck
+	
+Construction
+	
+9.3
+	
+15.99
+
+
+BMW Sauber F1.08
+	
+Racing Car
+	
+8.5
+	
+13.99
+
+
+VM Karmann Ghia
+	
+Street Car
+	
+6.7
+	
+8.99
+How many cars do I own?
+
+You might want to start by answering a very basic question. To use PQL, we will need to add information about which table we want to use to answer this question. Since we only want to know the number of entries in this table, simply use the COUNT_TABLE function accordingly: 
+
+COUNT_TABLE ("Matchbox")
+
+Click the correct option for the below question:
+
+What is your vote on the result we will get using the above PQL?
+
+3
+4
+5
+6
+
+You can see from the table there is a bit more information like the car type. Using PQL, the syntax of referring to a particular column within a specified table looks like this:
+
+"tableName"."columnName"
+
+In the below video let us see, how to count the number of cars in each type.
+
+
+
+
+
+Imagine, you are not interested in the actual number of cars per type but in how many car types your collection actually consists of.
+
+Use the function
+
+COUNT (DISTINCT "Matchbox"."Type")
+
+Click the correct option for the below question:
+
+
+What is your vote on the result we will get using the above PQL that involves DISTINCT?
+
+1
+4
+5
+3
+
+----- Page 3 -----
+
+Basic Coding with PQL
+Basic Functions
+Evaluating
+What is the average price of my matchbox cars?
+
+Yes! you might have already guessed. You can use the Average function (AVG) to find the average price. Use the function accordingly:
+
+AVG ("Matchbox"."Price")
+
+Similarly, you might want to find different values like total amount of money spent on the match box cars, least amount of money paid for a match box car, highest amount of money paid for a match box car and so on. 
+
+
+Can you drag and drop the appropriate function to the description? 
+
+SUM ("Matchbox"."Price")
+MIN ("Matchbox"."Price")
+MAX ("Matchbox"."Price")
+MEDIAN ("Matchbox"."Price")
+SELECT THE CORRESPONDING MATCH BELOW
+
+Note: The query TRIMMED_MEAN ("Matchbox"."Price", 20, 20) takes the lower and upper cutoffs as parameters. Here, 20 % of the total rows should be cut-off at the top as well as the bottom of the (sorted) Price-Column.
+
+
+Easy, right? Let's move on to some functionalities that allow you to crop strings.
+
+----- Page 4 -----
+
+Basic Coding with PQL
+Basic Functions
+Stochastics
+What is the standard deviation of my car prices? 
+
+Okay, you would probably not ask such questions on our small dataset. Especially for larger data samples though, you typically calculate the quantiles of your data distribution as well as the standard deviation or a variance to get some sort of a feel for your data.
+
+Let's check out the appropriate functions.
+
+QUANTILE("Table"."Column",0.25)
+VAR("Table"."Column")
+STDEV("Table"."Column")
+
+----- Page 5 -----
+
+Basic Coding with PQL
+Basic Functions
+Second Aggregation
+
+Let’s switch back to your car prices.
+
+Would you like to know how you invested your total funds based on the car types?
+
+Prev
+Slide 1 of 4
+Next Slide
+
+Step 1 Grouping Column
+
+"Matchbox"."Type"
+
+First, we define the grouping column.
+
+1
+2
+3
+4
+Some final remarks…
+NULL VALUES
+GROUPER COLUMN
+
+If your rows happen to contain NULL values, they are ignored in all of the aggregation functions. That means whenever a row contains NULL, the aggregation function sort of pretends that this row does not exist.
+
+The only exception is COUNT_TABLE. Here, the number of rows in a table are counted regardless of what they contain:
+
+########################################################################
+  LESSON 3 : Data Flow Functions
+########################################################################
+
+----- Page 1 -----
+
+Basic Coding with PQL
+Data Flow Functions
+Data Flow Functions
+
+Data is flowing constantly. Let's put some more structure around it!
+
+Welcome to another group of operators within the Celonis PQL library: Data Flow. Data Flow operators cover a variety of functions to return or change particular values based on conditions defined by the user.
+
+We will walk through three Data Flow functions in detail throughout this lesson:
+
+
+CASE WHEN
+REMAP_VALUES
+COALESCE
+
+Evaluates a list of conditions and returns results based on these conditions.
+
+We’ll dive into each of the Data Flow operator!
+
+----- Page 2 -----
+
+Basic Coding with PQL
+Data Flow Functions
+CASE WHEN
+
+To understand CASE WHEN, let’s have a look at a particular use case in the Purchase-to-Pay (P2P) process where process mining and the detection of value opportunities using Celonis PQL adds value: Maverick Buying
+
+
+Maverick Buying happens when goods are being purchased without involving the purchasing department.
+
+This is important because the purchasing department can compare different prices and vendors or potentially has contract agreements and discounts for specific vendors which then can’t be realized. Speaking of PQL, this execution gap can be unveiled by filtering for processes that start with the activity 'Scan Invoice'.
+
+
+Let's watch the video below to understand how CASE WHEN is used in the case of Maverick Buying:
+
+
+
+
+Note: If you do not provide an ELSE block in your CASE WHEN statement, NULL will be returned in all cases where no condition holds.
+
+If a condition evaluates to NULL, it is treated as false.
+
+
+Take a Guess:
+
+Which of the following queries correctly search for cases affected by Maverick Buying AND affecting the Material Group 'Smartphone' (column MATKL in the table EKPO)? (Choose the correct answer from the options given below the queries).
+
+Query 1:  
+
+CASE WHEN PROCESS EQUALS 'Scan Invoice' TO ANY TO
+'Create Purchase Order Item' 
+THEN CASE WHEN "EKPO"."MATKL" = 'Smartphone' 
+THEN 1 ELSE 0 END ELSE 0 END
+
+Query 2:
+
+CASE WHEN PROCESS EQUALS 'Scan Invoice' TO ANY TO 
+'Create Purchase Order Item' 
+AND  "EKPO"."MATKL" = 'Smartphone' THEN 1 ELSE 0 END
+Option 1: Both Query 1 and 2
+Option 2: Only Query 1
+Option 3:Only Query 2
+Option 4:Neither Query 1 Nor Query 2
+
+Solution
+
+----- Page 3 -----
+
+Basic Coding with PQL
+Data Flow Functions
+REMAP_VALUES
+
+Let us move on to another data flow operator, namely REMAP_VALUES and its counterpart REMAP_INTS. The core idea of both operators is to specify a value that should be replaced by another one for all occurrences. 
+
+While the REMAP_VALUES is applied to columns of the type STRING, REMAP_INTS provides similar functionalities for columns of type INT.
+
+Returning to our P2P use case, imagine your Purchase Order Types in column BSART in the table EKKO are currently stored as the following abbreviations:
+
+StPuOr
+PlPuOr
+BlPuOr
+
+Since these codes are rather hard to read and interpret, you are asked to remap those abbreviations to the actual terms that they stand for. You decide to use the REMAP_VALUES for this purpose:
+
+REMAP_VALUES ("EKKO"."BSART",  ['StPuOr', 'Standard Purchase Order'], 
+['PlPuOr', 'Planned Purchase Order'],
+['BlPuOr', 'Blanket Purchase Order'])
+
+Take a moment to analyze and understand the PQL statement. Imagine there is an additional Purchase Order Type abbreviation in the system “CoPuOr” that should be replaced with “Contract Purchase Order” in the same statement.
+
+How would you extend the query to do so?
+REMAP_VALUES ("EKKO"."BSART",  
+['StPuOr', 'Standard Purchase Order'], 
+['PlPuOr', 'Planned Purchase Order'],
+['BlPuOr', 'Blanket Purchase Order'], 
+__________________ )
+Option 1: [CoPuOr, Contract Purchase Order]
+Option 2: ['CoPuOr' 'Contract Purchase Order']
+Option 3: ['CoPuOr', 'Contract Purchase Order']
+
+There are still some more abbreviations in the system that are not used on a regular basis. You are asked to rename every remaining abbreviation to “Other Purchase Order”. The syntax to do so is fairly simple and looks like this:
+
+REMAP_VALUES ("EKKO"."BSART",  ['StPuOr', 'Standard Purchase Order'], 
+['PlPuOr', 'Planned Purchase Order'], ['BlPuOr', 'Blanket Purchase Order'], 
+['CoPuOr','Contract Purchase Order'], 'Other Purchase Order')
+
+Note that this last string value mapping all other values not mapped by the preceding mapping pairs is optional. If this optional default replacement value is not specified, all values not considered in the mapping will remain unchanged.
+
+The syntax of REMAP_INTS works along the same logic as REMAP_VALUES. The only difference is that it is mapping numbers instead of strings.
+
+How many distinct purchase order types will you see after applying the last PQL statement?
+
+Option 1: 4
+Option 2: 5
+Option 3: 6
+Solution
+
+----- Page 4 -----
+
+Basic Coding with PQL
+Data Flow Functions
+COALESCE
+
+Last but not least within the data flow section, we’d like to introduce another data flow function: COALESCE
+
+
+
+
+
+COALESCE Take-Aways:
+
+COALESCE scans our data for NULL values and allows us to define a constant that should be returned when a NULL value is detected.
+COALESCE is supported for all data types.
+When specifying multiple columns within one COALESCE statement, they need to be of the same data type.
+The result of the COALESCE statement is of the same type as the input.
+
+########################################################################
+  LESSON 4 : Predicate Functions and Operators
+########################################################################
+
+----- Page 1 -----
+
+Basic Coding with PQL
+Predicate Functions and Operators
+Predicate Functions and Operators
+
+Equal or similar?
+Smaller or bigger?
+
+Let's compare!
+
+
+Congratulations! By now you’re already familiar with two very fundamental groups of operators: standard aggregations and data flow.
+
+Let’s have a look at a third group called Predicate Functions. Predicate functions and operators check if the input argument satisfies a condition.
+
+We will walk through the following functions and operators in detail:
+
+
+BETWEEN
+Comparison Operators
+IN, IN_LIKE, LIKE
+ISNULL, IS NULL
+
+Matches an inclusive range between two given values.
+
+Predicate Functions and Operators will cross your way quite often in writing PQL statements in Celonis. So let’s jump right in.
+
+----- Page 2 -----
+
+Basic Coding with PQL
+Predicate Functions and Operators
+The BETWEEN Operator
+
+----- Page 3 -----
+
+Basic Coding with PQL
+Predicate Functions and Operators
+Comparison Operators
+
+Comparison Operators are important and just as easy as the BETWEEN operator when working in PQL. Below are the comparison operators and descriptions.
+
+OPERATORS	DESCRIPTIONS
+Greater Than	>
+Greater Than or Equal	>=
+Less Than	<
+Less Than or Equal	<=
+Equal	=
+Not Equal	!=
+
+The following attributes apply to comparison operators:
+
+
+Use both a left and right side argument to satisfy the requirements of binary operators.
+A DATE column can be compared to another DATE column or a DATE constant.
+A FLOAT column can be compared to a column or a constant of either type FLOAT or INT. The same applies to INT.
+A STRING column can be compared to another STRING column or a STRING constant based on lexicographic ordering.
+
+Never heard of FLOAT, STRING or INT before? We'll get there shortly when talking about data type conversions.
+
+For now, you can simply remember that your comparisons should be applied to the same or very similar formats. You wouldn't want to compare apples and oranges, right?
+
+----- Page 4 -----
+
+Basic Coding with PQL
+Predicate Functions and Operators
+IN, NOT IN
+
+Let's look at an additional column in our EKPO table that shows the article type, e.g. a laptop or a smartphone.
+
+Earlier you have used a CASE WHEN statement in combination with a BETWEEN operator to only display articles with prices between 701 and 1,401 EUR. Imagine, for analysis purposes, you'd now like to see the prices of the article types notebook and smartphone only.
+
+
+
+
+Here, you can make use of the IN operator, applying it to the column storing information on the article type.
+
+In the background, the operator IN maps the value of the current case to either true or false which determines whether the condition is fulfilled or not.
+
+Transfer exercise: 
+Complete the query given below to get the total price of all your notebooks and smartphones?
+
+Query:  
+
+____ (CASE WHEN "EKPO"."Article_Type" IN ('Notebook', 'Smartphone') 
+THEN "EKPO"."Price" ELSE NULL END)
+THEN CASE WHEN "EKPO"."MATKL" = 'Smartphone' 
+THEN 1 ELSE 0 END ELSE 0 END
+Option 1: SUM
+Option 2: AVG
+Option 3: MAX
+What would the statement using NOT IN result in?
+
+Query:
+
+SUM (CASE WHEN "EKPO"."Article Type" NOT IN ('Notebook', 'Smartphone') 
+THEN "EKPO"."Price" ELSE NULL END)
+
+Option 1: 100
+Option 2: 4,100
+Option 3: 1,510
+
+Instead of using single values in the match list of your statement, you can also list another column here. IN and NOT IN can be used for the following value types: STRING, INT, FLOAT, DATE.
+
+----- Page 5 -----
+
+Basic Coding with PQL
+Predicate Functions and Operators
+LIKE, IN_LIKE
+
+----- Page 6 -----
+
+Basic Coding with PQL
+Predicate Functions and Operators
+IS NULL and ISNULL
+
+
+
+
+Recap
+
+We summarized the key take aways on the left. Do you still remember everything?
+
+So far we have looked at functions and operators to map and match various entries in our tables.
+
+Throughout the next lesson, let us have a look at how to modify string values for all kinds of use cases you might encounter.
+
+----- Page 7 -----
+
+Basic Coding with PQL
+Predicate Functions and Operators
+
+No topic content.
+
+########################################################################
+  LESSON 5 : String Modifications
+########################################################################
+
+----- Page 1 -----
+
+Basic Coding with PQL
+String Modifications
+String Modifications
+
+Welcome to another deep dive into one of many PQL categories: String Modifications. String modifications comprise a set of powerful functions including combinations, transformations and cropping to get the most out of your Celonis queries. 
+
+We’ll look into the details of the following functions in the course of this lesson:
+
+LOWER, UPPER, REVERSE
+LEFT, RIGHT, LTRIM, RTRIM, SUBSTRING
+CONCAT
+REPLACE
+
+Transform Strings
+
+----- Page 2 -----
+
+Basic Coding with PQL
+String Modifications
+LOWER | UPPER | REVERSE
+
+Let’s begin with having a look at string modification options to transform a given string. Since this is fairly easy to understand, let’s do this by playing a guessing game. The column below is the one that you will perform the three functions on:
+
+
+
+
+Which PQL statement has been used to transform the value on top of the stack? Drag and drop the strings given below to the appropriate PQL statements.
+
+philips monitor 21''
+hWk 47 knabrewoP llaRlooC
+CHERRY KEYBOARD ENG
+SELECT THE CORRESPONDING MATCH BELOW
+REVERSE("EKPO"."TXY01")
+UPPER("EKPO"."TXY01")
+LOWER("EKPO"."TXY01")
+
+Easy, right? Let's move on to some functionalities that allow you to crop strings.
+
+----- Page 3 -----
+
+Basic Coding with PQL
+String Modifications
+LEFT | RIGHT
+
+LEFT and RIGHT are as intuitive as the transforming functions you just learned about.
+
+Let's watch the video below to understand LEFT and RIGHT:
+
+----- Page 4 -----
+
+Basic Coding with PQL
+String Modifications
+LTRIM | RTRIM
+
+Moving on to the functions LTRIM and RTRIM, let’s think of what we often do to our hair every 4 - 12 weeks… we trim our hair tips and get rid of unnecessary, broken or too long parts of our hair...
+
+
+
+
+This example helps you to easily understand what the functions LTRIM and RTRIM do to the strings in your column: Instead of hair tips, they cut off leading or trailing whitespaces from strings to make them look pretty(ier) again:
+
+In the example above, how could you get rid of both leading and trailing whitespaces at the same time? Which of the below queries is correct?
+
+Query 1:  
+
+LTRIM(RTRIM("EKPO"."TXZ01"))
+
+Query 2:
+
+RTRIM(LTRIM("EKPO"."TXZ01"))
+Option 1: Only Query 1
+Option 2: Only Query 2
+Option 3: Both Query 1 and 2
+
+Cool! Now your column is really pretty again. There is one more function to cover in the cropping string modification portfolio.
+
+----- Page 5 -----
+
+Basic Coding with PQL
+String Modifications
+CONCAT
+
+Let’s move on to a powerful function combining strings with each other: CONCAT
+
+Although this function is listed among string modifications, CONCAT allows you to also combine strings with INT and FLOAT. Those types are automatically converted to STRING behind the scenes before the concatenation is executed. CONCAT can also combine strings with a constant that is applied to every row in the selected column.
+
+CONCAT (Column 1, Column 2)
+
+Let’s have a look at a few examples in the video below:
+
+----- Page 6 -----
+
+Basic Coding with PQL
+String Modifications
+REPLACE
+
+That’s been a lot of string modification options already but let’s look into one more before proceeding to DateTime modifications: REPLACE
+
+REPLACE (Column, Pattern, Replacement)
+
+Again, REPLACE allows you to imply a lot regarding its functionality based on its name. 
+
+Have a look at the following syntax:
+
+REPLACE ("EKPO"."TXZ01", 'Apple Pencil', 'Apple Pencil 1. Generation')
+
+
+
+
+You can also use REPLACE for a bit more advanced operations by working with columns as a parameter for the pattern as well as the replacement. This would allow you to perform a row-wise replacement if necessary. You can find more on this in the "PQL documentation(opens in a new tab)".
+
+Congratulations! This wraps up string modifications and you’re ready to proceed with DateTime modifications.
+
+----- Page 7 -----
+
+Basic Coding with PQL
+String Modifications
+
+No topic content.
+
+########################################################################
+  LESSON 6 : Datetime Modifications
+########################################################################
+
+----- Page 1 -----
+
+Basic Coding with PQL
+Datetime Modifications
+Datetime Modifications Introduction
+
+Let's get our hands on timestamps!
+
+Welcome to DateTime modifications, allowing you to round and modify your timestamps and dates.
+
+We’ll have a closer look at the following:
+
+Modification
+Rounding
+
+ADD_DAYS
+ADD_HOURS
+ADD_MILLIS
+...
+
+----- Page 2 -----
+
+Basic Coding with PQL
+Datetime Modifications
+Modification
+
+Let’s begin with DateTime modification functions, to add a specified value of the corresponding time unit to a DATE type value.
+
+----- Page 3 -----
+
+Basic Coding with PQL
+Datetime Modifications
+Rounding
+
+To wrap up this lesson, let us have a look at DateTime rounding functions which are very straightforward as well. You can think of those functions like they “cut off” everything after the DateTime element corresponding with your chosen function.
+
+If you’re familiar with the terms of ceiling and floor rounding, the latter is the principle applied in PQL. Check out the image below to understand where the different functions “cut off” the Date value:
+
+
+
+
+
+Now that you know a lot already about date modifications, are you ready to jump into the last lesson of this course?
+
+----- Page 4 -----
+
+Basic Coding with PQL
+Datetime Modifications
+
+No topic content.
+
+########################################################################
+  LESSON 7 : Data Type Conversions
+########################################################################
+
+----- Page 1 -----
+
+Basic Coding with PQL
+Data Type Conversions
+Data Type Conversions Introduction
+
+Have you ever used Linguee, DeepL, Google Translate or a similar platform to translate text in order to communicate with a person speaking another language than you? If yes, you will find it easy to understand the rationale behind data type conversions.
+
+
+As you are aware by now, your data are of different types (e.g. integer, float, string or date). Optionally, check out the carousel below to learn more about the different data types:
+
+
+INTEGER/INT
+FLOAT
+STRING
+
+
+DATE
+NULL
+
+
+
+
+If you already have some coding experience, you will have come across a point where you wanted to calculate a number based on two columns in your table that look like numbers but are actually stored as a string data type:
+
+Just as when translating language using translating services, you can use data type conversion functions to change the data types of particular values. What you would want to do in the little example above, is changing the data types of column A and B to 'int' to remove the error in calculating A + B in column C. We’ll have a closer look at how to do this and related conversions by learning about the following functions: TO_INT, TO_STRING, and TO_DATE
+
+
+Have a look at the picture below to understand which data types can be used along with the functions above:
+
+----- Page 2 -----
+
+Basic Coding with PQL
+Data Type Conversions
+TO_INT
+TO_INT takes a string as an input and converts it into an INT type value.
+NULL and empty strings, as well as float-like strings, are converted to NULL.
+
+Let's do a guessing game on the following table!
+
+Which of the three choices is the result you will get from the PQL statement TO_INT ( "String_Table"."String_Column") performed on the above table?
+CHOICE A	CHOICE B	CHOICE C
+NULL	NULL	NULL
+12345	'12345'	12345
+NULL	NULL	12
+NULL	NULL	
+-32445	32445	
+
+NULL
+
+Option 1: Choice A
+Option 2: Choice B
+Option 3: Choice C
+HINT
+
+----- Page 3 -----
+
+Basic Coding with PQL
+Data Type Conversions
+TO_STRING
+
+Attempt to guess the answer to the following question to understand TO_STRING: 
+
+What will change if you apply TO_STRING to this result table again? 
+
+Statement A: Numbers are converted to strings, so no calculations are possible anymore.
+
+Statement B: NULL remains NULL.
+
+
+Option 1: Only Statement A is true
+Option 2: Only Statement B is true
+Option 3: Both Option 1 and 2 are true
+Solution
+
+----- Page 4 -----
+
+Basic Coding with PQL
+Data Type Conversions
+TO_DATE
+
+Last but not least, TO_DATE converts a string into a DATE type value. As you might recall from the previous lessons, the general format of a DATE type value holds both day and time information. The TO_DATE function takes a string and a format pattern as arguments and converts the input to a value of type DATE.
+
+The general syntax of TO_DATE looks like this:
+
+TO_DATE ( String_Input, FORMAT(Format_Input))
+
+You can use the following special fields for specifying Format_Input:
+
+%Y: 4 digit year.
+%m: 1-2 digit month of the year. A leading zero is permitted, but not required.
+%d: 1-2 digit day of month. Leading zero is permitted, but not required.
+%H: 1-2 digit hour of the day in 24-hour format. A leading zero is permitted, but not required.
+%M: 1-2 digit minutes per hour. Leading zero is permitted, but not required.
+%S: 1-2 digit seconds per minute. Leading zero is permitted, but not required.
+%%: A literal "%" character.
+
+Let us have a look at a few examples:
+
+Example 1
+
+
+
+
+Example 2
+
+If the input string does not match the given pattern, NULL is returned.
+
+Congratulations! You have reached the end of this course on general basic functions! Let’s recap what you have learned in the following exercise.
+
+----- Page 5 -----
+
+Basic Coding with PQL
+Data Type Conversions
+
+No topic content.
+
+########################################################################
+  LESSON 8 : Exercise: Basic Functions
+########################################################################
+
+----- Page 1 -----
+
+Basic Coding with PQL
+Exercise: Basic Functions
+Exercise Basic Functions Explained
+
+Let's practice!
+
+You are asked to build a dashboard for your department using Celonis PQL. Your database consists of the tables and their columns that you are provided with along the exercises.
+
+Your team is asking for a dashboard that looks similar to this:
+
+Let's divide and conquer this exercise and have a look at the individual components of this dashboard, starting with the table in the upper left corner:  In the following page we have few questions on each of the component.
+
+----- Page 2 -----
+
+Basic Coding with PQL
+Exercise: Basic Functions
+Congratulations!
+
+You have completed the Basic Coding with PQL course!
+
+
+Let’s quickly recap the learning objectives from the beginning. You are now able to:
+
+Apply basic Celonis PQL queries containing conditions and basic functions.
+Modify string input and timestamps for further usage.
+
+We compiled a couple of cheat sheets for you that comprises the most important learnings of Standard Aggregations and Data Flow Functions. Feel free to download them.
+
+What's next?
+
+If you're taking this course as part of the "Write PQL Queries" track, you can proceed to the next course about Process Related Functions in PQL.
+
+If you came here from somewhere else, we highly recommend checking out the full "Write PQL Queries" track. It takes you on a journey from basic PQL to more advanced queries and the good thing is you have already completed one of the courses with this one.
+
+Want to dig deeper into the topic of this course? Join the Celonis Community to ask your product questions, hear about the latest product releases, and remain up-to-date by subscribing.
+
+We invite you to join our Celonis Academy Group to engage with your peers, get exclusive updates and answers directly from Academy experts, and stay connected!
+
+
+
+
+Thank you for taking this course, we hope you enjoyed it!
+
+Your feedback matters
+
+Remember to stop at our feedback page to help us improve our content
+
+- Your Celonis Academy
+
+----- Page 3 -----
+
+Basic Coding with PQL
+Exercise: Basic Functions
+
+Starting the survey…
+
+----- Page 4 -----
+
+Basic Coding with PQL
+Exercise: Basic Functions
+
+No topic content.

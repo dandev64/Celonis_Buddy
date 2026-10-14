@@ -1,0 +1,515 @@
+﻿========================================================================
+  CELONIS ACADEMY - CONNECT
+  Extracted: 2026-09-09 13:11  |  Personal study use only
+  Source: https://academy.celonis.com/learn/course/connect
+  Lessons: 18
+========================================================================
+
+########################################################################
+  LESSON 1 : Learning Objectives
+########################################################################
+
+Intro
+Learning Objectives
+Learning Objectives
+
+Welcome! After completing this course, you will be able to:
+
+Choose and set up the appropriate connection approach
+Understand how to prepare different system types for a connection
+Structure your Data Pipeline into Data Pools
+
+This course's focus on connecting to systems:
+
+Personal Training Environment Required
+
+This course contains hands-on exercises that require a personal Celonis Training Environment, also called a "Celonis Team".
+
+Not sure if you have one? Click below and we'll either create one for you or show you how to access your existing Team if you have one. Please make sure to disable adblockers on this page if the button is not working for you.
+
+Check / Create my training environment
+
+This content is available in multiple languages: English, German, French, Japanese, Spanish, and Portuguese. To switch your language, use the selector in the top navigation bar.
+
+In Courses: Switching languages will not affect your progress. If you are multilingual, comparing languages can even help deepen your understanding.
+In Exams: Do not switch the language once you start the exam. If you switch the language when you're already reviewing questions and answers, the page will refresh, causing your exam attempt to end prematurely. (Note: Once inside the exam course, you can switch the language anytime before clicking the Start Exam button.)
+
+
+
+
+If you encounter any technical or access issues during this course, check out our FAQs in the Support area or reach out to us via our Academy contact form.
+
+Accessibility Support
+
+########################################################################
+  LESSON 2 : The Main Connection Methods
+########################################################################
+
+----- Page 1 -----
+
+Choose and set up the right connection method
+The Main Connection Methods
+Overview
+How Celonis Imports Data
+
+Connecting to source systems is your very first step to pull process data into the Celonis platform. Celonis utilizes a broad set of technologies like message queues, Restful APIs, Soap APIs, direct database access, or system-specific solutions to connect.
+
+Data Integration in Celonis
+
+Data Integration is where you set up connections and your data pipeline. The main ways you can bring data into Celonis are:
+
+Process Connectors
+Extractors (Data Connections)
+Extractor Builder
+File Uploads
+Data Ingestion API
+Celoxtractor
+
+You can get a first impression of connection methods by simply jumping to the Data Integration UI.
+
+Process Connectors: When creating a Data Pool you can download a Process Connector template:
+
+
+
+
+Other methods: If you create a Data Pool from scratch then the other connection methods are at your disposal:
+
+
+
+
+Note: The methods on this page focus on connecting to transactional systems for Process Mining. If you're looking for information on Task Mining, have a look at the Task Mining Basics course.
+
+
+Ready to learn? Let's dive deeper into each of these methods.
+
+----- Page 2 -----
+
+Choose and set up the right connection method
+The Main Connection Methods
+
+No topic content.
+
+########################################################################
+  LESSON 3 : Process Connectors
+########################################################################
+
+----- Page 1 -----
+
+Choose and set up the right connection method
+Process Connectors
+Install a Connector from the Marketplace
+
+This video shows you the basic steps to install a Process Connector.
+
+The connectors visible in this video are not available in your personal training environment.
+
+----- Page 2 -----
+
+Choose and set up the right connection method
+Process Connectors
+Try it out - Install a Connector
+
+Follow these 3 simple steps below to install a basic Process Connector in your Personal Training Environment. Click "expand" start with the steps.
+
+Unsure where you personal training environment is or how to access it? Use this button to check:
+
+Check / Create my training environment
+
+Steps
+The Result
+
+----- Page 3 -----
+
+Choose and set up the right connection method
+Process Connectors
+
+No topic content.
+
+########################################################################
+  LESSON 4 : Extractors
+########################################################################
+
+----- Page 1 -----
+
+Choose and set up the right connection method
+Extractors
+Create a New Connection with an Extractor
+
+----- Page 2 -----
+
+Choose and set up the right connection method
+Extractors
+Try it out - Create a New Connection
+
+Follow the steps below to create a new connection to a PostgreSQL database in your personal environment.
+
+Steps
+The Result
+
+----- Page 3 -----
+
+Choose and set up the right connection method
+Extractors
+
+No topic content.
+
+########################################################################
+  LESSON 5 : Extractor Builder
+########################################################################
+
+----- Page 1 -----
+
+Choose and set up the right connection method
+Extractor Builder
+Extractor Builder Overview
+
+On some occasions, you’ll encounter systems or processes with no out-of-the-box Process Connectors or Extractors. In those cases, you can use the Extractor Builder. You'll find it under "Create custom REST API extractor" when connecting new data sources:
+
+
+
+This tool helps you quickly build an Extractor using REST API and supports the OData V2 and V4 standards as well. It allows you to quickly connect to source systems and extract the data you need. This way, you don’t need to put a stop to your work or wait for Celonis to build a Connector or Extractor to bring data into Celonis.
+
+In many cases, you can also customize existing Celonis Extractors that were built using the Extractor Builder.
+
+Just as with other Extractors, once you connect to source systems, you still need to define your extractions, transformations, and data model.
+
+----- Page 2 -----
+
+Choose and set up the right connection method
+Extractor Builder
+Create your own Extractor
+
+
+
+
+Refer to this OAuth developer documentation for details on the OAuth client setup
+
+----- Page 3 -----
+
+Choose and set up the right connection method
+Extractor Builder
+Interested in learning more about the Extractor Builder?
+
+If so, check out our mini-course on the topic:
+
+Extractor Builder Basics
+
+----- Page 4 -----
+
+Choose and set up the right connection method
+Extractor Builder
+
+No topic content.
+
+########################################################################
+  LESSON 6 : File Uploads
+########################################################################
+
+Choose and set up the right connection method
+File Uploads
+Upload Files
+
+
+
+
+The "Import All" button is deactivated by default.
+
+Data uploaded via a file upload remains in Data Integration and does not appear in the Studio unless loaded into a Data Model.
+
+########################################################################
+  LESSON 7 : Data Ingestion API
+########################################################################
+
+----- Page 1 -----
+
+Choose and set up the right connection method
+Data Ingestion API
+Creating a Data Ingestion API Connection
+
+By now, you should understand that each connection in a Data Pool acts as a separate container to organize your data. If you are familiar with the term, it can be compared to a database schema.
+
+For the Data Ingestion API, you can create a separate connection into which you would like to push data:
+
+From there you can define your table schemas and get ready to push your data via the API call. 
+
+
+Working with Data Ingestion API
+
+Bear in mind that in most cases you will need basic programming skills (Python or Java) to set a Data Pipeline using the Data Ingestion API. That said, you can run tests using tools such as Postman. Alternatively, you could also test and set up a permanent flow using Celonis Action Flows / Machine Learning Workbench.
+
+For more details on the API, visit our Data Ingestion API course course.
+
+Notice the Data Push API?
+
+
+
+The Data Push API is an older API that was also used to push data. It is no longer recommended as a push option as the Data Ingestion API is faster, and easier to setup.
+
+----- Page 2 -----
+
+Choose and set up the right connection method
+Data Ingestion API
+
+No topic content.
+
+########################################################################
+  LESSON 8 : Celoxtractor
+########################################################################
+
+Choose and set up the right connection method
+Celoxtractor
+
+No topic content.
+
+########################################################################
+  LESSON 9 : The Main Types of Systems
+########################################################################
+
+----- Page 1 -----
+
+Choose and set up the right connection method
+The Main Types of Systems
+What systems do we connect to?
+
+So we've looked at some ways to connect, but what systems does the Celonis typically connect to?
+
+Below is a list of the most common systems and data sources along with a short description of how you would connect to them using Celonis.
+
+
+Bear in mind that with Celonis, you can bring data from multiple sources using the available connection methods and integrate this data into one large Data Model.
+
+If you already feel comfortable with these systems, feel free to skip this page.
+
+Software-as-a-Service
+ERP Systems
+Data Warehouses
+Productivity Tools
+Task Mining
+Paper Documents / OCR
+Custom Data Integrations
+That is the gist!
+
+And those are the basics of the most common types of systems and the top ways you’ll connect.
+
+----- Page 2 -----
+
+Choose and set up the right connection method
+The Main Types of Systems
+
+No topic content.
+
+########################################################################
+  LESSON 10 : Recap
+########################################################################
+
+Choose and set up the right connection method
+Recap
+Recap on Connection Methods
+
+In short you've learned to connect. Here are a few takeaways on the connection methods covered.
+
+
+Process Connectors - Look for Process Connectors in the Marketplace whenever possible. You can import Process Connectors directly when creating new Data Pools.
+Native Extractors - Next, you can connect to systems neutrally and extract data with the Extractors (neutral Connections).
+Extractor Builder - If no Connectors / Extractors are available, you can of course put in a request for Celonis to create one but do not wait. Build your own connection and extractions with the Extractor Builder.
+File Uploads - For one-time or static cases use the Upload Files option.
+Data Ingestion API - Use the Data Ingestion API if the use case requires you to push data such as with existing ETL tools or scheduled reports.
+Celoxtractor - Finally, if you are apt with Python and want to control every aspect of your extractor, you can consider the Celoxtractor.
+
+Depending on the source systems you connect to, one or more of these methods will fit and it is up to you to decide which one to use. If you forget anything, simply navigate to the UI and have a look!
+
+########################################################################
+  LESSON 11 : Prepare systems for a connection
+########################################################################
+
+Prepare systems for a connection
+Prepare systems for a connection
+
+No topic content.
+
+########################################################################
+  LESSON 12 : Closed Hosting Environments
+########################################################################
+
+Prepare systems for a connection
+Closed Hosting Environments
+The Setup of a Closed System Connection
+
+By "closed" we most often refer to an on-premise system but it also points to systems hosted in the cloud not accessible through direct connections. A good example of closed hosting environments are SAP ECC and SAP S/4HANA. For both of these systems, you need to go through the following steps before you can establish a connection.
+
+WHAT	WHERE	WHO
+1. Install the Celonis SAP RFC Module	SAP ECC or S/4HANA system	SAP Basis Team
+2. Install the on-premise Extractor	Customer Network	Server and infrastructure administrator
+3. Create a Data Connection	Celonis Platform	Data Engineer
+
+In short, Celonis cannot connect directly to SAP and you need an RFC module (SAP specific) installed on the hosting server along with an extra Extractor Server (for all closed systems). Each step requires collaboration with different internal team members and includes minute substeps on both the source system (e.g safelist IPs and ports) and Celonis side. You can find a detailed overview of the steps on this Connect to SAP help page.
+
+
+Why is the on-premise Extractor needed?
+
+For two simple reasons:
+
+On-premise systems typically can’t communicate with external applications.
+Network internal connections are a lot more stable and performant, resulting in a minimum load on the source system.
+
+There is no need to remember all the steps here, simply be sure to check the respective documentation for each connector you install and know that you are responsible for moving these steps forward in a Celonis project.
+
+Note: When the Extractor is on the source system side for closed systems, you set up the the connection type as "Uplinked" in Celonis. This is selected automatically when you select on an on-prem connection type in Data integration.
+
+########################################################################
+  LESSON 13 : Open Hosting Environments
+########################################################################
+
+----- Page 1 -----
+
+Prepare systems for a connection
+Open Hosting Environments
+Connection and Extraction Flow with Open Systems
+
+Here is an overview of the connection and extraction flow between Celonis and open cloud systems:
+
+Extractor establishes connection to the Cloud system and requests data.
+
+Data Engineer defines which tables to extract in Data Integration.
+
+Cloud system extracts data and sends it to the Cloud Extractor.
+
+Cloud Extractor transforms the files into parquet files.
+
+Cloud Extractor sends the transformed files to the Celonis Data Storage.
+
+----- Page 2 -----
+
+Prepare systems for a connection
+Open Hosting Environments
+
+No topic content.
+
+########################################################################
+  LESSON 14 : Preparation for Real-time Connections
+########################################################################
+
+Prepare systems for a connection
+Preparation for Real-time Connections
+
+No topic content.
+
+########################################################################
+  LESSON 15 : Troubleshooting
+########################################################################
+
+Prepare systems for a connection
+Troubleshooting
+
+No topic content.
+
+########################################################################
+  LESSON 16 : Recap
+########################################################################
+
+Prepare systems for a connection
+Recap
+Recap on Preparing Systems
+
+In preparing systems for a connection, you need to consider whether:
+
+the hosting environment is closed (most cases on-premise)—then you install the Celonis Extractor on premise and use an uplink connection to Celonis
+the hosting environment is open (most cases cloud)—then you use the default Celonis Cloud Extractor with a direct connection to Celonis
+your connection is real-time—you then need to set up Log tables and triggers in the source system environment.
+
+Here is a graphic clearly capturing the difference between connections in closed versus open source system environments:
+
+Lastly, to troubleshoot connections use the available logs, refer to the Help documentation and reach out to support if needed.
+
+Want to see how connections to specific systems are set up? Check out our Set Up System Connections playlist.
+
+########################################################################
+  LESSON 17 : Structure Data to your needs
+########################################################################
+
+----- Page 1 -----
+
+Structure your Data pools
+Structure Data to your needs
+Structure of Data Integration
+
+Now let’s dig into the basic data structure of Data Integration and what it means for you. You've indirectly touched on these points but here are some hard facts:
+
+
+If you download a Process Connector from the Marketplace, Celonis creates a Data Pool for you.
+Data Pool - One Data Pool can host several Data Connections.
+Data Connection - A Data Connection is simply a connection to a source system and also serves a data organizer within a Data Pool.
+You can create one or more Data Connections, and for each, you work on one or more Data Jobs.
+Data Jobs combine extraction, transformation, and Data Model load “tasks” and allow you to execute them in sequence.
+The advantage of having multiple Data Jobs is that you can assign them different execution schedules. This becomes relevant when certain tables need to be extracted and transformed and loaded more often than others.
+Data Models - Lastly, with your different tasks ready, you bring the data together into one or more Data Models.
+Logically speaking, you can only create Data Model loading tasks once you've created Data Models.
+Data Models serve as the basis for all downstream work in Celonis. A Data Model can pull tables from multiple connections and data jobs within one Data Pool. (Note: you can share data across Data Pools if needed, more on this later)
+
+Here is a visual that better captures the hierarchy:
+
+And hopefully the structure and its effect on data flow becomes clearer the more you work with the Data Integration UI.
+
+
+
+And lastly, here is a small table to recap what each element contains:
+
+ELEMENT	DEFINITION
+DATA POOLS	Host one or more Data Connections
+DATA CONNECTIONS	Contain one or more Data Jobs
+DATA JOBS	Contain "tasks" for extraction, transformation, and Data Model load
+DATA MODELS	Pull data from all connections in one Data Pool
+
+----- Page 2 -----
+
+Structure your Data pools
+Structure Data to your needs
+Structuring your Data in Data Integration
+
+Looking at this structure, you should do your best to keep all related processes and systems within one Data Pool. Likewise, you should keep unrelated processes in separate Data Pools. For example, you can create one Data Pool for all your SAP ERP processes and another Data Pool for your IT Service Management processes.
+
+
+In some cases, it also makes sense to create separate Data Pools for different regional or legal entities to restrict access to the data for certain users or user groups.
+
+----- Page 3 -----
+
+Structure your Data pools
+Structure Data to your needs
+
+No topic content.
+
+########################################################################
+  LESSON 18 : Knowledge Check & Recap
+########################################################################
+
+Recap
+Knowledge Check & Recap
+Course Recap
+
+This course was all about Connecting. 
+
+Here is a recap of what we covered:
+
+
+Connection methods—Celonis offers a range of connection methods for different use cases:
+Process Connectors
+Extractors (Data Connections)
+Extractor Builder
+File Uploads
+Data Ingestion API
+Celoxtractor
+
+Preparing Connections—How you prepare a system for a connection depends on its type:
+For closed environment you'll typically need the on-prem Extractor Server along with other preparatory steps.
+For real-time connections, you'll need change logs, triggers and other steps depending on the system.
+Structure of Data Integration—Data Pools are the top-level structural elements in Data Integration and a basic best practice is to keep related processes in the same Data Pool. Within Data Pools, you work with:
+Data Connections,
+Data Jobs,
+Tasks—extraction, transformation, Data Model load,
+and Data Models.
+
+Remember to visit the Feedback page. Your feedback is optional but greatly appreciated. 
+
+Want to dig deeper into the topic of this course? Join the Celonis Community to ask your product questions, hear about the latest product releases, and remain up-to-date by subscribing.
+
+We invite you to join our Celonis Academy Group to engage with your peers, get exclusive updates and answers directly from Academy experts, and stay connected!

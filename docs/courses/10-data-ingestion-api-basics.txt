@@ -1,0 +1,200 @@
+﻿========================================================================
+  CELONIS ACADEMY - DATA INGESTION API BASICS
+  Extracted: 2026-09-09 13:48  |  Personal study use only
+  Source: https://academy.celonis.com/learn/course/data-ingestion-api-basics
+  Lessons: 1
+========================================================================
+
+########################################################################
+  LESSON 1 : Learning Objectives
+########################################################################
+
+----- Page 1 -----
+
+Learning Objectives
+Welcome to the Data Ingestion API course!
+
+It's time to push data! In this course, you'll learn how to push data using Celonis' Data Ingestion API.
+
+Learning Objectives
+
+- Understand the Data Ingestion API's architectural foundation and specifications
+
+- Understand which use cases apply for the Data Ingestion API
+
+- Perform a data push using the Data Ingestion API in the ML Workbench
+
+Prerequisites
+
+We recommend you go through the first milestone of the Get Data into Celonis track to understand the basics of Data Integration. Also you should have a basic understanding of APIs and Python.
+
+Course Duration
+
+~1 hour
+
+Personal Training Environment Required
+
+This course contains hands-on exercises that require a personal Celonis Training Environment, also called a "Celonis Team".
+
+Not sure if you have one? Click below and we'll either create one for you or show you how to access your existing Team if you have one. Please make sure to disable adblockers on this page if the button is not working for you.
+
+Check / Create my training environment
+
+Let's get started!
+
+Tip: You can Hide the Menu bar (at the top left).
+
+----- Page 2 -----
+
+Architecture and Specifications
+Architecture and Specifications
+Architecture
+
+The Data Ingestion API relies on an ingestion architecture separate from the native extractors.
+
+This ingestion area is built on top of cloud native object storages (S3) and can handle massive data volumes. As it arrives data is immediately unnested and pushed to Data Storage (Vertica) and ready for processing. Here is a example flow with a Kafka system:
+
+For more information on object storage and its benefits, refer to AWS' object storage definition.
+
+Specifications
+
+Here are a few things you should know about the API itself:
+
+One API call per table: Every table you create or update requires one API call.
+Built on S3 API: It's built on top of the S3 API with the same methods and error codes. It uses primarily this S3 PUT object endpoint.
+Continuous load: The load is continuous. So as soon as you ping the API, your data is loaded into Celonis. It operates on a First In First Out (FIFO) principle.
+Auto-delta load: All pushed records are loaded as delta records automatically and compared to existing records.
+Nested data possible: The API can handle nested (json) data out-of-the-box and unnest it into tables and columns.
+UI schema configuration: It supports a UI based configuration for table schema, i.e. table names, keys, age columns.
+Parquet files only: As of today, the API only supports parquet files and requires you to convert to parquet before pushes.
+
+Now that we've covered the basics, let's move on to use cases.
+
+----- Page 3 -----
+
+When to Use it
+When to Use it
+Two General Use Cases
+
+There are two general use cases where pushing data is most likely a better fit than pulling data in Celonis:
+
+Existing data applications: data resides or is processed through other data applications such as:
+ETL tools (e.g. Informatica)
+Streaming Applications (e.g. Kafka)
+IPaaS (e.g. Mulesoft)
+Other scripts or Action Flows that rely on the older Data Push API or Continuous Data Push API
+Ongoing file pushes
+Security concerns: data needs to be pushed into Celonis for security reasons, e.g. access to the underlying source cannot be granted.
+
+In other words, if data should not or cannot be extracted directly from source systems, you should consider the Data Ingestion API.
+
+System Type Specifics
+
+Depending on the existing data application, you'll need to consider a few extra aspects. Below is an overview of these aspects per system type.
+
+SYSTEM TYPE	FACTORS TO CONSIDER
+ETL Tools	Informatica is a good example for this category. With no existing extractors for these, the Data Ingestion API is the right option.
+Streaming Applications	Kafka is the main candidate in this category. The setup for this requires no coding as the Kafka Connector configuration can be exported directly from the connection details and used as configuration to start your Kafka Connector.
+
+
+IPaaS	Integration Platform as a Service systems such as Mulesoft often serve as a integration layer to get data from system A to system B. This is a good use case to use the Data Ingestion API.
+Cloud data lakes/warehouses 	These refer mostly to the modern databases such as Snowflake, Databricks, BigQuery, Redshift or Azure Synapse. For these, Celonis offers "pull" extractors either as standalone or through the JDBC/Database extractor. The decision here comes down to the following:
+Extraction filters, column removals, data types changes, data integration scheduling? → JDBC Database extractor
+Low latency needed? → Data Ingestion API
+Large data volumes? → Data Ingestion API
+Security concerns? → Data Ingestion API (offers full control on what data leaves the premises)
+
+If you plan using the Data Ingestion API, then look for the providers' documentation on how to externally Create a Table:
+
+Redshift
+Databricks
+BigQuery
+Snowflake
+
+Scripts and Actions Flows based on older APIs	
+
+Before the Data Ingestion API, the Data Push API and Continous Data Push API were used together with scripts to setup a data "push" method.
+
+Due to the complexity of the setup, all these scenarios should should go to the much simpler Data Ingestion API.
+
+In case of Action Flows, users can also use the native Celonis module 'Write back to data pool table' rather than developing a custom HTTP module.
+
+
+Ongoing file pushes	Many projects initially start with file pushes for a quick data check. This initial push is normally done using the file uploader. That said if pushing files (parquet) should be the long-term approach, then the Data Ingestion API is the right way to go.
+
+Enough theory. Next up, sit back and watch our product manager's demo.
+
+----- Page 4 -----
+
+Data Ingestion API Demo
+Data Ingestion API Demo
+
+Watch this video from our Product Manager Florian Sonneck. It covers:
+
+A recap of the Data Ingestion API theoretical foundations
+A sample flat table push of a parquet file via Python using the Celonis Machine Learning Workbench
+A sample nested table push using the native AWS UI
+How to work with primary and foreign keys
+
+Note: Don't worry about following along, this demo is quite fast. After watching this, it's your turn but you'll get all the steps!
+
+----- Page 5 -----
+
+Exercise - Push Flat Data via ML Workbench
+Exercise - Push Flat Data via ML Workbench
+
+Did you watch the video on the previous page? Let's push a flat parquet file using the Celonis ML workbench. You can challenge yourself with just the basic steps or follow the step-by-step instructions.
+
+Basic Steps
+Step by Step
+
+Next, let's work on a nested table using the AWS CLI.
+
+----- Page 6 -----
+
+Exercise - Push Nested Data via AWS CLI
+Exercise - Push Nested Data via AWS CLI
+
+Let's nowpush a nested table (parquet) using the AWS CLI. Challenge yourself using the basic steps or simply follow the step by step.
+
+Basic Steps
+Step by Step
+
+That's it for the nested table push! The next page covers some questions you may have after going through this exercise.
+
+----- Page 7 -----
+
+FAQs
+FAQs
+
+Here are a few frequently asked questions on the Data Ingestion API.
+
+How can I schedule the pushes?
+What happens if the table schemas change?
+How do Delta Loads work?
+How do I convert my files to parquet?
+What happens if I change my table's primary key?
+How can I delete my tables?
+How can I push many files from a folder?
+How can I monitor and fix errors?
+
+----- Page 8 -----
+
+Course Recap
+Course Recap
+
+Congratulations on completing this course and mastering the art of the push!
+
+Here is a summary of what we covered:
+
+The Data Ingestion API's architectural foundation and basic specifications.
+The two major use cases that apply for the Data Ingestion API - existing data systems or security concerns.
+How to perform a data push using the Data Ingestion API in the ML Workbench via python or a terminal and the AWS CLI tool.
+
+If at any time you need a reference for the API, we invite you to go to our developer documentation.
+
+Remember to visit the Feedback page. Your feedback is optional but greatly appreciated. 
+
+Want to dig deeper into the topic of this course? Join the Celonis Community to ask your product questions, hear about the latest product releases, and remain up-to-date by subscribing.
+
+We invite you to join our Celonis Academy Group to engage with your peers, get exclusive updates and answers directly from Academy experts, and stay connected!

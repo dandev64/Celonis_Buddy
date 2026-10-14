@@ -1,0 +1,187 @@
+﻿========================================================================
+  CELONIS ACADEMY - INTEGRATE ACTION FLOWS WITH PROCESS ORCHESTRATION
+  Extracted: 2026-09-09 17:28  |  Personal study use only
+  Source: https://academy.celonis.com/learn/course/integrate-action-flows-with-process-orchestration
+  Lessons: 1
+========================================================================
+
+########################################################################
+  LESSON 1 : Welcome! [02:00]
+########################################################################
+
+----- Page 1 -----
+
+Welcome! [02:00]
+Welcome!
+
+Automated business processes are rarely single, isolated events. In complex business environments, a task like "Vendor Onboarding" might span several days, involve multiple documents, and require updates across various systems.
+
+To manage these long-running sequences, we use Process Orchestration. In these setups, the Process Orchestration asset manages the overall timeline, while Action Flows execute specific, automated steps when called upon.
+
+This microcourse focuses on how to technically prepare an Action Flow to function as a reliable step within an orchestrated process.
+
+The Role of Action Flows: GC Contenders vs. Sprinters 🚴
+
+To understand how these assets work together, think of a professional cycling team in a Grand Tour like the Tour de France:
+
+Process Orchestration is the "GC Contender": This rider is focused on the General Classification - the overall marathon. They maintain a steady, high-performance state over 21 days of racing. They are stateful, meaning they manage the overall journey and "remember" the progress from start to finish.
+Action Flows are the "Sprinters": For most of the race, these riders are "invisible," tucked away in the peloton to save their energy. They only move to the front when a specific milestone or finish line appears. They provide an explosive, high-wattage burst of speed to complete a task - like updating an ERP or running a risk check - and then they immediately retreat. They are stateless, built for speed and specific outcomes, not for the long haul.
+What you will learn
+
+By the end of this microcourse, you will be able to:
+
+Create an Action Flow from inside a Process Orchestration and explain the auto-generated Action Flow setup.
+Retrofit existing Action Flows to manually establish the technical handshake to a Process Orchestration asset.
+Launch a Process Orchestration flow with the help of Action Flows.
+
+
+
+
+Let's dive in!
+
+----- Page 2 -----
+
+Build Orchestration-Ready Action Flows [05:00]
+Build Orchestration-Ready Action Flows
+
+Imagine we're automating a Vendor Onboarding Process with Celonis - more precisely, using a Process Orchestration asset.
+
+Its first major milestone is a Form step, where it is currently waiting for a prospective vendor to submit their tax and banking details. This is the "endurance" phase of the process: the Orchestration asset maintains the state of this specific onboarding instance for hours or even days.
+
+However, the moment the vendor clicks "Submit," the process reaches a point that requires an immediate, automated action: a Risk Check.
+
+To handle this, the Orchestration triggers an Action Flow. This flow acts as a "sprinter" - it powers up to execute a high-speed task, verifies the Tax ID against an external database in seconds, and passes the result back to the process. Once the task is complete, the Action Flow shuts down, and the Orchestration continues its steady pace toward the final manager approval.
+
+The Fast Track: Creating New Action Flows as Process Orchestration Steps
+
+The most efficient way to build this Risk Check Action Flow is to create it directly from the Process Orchestration editor. When following the regular flow to add a new Process Step, you're automatically guided towards an option to create a "New Action Flow".
+
+The following video shows how to add an existing Action Flow to a Process Orchestration and how to create a new Action Flow from within the Process Orchestration. The video has no sound.
+
+Steps taken in solution video
+
+An Action Flow that is created from within a Process Orchestration asset is not empty but comes with prepopulated modules that are essential for the Process Orchestration asset to be able to communicate with the Action Flow asset:
+
+
+Get Process Context: This module allows the Action Flow to "pull" data from the running process instance - specifically, the Tax_ID submitted in the vendor's form.
+Completion Event: This is the signal that the Action Flow has completed its task and that the Process Orchestration can proceed to the next process step. In our example, once the risk check is finished, the Action Flow uses this module to send the risk score back and tell the Orchestration to move to the next step.
+
+What if you want to connect an already existing Action Flow, though? It is, of course, possible, but you'll need to add those modules above manually, along with an input reflecting the Digital Process Instance ID.  
+
+Let's look at those details on the next page.
+
+----- Page 3 -----
+
+Retrofitting Existing Action Flows [03:00]
+Retrofitting Existing Action Flows for Process Orchestration
+
+If you want to use an existing Action Flow, you need to manually "retrofit" it to join the orchestrated process. Because this flow wasn't created inside the Orchestration editor, it lacks the necessary "handshake" configuration.
+
+The dpInstanceId Input
+
+If you look closely at an Action Flow that has been created directly from inside a Process Orchestration asset, you will notice it comes with an Input called dpInstanceId (Type: Text). This is the technical name for the Digital Process Instance ID.
+
+As this name suggests, this Digital Process Instance ID identifies the specific process instance that triggers a given Action Flow. It acts as the "handshake" that bridges the gap between the two assets. Without this ID, the Get Process Context module cannot locate the correct data, and the Completion Event won't know which process instance to update.
+
+Note: Correct spelling is critical. Ensure the variable is named exactly dpInstanceId.
+
+The Get Process Context and Completion Event modules
+
+The two modules, which are by default added to any Action Flow that you create from within a Process Orchestration, also need to be added to any existing Action Flow that you want to use in conjunction with a Process Orchestration. Both modules leverage the Digital Process Instance ID in their configurations.
+
+Without the dpInstanceId and the Completion Event, the Action Flow has no way to signal back to the Orchestration that its task is finished. The process would simply hang in a "Waiting" state forever, even if the Action Flow successfully performed the risk check.
+
+For additional information on these modules, check out the documentation as well as our online course Orchestration Engine Fundamentals.
+
+Scheduling and Activation Requirements
+
+An Action Flow will only be visible and selectable within the Process Orchestration UI if it meets these three requirements:
+
+Scheduled to On Demand: The flow cannot run on a schedule. It must be set to On Demand so the Orchestration can trigger it exactly when the form is submitted.
+
+Versioned and Deployed: The Orchestration Engine only interacts with versioned and deployed (previously "Published") versions. Drafts will not appear in the selection menu.
+
+Active: Only an active Action Flow can be added as an action in Process Orchestration. Any versioned and deployed Action Flow can be activated from within the Process Orchestration editor, too.
+
+----- Page 4 -----
+
+The Grand Départ [04:00]
+The Grand Départ
+
+We have explored how to configure Action Flows as steps within a process, but how does the GC Contender actually begin its race?
+
+A Process Orchestration asset requires a trigger to create a new instance. While there are several ways to kick off an orchestrated process flow — such as an Event Endpoint call for system-to-system triggers or the outcomes of an AI Annotation Builder — a common method for building a human-in-the-loop bridge is a dedicated Action Flow.
+
+The "Start New Orchestration" Module
+
+To allow a user to kick off a process directly from a Celonis View, you build a "Trigger Flow." This is a simple Action Flow that acts as the bridge between a manual action in a Celonis View and the Process Orchestration asset.
+
+The Action Button: You place a button in a Celonis View (e.g., "Start Vendor Onboarding").
+The Action Flow: This button is linked to an Action Flow that contains the Start New Orchestration module.
+The Action: When the user clicks the button, the Action Flow executes, and the module tells the connected Process Orchestration to create and launch a new process instance immediately.
+
+
+
+
+Why use an Action Flow for the Grand Départ?
+
+Using an Action Flow as the starting mechanism provides two major advantages:
+
+Initial Data Mapping: You can take data from the Celonis View (like a Vendor_Name or User_Email) and pass it through the Action Flow directly into the Process Orchestration’s initial variables.
+Pre-Run Validation: The Action Flow can perform a quick check (e.g., "Does this vendor already have a pending application?") before deciding whether to actually launch the full orchestration.
+Alternatives to Trigger Process Orchestrations
+
+While we focus on the Action Flow bridge here, it is worth noting two other ways an orchestration can begin:
+
+AI Annotation Builder
+Event Endpoints
+
+You can link an AI Annotation Builder asset directly to the start event of a Process Orchestration asset. As the AI Annotation Builder analyzes and classifies objects such as incoming customer emails or support tickets, its annotations can automatically launch a new process instance.
+
+👉 Learn more about the AI Annotation Builder logic as a starting point for your Process Orchestration in the documentation.
+
+----- Page 5 -----
+
+The Finish Line [02:00]
+The Finish Line
+
+Congratulations! You’ve successfully navigated the technical journey of connecting the GC Contender (Process Orchestration) with the Sprinter (Action Flow). By mastering the handshake between these two assets, you’ve moved from building isolated automations to designing resilient, long-running business processes.
+
+Reviewing Our Objectives
+
+Let’s look back at the goals we set at the beginning of this micro course:
+
+Create and explain the Auto-Generated Setup: You’ve seen how the "Fast Track" creation method automatically provides the Get Process Context and Completion Event modules, serving as the essential technical handshake for your automation.
+Retrofit Existing Action Flows: You can now manually establish the technical handshake by adding the dpInstanceId input and mandatory modules, ensuring any existing Action Flow can join the orchestrated process.
+Launch a Process Orchestration Flow: You understand how to use the Start New Orchestration module in an Action Flow to act as the "Grand Départ" - bridging the gap between a manual click in a View and the beginning of the Process Orchestration.
+Final Checklist for Your Next Build
+
+Before you launch your next orchestrated process, run through this quick pre-race check:
+
+Is your Action Flow Active? (The toggle on the overview page must be set to Active).
+Is it On Demand? (Scheduled flows cannot be used as orchestration steps).
+Is the latest version deployed? (The Orchestration Engine only sees versioned and deployed versions).
+Is dpInstanceId spelled correctly? (Case sensitivity matters!).
+
+Last but not least, remember to pay our Celonis Academy another visit to learn everything about Orchestration Engine Fundamentals!
+
+See you again soon,
+Your Celonis Academy team
+
+----- Page 6 -----
+
+Feedback
+
+How satisfied are you with the course?
+
+	★	★★	★★★	★★★★	★★★★★
+Please select a rating					
+
+What did you like most about this course?
+
+What would you improve about this course?
+
+
+⇨ If you have files or screenshots, please send them to academy@celonis.com.
+
+Complete Survey

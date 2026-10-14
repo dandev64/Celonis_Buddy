@@ -1,0 +1,696 @@
+﻿========================================================================
+  CELONIS ACADEMY - SQL BEST PRACTICES
+  Extracted: 2026-09-09 13:43  |  Personal study use only
+  Source: https://academy.celonis.com/learn/course/sql-best-practices
+  Lessons: 10
+========================================================================
+
+########################################################################
+  LESSON 1 : Introduction
+########################################################################
+
+----- Page 1 -----
+
+Transformation Best Practices
+Introduction
+Learning Objectives
+
+The way in which your SQL code brings data into Celonis can have an enormous impact on your day-to-day business. Non-performant SQL code can cause an increased utilization of infrastructure, errors, and long data pipeline runtimes. This eventually leads to failures in delivering business insights on time and causes a lot of stress for any department intending to act on the data. Without a doubt, it's essential to prioritize your SQL's performance from day one. With this in mind, this course will show you how to:
+
+Estimate your query performance
+Write readable and performant SQL transformations
+Identify common antipatterns and optimize existing SQL transformations within the Celonis platform
+Get familiar with additional best practice resources
+
+At the end of this course, feel free to share your feedback via the Feedback page.
+
+
+Best practices for Vertica Engine
+
+The best practices in this course were derived based on the Celonis' Vertica engine. As a new or migrated customer, you may be on the newer ETL engine which has a different set of performance best practices currently only in our documentation.
+
+
+
+
+This content is available in multiple languages: English, German, French, Japanese, Spanish, and Portuguese. To switch your language, use the selector in the top navigation bar.
+
+In Courses: Switching languages will not affect your progress. If you are multilingual, comparing languages can even help deepen your understanding.
+In Exams: Do not switch the language once you start the exam. If you switch the language when you're already reviewing questions and answers, the page will refresh, causing your exam attempt to end prematurely. (Note: Once inside the exam course, you can switch the language anytime before clicking the Start Exam button.)
+
+
+
+
+If you encounter any technical or access issues during this course, check out our FAQs in the Support area or reach out to us via our Academy contact form.
+
+----- Page 2 -----
+
+Transformation Best Practices
+Introduction
+Introduction to Vertica
+
+A visual representation of the Vertica database.
+
+All the SQL code written in Celonis is processed by Vertica, an analytic database management software. Vertica fully supports the ANSI STANDARD SQL syntax, meaning you can use standard SQL to create the transformation scripts.
+
+The Vertica Database has some differences to other Database Management Systems (DBMS) you worked with (MSSQL, Oracle DBMS), for example, in the way the data is stored and retrieved. You can learn more about these differences with the resources shared at the end of this course.
+
+----- Page 3 -----
+
+Transformation Best Practices
+Introduction
+Tables in this Course
+
+Note that the majority of the query examples in this course are based on SAP ECC tables. You'll find further information on particular tables and columns in the leanx website. Not to worry, best practices in this course apply for all process connectors using the Vertica data lake.
+
+Now let's continue with our SQL Best Practices Training and start with a brief look at extractions.
+
+----- Page 4 -----
+
+Transformation Best Practices
+Introduction
+
+No topic content.
+
+########################################################################
+  LESSON 2 : Extraction Best Practices
+########################################################################
+
+----- Page 1 -----
+
+Transformation Best Practices
+Extraction Best Practices
+Extract only the Necessary Data
+
+An optimized data pipeline extracts and transforms only necessary data. Skipping an optimization of your extractions can have very detrimental effects on your data pipeline. It leads to:
+
+Higher storage needs (affects your license's APC)
+Heavier consequences of bad practices in transformations (e.g., SELECT *)
+Negative performance impact on load times in extractions, transformations, and data model loads
+
+Here are some ways to trim your extractions down to only the necessary data:
+
+Adjust Process Connectors
+Trim Large Tables
+Use Extraction Filters
+
+Those are the basics of optimizing your extractions. In the next lessons, we'll focus on transformations. Let's start with performance estimation.
+
+----- Page 2 -----
+
+Transformation Best Practices
+Extraction Best Practices
+
+No topic content.
+
+########################################################################
+  LESSON 3 : Performance Estimation
+########################################################################
+
+----- Page 1 -----
+
+Transformation Best Practices
+Performance Estimation
+Query Execution Plan (EXPLAIN)
+
+An example of a query with EXPLAIN.
+
+For each query submitted to Vertica, the Vertica query optimizer assembles a query execution plan—a sequence of steps and required operations to access data and calculate the result.
+
+To have a look at a query execution plan, you can simply insert EXPLAIN before any SELECT, UPDATE, or DELETE statement.
+
+Using the query execution plan (EXPLAIN) is essential to optimize your queries. It helps you identify inefficient parts of the queries and validate the impact improvements you apply. While analyzing the entire query execution plan might appear overwhelming, in the majority of scenarios for Celonis transformations, it's enough for you to focus on:
+
+the estimated query cost,
+the join type,
+and "NO STATISTICS"—the indicator of missing table statistics.
+
+In OCPM data jobs, adding any text such as EXPLAIN into transformations is not allowed, as the whole data job is locked for editing. In case review is needed to optimize transformations or review for any other reason, the transformation query should be copied to a separate testing data job for any tests to be performed.
+
+For now, let's explore the first two: the estimated query cost and join type. In the following lesson, we'll also look at table statistics.
+
+For a detailed explanation of all elements of the query execution plan beyond the scope of this course, have a look at the Vertica documentation on reading query plans.
+
+----- Page 2 -----
+
+Transformation Best Practices
+Performance Estimation
+Estimated Query cost
+What is it?
+
+For each query step—also known as a "Path"—Vertica estimates performance costs.
+
+This estimation is an approximation. Although the calculated costs usually reflect the query runtime, they do not provide an estimate of the actual runtime.
+
+For example, if the optimizer determines that Plan A costs twice as much as Plan B, it's likely that Plan A will require more time to run. But this does not necessarily indicate that Plan A will run exactly twice as long as Plan B.
+
+Checking the Actual Runtime in Logs
+
+If you need more accuracy, you can also check the runtime directly in the Event Collection logs after running a query.
+
+For more information on how Vertica calculates query costs, have a look at the Vertica documentation on query plan cost estimation.
+
+########################################################################
+  LESSON 4 : Table Statistics
+########################################################################
+
+Transformation Best Practices
+Table Statistics
+The Impact of Statistics
+
+Identical queries can have significantly different query costs and performance depending on whether statistics exist for the tables involved. Let's see how table statistics affect the query execution plans with an example.
+
+Query Costs Without Table Statistics
+
+In this example, we created the temporary join table O2C_VBFA_V without statistics as we can see with the "NO STATISTICS" indicator in query execution plan. Without statistics, the projected query cost is 5K.
+
+Query Costs With Table Statistics
+
+In this second example, we see the query execution plan and the estimated cost for the identical query, after gathering statistics for the table O2C_VBFA_V. The "NO STATISTICS" indicator no longer appears. The cost went from 5K to 137.
+
+Why are table statistics so important?
+
+Among many benefits, table statistics are especially crucial for query execution plans with hash joins. They enable the query optimizer to choose the smaller table to build the hash table (instead of the bigger one). In most scenarios, this prevents an “inner join did not fit into memory” error and improves performance.
+
+A small exception for very small tables
+
+For tables that have less than 10K records, we do not recommend creating statistics. This is because the effort to create the statistics for these small tables in Vertica outweighs the time saved by the statistics.
+
+########################################################################
+  LESSON 5 : General Best Practices
+########################################################################
+
+----- Page 1 -----
+
+Transformation Best Practices
+General Best Practices
+Write Readable and Maintainable SQL Code
+
+To write professional SQL code you should follow formatting best practices. With proper formatting, your SQL code is simply easier to read, understand, and update.
+
+If you work as a team in developing and maintaining SQL scripts, following formatting standards will go a long way in preventing errors and saving you time. Here is what we consider good SQL etiquette:
+
+SELECT Statements
+JOIN Statements
+One Query per Transformation
+Table Naming Conventions
+Capital Letters / Uppercase
+Indentation & New Lines
+Table Aliases
+Comments
+Avoid 1=1 in JOIN and WHERE conditions
+
+----- Page 2 -----
+
+Transformation Best Practices
+General Best Practices
+WHERE EXISTS instead of JOIN
+What is the difference?
+JOIN	WHERE EXISTS
+Used to combine a table with additional fields from another table.	Used to test for the existence of a related record in a table or subquery.
+Why use WHERE EXISTS instead of JOIN?
+
+WHERE EXISTS is in most cases more performant than JOIN. With WHERE EXISTS, as soon as the SQL Engine finds a record where a condition is met, it stops processing additional records.
+
+When to use WHERE EXISTS instead of JOIN
+
+In some cases, you only want records that have a corresponding record in another table. So you need to filter on the related records. If you only want to check for the existence of the related records and do not need columns from the second table anywhere else—in SELECT or another JOIN for example—you should use the WHERE EXISTS.
+
+For example, imagine two simple tables—books and authors. You only want to select authors that have written a book but you don’t need any information on the books themselves. In this case you don't need to join the two tables. You simply check for the existence of the records using WHERE EXISTS with a proper condition.
+
+----- Page 3 -----
+
+Transformation Best Practices
+General Best Practices
+DISTINCT - Overview
+What is SELECT DISTINCT for?
+
+SELECT DISTINCT returns only distinct (unique) values in the result set. If your query is complex, you might add DISTINCT as a habit to prevent duplicate records. Generally, you should avoid DISTINCT or only use it on rare occasions.
+
+Why avoid SELECT DISTINCT?
+
+DISTINCT forces the database to perform very expensive deduplication, which significantly extends the query runtime, memory consumption, and increases the risk of query failures. It might give you the results you need, but the cost is often too high and it's most likely masking issues with the data set or query.
+
+Looking for alternatives
+
+Instead of using DISTINCT by default:
+
+Check the data set for duplicates
+Check the table joins to make sure they do not cause duplicates—e.g., incomplete joins or cartesian products.
+
+Let's take a closer look at these two scenarios in detail.
+
+----- Page 4 -----
+
+Transformation Best Practices
+General Best Practices
+Check for Duplicates
+Clarity on the Primary Key
+
+To check for duplicates, it's essential to know the primary key of the table, view, or activity you want to generate. This might be at times difficult, especially for activities, where the key is often based on business logic.
+
+How to check for duplicates
+
+First, check if there are duplicates in your table, view, or activities by counting the distinct rows based on the primary key and comparing the total with the normal count of all rows:
+
+If the results match, there are no duplicates and you do not need to use DISTINCT.
+
+If the results do not match, you can:
+
+revise the extraction logic to ensure a correct extraction based on the primary key, or
+remove the duplicates from your table.
+
+Note: Make sure to do a duplicate check on a representative data set. If you work with a small data set, you should anticipate duplicates that could occur as your records grow.
+
+Removing duplicates from your table
+
+Investigate why there are duplicates in the raw data. If you can detect a pattern, you might be able to directly write a DELETE statement to clean up these cases.
+
+Otherwise, you can create a table based on the raw table, including a row number to detect entries with the same primary key. In the example below, duplicates in table "BSIK" are marked with a row number greater than 1 based on the primary key of the table.
+
+Copy this code
+
+Take a minute to understand the above query. For more information on ROW_NUMBER(), have a look at Vertica documentation on ROW_NUMBER().
+
+If you only need a subset of the table columns (BSIK in this case) in your deduplicated table (BSIK_CLEAN), select specific columns instead of BSIK.*.
+
+When using the created table (BSIK_CLEAN in the example), make sure to add the WHERE statement to either:
+
+only select items from BSIK_CLEAN with the row number equals 1 (NUM = 1)
+or delete all entries from the table where the row number is greater than 1 (NUM → 1). In the example above, we delete all entries with a NUM above 1 as they are duplicates.
+
+########################################################################
+  LESSON 6 : Temporary Join Tables
+########################################################################
+
+----- Page 1 -----
+
+Transformation Best Practices
+Temporary Join Tables
+Example of a Well-designed Temporary Table
+
+Here is a short video to show you some design principles for temporary tables in action. Feel free to pause and rewind if anything is unclear.
+
+----- Page 2 -----
+
+Transformation Best Practices
+Temporary Join Tables
+A Digression on Vertica Projections
+
+Discussing projections may be going too deep into Vertica SQL for the scope of this course, but read on if you are interested. This section is optional.
+
+Unlike traditional databases that store data in tables, Vertica physically stores table data in projections, which are collections of table columns. Projections store data in a format that optimizes query execution. Table statistics are based on a table's projections
+
+Here are two important facts on projections:
+
+Auto-projections (super projections) are created immediately on table creation. They include all table columns and are sorted by the first 8 fields, at the order they are exported. The consequence is that the selection and order of the first 8 columns of a table is highly performance relevant in Vertica.
+
+Special or query-specific projections using primary keys. If the primary keys are known (set up in the table extraction setting or in the transformation table creation), Vertica creates additional projections sorted by and containing only the primary key fields. Such projections may be used by Vertica for JOIN or EXIST operations.
+
+The performance of all queries that use temporary or auxiliary tables (i.e. all tables created during transformations) will heavily depend on the super-projection that is created by Vertica at the time of the table’s creation. This is especially relevant for the type of JOIN applied (recall MERGE vs HASH JOIN).
+
+Here are some useful queries to work with projections:
+
+Display of existing projections and their sorting:
+
+SELECT projection_name, projection_column_name, sort_position from projection_columns where table_name = 'Table_Name'
+
+An example how to create an additional projection:
+
+CREATE PROJECTION IF NOT EXISTS Table_Name_Projection_Name
+AS SELECT * FROM Table_Name
+ORDER BY column1, column2, column3
+SEGMENTED BY hash(column1, column2, column3) ALL NODES;
+
+Manually carrying out a refresh after creating a projection and whenever a new record is inserted into a table. Vertica normally does this automatically.
+
+SELECT REFRESH ('Table_Name');
+
+Add STATISTICS after you create, change or delete a projection:
+
+SELECT ANALYZE_STATISTICS('Table_Name');
+
+Example how to delete a projection:
+
+DROP PROJECTION IF EXISTS Table_Name_Projection_Name CASCADE;
+
+----- Page 3 -----
+
+Transformation Best Practices
+Temporary Join Tables
+Common Table Expressions in OCPM Transformations
+
+For Object Centric transformations, Common Table Expressions (CTEs) are used which act as a temporary table, but only to be used in the same transformation.
+
+For example, as with temporary tables, you can use CTEs:
+
+if there is any complex calculation within the query,
+Or, in case of repetitive joins. 
+
+CTEs accelerate processing time and perform faster than having a complex calculation in a main query. Here is a sample CTE capturing creation dates and numbering them for later use. The "WITH ... AS" statement is the syntax to create CTEs.
+
+WITH "CTE_Changes" AS (
+    SELECT
+        "CDPOS"."MANDANT",
+        "CDPOS"."TABKEY",
+        "CDPOS"."TABNAME",
+        "CDHDR"."UDATE",
+        "CDHDR"."UTIME",
+        "CDHDR"."USERNAME",
+        (ROW_NUMBER() OVER (PARTITION BY "CDPOS"."TABKEY" ORDER BY "CDHDR"."UDATE", "CDHDR"."UTIME" DESC)) AS "rn"
+    FROM "CDPOS" AS "CDPOS"
+    LEFT JOIN "CDHDR" AS "CDHDR"
+        ON "CDPOS"."MANDANT" = "CDHDR"."MANDANT"
+        AND "CDPOS"."CHANGENR" = "CDHDR"."CHANGENR"
+        AND "CDPOS"."OBJECTCLAS" = "CDHDR"."OBJECTCLAS"
+        AND "CDPOS"."OBJECTID" = "CDHDR"."OBJECTID"
+    WHERE
+        "CDPOS"."OBJECTCLAS" = 'EINKBELEG'
+        AND "CDPOS"."TABNAME" = 'EKKO'
+        AND "CDPOS"."FNAME" = 'KEY'
+        AND "CDPOS"."CHNGIND" = 'I'
+)
+
+Note that STATISTICS are not applied to CTEs.
+
+########################################################################
+  LESSON 7 : Usage of Tables, Temporary Tables, Views, and CTEs
+########################################################################
+
+----- Page 1 -----
+
+Transformation Best Practices
+Usage of Tables, Temporary Tables, Views, and CTEs
+Load your Data Model with Staging Tables and Views
+Better performance with staging tables and views
+
+For tables loaded into a Data Model (DM), you'll strike the best balance between required storage and performance for your data pipeline by combining staging tables with views, as shown in the diagram below.
+
+This approach allows you to achieve better performance without significantly affecting storage. Let's break this down.
+
+How to combine staging tables with views
+
+The first step is to create a staging table. A staging table is a type of temporary table that contains only primary keys and calculated or derived columns. The query that creates the staging table should include all the joins and functions required to calculate or reformat the column values.
+
+The second step is to create a Data Model view (e.g., O2C_VBAP). In this view, you join the “raw data” table (e.g., VBAP) with the previously created staging table (e.g., O2C_VBAP_STAGING).
+
+Note that in this view, there is only one join between the raw table (VBAP) and the staging table (O2C_VBAP_STAGING). All other joins, required for calculation of the fields should be part of the previous, STAGING_TABLE statement.
+
+Finally, in the Data Model configuration, you use the created O2C_VBAP view.
+
+When to use this approach
+
+Using a staging table and a view is mostly beneficial for DM tables that require some preparation before being loaded to DM. Most often, process connectors have transformations that prepare and extend the main case and other transactional data tables. If those queries contain joins and several reformatting functions, you should consider using a staging table and a view. That said, this approach brings no significant value for smaller master data tables.
+
+A good rule of thumb is to use this approach for the main case and transactional tables.
+
+Staging tables are used only in case-centric transformations.
+
+----- Page 2 -----
+
+Transformation Best Practices
+Usage of Tables, Temporary Tables, Views, and CTEs
+A Note on Field Sizes
+
+Field sizes have a significant impact on performance. In general, you should review your table schemas and reduce the size of the fields if it is not used. For example, a reduction from VARCHAR(200) to VARCHAR(20) might have a significant performance impact, depending on the number of records.
+
+For any tables you create, use the column size gently. The most effective way is the "CREATE table as SELECT FROM" statement since it will base field length on the automatically adjusted field length at creation.
+
+In case you have doubts for VARCHAR fields, you can check their actually used field size using this query:
+
+SELECT COALESCE(MAX(OCTET_LENGTH("FIELD_NAME")), 0) FROM TABLE_NAME
+
+If there is a difference, you can adjust the field size accordingly in the table creation script.
+
+----- Page 3 -----
+
+Transformation Best Practices
+Usage of Tables, Temporary Tables, Views, and CTEs
+A Review on Table Terminology
+
+By now, you've probably encountered quite a few table types and terms in and outside of this course. Here is a quick review of the most common table terms Celonis uses.
+
+In this course:
+TABLE NAME	EXPLANATION
+Temporary Join Table	For Transformations: Saves query costs by capturing recurring joins in one table and re-using it across transformations. Deleted after it's no longer used—typically at the end of your transformations. The naming convention is TMP_{process_name}_{joined_table}_{joined_table}_... e.g., TMP_O2C_CDPOS_CDHDR.
+Temporary Table	This is a table created using CREATE TEMPORARY TABLE and only works within one transformation task, after which it is automatically dropped.
+Staging Table	For data model loads: A type of temporary table that contains only primary keys and calculated or derived columns. The table is added to a view which in turn is used in the data model load. Staging tables save query costs by preventing views from having to calculate or derive custom columns. As opposed to Temporary Join Tables, they are not deleted after creation as they are needed for the data model load. The naming convention is {process_name}_{table_name}_STAGING.
+Data Model Table	A generic term pointing to tables used in the data model load. In most cases, you create these tables in transformations and derive them from raw data tables—removing unnecessary columns and adding others you may need.
+Projections System Table	This table is specific to Vertica. By running a query on it, you can check which of your table have no statistics. This the query used:
+SELECT anchor_table_name AS TableName
+FROM projections
+WHERE has_statistics = FALSE ;
+
+Raw Data Table	The tables you directly extract from source systems.
+Master Data Table	Points to a type of raw data table you extract that contains system master data.
+From other courses:
+TABLE NAME	EXPLANATION
+Metadata Table	Points to a type of raw data table you extract that contains extra information. Often used interchangeably with master data table.
+Transactional Table	Points to a type of raw data table you extract that contains information on cases and transactions involved in your process.
+Trigger Table	In Real-Time data extractions, points to an extracted table that triggers a transformation.
+Staging Table	In Real-Time transformations, points to an intermediary table that stores delta information after an extraction. The naming convention for these tables is _CELONIS_TMP_{trigger_table}_EKPO_TRANSFORM_DATA.
+
+----- Page 4 -----
+
+Transformation Best Practices
+Usage of Tables, Temporary Tables, Views, and CTEs
+
+Let's check your knowledge of tables and views with a few questions. 
+
+Start
+
+----- Page 5 -----
+
+Transformation Best Practices
+Usage of Tables, Temporary Tables, Views, and CTEs
+
+No topic content.
+
+########################################################################
+  LESSON 8 : DELETE and UPDATE Statements
+########################################################################
+
+----- Page 1 -----
+
+Transformation Best Practices
+DELETE and UPDATE Statements
+DELETE and UPDATE Can Slow Down Your Pipeline
+
+In Vertica, DELETE and UPDATE queries may not be as performant as INSERT and SELECT queries. Especially on large tables with changes to many records (upwards of 25%):
+
+They can take a long time to complete.
+They may negatively affect the performance of later queries on a table.
+
+Let's look at the reasons for these two points.
+
+Why can DELETE and UPDATE queries take long to complete?
+
+Reasons for the queries to run slowly can be manifold. Some of the factors include but are not limited to:
+
+The size of your table
+The size of your deletion chunk
+The deletion keys and their positioning in the table
+The deletion filters (WHERE)
+The data distribution (boolean vs many distinct values)
+Why can DELETE and UPDATE queries negatively affect later queries?
+
+First you should understand what DELETEs and UPDATEs do in Vertica:
+
+DELETEs do not actually delete data immediately from disk storage but instead simply marks rows as deleted.
+UPDATEs writes two rows: one with new data and one marked as deleted.
+
+So when you run a SELECT statement on a table following large UPDATEs or DELETEs, Vertica needs to do extra processing to omit the "marked as deleted" records from results. This slows down performance.
+
+Additionally, running DELETE or UPDATE statements puts exclusive locks on tables and prevents other queries from running at the same time.
+
+What happens to rows marked for deletion?
+
+These rows are meant to be eventually "purged" out of the Vertica database. The purging mechanism consumes a lot of resources and its frequency and conditions are handled by EMS maintenance jobs based on Vertica's recommendations. If you would like to read more on this topic directly from Vertica, have a look at Vertica documentation on purging deleted data and Vertica documentation on performance considerations for DELETE and UPDATE queries.
+
+What is the moral of the story?
+
+If you notice your DELETE and UPDATE statements slow down your data pipeline, then consider applying alternative approaches to work around them. More on the next page!
+
+----- Page 2 -----
+
+Transformation Best Practices
+DELETE and UPDATE Statements
+Avoiding DELETE and UPDATE
+Considerations
+
+Before setting up a regular DELETE or UPDATE transformation in your data pipeline, reconsider the need and reason for regular massive deletes or updates:
+
+Using extractions - Can adjustments to the extraction filters reduce the need for deletes/updates?
+Find and fix the cause of duplicates - In case you are using DELETE for deduplication, find which operations creates duplicate records
+Is there any transformation leading to irrelevant or incomplete records that have to be deleted or updated afterwards?
+
+For example, in a cleanup step, activity records where the columns "activity name" or "event times" are NULL are often being deleted. Reviewing the transformation creating those activities, you could detect and correct the reason why those records are created with null values.
+
+Rebuild Tables instead of DELETE and UPDATE
+
+If none of the above helps and you do need to optimize performance, then we recommend you rebuild your tables instead of using DELETE or UPDATE statements.
+
+Below are the steps for either a DELETE or UPDATE scenario.
+
+Rebuild instead of DELETE
+
+You have Table_A that contains 100M records, and you want to DELETE 30M records. Instead of running a DELETE statement, you create NEW_Table_A that contains the 70M records you want to keep. Then rename Table_A to BACKUP_Table_A and rename NEW_Table_A to the original name Table_A. Here are the steps with sample queries.
+
+Create new table selecting relevant records from the existing table:
+
+CREATE TABLE NEW_Table_A AS (SELECT ... FROM Table_A WHERE ... );
+
+Backup the old table by renaming it:
+
+ALTER TABLE Table_A RENAME TO BACKUP_Table_A;
+
+Rename the new table to the original table name:
+
+ALTER TABLE New_Table_A RENAME TO Table_A;
+
+DROP the old table:
+
+DROP TABLE BACKUP_Table_A;
+
+Add Table statistics
+
+ANALYZE_STATISTICS (‘Table_A’);
+Rebuild instead of UPDATE
+
+You have Table_A with 50 columns and 30M records. You would like to update the majority of or all 50M records and set the value of Table_A.Column50 to values from another table (e.g., Table_B). Joining tables and running an UPDATE statement often takes a very long time to execute. This would be a non-performant option:
+
+UPDATE Table_A
+SET Table_A.Column50 = Table_B.ColumnX
+WHERE Table_A.key=Table_B.key
+
+A quicker way to achieve the same results is to re-build the table, as shown in the DELETE example. For UPDATE, the steps are:
+
+CREATE the new table NEW_Table_A as a select of relevant records, in this case, all the records, with 49 identical fields, and with one field that changes the value:
+
+CREATE TABLE NEW_Table_A
+AS
+SELECT Table_A.Column1
+           ,Table_A.Column2
+           ,Table_A.Column3
+           ,Table_A.Column4
+           ,Table_A.Column5
+           ,Table_A.Column6
+           ,Table_A.Column7
+        …….
+           ,Table_B.ColumnX as Column50
+
+FROM Table_A
+         Inner join Table_B
+         ON Table_A.key=Table_B.key;
+
+Rename the old table:
+
+ALTER TABLE Table_A RENAME TO BACKUP_Table_A;
+
+Rename the new table to the original table name:
+
+ALTER TABLE New_Table_A RENAME TO Table_A;
+
+DROP the old table:
+
+DROP TABLE BACKUP_Table_A;
+
+Add table statistics:
+
+ANALYZE_STATISTICS (‘Table_A’);
+
+----- Page 3 -----
+
+Transformation Best Practices
+DELETE and UPDATE Statements
+For Inevitable DELETEs and UPDATEs
+
+We believe you can avoid the majority of DELETE and UPDATE statements by simply finding and fixing the source of your duplicates and/or rebuilding tables.
+
+If you absolutely need to use DELETE or UPDATE, then consider the following best practice:
+
+Execute the query in smaller parts/chunks. This will lead to shorter execution times for the DELETE and UPDATE statements. For example, if you want to delete entries from a table, e.g., BSEG, instead of a large delete you could delete by year:
+
+Delete from BSEG where GJAHR=2020;
+Delete from BSEG where GJAHR=2021;
+Delete from BSEG where GJAHR=2022;
+Select the right conditions - When limiting the query through a condition, select a field that appears at the beginning of the table field list (i.e., Vertica typically sorts tables using initial fields) and whose values are close to evenly distributed across the data set. Such fields may be date and document type.
+
+That is it for this lesson. Now let's move on to other general best practices!
+
+----- Page 4 -----
+
+Transformation Best Practices
+DELETE and UPDATE Statements
+
+No topic content.
+
+########################################################################
+  LESSON 9 : Design Best Practices
+########################################################################
+
+----- Page 1 -----
+
+Transformation Best Practices
+Design Best Practices
+Avoid Business Logic in Transformations
+
+Business logic (KPI calculations, formulas, analyses, statistical evaluations, if/then/else) belong in the knowledge model and not in the transformation. There they are evaluated in real-time (in memory) and are much faster than in the transformation phase in Vertica.
+
+Transformations should only be used to:
+
+create event logs from the extracted data
+clean up data
+restructure data to be suitable as additions to the data model
+
+----- Page 2 -----
+
+Transformation Best Practices
+Design Best Practices
+Enable Optimized Execution of Data Jobs
+
+This best practice is twofold:
+
+Ensuring the optimized execution feature is active
+Splitting transformations into separate transformations tasks when there is no dependency
+Activating the feature
+
+First, ensure that at the data job level, the "optimized execution" is enabled.
+
+With this feature active, tasks in your data job can run in parallel when they are not dependent on one another.
+
+Splitting sequentially independent transformations
+
+If a large transformation has many sequentially independent scripts, then consider splitting them into multiple tasks to allow for a parallel execution. Otherwise, all scripts with a transformation task are processed sequentially.
+
+For example:
+
+CREATE TABLE A
+INSERT INTO TABLE A FROM TABLE C
+CREATE TABLE B
+INSERT INTO TABLE B FROM TABLE D
+
+This could well be split into two tasks to allow for parallel execution, because there is no dependency:
+
+Transformation task 1:
+CREATE TABLE A
+INSERT INTO TABLE A FROM TABLE C
+
+Transformation task 2:
+CREATE TABLE B
+INSERT INTO TABLE B FROM TABLE D
+
+----- Page 3 -----
+
+Transformation Best Practices
+Design Best Practices
+
+No topic content.
+
+########################################################################
+  LESSON 10 : Course Recap and Next Steps
+########################################################################
+
+Transformation Best Practices
+Course Recap and Next Steps
+
+No topic content.

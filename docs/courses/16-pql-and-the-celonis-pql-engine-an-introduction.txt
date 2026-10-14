@@ -1,0 +1,315 @@
+﻿========================================================================
+  CELONIS ACADEMY - PQL AND THE CELONIS PQL ENGINE - AN INTRODUCTION
+  Extracted: 2026-09-09 15:01  |  Personal study use only
+  Source: https://academy.celonis.com/learn/course/pql-and-the-celonis-pql-engine-an-introduction
+  Lessons: 4
+========================================================================
+
+########################################################################
+  LESSON 1 : Introduction
+########################################################################
+
+----- Page 1 -----
+
+Introduction to PQL and the Celonis PQL Engine
+Introduction
+Welcome Message and Learning Objectives
+A Query Language for Process Mining
+
+You already heard about something called Celonis PQL and wonder what this has to do with you?
+
+You want to learn more about why Celonis invented and developed this new query language when there are already so many other programming languages out there?
+
+Or have you already done your first steps with our Process Query Language (PQL) and want to learn where all this began?
+
+Then this course is the perfect place for you!
+
+We will start by introducing the powerful Celonis PQL Engine and the Celonis Data Model structure. After that, we will cover the design goals of PQL and give you practical insights on the applicability of the query language.
+
+Learning objectives
+
+After completing this course, you will be able to:
+
+
+
+
+1
+
+Explain Celonis Software Architecture and Celonis PQL Engine.
+
+2
+
+Understand Celonis PQL History and its core Design Goals.
+
+3
+
+Differentiate between SQL and Celonis PQL statements.
+
+
+
+
+The training takes about 25 minutes to complete.
+
+Are you ready? Perfect, let’s start right away!
+
+This content is available in multiple languages: English, German, French, Japanese, Spanish, and Portuguese. To switch your language, use the selector in the top navigation bar.
+
+In Courses: Switching languages will not affect your progress. If you are multilingual, comparing languages can even help deepen your understanding.
+In Exams: Do not switch the language once you start the exam. If you switch the language when you're already reviewing questions and answers, the page will refresh, causing your exam attempt to end prematurely. (Note: Once inside the exam course, you can switch the language anytime before clicking the Start Exam button.)
+
+
+
+
+If you encounter any technical or access issues during this course, check out our FAQs in the Support area or reach out to us via our Academy contact form.
+
+----- Page 2 -----
+
+Introduction to PQL and the Celonis PQL Engine
+Introduction
+
+No topic content.
+
+########################################################################
+  LESSON 2 : PQL Engine
+########################################################################
+
+----- Page 1 -----
+
+Introduction to PQL and the Celonis PQL Engine
+PQL Engine
+Foundations of Process Mining
+
+Before jumping into Celonis PQL, let’s take a step back and remember the foundations of Process Mining.
+
+In the course of digitization, an increasing number of log data is recorded in IT systems of companies worldwide. This data is precious, as it represents how business processes are running inside a company. Process Mining comprises data-driven methods to discover, enhance, and monitor processes based on such data. The heart of Process Mining are the Event Logs. Those Event Logs are a collection of process events that can be described by the following attributes:
+
+CASE
+ACTIVITY
+TIMESTAMP
+
+The case attribute indicates which process instance the event belongs to. A process instance is called a case, usually consisting of multiple events.
+
+Let's consider an example: Imagine you are running a restaurant with food delivery. Each order has a specific number, the order number. This number is the unique case ID, and all related activities are assigned to this ID.
+
+Executable Queries in Process Mining
+
+To gain valuable process insights, it is essential for Process Mining users to formalize their process questions as executable queries. For this purpose, we present the Celonis Process Query Language (Celonis PQL), which is:
+
+a domain-specific language,
+tailored towards a particular process data model, and 
+designed for business users.
+
+It translates process-related business questions into queries and executes them on a custom-built query engine, the Celonis PQL Engine.
+
+Let’s continue to the next lesson to discover the role of the Celonis Software Architecture for Celonis PQL!
+
+----- Page 2 -----
+
+Introduction to PQL and the Celonis PQL Engine
+PQL Engine
+Celonis Software Architecture
+The Celonis PQL Engine
+
+As you can observe in the graphic below, Celonis PQL is an integral component of the Celonis Software Architecture. All Celonis applications use this language to query data from a data model.
+
+Hover over the different components in the architecture overview to find out more. Click on "example" to explore a data model of a procurement process.
+
+Source System
+Data Model
+Celonis PQL Engine
+Applications
+
+Now that we know the role of the Celonis PQL Engine within the Celonis Software Architecture, let’s get started with Celonis PQL!
+
+----- Page 3 -----
+
+Introduction to PQL and the Celonis PQL Engine
+PQL Engine
+
+Let's check your knowledge!
+
+
+
+
+In the previous lessons, you learned about the Celonis PQL Engine.
+
+Now it’s your turn! This small knowledge check helps you to test your learning progress.
+
+Start
+
+----- Page 4 -----
+
+Introduction to PQL and the Celonis PQL Engine
+PQL Engine
+
+No topic content.
+
+########################################################################
+  LESSON 3 : Celonis Process Query Language
+########################################################################
+
+----- Page 1 -----
+
+Introduction to PQL and the Celonis PQL Engine
+Celonis Process Query Language
+Design Goals & History of PQL
+
+PQL is used for more than 5 million queries per day. Learn more about the origins in the video below:
+
+You can access and download the transcript for the above video in the course resource library under the name - Design Goals & History of PQL.
+
+Remember how Celonis PQL started as an addition to SQL? Let’s have a closer look at what differentiates these languages.
+
+----- Page 2 -----
+
+Introduction to PQL and the Celonis PQL Engine
+Celonis Process Query Language
+SQL vs. PQL
+
+Even though Celonis PQL is inspired by SQL, there are major differences between the two query languages
+
+On a high level, Celonis PQL varies along four key dimensions:
+
+Language Scope
+Data Manipulation Language
+Data Definition Language
+Domain-Specific
+
+
+
+
+But wait, how do Celonis PQL operators differ to SQL?
+
+Let’s look at an example statement of both languages to identify the differences. Click on the categories to see the key differences between SQL and Celonis PQL.
+
+Did this get you curious about how PQL operators look like?
+
+Head to the next lesson to explore key categories and functions.
+
+----- Page 3 -----
+
+Introduction to PQL and the Celonis PQL Engine
+Celonis Process Query Language
+Language Overview
+
+
+Celonis PQL provides more than 150+ different operators that can be combined to process data and answer complex business questions.
+
+Eager to know more functions?
+
+Documentation - Consult the documentation for a full overview of all categories and functions available.
+
+Across all classes of operators, Celonis PQL follows four language features:
+
+1
+
+First, operators usually create and return a single column that is either added to an existing table (e.g., the case or activity table) or to a new, temporary result table.
+
+But note, there are also a few operators that create and return one or more tables with multiple columns (e.g., for computing a process graph).
+
+2
+
+Second, the supported data types comprise STRING, INT, FLOAT, and DATE.
+
+3
+
+Third, Boolean values are not directly supported, but can be represented as integers.
+
+4
+
+
+
+Fourth, each data type can hold NULL values. Celonis PQL operates as follows:
+
+In aggregations: treats NULL values as non-existing and ignores them.
+
+In row-wise operations: returns NULL if one of its inputs is NULL.
+
+----- Page 4 -----
+
+Introduction to PQL and the Celonis PQL Engine
+Celonis Process Query Language
+Applications in the Celonis Platform
+
+PQL is the query language to formulate your process questions and calculate KPIs. This is why you can apply it in a multitude of applications in the Celonis Platform.
+
+Take a look below and find the application(s) you're working with.
+
+Knowledge Model
+Action Flow
+Machine Learning Workbench
+
+
+
+
+Proceed to the next page to do a small test of what you learned.
+
+----- Page 5 -----
+
+Introduction to PQL and the Celonis PQL Engine
+Celonis Process Query Language
+
+----- Page 6 -----
+
+Introduction to PQL and the Celonis PQL Engine
+Celonis Process Query Language
+
+No topic content.
+
+########################################################################
+  LESSON 4 : Outlook
+########################################################################
+
+----- Page 1 -----
+
+Introduction to PQL and the Celonis PQL Engine
+Outlook
+Congratulations!
+
+You made it to the end of this course!
+
+Let's briefly recap what you learned about the Celonis Process Query Language. You are now able to:
+
+Explain Celonis Software Architecture and Celonis PQL Engine.
+
+Understand Celonis PQL History and its core Design Goals.
+
+Differentiate between SQL and Celonis PQL statements.
+
+Interested in additional reading material?
+
+Why not have a look at the book "Celonis PQL: A Query Language for Process Mining"!?
+
+If you're taking this course as part of the "Write PQL Queries" training track, you can proceed to the next course about Basic Coding with PQL.
+
+Otherwise, enjoy the other courses on Academy and always keep learning.
+
+
+Want to dig deeper into the topic of this course? Join the Celonis Community to ask your product questions, hear about the latest product releases, and remain up-to-date by subscribing.
+
+We invite you to join our Celonis Academy Group to engage with your peers, get exclusive updates and answers directly from Academy experts, and stay connected!
+
+
+
+
+Thank you for taking this course, we hope you enjoyed it!
+
+Your feedback matters
+
+Remember to stop at our feedback page to help us improve our content
+
+- Your Celonis Academy
+
+----- Page 2 -----
+
+Introduction to PQL and the Celonis PQL Engine
+Outlook
+
+Starting the survey…
+
+----- Page 3 -----
+
+Introduction to PQL and the Celonis PQL Engine
+Outlook
+
+No topic content.

@@ -1,0 +1,567 @@
+﻿========================================================================
+  CELONIS ACADEMY - INTRODUCTION TO STUDIO ASSETS
+  Extracted: 2026-09-09 14:12  |  Personal study use only
+  Source: https://academy.celonis.com/learn/course/introduction-to-studio-assets
+  NOTE: Video course - each page below is one video lesson with its text description.
+========================================================================
+
+########################################################################
+  PAGE 1
+########################################################################
+
+Introduction to Studio Assets
+Welcome to the course “Introduction to Studio Assets”
+
+The Assets in Celonis Studio are the building blocks of the Apps you create. They make up the analytical and execution capabilities that your business users would utilize. In this course, you will be introduced to all the Assets available in Studio, as well as gain insights into the definition of “Apps” in Celonis.
+
+
+
+
+This course should take you about 1 hour to finish.
+
+
+
+
+This course is part of the Navigate the Celonis Studio Training Track.
+
+As a prerequisite, you should already have an understanding of Studio's structure for effective navigation and Asset creation. If you are unsure, consider taking up the Introduction to Celonis Studio course before you move on.
+
+
+
+
+Go to the next page for a brief overview of Studio’s structure.
+
+Tip: You can Hide the Menu bar.
+
+This content is available in multiple languages: English, German, French, Japanese, Spanish, and Portuguese. To switch your language, use the selector in the top navigation bar.
+
+In Courses: Switching languages will not affect your progress. If you are multilingual, comparing languages can even help deepen your understanding.
+In Exams: Do not switch the language once you start the exam. If you switch the language when you're already reviewing questions and answers, the page will refresh, causing your exam attempt to end prematurely. (Note: Once inside the exam course, you can switch the language anytime before clicking the Start Exam button.)
+
+
+
+
+If you encounter any technical or access issues during this course, check out our FAQs in the Support area or reach out to us via our Academy contact form.
+
+########################################################################
+  PAGE 2
+########################################################################
+
+Introduction to Studio Assets
+Recap: Studio Structure
+
+If you've already completed the Introduction to Celonis Studio course, you can skip this page.
+
+
+
+
+The structural elements of Studio determine how Apps are housed and organized. Check out the example of a dashboard that was built using a View in Studio.
+
+Studio
+Space (Order Management)
+Package (Order to Cash)
+Asset (Overview)
+Folder (Documentation)
+
+
+
+
+Take note that you can have multiple Spaces and Packages in an environment to house Assets. This gives you the flexibility to organize Assets in a way that works for the specific use cases of your business users.
+
+########################################################################
+  PAGE 3
+########################################################################
+
+Introduction to Studio Assets
+Putting Assets into Context
+
+Once you have a Package, you can create Assets - which are the actual building blocks of your App. The Assets you create and the way they relate to each other will determine the look and feel of your App, and how the App functions. You can review the list of Assets that are generally available in Studio in the documentation.
+
+
+
+
+Throughout this course, you'll gain hands-on experience creating the Assets in your training environment while learning about them. However, note that building most Assets require a thorough understanding of their configurations, features, components, and tools. Additional references will be provided to support your learning journey in building these Assets. Alternatively, you could also just go through this course descriptively, without doing the hands-on exercise.
+
+
+
+
+Let’s now set up your training environment so that you can create the Assets.
+
+########################################################################
+  PAGE 4
+########################################################################
+
+Skip to main content
+  
+AI Learning Assistant
+Give Feedback
+
+########################################################################
+  PAGE 5
+########################################################################
+
+Introduction to Studio Assets
+Knowledge Model
+
+The Knowledge Model is the centralized repository to store and share knowledge on an App (i.e., Package) level. It acts as a semantic layer between your Data Model and App - allowing you to add business logic to your (most likely, technical) data. You can store business definitions - like KPIs, Filters, and Variables - so that your App has a common logic that you and other analysts use.
+
+
+
+
+In most cases, Knowledge Models must be created together with the other Assets - providing varying degrees of functionalities to them.
+
+
+
+
+Create a Knowledge Model using the following details...
+
+
+Name: OCPM_OrderManagement KM
+
+
+Data Model Variable (Key): dm_ocpm_ordermanagement
+
+Knowledge Model Type: Base
+
+
+
+
+In the Knowledge Model, go to KPIs. Let's create a KPI using the following details...
+
+
+Display Name: Total Net Order Value
+
+Description: The total financial value of all goods and services on a sales order item before any taxes, freight charges, discounts, or surcharges are applied.
+
+
+PQL Formula: SUM ( "o_celonis_SalesOrderItem"."NetAmount" )
+
+Format: Abbreviated (##.#k)
+
+Unit: €
+
+KPI Desired Direction: Up Trend
+
+
+
+
+Here’s how you’d do it…
+
+The video has no sound.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Now you have a centralized KPI you can use in all the Assets connected to this Knowledge Model! You'll see it in action throughout the course.
+
+
+
+
+
+
+
+You can learn more about the Knowledge Model in the Manage Knowledge in Object-Centric Process Mining webcast.
+
+
+More hands-on training with the Knowledge Model coming soon!
+
+########################################################################
+  PAGE 6
+########################################################################
+
+Introduction to Studio Assets
+View
+
+The View is where you build the user interfaces of an App. You can customize Views to create analyses, explore your business processes, and find value opportunities. In many cases, the business users would only interact with Views in their Apps. Due to their versatility, Views can be layered and allow analysts to design persona-specific UIs, each with their own sets of functionality.
+
+
+
+
+Let's have a look at a few examples of Views.
+
+Prev
+Slide 1 of 2
+Next Slide
+
+Executive Dashboard
+
+This dashboard shows 3 highest strategically important topics that are summarized for business managers. The business managers are given the key KPIs and information regarding the order items. They can also investigate further and take action when needed.
+
+1
+2
+
+Historically, the View is the evolution of the Analysis (another Asset in Studio) and offers more guided interaction to the end users. Views have extra features and components to operationalize data.
+
+
+
+
+A View is always connected to a Knowledge Model, where all business definitions are stored. You can even show metrics from multiple Data Models in a View using different Knowledge Models. Additionally, Views can connect to Action Flows to produce actions (i.e., to execute specific commands using Views). Since Views are being continuously developed, additional analysis elements are progressively added to its capabilities.
+
+Try creating a View using the Knowledge Model that you’ve just created and the following details:
+
+
+Name: New View
+
+
+Knowledge Model: OCPM_OrderManagement KM
+
+and then add a Process Explorer component to it (Hint: Look on the right and search for the Component!)
+
+Here’s how you’d do it…
+
+The video has no sound.
+
+
+
+
+
+
+
+
+
+
+You can learn more about Views through the Build Views Training Track.
+
+
+
+
+
+[Optional] Legacy Views
+
+If you only want to learn about Assets that are actively being developed, feel free to skip this.
+
+
+
+
+
+
+
+The View you are currently experiencing is the "new" / enhanced experience (commonly known as JAB or “Joyful App Building” experience). You can read more about it in the release notes.
+
+
+
+
+
+
+
+The enhanced View succeeded the legacy View (or “old experience”), which was developed in 2020. The legacy View has a less refined UI compared to the enhanced View. At the moment, many Apps have been built in the legacy experience - but there is also an ongoing drive to build and migrate these Apps (along with new ones) in the enhanced experience.
+
+
+
+
+
+
+
+Note that the legacy View is on a feature freeze and will not be further developed.
+
+
+
+
+
+
+
+If you need to learn how to build legacy Views, you’d need to take up the Build Knowledge Models and Views Training Track instead.
+
+########################################################################
+  PAGE 7
+########################################################################
+
+Skip to main content
+  
+AI Learning Assistant
+
+########################################################################
+  PAGE 8
+########################################################################
+
+Skip to main content
+  
+AI Learning Assistant
+Give Feedback
+
+########################################################################
+  PAGE 9
+########################################################################
+
+Introduction to Studio Assets
+Process Orchestration
+
+A Process Orchestration acts as the conductor of your business processes. While Action Flows handle specific, individual tasks, Process Orchestration coordinates these tasks into a cohesive, long-running process. It ensures that every part of the process happens in the right order and at the right time.
+
+Try creating a Process Orchestration using the following details: 
+
+Name: New Process Orchestration
+
+Click the Edit button in the top-right corner. 
+
+Every Process Orchestration needs to begin with a start event. Click "Add event" on the right to add a new event or choose an existing event as your starting event. Most likely, you need to create a new event - click "Create event" in the pop-up window.
+
+Key: MyStartEvent
+
+Label: MyStartEvent
+
+Click Save. Make sure your new event is selected and click "Add". Now you have already completed the first step of every Process Orchestration configuration!
+
+
+
+
+Here's how you'd do it...
+
+To learn how to add the first process step to your Process Orchestration asset, enroll in our Orchestration Engine Fundamentals course!
+
+
+Pro Tip: Orchestration Engine is the name of the engine (aka the technical foundation) that powers the Process Orchestration asset.
+
+########################################################################
+  PAGE 10
+########################################################################
+
+Introduction to Studio Assets
+Form
+
+Forms are the dedicated Human-in-the-Loop asset in Studio. They are purpose-built to facilitate specific, point-in-time interactions where a process requires human intelligence, a decision, or manual data entry to proceed. 
+
+In practice, Forms are almost always used in conjunction with Process Orchestration. Waiting for a form to be filled in might pause a Process Orchestration execution - once the user submits their input, the Orchestration Engine receives the data and automatically resumes the workflow.
+
+Try creating a Form, using the following details:
+
+Name: New Form
+
+A drag-and-drop form builder opens up and lets you design your form the way you need it.
+
+Component: any one you like. Try, for example, adding a text field component and configuring it the way you like.
+
+Remember to save your component and then hit the save icon in the top right to save your entire form.
+
+
+
+
+Here's how you'd do it...
+
+To learn how to add a form as a Process Step to a Process Orchestration asset, enroll in our Orchestration Engine Fundamentals course!
+
+########################################################################
+  PAGE 11
+########################################################################
+
+Introduction to Studio Assets
+Process Copilot
+
+Process Copilot is a generative AI chatbot within Celonis that enables users to interact with their process data in a conversational manner. Designed to help navigate and optimize business processes, it leverages process mining and automation capabilities to deliver actionable insights and guidance - improving operational efficiency and decision-making.
+
+
+
+
+It's time to try creating the asset for yourself! But before that, you'll have to enable the use of AI Services in your training team. Take note that you'll have to do this if you want access to any AI services in Celonis.
+
+🚨 Enable AI Services
+
+Please ensure to read, understand, and accept the Celonis Artificial Intelligence Addendum in your training environment. Otherwise, you cannot complete the practical exercises in this course. To do so, navigate to "Admin & Settings", and then to "AI Settings":
+
+Here, you have the option to enable AI Services as required:
+
+
+
+
+After you've enabled the AI services,go back to your Package in Studio and create a Process Copilot using the following information...
+
+
+Name: New Process Copilot
+
+Knowledge Model: OCPM_OrderManagement KM
+
+From Scratch: Process Copilot for the Celonis Platform
+
+
+
+
+System Prompt
+
+Task: You are an expert in analyzing and optimizing the Order Management process within Celonis, focusing on the metric Total Net Order Value. You will be used by catalog order managers, analysts, and operations teams who seek to understand and improve order-related performance metrics. These users will rely on you during their daily operations or strategic planning sessions to identify trends, resolve inefficiencies, and make data-driven decisions.Your task is to provide a clear overview of Total Net Order Value trends, including historical performance, fluctuations, and growth patterns. You should identify key factors influencing this metric, such as order volume, product categories, or customer segments, and detect process inefficiencies, bottlenecks, or anomalies. Additionally, you are expected to compare performance across different dimensions (e.g., regions, customer types, product lines) and recommend actionable steps or process improvements to maximize Total Net Order Value. Present insights and visualizations in an easy-to-understand, conversational manner to support decision-making. Before returning answers to users, always double-check your responses for accuracy to ensure the information provided is correct and reliable.
+
+Knowledge Input
+
+Metric: Total Net Order Value
+
+
+
+
+Tool Activation
+
+Add the "Display KPI" tool with "Intelligent Configuration". It should automatically be activated when added.
+
+When you're done, go to Process Copilot chat.
+
+Here's how you'd do it...
+
+
+
+
+
+
+
+If you'd like to learn more, check out the Configure Process Copilot course.
+
+########################################################################
+  PAGE 12
+########################################################################
+
+Skip to main content
+  
+AI Learning Assistant
+
+########################################################################
+  PAGE 14
+########################################################################
+
+Introduction to Studio Assets
+What is an app?
+
+In Studio, you can create Assets that are connected to the Data Model through the Knowledge Model. As mentioned earlier, Assets are the building blocks that make up your App.
+
+
+
+
+Generally speaking, an app refers to either one of these two things:
+
+Prev
+Slide 1 of 2
+Next Slide
+
+Apps in the Celonis platform, which is the service where your published content is accessible to business users.
+
+1
+2
+
+
+
+
+An App requires at least one View, one Knowledge Model, and one Action Flow.
+A. True
+B. False
+
+########################################################################
+  PAGE 15
+########################################################################
+
+Introduction to Studio Assets
+Knowledge Check: Studio Assets
+
+So let’s say you want to start building an App. You’re in a Package in Studio, looking at the Package navigation bar on the left.
+
+
+
+
+Which Asset would you create for the following scenarios? Click on the image.
+
+1 / 7
+
+1. You want to reduce repetitive tasks in your business processes.
+
+########################################################################
+  PAGE 16
+########################################################################
+
+Introduction to Studio Assets
+Congratulations!
+You have completed the “Introduction to Studio Assets” course!
+
+This is you - your brain is slightly fried but hey, at least you know about all the different Assets in Studio!
+
+
+
+
+
+You should now be able to:
+
+Differentiate between the different types of Assets in Studio
+
+Define Apps in Celonis
+
+
+
+
+
+
+Here are the notable resources linked throughout the course...
+
+
+
+
+
+
+
+In practice, be sure to use the documentation if you need help navigating Studio in the Celonis platform. We also invite you to the Celonis Process Analysis community where you can connect, ask, or answer questions from other users who are also learning to build Apps around the globe.
+
+
+
+
+Lastly, we'd also appreciate it if you could take a moment to fill out the feedback form on the next page. Are there any questions about Celonis Studio that have been left unanswered? Is there anything that can be done to make the course better for you? It really helps us to know what you find useful, unnecessary, and/or what the course lacks.
+
+
+
+
+Thank you for taking this course and we hope you have a wonderful week ahead!
+
+
+Your Celonis Academy
+
+########################################################################
+  PAGE 17
+########################################################################
+
+Introduction to Studio Assets
+
+Starting the survey…
+
+########################################################################
+  PAGE 18
+########################################################################
+
+Introduction to Studio Assets
+
+No topic content.
+
+########################################################################
+  PAGE 19
+########################################################################
+
+Introduction to Studio Assets
+
+No topic content.
+
+########################################################################
+  PAGE 20
+########################################################################
+
+Introduction to Studio Assets
+
+No topic content.
+
+########################################################################
+  PAGE 21
+########################################################################
+
+Introduction to Studio Assets
+
+No topic content.
+
+########################################################################
+  PAGE 22
+########################################################################
+
+Introduction to Studio Assets
+
+No topic content.

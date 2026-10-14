@@ -1,0 +1,1211 @@
+﻿=== Celonis Docs: process-explorer ===
+
+--- Process Explorer ---
+https://docs.celonis.com/en/process-explorer.html
+Celonis Product DocumentationStudioViewsComponentsProcess Explorer
+Process Explorer
+
+The Process Explorer component provides an interactive visualization of your business process directly within a View. Powered by event logs from your Knowledge Model, it highlights the most frequent process paths, activity connections, and throughput metrics, allowing you to add additional activities without limit to analyze process flows and identify bottlenecks.
+
+You can configure the Process Explorer in two ways:
+
+In Process Explorer views
+
+In legacy views using YAML:
+
+Basic configuration
+
+Multi-object Process Explorer
+
+Advanced configuration
+
+Collapse all
+Configuring Process Explorer in Views
+
+To configure a Process Explorer in your View:
+
+In View Edit Mode, drag and drop the Process Explorer component into your View.
+
+Open the component settings menu, select your target process in the Eventlog field (for example, SalesOrderItem Activity.
+
+Customize the component appearance and interaction rules:
+
+Set the primary metric in the Default KPI View dropdown.
+
+Enable Show KPI switcher to allow interactive metric switching.
+
+Choose your control style under Graph Control (control panel or sliders).
+
+Configure filter behavior using Exclude from user filtering or Can't be used to set filters.
+
+Click Interactive Mode to preview your Process Explorer configuration and test interactive path expansion.
+
+Optional: To see the latest version of your View, deploy the package.
+
+Related topics
+
+Views
+
+View settings
+
+View modules
+
+--- Advanced configuration ---
+https://docs.celonis.com/en/process-explorer-advanced-configuration.html
+Celonis Product DocumentationStudioViewsComponentsProcess ExplorerAdvanced configuration
+Process Explorer advanced configuration
+
+For more advanced configuration options, use the following:
+
+Filter
+
+Attribute
+
+	
+
+Required
+
+	
+
+Type
+
+	
+
+Options
+
+	
+
+Description
+
+
+
+
+name
+
+	
+
+false
+
+	
+
+String
+
+	
+
+Free text
+
+	
+
+The title of the component.
+
+
+
+
+selectedKpiViewId
+
+	
+
+false
+
+	
+
+String
+
+	
+
+Standard KPI Views
+
+STANDARD_KPI_CASE_COUNT (default)
+
+STANDARD_KPI_AVG_THROUGHPUT_TIME
+
+STANDARD_KPI_MEDIAN_THROUGHPUT_TIME
+
+STANDARD_KPI_TRIMMED_MEAN_THROUGHPUT_TIME
+
+STANDARD_KPI_ACTIVITY_COUNT
+
+Custom KPI View
+
+KPI Views defined in the Event Logs section of the Knowledge Model.
+
+	
+
+Defines the default KPI View for the component when the user first visits the View. If nothing is defined for this attribute the Case Count KPI View is shown.
+
+Example:
+
+selectedKpiViewId: STANDARD_KPI_MEDIAN_THROUGHPUT_TIME
+
+
+
+
+hideKpiSwitcher
+
+	
+
+false
+
+	
+
+Boolean
+
+	
+
+true | false (default)
+
+	
+
+Defines whether or not the KPI Switcher is visible to the end user.
+
+If "false", the KPI switcher will be visible:
+
+If "true", the KPI switcher will be hidden:
+
+
+
+
+graphControls
+
+	
+
+false
+
+	
+
+string
+
+	
+
+panel | sliders (default)
+
+	
+
+Defines the interaction mechanism used in the graph. In sliders mode all the activities from the event log are considered for visualizing the graph. In panel mode, the deselected activities are not considered to visualize the graph. Due to this, the KPIs on connections between any two activities can be different in the two modes.
+
+If "sliders":
+
+If "panel":
+
+YAML
+
+id: process-explorer-e6834feb-5710-4c8f-a74f-01b18d13b195
+type: process-explorer
+settings: 
+     eventLogs: 
+          - eventLog: P2P_EVENTLOG 
+            id: 9a51c727-f8c4-4908-9fd1-445598135171 
+            order: 100 
+          - eventLog: O2C_EVENTLOG 
+            id: O2C1 
+            order: 200 
+            graphControls: panel 
+            selectedKpiViewId: STANDARD_KPI_MEDIAN_THROUGHPUT_TIME 
+            hideKpiSwitcher: true 
+            name: Process Explorer 
+            infoText: content: This is the process explorer 
+            title: PE Description 
+     transitions: 
+          - transition: Transition_1 
+            id: 780c7147-21a2-4459-beeb-85ce057600f9 
+            order: 100 
+          - transition: Transition_2 
+            id: a71008f7-e4a1-4486-90fb-acc2b2b4b663 
+            order: 200
+Related topics
+
+Views
+
+Components
+
+Charts
+
+--- Multi-object Process Explorer ---
+https://docs.celonis.com/en/multi-object-process-explorer.html
+Celonis Product DocumentationStudioViewsComponentsProcess ExplorerMulti-object Process Explorer
+Multi-object Process Explorer
+
+In the multi-object Process Explorer, the process is visualized as objects and their corresponding events. An activity impacting multiple objects is shown only once and the objects intersect at these common activities.
+
+Note
+
+A multi object Process Explorer can only be used if the underlying data model is an Object-Centric data model.
+
+Process Explorer automatically turns into the multi-object mode, once the View is built on an object-centric data model.
+
+As in the Multi-Event-Log case, several event logs can be configured to be available in Process Explorer.
+
+Activities that are shared between different event logs are merged in the graph.
+
+The activity popup shows which event logs flow through the activity and allows for filtering on each of them.
+
+The event counts are displayed broken out by object type, with the total count of the current metric shown for each object type next to the colored square corresponding to that object type in the process flow
+
+The following diagram is an example of a multi-object Process Explorer:
+
+And for a video overview:
+
+Press O for more options
+	
+	
+	
+2:05
+	
+Collapse all
+Controlling multiple objects with sliders
+
+The global slider allows you to explore events by adding and removing nodes and edges from your process graph. Using the global slider, you can add the next most frequent event from across all object types based on the number of object instances that interact with the event. This makes it faster to explore across multiple object types by making adjustments across all of them simultaneously rather than making updates using the individual sliders for each object type. You can still use the individual object type sliders to add or remove elements for those specific object types and your changes will be reflected on the global slider. This allows you to switch between using the global slider and the individual object sliders to adjust your process graph.
+
+Note
+
+Adding the next most frequent event may result in more events being added in order to connect the new event being added to the existing process graph.
+
+The global slider works in conjunction with the individual object sliders so that changes made using one method are reflected in the other. So if you make changes using the global slider, that change is also made to the respective object slider. The same is true for changes made using the object slider that will also be adjusted on the global slider.
+
+Adding or removing events using these slider methods work as follows:
+
+Global slider
+
+When incrementing using the global slider, the next most frequent event from across all object types is added to the graph. The individual slider for the object type of the event being added is also incremented to reflect this.
+
+When decrementing the global slider, the most recently added event (by either the global slider or the object slider) is removed from the graph.
+
+Object slider
+
+When increasing using an object slider, the next most frequent event for that object type is added to the graph. The global slider value is also incremented to reflect this change.
+
+When decrementing an object slider, the last event for that object type that was added (by either the global slider or the object slider) is removed from the graph. This event is also removed from the global slider’s sorting and the global slider is adjusted accordingly.
+
+Auto-Fit and Zoom to Fit
+
+When events and connections are added or removed from using the sliders, your process graph will refresh to show the update process. You may need to adjust the zoom settings in the lower right to view your complete process. You can also use the Auto-Fit toggle switch on the Zoom menu to choose to either maintain your current level of zoom or to refresh the zoom level of the process graph to display the entire process when events and connections are added:
+
+Auto-Fit ON: The process graph automatically adjusts to display the entire process whenever events or connections are added or removed.
+
+Auto-Fit OFF: The process graph maintains your current zoom level (e.g., 75%) when updated, even if the new elements exceed the current view.
+
+You can also click the Zoom to fit icon on the Zoom controls to adjust the view to show the complete process at any time.
+
+Connecting multi-object processes automatically
+
+When working with the multi-object Process Explorer, the sliders interface also contains a button that automatically sets your process graph to its minimum connected state. Clicking this button will adjust each of your available sliders to the minimum state required to connect these objects through shared events.
+
+This button is designed to find the minimum requirements to connect objects. If your process graph is in a more complex state than the minimum, clicking this button will simplify your graph down to the minimum state. If there is not a possible state where all displayed objects are connected because an object does not contain any events shared with other objects, this button will adjust the process graph to the state with the fewest disconnected objects.
+
+Controlling multiple objects in a panel
+
+For a Process Explorer with multiple event logs assigned, use the object selection at the top of the interface to choose which event logs to include. Check the boxes of which objects you want to use in the control panel.
+
+The selected event logs are included in the dropdown at the top of the Graph Control. Choose the event log from which you want to add or remove objects.
+
+Use the checkboxes to select which events to include or remove in the process graph. The process graph is updated automatically whenever an event is added or removed using the Graph Control.
+
+Searching your multi-object Process Explorer
+
+The search function for the multi-object Process Explorer allows you to quickly navigate within your process to a specific event. Click the magnifying glass above the sliders to expand the search field and then enter your search criteria. Any events or connections meeting your criteria are displayed in the results dropdown.
+
+Click on any search result to highlight it in the process and the process graph will zoom in on the selected event.
+
+This functionality is particularly useful when an event is not currently visible in the process graph due to the slider selection or when dealing with a large process where it is difficult to navigate to one specific event.
+
+Note
+
+When using the search feature in a multi-object Process Explorer, the slider controls are adjusted automatically to make the selected event visible.
+
+Related topics
+
+Basic configuration
+
+Advanced configuration
+
+KPI Calculations
+
+--- Show / Hide events in PE ---
+https://docs.celonis.com/en/hide-events-in-process-explorer.html
+Celonis Product DocumentationStudioViewsComponentsProcess ExplorerShow / Hide events in PE
+Hiding events in Process Explorer
+
+In Process Explorer you can control the list of events and activities displayed in your process graph by hiding any specified activities that you are not currently interested in. For example, you can hide an activity that occurs in all cases or activities that are generated automatically as part of the workflow. By hiding these activities, you can focus on the activities you are most interested in.
+
+Note
+
+This feature is only accessible in Process Explorer when using sliders to control the process graph and will not be available when using the panel.
+
+To hide events in Process Explorer:
+
+In the upper-left corner of the Process Explorer, click the activities menu to expand the list of available events.
+
+Modify the visibility of activities using one of the following methods:
+
+This feature is currently available as a Public Preview only
+
+During a Public Preview, only eligible customers can access this feature. Additionally, there may be minor updates to the functionality and design of these features when they are released in General Availability.
+
+For more information about our Public Preview releases, including the level of Support offered with them, see: Feature release types.
+
+To hide a specific activity, uncheck the box next to the activity name.
+
+To hide or show all activities at once, click Select all or Clear all.
+
+To filter the list, enter a term in the Search field, then use the bulk selection links to toggle only the filtered results.
+
+For processes with multiple event logs, use the colored squares in the Event logs column to identify which log an event belongs to based on the corresponding color in the process graph.
+
+Click Apply.
+
+The process graph, KPIs, and global sliders refresh to reflect only the selected activities.
+
+	
+
+
+
+Activities menu - case centric
+
+	
+
+Events menu - multi-object
+
+Related topics
+
+Process Explorer
+
+Multi-object Process Explorer
+
+KPI Calculations
+
+--- Custom KPI Groups ---
+https://docs.celonis.com/en/custom-kpi-groups-in-process-explorer.html
+Celonis Product DocumentationStudioViewsComponentsProcess ExplorerCustom KPI Groups
+Custom KPI Groups in Process Explorer
+
+The KPI Groups feature is used to create groups of custom process KPIs to display in the process graph in Process Explorer. You can create a KPI Group by selecting existing process-related KPIs or defining your own KPIs in the visual editor. KPI Groups can be created for both case-centric (single event log, multi-event log) and object-centric process exploration components.
+
+Custom KPI groups allow you to bundle related KPIs for activities/events within a single eventlog or track a specific KPI across multiple event logs. For example, a KPI Group could be comprised of the automation rate of each activity and the duration between them, for one event log. If your Process Explorer is configured with multiple event logs, in the same KPI group you can also create KPIs for each eventlog in your Process Explorer to track the same KPI across multiple event logs.
+
+Both KPI Groups and the individual KPIs in those groups are created and stored within a Knowledge Model (KM). As a result, if a change is made to an individual KPI, it is automatically updated across all KPI Groups to which that KPI has been added.
+
+Note
+
+Custom KPI Groups are only available in Studio Views. For components created in Legacy Views, KPIs are still defined using YAML in the Knowledge Model.
+
+Collapse all
+Applying a custom KPI group
+
+The available KPI groups are displayed on the Settings tab by clicking the edit icon and selecting the process visualization component. The available custom KPIs groups are displayed in the KPI Groups section. From this section, you can create new custom groups, show or hide existing groups, remove a custom group, or change the order in which the groups are displayed in the KPI selector dropdown.
+
+Note
+
+The default KPIs are still available in the Interactions section of the Settings tab.
+
+The order in which the custom KPI groups are displayed in the KPI Group ls section is the order in which they will display in the KPI selector dropdown. To change the order, click and drag the groups into the proper order.
+
+Custom KPI groups are only available to use in the process graph if they are visible. To make a KPI group visible, click the eye icon on the group tile to make sure it’s accessible. To hide a KPI group, click the icon again to hide a group from the dropdown. Hidden KPI groups will be grayed out. To remove a KPI group, click the X on the right side of the tile.
+
+Once the KPI groups have been added, they will display in the KPI selector dropdown on the process graph. To apply a KPI group, select it from the dropdown.
+
+The custom KPIs will be displayed in your process graph. It is important to note that how your KPIs are displayed will vary based on if the KPIs were created on the Activity or the Connection (see the Create a custom KPI Group section below for more details).
+
+Activity KPI: The Activity node always displays the Case Count (in case-centric) or Event Count (in object-centric) as the first KPI, followed by the custom Activity KPI. If the KPI group is comprised of more than one Activity KPI for an event log, then a maximum of two custom Activity KPIs are displayed on the Activity nodes on the graph. You can click on an Activity node to display all the Activity KPIs for that connection in the details pop-up window.
+
+Connection KPI: If the selected KPI group is comprised of more than one Connection KPIs for an event log, then the first Connection KPI for that event log is displayed on the connections in the process graph. If you click on that connection, you can view all the Connection KPIs for that connection in the details pop-up window.
+
+Creating a custom KPI Group
+
+Once your custom KPI Groups have been created, they can be shared with other users for use in their Process Explorer components.
+
+In your Process Explorer, click the Edit button in the upper right.
+
+Select your process graph component and then click the Settings tab in the edit panel on the right.
+
+In the KPI Groups section, click the Select data button.
+
+Click the Create KPI group button.
+
+Note
+
+Custom KPI groups that have been created but not added to the process graph will also be displayed. To add one of these groups, select the checkbox and the group is added or removed.
+
+In the KPI Group settings window, choose an icon from the dropdown and then enter a Group name.
+
+Enter a Description for this KPI Group.
+
+Note
+
+This description will be the value displayed in the KPI selector dropdown on your process graph for the KPI Group you are creating.
+
+Click on the Add activity or connection KPI field.
+
+In the KPI Settings window, choose if the KPIs in this group are applied on the Activity or the Connection.
+
+Activity KPI: An Activity KPI is calculated and displayed on the activity/event node in the process graph.
+
+Example of an Activity KPI for Automation:
+
+AVG(CASE WHEN "EVENTLOG"."USERTYPE" = 'Batch' THEN 1.0 ELSE 0.0 END)
+
+Connection KPI: A Connection KPI is calculated and displayed on the connections between nodes in the process graph.
+
+Example of a Connection KPI for Duration:
+
+AVG(1.0*DATEDIFF(dd, SOURCE("EVENTLOG"."EVENTTIME"), TARGET("EVENTLOG"."EVENTTIME")))
+
+Choose the Eventlog where this group will be applied from the dropdown.
+
+Note
+
+To add a KPI based on an eventlog that was created by modifying an existing activity table or event log, you will need to reference the original activity table in the PQL statement for the KPI definition.
+
+Click the Add KPI data to display button to open the Knowledge Editor and create your KPIs.
+
+Note
+
+The KPI must be saved to the Knowledge Model before being used in a KPI group.
+
+Repeat these steps to create additional KPIs.
+
+Note
+
+To display the same information from different event logs, you will need to create separate KPIs for each event log.
+
+Click Back when finished adding KPIs.
+
+On the KPI Group settings window, click Save.
+
+Click Save in the confirmation window. The new group is now displayed in the KPI Groups section.
+
+Creating KPIs in the PQL Editor
+
+The PQL Editor is used to create KPIs through PQL statements directly in the editor window or by selecting from the list of Data, Metrics, Filters, Values, Formulas and Variables in the panel on the left. You can preview the results of your statement as you build using the preview window below the editor.
+
+In the PQL Editor, enter a Name and Description for this KPI in the Display Settings section on the right.
+
+Use the Format dropdown to select the specific format in which the KPI value will be displayed, such as a percentage, decimal number, date, etc.
+
+In the black PQL Editor window, you can manually enter the code of your statement. As you type, the editor will make intelligent suggestions based on your entry that you can select.
+
+You can also create your statement by selecting any of the data, metrics, values, or filters from the panel on the left. Clicking any of the items from the panel will insert the corresponding code into your PQL statement.
+
+Note
+
+To add a KPI based on an eventlog that was created by modifying an existing activity table or event log, you will need to reference the original activity table in the PQL statement for the KPI definition.
+
+As you build your KPI, the window at the bottom of the screen will display a preview of the data returned by the current PQL statement. As you add more values, click the Refresh button to update the preview with the latest version of the statement.
+
+Note
+
+Only a single value will display in the preview when including a metric selected from the panel on the left.
+
+Once your statement is finished, click the Save to Knowledge Model button on the right.
+
+Note
+
+The KPI must be saved to the Knowledge Model before it can be added to a KPI group. Once the KPI is saved to the Knowledge Model, it is also available to be assigned to other KPI groups or Views.
+
+Once your KPI is complete, click the Done button in the upper right corner of the PQL Editor. The KPI is saved and added to your custom KPI group.
+
+Repeat these steps to add additional KPIs to the custom group.
+
+Deleting a custom KPI group
+
+While custom KPI groups can be created from within your Studio View, to delete a KPI group, the Analyst will need to remove it from the Knowledge Model.
+
+In the example above, a KPI group named "Emissions" had been created along with other KPI groups. To delete the "Emissions" KPI group, you have to:
+
+Go to the Knowledge Model and switch to the YAML editor.
+
+In the eventLogsMetadata section, locate the entry containing displayName: Emissions.
+
+Delete the entry, including all the nested properties such as eventLogKpis and transitionsKpis.
+
+Related topics
+
+Views
+
+View settings
+
+View modules
+
+--- Event node details ---
+https://docs.celonis.com/en/view-node-details-in-process-explorer.html
+Celonis Product DocumentationStudioViewsComponentsProcess ExplorerEvent node details
+Event node details in Process Explorer
+
+The event node pop up in Process Explorer provides additional details about a specific event, such as how frequently it occurs, an overview of all events that occurred immediately before or after this event, or how long it takes an event to be completed (similar to the Event Explorer). By clicking on an event node in Process Explorer, users can see the details of the selected event on the Occurrences tab, a list of events immediately preceding this event on the Objects from / Objects to tab, and a range of object-centric performance metrics on the Synchronization tab.
+
+Note
+
+In a multi-object Process Explorer, the Occurrences tab and the Objects to / Objects from tab show a breakdown of the events in each event log. Clicking the downward arrow will expand that specific event log to show the details for events that occurred in that event log.
+
+For events that are shared among the different objects, the Synchronization tab shows the object-centric performance metrics evaluated for a specific event. Clicking the downward arrow will expand a specific metric related to that event.
+
+Occurrences
+
+The Occurrences tab shows usage details for this event, including how often this event occurred in a process and what percentage of processes are included in this event. In the Select Filter section, there are a series of buttons that allow you to filter your process graph based on criteria such as how many processes included this selected event, how many processes do not include the event, how many times a process started with this event, and how many times a process ended on this event.
+
+Clicking one of these buttons will close the details window and apply the selected filter to your process graph. To remove the applied filter, hover over the filter in the upper right corner and click the X to remove it.
+
+Cases from/to or Objects from/to
+
+The Cases from / Cases to tab shows a breakdown of the events that most commonly preceded and followed the selected event. The Preceding Events tab shows a list of all events that occurred immediately before this event and the number of objects in which this occurred. The Following Events tab shows the same overview for all events that occurred immediately following the selected event. On both tabs, the events are displayed in descending order by default, but can be re-sorted by clicking on the Objects header and selecting a different sort order from the dropdown.
+
+Note
+
+This tab will be titled “Objects from / Objects to” in a multi-object Process Explorer.
+
+	
+
+
+
+Preceding Events tab
+
+	
+
+Following Events tab
+
+Event Count
+
+The Event Count tab displays how often an event occurs for a specific object. This tab includes an expandable section for each object that includes all the corresponding count metrics for this event, including the average number of times it occurs, the maximum number of times it occurs and the total number of occurrences for this object. Each section also includes a graph showing the frequency with which every number of occurrences happens for this object, such as how often this event occurred four times or how often is occured twice.
+
+Synchronization (Multi-object Process Explorer only)
+
+The Synchronization tab shows object-centric performance metrics, which allow you to view the range of event lead times, execution times, and synchronization times for all objects in a process. These metrics include:
+
+Event Lead Time: Total duration from when the earliest input object becomes available to the completion of that specific event. Event Lead Time can be thought of as the total amount of time needed for the preparation and execution of all steps in the process.
+
+Synchronization (Sync) Time: Time between when the first object and last object arrive at the shared event. Sync Time captures the delay caused by waiting for all involved objects to be ready.
+
+Execution Time: Amount of time from when all input objects have executed their last events to when the execution is complete. During this period, all objects are ready and nothing is blocked on the data side, yet no action occurs.
+
+These metrics are computed for all shared events in the process and show the range of times for each metric as well as how frequently each value occurred across the events in this process. In addition, these metrics provide the average, median and trimmed median values.
+
+The example below illustrates how the object-centric performance metrics are calculated for a Dispatch event instance. In this example, the event includes a Sales Order (o1), three Sales Order Items (i1, i2, i3) and one Delivery (d1). In this visualization, the vertical axis represents time and each circle represents one of the input objects required to execute this particular Dispatch instance. The circle is filled when the corresponding object is "ready" after executing its last event prior to the shared event.
+
+So based on this example, the Synchronization metrics are calculated as follows
+
+The Event Lead Time (shown in red) indicates the time from when the first object (Sales Order o1) is ready until the Dispatch is complete at time t(Dispatch).
+
+The Idle Time (shown in yellow) is the unproductive gap between when the last object Order item (i3) arrives and when Dispatch occurs at time t(Dispatch).
+
+The Sync Time (shown in purple) measures how long it took for all five objects to complete their corresponding last event prior to Dispatch. This is the time span from the first object's arrival (Sales Order o1) until the last object's arrival (Sales Order Item i3).
+
+Related Topics
+
+Process Explorer
+
+Show / Hide events in PE
+
+Event grouping
+
+Event Explorer
+
+--- Event grouping ---
+https://docs.celonis.com/en/event-grouping-in-process-explorer-and-variant-explorer.html
+Celonis Product DocumentationStudioViewsComponentsProcess ExplorerEvent grouping
+Event grouping in Process Explorer and Variant Explorer
+
+Both Process Explorer and Variant Explorer allow you to create custom groups of activities or events within the process graph. Grouping activities/events together simplifies the process graph, making it easier for you to focus on other portions of the process. For example, if you group together activities or events that are not relevant to the type of analysis you want to perform, grouping these activities or events together will simplify the part of the process graph you are not currently concerned with and make it easier to read the portions of the graph you are analyzing. Event grouping can also be used to help users visualize their processes by the individual phases or sub-processes, such as in Banking, Insurance, or Logistics processes.
+
+When activities/events are grouped together, the total occurrences for the activities/events in that group are aggregated. This means that the totals displayed on the group in the process graph reflects the total number of times that all the events in the group occurred. You can also view more details for the activities/events in the group by clicking on the group in the process graph.
+
+Collapse all
+Grouping events or activities in the process graph
+
+Note
+
+Groups are not saved to the Knowledge Model, which means that they are only available in the Process Explorer or Variant Explorer component where they were created. To use the same grouping in another component, it must be recreated.
+
+Go to your Studio View and enter the Edit Mode.
+
+Select the explorer component in which you want to add an event grouping.
+
+On the Settings tab, go to the Event Groups section.
+
+Click the Add event group link.
+
+Enter a name for the grouping. This name will be used as the label for the group on the process graph.
+
+Click the drop-down and select the specific events or activities you want to group together.
+
+You can also use the Search field to locate specific events or activities or click the Select all checkbox to add all events or activities to the group.
+
+Once you’ve selected the events or activities to group, click Save.
+
+The process graph is refreshed and the grouping is applied.
+
+Clicking the Expand activity group icon  will allow users to see the individual activities and events within the group as part of the process flow.
+
+To view details of the grouped events or activities, click on the group in the process graph.
+
+To ungroup the events or activities, go back to the Event Groups section in Edit Mode and click the X to the right of the group name.
+
+The process graph is refreshed and the events or activities are no longer grouped.
+
+Related topics
+
+Views
+
+View settings
+
+View modules
+
+--- Keyboard shortcuts in PE / VE ---
+https://docs.celonis.com/en/keyboard-shortcuts-in-process-explorer-and-variant-explorer.html
+Celonis Product DocumentationStudioViewsComponentsProcess ExplorerKeyboard shortcuts in PE / VE
+Keyboard shortcuts in Process Explorer and Variant Explorer
+
+When working in Process Explorer and Variant Explorer, you can use the following keyboard shortcuts to navigate your process graph and the control panel:
+
+Process Explorer keyboard shortcuts
+Filter
+
+Function
+
+	
+
+Keys
+
+	
+
+Description
+
+
+
+
+Graph navigation
+
+	
+
+Arrow keys (Up arrow / Down arrow / Left arrow / Right arrow)
+
+	
+
+The process graph can be navigated using the arrow keys on your keyboard. Press the left and right arrow keys to switch between event logs while on an Event. Use the up and down arrows keys to go up and down an event log.
+
+To navigate forks in your process graph (parallel edges coming from the same event), use the left and right arrow keys to move between the different connections.
+
+Note
+
+When using VoiceOver, press ENTER to access the interactive graph. Release the screen reader modifier keys, use the arrow keys to navigate the process graph, and then press ENTER to select a node or edge. When viewing pop-ups, you can navigate as you normally would.
+
+
+
+
+Opening pop-ups
+
+	
+
+ENTER
+
+	
+
+Pop-ups can be opened by pressing ENTER.
+
+
+
+
+Exiting pop-ups
+
+	
+
+TAB
+
+	
+
+Press the TAB key to exit the pop-up and return to graph navigation.
+
+Variant Explorer keyboard shortcuts
+Filter
+
+Function
+
+	
+
+Keys
+
+	
+
+Description
+
+
+
+
+Control panel - table header navigation
+
+	
+
+Left arrow / Right arrow
+
+	
+
+You can only navigate between the table headers using the keyboard navigation to enable users to reach table headers which are sortable.
+
+Note
+
+The table contents cannot be navigated using tabs.
+
+
+
+
+Graph navigation
+
+	
+
+Arrow keys (Up arrow / Down arrow / Left arrow / Right arrow)
+
+	
+
+The process graph can be navigated using the arrow keys on your keyboard. Press the left and right arrow keys to switch between event logs while on an Event. Use the up and down arrows keys to go up and down an event log.
+
+To navigate forks in your process graph (parallel edges coming from the same event), use the left and right arrow keys to move between the different connections.
+
+Note
+
+When using VoiceOver, press ENTER to access the interactive graph. Release the screen reader modifier keys, use the arrow keys to navigate the process graph, and then press ENTER to select a node or edge. When viewing pop-ups, you can navigate as you normally would.
+
+
+
+
+Opening pop-ups
+
+	
+
+ENTER
+
+	
+
+Pop-ups can be opened by pressing ENTER.
+
+
+
+
+Exiting pop-ups
+
+	
+
+TAB
+
+	
+
+Press the TAB key to exit the pop-up and return to graph navigation.
+
+Related topics
+
+Views
+
+View settings
+
+View modules
+
+--- Keyboard shortcuts in PE / VE ---
+https://docs.celonis.com/en/keyboard-shortcuts-in-process-explorer-and-variant-explorer-2960873.html
+Celonis Product DocumentationStudioViewsComponentsVariant ExplorerKeyboard shortcuts in PE / VE
+Keyboard shortcuts in Process Explorer and Variant Explorer
+
+When working in Process Explorer and Variant Explorer, you can use the following keyboard shortcuts to navigate your process graph and the control panel:
+
+Process Explorer keyboard shortcuts
+Filter
+
+Function
+
+	
+
+Keys
+
+	
+
+Description
+
+
+
+
+Graph navigation
+
+	
+
+Arrow keys (Up arrow / Down arrow / Left arrow / Right arrow)
+
+	
+
+The process graph can be navigated using the arrow keys on your keyboard. Press the left and right arrow keys to switch between event logs while on an Event. Use the up and down arrows keys to go up and down an event log.
+
+To navigate forks in your process graph (parallel edges coming from the same event), use the left and right arrow keys to move between the different connections.
+
+Note
+
+When using VoiceOver, press ENTER to access the interactive graph. Release the screen reader modifier keys, use the arrow keys to navigate the process graph, and then press ENTER to select a node or edge. When viewing pop-ups, you can navigate as you normally would.
+
+
+
+
+Opening pop-ups
+
+	
+
+ENTER
+
+	
+
+Pop-ups can be opened by pressing ENTER.
+
+
+
+
+Exiting pop-ups
+
+	
+
+TAB
+
+	
+
+Press the TAB key to exit the pop-up and return to graph navigation.
+
+Variant Explorer keyboard shortcuts
+Filter
+
+Function
+
+	
+
+Keys
+
+	
+
+Description
+
+
+
+
+Control panel - table header navigation
+
+	
+
+Left arrow / Right arrow
+
+	
+
+You can only navigate between the table headers using the keyboard navigation to enable users to reach table headers which are sortable.
+
+Note
+
+The table contents cannot be navigated using tabs.
+
+
+
+
+Graph navigation
+
+	
+
+Arrow keys (Up arrow / Down arrow / Left arrow / Right arrow)
+
+	
+
+The process graph can be navigated using the arrow keys on your keyboard. Press the left and right arrow keys to switch between event logs while on an Event. Use the up and down arrows keys to go up and down an event log.
+
+To navigate forks in your process graph (parallel edges coming from the same event), use the left and right arrow keys to move between the different connections.
+
+Note
+
+When using VoiceOver, press ENTER to access the interactive graph. Release the screen reader modifier keys, use the arrow keys to navigate the process graph, and then press ENTER to select a node or edge. When viewing pop-ups, you can navigate as you normally would.
+
+
+
+
+Opening pop-ups
+
+	
+
+ENTER
+
+	
+
+Pop-ups can be opened by pressing ENTER.
+
+
+
+
+Exiting pop-ups
+
+	
+
+TAB
+
+	
+
+Press the TAB key to exit the pop-up and return to graph navigation.
+
+Related topics
+
+Views
+
+View settings
+
+View modules
+
+--- Analysis - Process Explorer (Full Screen) ---
+https://docs.celonis.com/en/analysis---process-explorer--full-screen-.html
+Celonis Product DocumentationStudioAnalysisAnalysis ComponentsFullscreen ComponentsAnalysis - Process Explorer (Full Screen)
+Analysis - Process Explorer (Full Screen)
+
+Analysis - Maintenance only
+
+Effective August 1st 2025, Analysis features can no longer be purchased as part of a Celonis Platform license. Celonis continues to maintain Analysis (by fixing bugs and ensuring that performance remains strong) but no further feature development will take place.
+
+You can migrate your existing Analysis assets to our enhanced Studio Views, giving you access to our intuitive View creation capabilities. To learn how to migrate your existing Analysis to Studio Views, head to: Migrating Analysis to Views.
+
+And for an overview of our enhanced Studio features, see: Studio feature availability matrix.
+
+The Process Explorer is the core element of Celonis 4, a powerful instrument that enables the visualization and analysis of processes.
+
+Structure and navigation
+
+Frequency Icon
+
+The options contained in the Frequency icon
+
+Case Frequency: number of unique case keys associated with an activity or connection.
+
+Activity Frequency: number of events associated with an activity or connection.
+
+Throughput Time (Median): value separating the distribution of throughput times associated with a connection in two equal halves.
+
+Throughput Time (AVG): average value of throughput times associated with a connection.
+
+Throughput Time (Trimmed mean): calculation of the mean without taking into account the highest and lowest sets of values.
+
+The Process Explorer was designed to show processes in the most intuitive and flexible manner: as a process model.
+
+Process map: the process map is the main component of the process explorer. It contains a graphical interface that displays the activities, their transitions, and metrics.
+
+Baseline graph: the baseline graph is mainline that connects the Process Start to the Process End. It represents the most frequent end-to-end variant of the process.
+
+Variant: a variant is a sequence of activities from process start to process end.
+
+Sub variant: a sub-variant is a sequence of 4 activities that occur in the process.
+
+Node: each activity in the process is displayed as a node. Every node will show the total number of cases passing through it.
+
+Edge: each transition (connection) between activities is displayed as an edge. Every edge also shows the total number of cases passing through it. Edges can also be configured to adapt their thickness according to that number (highly frequented edges will be thicker than less frequented ones).
+
+Activities: the Activities panel controls the coverage of activities displayed in the Process Map. By increasing the number of activities, new nodes and their corresponding edges are displayed in the Process Map.
+
+Sliders and Buttons: The covered data can be adjusted with the slider and buttons on the right ('Less', 'More', and 'Reset').
+
+List view: The list view buttons display the activities as a list and allow the selection of activities you wish to visualize.
+
+Connections: the Connection panel controls the coverage of transitions displayed in the Process Map. By increasing the number of connections, new edges between the existing activities are displayed in the Process Map (no new activity is added, however).
+
+Sliders and Buttons: The covered data can be adjusted with the slider and buttons on the right ('Less', 'More', and 'Reset').
+
+List view: The list view button displays the connections between the displayed activities as a list and allows the selection of connections you wish to visualize.
+
+Fixed Layout: activating this button will prevent the layout of the Process Map to change when new connections are added or removed
+
+Process Explorer KPI icon: allows the user to select the KPI displayed in the Process Map between 'Case Frequency', 'Activity Frequency', 'Throughput Time (Median)', 'Throughput Time (AVG)', and 'Throughput Time (Trimmed mean)'. The user may also add custom Process Explorer KPIs.
+
+Play icon: starts the process animation (see section 'Process Animation').
+
+Display/Hide icon: allows the user to hide or display the activities currently available in the Process Map. Only the selected activities will be shown in the entire analysis
+
+Zoom: allows the user to zoom out (' - '), zoom in (' + '), or reset the zoom (hover the mouse over the 'Zoom' keyword to visualize the 'Reset' button) of the Process Map.
+
+Settings: allows the user to group activities together and to color activities and activity groups for better process visualization.
+
+Activity Details
+
+The Activity Details screen is displayed when you click on a Node in the Process Map or on an activity in the 'List View' or 'Connection Details' panels.
+
+Occurrence statistics: information about which proportion (in %) of the total cases contain this activity, and how often (in average) does a case that contains this activity passes through it again.
+
+Select cases: filters the analysis according to the activity and the chosen filtering option.
+
+'With this activity: only shows variants that contain the selected activity.
+
+'Without this activity: only shows variants that do not contain the selected activity.
+
+'Starting with this activity: only shows variants that begin with the selected activity.
+
+'Ending with this activity: only shows variants that finish on the selected activity.
+
+Cases come from: this tab contains a list of activities that most commonly precede the selected activity.
+
+Cases that go to this tab contain a list of activities that most commonly proceed with the selected activity.
+
+Activity List: A list of activities that are connected to the currently selected activity. Contains both the name of the activity and the frequency of cases that flow through that connection. Displayed according to the 'Cases come from' or 'Cases go to' tab selection. When an activity is clicked, the user is routed to the Connection Details view.
+
+Connection Details
+
+The Connection Details screen is displayed when you click on an Edge in the Process Map or on a connection in the 'List View' or 'Activity Details' panels.
+
+Occurrence statistics: information about which proportion (in %) of the total cases contain this connection.
+
+Select cases: filters the analysis according to the connection and the chosen filtering option:
+
+'With this connection': Only shows variants that contain the selected connection.
+
+'Without this connection': Only shows variants that do not contain the selected connection.
+
+This connection: Displays the two activities that compose this connection and the frequency of cases that flow through it. When an activity is clicked, the user is routed to its Activity Details view (see 'Activity Details' section).
+
+Process Animation
+
+The Process Animation displays an animation of how your cases flow through the different activities and connections.
+
+Play icon: Starts or stops the Process Animation. The user can select how the cases will be grouped for animation between 'Group by day', 'Group by hour', and 'No grouping'.
+
+Animation bubble: The cases are represented by animation bubbles () of different sizes. The size of the bubbles displays the number of aggregated cases. Their speed varies according to their throughput time.
+
+Play/Pause: Plays or pauses the animation.
+
+Speed slider: Varies the speed at which the animation is played.
+
+Animation seeker: Allows the user to seek to a certain point in the animation.
+
+--- Process Explorer KPIs ---
+https://docs.celonis.com/en/process-explorer-kpis.html
+Celonis Product DocumentationStudioAnalysisAnalysis SettingsProcess Explorer KPIs
+Process Explorer KPIs
+
+Analysis - Maintenance only
+
+Effective August 1st 2025, Analysis features can no longer be purchased as part of a Celonis Platform license. Celonis continues to maintain Analysis (by fixing bugs and ensuring that performance remains strong) but no further feature development will take place.
+
+You can migrate your existing Analysis assets to our enhanced Studio Views, giving you access to our intuitive View creation capabilities. To learn how to migrate your existing Analysis to Studio Views, head to: Migrating Analysis to Views.
+
+And for an overview of our enhanced Studio features, see: Studio feature availability matrix.
+
+Process Explorer KPIs are used in the Process Explorer component to modify the metrics calculated and displayed in it.
+
+Manage Process Explorer KPIs
+
+Process explorer KPIs can be managed in the analysis settings in the tab: Process Explorer KPIs.
+
+Create new KPIs with the button Create KPI button (see the 'Create KPI' section).
+
+Search your existing KPIs with the search input.
+
+All existing KPIs are listed in the table below 'My KPIs' and sorted by name.
+
+Optional description of the existing KPI.
+
+Create a KPI
+
+Set a name for the new KPI. This name will be shown in the process explorer when you wish to select the KPI.
+
+Create a description for the formula.
+
+Set an icon for the KPI. The icon will be shown in the process explorer when you wish to select the KPI.
+
+Alternate between Analysis or Connection KPIs.
+
+Here you can view all the Activity KPIs nested under this KPI. All the activity KPIs here listed are displayed in concatenated order when the parent KPI is selected on the process explorer.
+
+Add new Activity KPIs with the button 'New activity KPI' (see the 'New Activity/Connection KPI' section).
+
+Select the Activity KPI that will serve as a basis for the threshold coloring.
+
+The thresholds change the colors of the KPI component in the process explorer if the KPI value goes over the defined threshold levels.
+
+Normally activities with larger KPI values appear bigger in the process explorer. The 'Reverse activity size' selector allows you to reverse this logic and make smaller KPI values appear bigger. This is useful if you are analyzing an activity that should have a lower value (ex: Rework rate).
+
+New Activity/Connection KPI
+
+Define the PQL statement link text used to calculate the KPI value.
+
+Set a name for the activity or connection KPI.
+
+Here you can select the format and units in which the KPI values will be displayed.
+
+The KPI builder helps the user retrieve the PQL code associated to the data table columns.
+
+Here you can find examples of KPI formulas.
+
+How to use Process Explorer KPIs
+
+Process Explorer KPIs are used inside the Process Explorer component.
+
+Click the Process Explorer KPI icon to open the available process KPIs.
+
+Select your desired Process Explorer KPI from the list.
+
+--- Process Explorer guidelines ---
+https://docs.celonis.com/en/guidelines-processexplorer.html
+Celonis Product DocumentationStudioApp building guidelinesProcess Explorer guidelines
+Studio App Building Guidelines - Process Explorer
+
+The Process Explorer component uses event logs to visualize business processes. It is at the heart of process discovery and a good start into any new project. Working with the process explorer can bring users from “zero to process mining” and gives them unparalleled transparency into the process flow. While a business user may already understand how a process is mapped and works, seeing this process flow based on real event data helps them investigate potential root causes and see improvement opportunities.
+
+Process Explorer layout, sections, and content
+
+Process Explorer best practice
+
+An example of the Process Explorer in action can be found in any Starter Kit in the Process Cockpit view. This screenshot is from the Process Explorer tab in the Order Management Starter Kit (object-centric).
+
+Collapse all
+Process Explorer layout, sections, and content
+
+A Process Explorer View or View tab consists of 3 sections:
+
+KPI section (1)
+
+Main section with Process Explorer component (2)
+
+Filter bar (3)
+
+This view can then be created using a combination of Studio components:
+
+KPI section (1)
+
+On top of the View, we suggest adding a small number of core metrics. These should include the number of cases (e.g. # Sales Orders or # Sales Order items) and the total value of cases. This allows the business user to see at first glance the scope of the analysis in case they apply filters to the View.
+
+The Process Explorer allows out of the box filtering capabilities such as “Start from activity” or “End with activity”. Applying this filter will then also influence the KPIs on top so the user could see easily what is the most common start or end activity.
+
+Tip
+
+Adding a monetary metric helps business users to understand the implications of the scope.
+
+Main section with Process Explorer component (2)
+
+The Process Explorer component is the main part of this View. This component uses event logs (single or the relationship between multiple event logs if you're using an object-centric Data Model)) to visualize business processes.
+
+The Process Explorer allows for customization options. We suggest using the “slider” configuration. The slider is easier to use for a ‘generic’ exploratory approach and therefore, would be more appropriate to be configured for the business user since they do not need a pre-defined hypothesis to get started with their analysis.
+
+Tip
+
+The KPIs in Process Explorer are calculated differently depending on the graph control (panel or slider).
+
+We also recommend always allowing the business end user to switch between KPIs displayed in the process explorer. The event count is often a good starting point but you can decide to switch to another default KPI. 
+
+To learn more about configuring the Process Explorer component in Studio, see Configuring Process Explorer in Views.
+
+Filter bar (3)
+
+As in every View, you can set-up a collapsible filter bar for this View. It allows the end user to see the process under different scenarios (e.g. filtered by certain object attributes). The filter bar can be collapsed if the user is not actively using it so that they can fully focus on the process visualization and don’t lose space. The filters applied would also affect the scope KPIs on top of the View. In this way, all three sections are connected. Through the scale-to-fit set-up, all of them are visible and accessible at the same time. 
+
+More information on how to configure the filter bar, see: Configuring a filter bar for your View.
+
+Process Explorer best practice
+
+When creating your Process Explorer Views, we recommend the following:
+
+If you work with an object-centric Data Model, you can easily add multiple event logs to the process explorer component. Still, try not to overload your end users and ensure you are deciding on key objects to be displayed.
+
+You can guide your business users when it comes to choosing the right KPIs in the Process Explorer, e.g. with descriptions or info text. We recommend the median throughput time over the average throughput time since it is less prone to outliers.
+
+We'd also discourage the following:
+
+Adding too many filters on the View. Instead, use the built-in collapsible filter bar instead of adding the filter components on the main grid. This allows the Process Explorer to scale to its fullest depending on the available screen size. Using the in-built filterbar also allows you to share it between tabs so setting up the filtering options is a lot easier for you as a builder.
+
+Using vertical KPIs. We recommend putting the scope KPIs on the top of the View so the users see at a glance at which data set they look at.
+
+Related topics
+
+Views
+
+View settings
+
+Versioning and deploying packages
+
+

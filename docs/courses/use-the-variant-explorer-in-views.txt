@@ -1,0 +1,3164 @@
+﻿=== Lesson 1: Variant Explorer in Views ===
+--- Page 1 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Welcome!
+
+In this course, you'll learn all about the Variant Explorer in Views - including hands-on exercises!
+
+This course is part of the Use and Interpret Views Training Track. We highly encourage you to take all the courses in the track, in the order that is predefined for you to help you gain a holistic understanding of Views.
+
+It should take you about 30 minutes to complete this course.
+
+Are you ready? Let’s get started! 🚀
+
+This content is available in multiple languages: English, German, French, Japanese, Spanish, and Portuguese. To switch your language, use the selector in the top navigation bar.
+
+In Courses: Switching languages will not affect your progress. If you are multilingual, comparing languages can even help deepen your understanding.
+In Exams: Do not switch the language once you start the exam. If you switch the language when you're already reviewing questions and answers, the page will refresh, causing your exam attempt to end prematurely. (Note: Once inside the exam course, you can switch the language anytime before clicking the Start Exam button.)
+
+
+
+
+If you encounter any technical or access issues during this course, check out our FAQs in the Support area or reach out to us via our Academy contact form.
+--- Page 2 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Introducing the Variant Explorer
+
+The Variant Explorer (also “VE” for short) is a View component that allows you to discover all of the different ways in which the business processes flow within your organization. Each of these unique ways is called a “variant”. In other words, a variant represents objects that follow the same path and sequence of events within your process.
+
+Reviewing the Variants allows you to understand whether the ways in which processes run in your organization follow your desired flows.
+
+With the Variant Explorer, you can:
+
+Review variants individually.
+
+Compare multiple variants to one another.
+
+Review the variants with process metrics or the Key Performance Indicators (KPIs) available in your dataset.
+
+Use the various filtering options.
+--- Page 3 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Are you ready to dive in?
+
+Get your hands dirty and interact with the Variant Explorer yourself!
+
+In the following hands-on exercises, you will imagine yourself stepping into the role of a Process Lead in the order management department at SecureNet Data Centers. As part of your daily work, you leverage a Celonis App to investigate and refine the order management process, aiming to boost efficiency and ensure timely delivery.
+
+For the hands-on exercises, you’ll have three key objects in your View: (1) sales order, (2) sales order item, and (3) delivery. If you are not familiar with these objects, check out their descriptions below.
+
+
+Sales Order
+Sales Order Item
+Delivery
+
+The challenge: You have been informed that there are big issues with on-time delivery. It is possible that the order processing cycle is slowed down by manual interventions, frequent order changes, blocks, and cancellations, which create tedious rework. However, the root causes or when these events happen are unclear.
+
+Let’s jump into the exercises to understand what is happening at SecureNet Data Centers. Follow the steps listed on the next page to go to the Business User Training Environment and find the View dedicated to the Use and Interpret Views Training Track!
+--- Page 4 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Get Ready for the Exercises
+
+In this course, you’ll have the opportunity to have hands-on experience using a View in a custom training environment. Go through the following steps to get access.
+
+If you're coming from a previous course within the Use and Interpret Views training track, then you can jump to Step 3.
+
+
+Step 1
+Step 2
+Step 3
+
+After completing these steps, you're ready to begin the hands-on exercises! 🚀
+
+If you encounter any issues, you can contact us here.
+--- Page 5 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Select the Object Type
+
+Before getting started with the exercises of this course, please remove any filters that might be remaining from the previous course.
+
+When you’re working with an object-centric data model (OCDM), you will be able to review multiple different objects types.
+
+When using the Variant Explorer, you’d view one object at a time. Thus, the first step you would need to take when working with a Variant Explorer in a View, is to choose which object type you’d like to dive deeper into!
+
+The OCDM that you'll be working with for the exercises in this course has three key object types that belongs to the Order Management process.
+
+Now, let’s get to work!
+
+Go to your training environment and use the Controls to select the Sales Order object type.
+--- Page 6 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Overview
+
+Now that you have selected the object type, you’re ready to explore the variants!
+
+First, let's clarify what you're seeing on the Variant Explorer component of this View:
+
+Press O for more options
+	
+	
+	
+2:06
+	
+--- Page 7 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+The Most Common Variant
+
+As mentioned before, the Variant Explorer displays the most common variant by default.
+
+Let's get started by reviewing the most common variant in this dataset, which means the largest group of objects going through the same set of events, following the same sequence. The number of objects going through each connection is the same throughout the process, as you're viewing only one variant at this time.
+
+What is the percentage of objects covered by this variant?
+
+Answer
+
+When you review the events from start to end, you'll see that most often in this process, (1) sales order headers are created, (2) sales order items are created,  and then, (3) the sales order is approved.
+
+In this VE, under each event header you see the amount of times each event has occurred. Please note that, depending on how your Data Analyst configured your View, you might see other relevant KPIs in this area as well.
+--- Page 8 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Review Individual Variants
+
+It’s time to review another variant! Go over to the controls, and select variant #3 (and deselect variant #1). Take a look at the variant, and then come back to answer the question below:
+
+What is the number of objects covered by the 3rd most common variant?
+
+Answer
+--- Page 9 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Compare Multiple Variants
+
+It’s time to compare multiple variants with each other! To do so, you have the option to superimpose (i.e., layer, combine) multiple variants and thus, view them at once.
+
+In your training environment, use the controls to select the variants #1 and #3 at the same time.
+
+What is the number of objects going from "Approve Sales Order" event directly to process end?
+
+Answer
+
+What is the number of objects going from "Approve Sales Order" event to "Set Billing Block event"?
+
+Answer
+--- Page 10 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Switch the Process Metric
+
+So far, so good! But the object counts tell us only so much about what is going on in our business processes. It’s time to switch the process metric that is being displayed. 
+
+Go over to your View, and switch to the Throughput Time (Median) metric. Take a look at the new numbers being displayed, and then, come back to the course to answer the question below.
+
+How much longer does it take when the sales order goes through the "Set Billing Block" and "Release Billing Block" events (compared to the sales orders where the process ends right after the "Approve Sales Order" event)?
+
+Answer
+--- Page 11 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Filter on Objects Using Events
+
+To dive deeper into the data and reveal further process insights, let’s focus on the "Set Billing Block" event.
+
+Click on this event to reveal more information about it, and then filter your dataset to show you only the objects that go through this event.
+
+After applying the filter, pay attention to the upper right corner of the View. It informs you that you have filtered your data to only show you the subset which includes only the sales orders that go through the  Set Billing Block" event.
+
+You can always edit this filter to make adjustments. You can also remove it to go back to viewing the entire dataset, or opt for disabling the filter so that you can easily enable it again if you wish to come back to it.
+
+Note that once you add a filter, the entire View updates to show you the data that corresponds to the subset you have filtered for. For example, check out the new numbers on the KPI list.
+
+What’s the Net Order Value of the sales orders that go through the  Set Billing Block" event?
+
+Answer
+
+When you want to filter for a certain event, you can always use the built-in event filter from the top of the View, instead of interacting with the Variant Explorer. You can also leverage the various options here to customize your filter.
+
+Remember to remove or disable any filters you have applied before moving on!
+--- Page 12 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Filter on Objects Using Connections
+
+You can also filter your dataset by using connections.
+
+To do so, simply click on the connection that you’re interested in, just like how you filtered on the objects using an event.
+
+Time to try it for yourself! Start by removing any filters and superimpose variants #1 and #3 again. And then, filter for the sales orders that go from the "Approve Sales Order" event to the "Set Billing Block" event.
+
+Note that once you apply a filter, the entire View updates to show you the data that corresponds to the subset you have filtered for. This time, let's check out the updated variant list.
+
+What is the median throughput time for the most common variant of the dataset you filtered for (i.e., the sales orders that go from the Approve Sales Order directly to the Set Billing Block event)?
+
+Answer
+
+When you want to filter for a certain connection, you can always use the built-in process flow filter from the top of the View, instead of interacting with the Variant Explorer. You can also leverage the various options here to customize your filter.
+
+Remember to remove or disable any filters you have applied before moving on!
+
+Check out Celonis Docs for in-depth information on all filter types. We will be releasing even more filtering options, so stay tuned!
+
+=== Lesson 2: Welcome [01:00] ===
+--- Page 1 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Welcome!
+
+In this course, you'll learn all about the Variant Explorer in Views - including hands-on exercises!
+
+This course is part of the Use and Interpret Views Training Track. We highly encourage you to take all the courses in the track, in the order that is predefined for you to help you gain a holistic understanding of Views.
+
+It should take you about 30 minutes to complete this course.
+
+Are you ready? Let’s get started! 🚀
+
+This content is available in multiple languages: English, German, French, Japanese, Spanish, and Portuguese. To switch your language, use the selector in the top navigation bar.
+
+In Courses: Switching languages will not affect your progress. If you are multilingual, comparing languages can even help deepen your understanding.
+In Exams: Do not switch the language once you start the exam. If you switch the language when you're already reviewing questions and answers, the page will refresh, causing your exam attempt to end prematurely. (Note: Once inside the exam course, you can switch the language anytime before clicking the Start Exam button.)
+
+
+
+
+If you encounter any technical or access issues during this course, check out our FAQs in the Support area or reach out to us via our Academy contact form.
+--- Page 2 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Introducing the Variant Explorer
+
+The Variant Explorer (also “VE” for short) is a View component that allows you to discover all of the different ways in which the business processes flow within your organization. Each of these unique ways is called a “variant”. In other words, a variant represents objects that follow the same path and sequence of events within your process.
+
+Reviewing the Variants allows you to understand whether the ways in which processes run in your organization follow your desired flows.
+
+With the Variant Explorer, you can:
+
+Review variants individually.
+
+Compare multiple variants to one another.
+
+Review the variants with process metrics or the Key Performance Indicators (KPIs) available in your dataset.
+
+Use the various filtering options.
+--- Page 3 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Are you ready to dive in?
+
+Get your hands dirty and interact with the Variant Explorer yourself!
+
+In the following hands-on exercises, you will imagine yourself stepping into the role of a Process Lead in the order management department at SecureNet Data Centers. As part of your daily work, you leverage a Celonis App to investigate and refine the order management process, aiming to boost efficiency and ensure timely delivery.
+
+For the hands-on exercises, you’ll have three key objects in your View: (1) sales order, (2) sales order item, and (3) delivery. If you are not familiar with these objects, check out their descriptions below.
+
+
+Sales Order
+Sales Order Item
+Delivery
+
+The challenge: You have been informed that there are big issues with on-time delivery. It is possible that the order processing cycle is slowed down by manual interventions, frequent order changes, blocks, and cancellations, which create tedious rework. However, the root causes or when these events happen are unclear.
+
+Let’s jump into the exercises to understand what is happening at SecureNet Data Centers. Follow the steps listed on the next page to go to the Business User Training Environment and find the View dedicated to the Use and Interpret Views Training Track!
+--- Page 4 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Get Ready for the Exercises
+
+In this course, you’ll have the opportunity to have hands-on experience using a View in a custom training environment. Go through the following steps to get access.
+
+If you're coming from a previous course within the Use and Interpret Views training track, then you can jump to Step 3.
+
+
+Step 1
+Step 2
+Step 3
+
+After completing these steps, you're ready to begin the hands-on exercises! 🚀
+
+If you encounter any issues, you can contact us here.
+--- Page 5 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Select the Object Type
+
+Before getting started with the exercises of this course, please remove any filters that might be remaining from the previous course.
+
+When you’re working with an object-centric data model (OCDM), you will be able to review multiple different objects types.
+
+When using the Variant Explorer, you’d view one object at a time. Thus, the first step you would need to take when working with a Variant Explorer in a View, is to choose which object type you’d like to dive deeper into!
+
+The OCDM that you'll be working with for the exercises in this course has three key object types that belongs to the Order Management process.
+
+Now, let’s get to work!
+
+Go to your training environment and use the Controls to select the Sales Order object type.
+--- Page 6 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Overview
+
+Now that you have selected the object type, you’re ready to explore the variants!
+
+First, let's clarify what you're seeing on the Variant Explorer component of this View:
+
+Press O for more options
+	
+	
+	
+2:06
+	
+--- Page 7 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+The Most Common Variant
+
+As mentioned before, the Variant Explorer displays the most common variant by default.
+
+Let's get started by reviewing the most common variant in this dataset, which means the largest group of objects going through the same set of events, following the same sequence. The number of objects going through each connection is the same throughout the process, as you're viewing only one variant at this time.
+
+What is the percentage of objects covered by this variant?
+
+Answer
+
+When you review the events from start to end, you'll see that most often in this process, (1) sales order headers are created, (2) sales order items are created,  and then, (3) the sales order is approved.
+
+In this VE, under each event header you see the amount of times each event has occurred. Please note that, depending on how your Data Analyst configured your View, you might see other relevant KPIs in this area as well.
+--- Page 8 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Review Individual Variants
+
+It’s time to review another variant! Go over to the controls, and select variant #3 (and deselect variant #1). Take a look at the variant, and then come back to answer the question below:
+
+What is the number of objects covered by the 3rd most common variant?
+
+Answer
+--- Page 9 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Compare Multiple Variants
+
+It’s time to compare multiple variants with each other! To do so, you have the option to superimpose (i.e., layer, combine) multiple variants and thus, view them at once.
+
+In your training environment, use the controls to select the variants #1 and #3 at the same time.
+
+What is the number of objects going from "Approve Sales Order" event directly to process end?
+
+Answer
+
+What is the number of objects going from "Approve Sales Order" event to "Set Billing Block event"?
+
+Answer
+--- Page 10 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Switch the Process Metric
+
+So far, so good! But the object counts tell us only so much about what is going on in our business processes. It’s time to switch the process metric that is being displayed. 
+
+Go over to your View, and switch to the Throughput Time (Median) metric. Take a look at the new numbers being displayed, and then, come back to the course to answer the question below.
+
+How much longer does it take when the sales order goes through the "Set Billing Block" and "Release Billing Block" events (compared to the sales orders where the process ends right after the "Approve Sales Order" event)?
+
+Answer
+--- Page 11 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Filter on Objects Using Events
+
+To dive deeper into the data and reveal further process insights, let’s focus on the "Set Billing Block" event.
+
+Click on this event to reveal more information about it, and then filter your dataset to show you only the objects that go through this event.
+
+After applying the filter, pay attention to the upper right corner of the View. It informs you that you have filtered your data to only show you the subset which includes only the sales orders that go through the  Set Billing Block" event.
+
+You can always edit this filter to make adjustments. You can also remove it to go back to viewing the entire dataset, or opt for disabling the filter so that you can easily enable it again if you wish to come back to it.
+
+Note that once you add a filter, the entire View updates to show you the data that corresponds to the subset you have filtered for. For example, check out the new numbers on the KPI list.
+
+What’s the Net Order Value of the sales orders that go through the  Set Billing Block" event?
+
+Answer
+
+When you want to filter for a certain event, you can always use the built-in event filter from the top of the View, instead of interacting with the Variant Explorer. You can also leverage the various options here to customize your filter.
+
+Remember to remove or disable any filters you have applied before moving on!
+--- Page 12 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Filter on Objects Using Connections
+
+You can also filter your dataset by using connections.
+
+To do so, simply click on the connection that you’re interested in, just like how you filtered on the objects using an event.
+
+Time to try it for yourself! Start by removing any filters and superimpose variants #1 and #3 again. And then, filter for the sales orders that go from the "Approve Sales Order" event to the "Set Billing Block" event.
+
+Note that once you apply a filter, the entire View updates to show you the data that corresponds to the subset you have filtered for. This time, let's check out the updated variant list.
+
+What is the median throughput time for the most common variant of the dataset you filtered for (i.e., the sales orders that go from the Approve Sales Order directly to the Set Billing Block event)?
+
+Answer
+
+When you want to filter for a certain connection, you can always use the built-in process flow filter from the top of the View, instead of interacting with the Variant Explorer. You can also leverage the various options here to customize your filter.
+
+Remember to remove or disable any filters you have applied before moving on!
+
+Check out Celonis Docs for in-depth information on all filter types. We will be releasing even more filtering options, so stay tuned!
+
+=== Lesson 3: Introducing the Variant Explorer [01:00] ===
+--- Page 1 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Welcome!
+
+In this course, you'll learn all about the Variant Explorer in Views - including hands-on exercises!
+
+This course is part of the Use and Interpret Views Training Track. We highly encourage you to take all the courses in the track, in the order that is predefined for you to help you gain a holistic understanding of Views.
+
+It should take you about 30 minutes to complete this course.
+
+Are you ready? Let’s get started! 🚀
+
+This content is available in multiple languages: English, German, French, Japanese, Spanish, and Portuguese. To switch your language, use the selector in the top navigation bar.
+
+In Courses: Switching languages will not affect your progress. If you are multilingual, comparing languages can even help deepen your understanding.
+In Exams: Do not switch the language once you start the exam. If you switch the language when you're already reviewing questions and answers, the page will refresh, causing your exam attempt to end prematurely. (Note: Once inside the exam course, you can switch the language anytime before clicking the Start Exam button.)
+
+
+
+
+If you encounter any technical or access issues during this course, check out our FAQs in the Support area or reach out to us via our Academy contact form.
+--- Page 2 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Introducing the Variant Explorer
+
+The Variant Explorer (also “VE” for short) is a View component that allows you to discover all of the different ways in which the business processes flow within your organization. Each of these unique ways is called a “variant”. In other words, a variant represents objects that follow the same path and sequence of events within your process.
+
+Reviewing the Variants allows you to understand whether the ways in which processes run in your organization follow your desired flows.
+
+With the Variant Explorer, you can:
+
+Review variants individually.
+
+Compare multiple variants to one another.
+
+Review the variants with process metrics or the Key Performance Indicators (KPIs) available in your dataset.
+
+Use the various filtering options.
+--- Page 3 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Are you ready to dive in?
+
+Get your hands dirty and interact with the Variant Explorer yourself!
+
+In the following hands-on exercises, you will imagine yourself stepping into the role of a Process Lead in the order management department at SecureNet Data Centers. As part of your daily work, you leverage a Celonis App to investigate and refine the order management process, aiming to boost efficiency and ensure timely delivery.
+
+For the hands-on exercises, you’ll have three key objects in your View: (1) sales order, (2) sales order item, and (3) delivery. If you are not familiar with these objects, check out their descriptions below.
+
+
+Sales Order
+Sales Order Item
+Delivery
+
+The challenge: You have been informed that there are big issues with on-time delivery. It is possible that the order processing cycle is slowed down by manual interventions, frequent order changes, blocks, and cancellations, which create tedious rework. However, the root causes or when these events happen are unclear.
+
+Let’s jump into the exercises to understand what is happening at SecureNet Data Centers. Follow the steps listed on the next page to go to the Business User Training Environment and find the View dedicated to the Use and Interpret Views Training Track!
+--- Page 4 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Get Ready for the Exercises
+
+In this course, you’ll have the opportunity to have hands-on experience using a View in a custom training environment. Go through the following steps to get access.
+
+If you're coming from a previous course within the Use and Interpret Views training track, then you can jump to Step 3.
+
+
+Step 1
+Step 2
+Step 3
+
+After completing these steps, you're ready to begin the hands-on exercises! 🚀
+
+If you encounter any issues, you can contact us here.
+--- Page 5 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Select the Object Type
+
+Before getting started with the exercises of this course, please remove any filters that might be remaining from the previous course.
+
+When you’re working with an object-centric data model (OCDM), you will be able to review multiple different objects types.
+
+When using the Variant Explorer, you’d view one object at a time. Thus, the first step you would need to take when working with a Variant Explorer in a View, is to choose which object type you’d like to dive deeper into!
+
+The OCDM that you'll be working with for the exercises in this course has three key object types that belongs to the Order Management process.
+
+Now, let’s get to work!
+
+Go to your training environment and use the Controls to select the Sales Order object type.
+--- Page 6 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Overview
+
+Now that you have selected the object type, you’re ready to explore the variants!
+
+First, let's clarify what you're seeing on the Variant Explorer component of this View:
+
+Press O for more options
+	
+	
+	
+2:06
+	
+--- Page 7 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+The Most Common Variant
+
+As mentioned before, the Variant Explorer displays the most common variant by default.
+
+Let's get started by reviewing the most common variant in this dataset, which means the largest group of objects going through the same set of events, following the same sequence. The number of objects going through each connection is the same throughout the process, as you're viewing only one variant at this time.
+
+What is the percentage of objects covered by this variant?
+
+Answer
+
+When you review the events from start to end, you'll see that most often in this process, (1) sales order headers are created, (2) sales order items are created,  and then, (3) the sales order is approved.
+
+In this VE, under each event header you see the amount of times each event has occurred. Please note that, depending on how your Data Analyst configured your View, you might see other relevant KPIs in this area as well.
+--- Page 8 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Review Individual Variants
+
+It’s time to review another variant! Go over to the controls, and select variant #3 (and deselect variant #1). Take a look at the variant, and then come back to answer the question below:
+
+What is the number of objects covered by the 3rd most common variant?
+
+Answer
+--- Page 9 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Compare Multiple Variants
+
+It’s time to compare multiple variants with each other! To do so, you have the option to superimpose (i.e., layer, combine) multiple variants and thus, view them at once.
+
+In your training environment, use the controls to select the variants #1 and #3 at the same time.
+
+What is the number of objects going from "Approve Sales Order" event directly to process end?
+
+Answer
+
+What is the number of objects going from "Approve Sales Order" event to "Set Billing Block event"?
+
+Answer
+--- Page 10 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Switch the Process Metric
+
+So far, so good! But the object counts tell us only so much about what is going on in our business processes. It’s time to switch the process metric that is being displayed. 
+
+Go over to your View, and switch to the Throughput Time (Median) metric. Take a look at the new numbers being displayed, and then, come back to the course to answer the question below.
+
+How much longer does it take when the sales order goes through the "Set Billing Block" and "Release Billing Block" events (compared to the sales orders where the process ends right after the "Approve Sales Order" event)?
+
+Answer
+--- Page 11 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Filter on Objects Using Events
+
+To dive deeper into the data and reveal further process insights, let’s focus on the "Set Billing Block" event.
+
+Click on this event to reveal more information about it, and then filter your dataset to show you only the objects that go through this event.
+
+After applying the filter, pay attention to the upper right corner of the View. It informs you that you have filtered your data to only show you the subset which includes only the sales orders that go through the  Set Billing Block" event.
+
+You can always edit this filter to make adjustments. You can also remove it to go back to viewing the entire dataset, or opt for disabling the filter so that you can easily enable it again if you wish to come back to it.
+
+Note that once you add a filter, the entire View updates to show you the data that corresponds to the subset you have filtered for. For example, check out the new numbers on the KPI list.
+
+What’s the Net Order Value of the sales orders that go through the  Set Billing Block" event?
+
+Answer
+
+When you want to filter for a certain event, you can always use the built-in event filter from the top of the View, instead of interacting with the Variant Explorer. You can also leverage the various options here to customize your filter.
+
+Remember to remove or disable any filters you have applied before moving on!
+--- Page 12 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Filter on Objects Using Connections
+
+You can also filter your dataset by using connections.
+
+To do so, simply click on the connection that you’re interested in, just like how you filtered on the objects using an event.
+
+Time to try it for yourself! Start by removing any filters and superimpose variants #1 and #3 again. And then, filter for the sales orders that go from the "Approve Sales Order" event to the "Set Billing Block" event.
+
+Note that once you apply a filter, the entire View updates to show you the data that corresponds to the subset you have filtered for. This time, let's check out the updated variant list.
+
+What is the median throughput time for the most common variant of the dataset you filtered for (i.e., the sales orders that go from the Approve Sales Order directly to the Set Billing Block event)?
+
+Answer
+
+When you want to filter for a certain connection, you can always use the built-in process flow filter from the top of the View, instead of interacting with the Variant Explorer. You can also leverage the various options here to customize your filter.
+
+Remember to remove or disable any filters you have applied before moving on!
+
+Check out Celonis Docs for in-depth information on all filter types. We will be releasing even more filtering options, so stay tuned!
+
+=== Lesson 4: Get Ready for the Exercises [02:00] ===
+--- Page 1 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Welcome!
+
+In this course, you'll learn all about the Variant Explorer in Views - including hands-on exercises!
+
+This course is part of the Use and Interpret Views Training Track. We highly encourage you to take all the courses in the track, in the order that is predefined for you to help you gain a holistic understanding of Views.
+
+It should take you about 30 minutes to complete this course.
+
+Are you ready? Let’s get started! 🚀
+
+This content is available in multiple languages: English, German, French, Japanese, Spanish, and Portuguese. To switch your language, use the selector in the top navigation bar.
+
+In Courses: Switching languages will not affect your progress. If you are multilingual, comparing languages can even help deepen your understanding.
+In Exams: Do not switch the language once you start the exam. If you switch the language when you're already reviewing questions and answers, the page will refresh, causing your exam attempt to end prematurely. (Note: Once inside the exam course, you can switch the language anytime before clicking the Start Exam button.)
+
+
+
+
+If you encounter any technical or access issues during this course, check out our FAQs in the Support area or reach out to us via our Academy contact form.
+--- Page 2 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Introducing the Variant Explorer
+
+The Variant Explorer (also “VE” for short) is a View component that allows you to discover all of the different ways in which the business processes flow within your organization. Each of these unique ways is called a “variant”. In other words, a variant represents objects that follow the same path and sequence of events within your process.
+
+Reviewing the Variants allows you to understand whether the ways in which processes run in your organization follow your desired flows.
+
+With the Variant Explorer, you can:
+
+Review variants individually.
+
+Compare multiple variants to one another.
+
+Review the variants with process metrics or the Key Performance Indicators (KPIs) available in your dataset.
+
+Use the various filtering options.
+--- Page 3 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Are you ready to dive in?
+
+Get your hands dirty and interact with the Variant Explorer yourself!
+
+In the following hands-on exercises, you will imagine yourself stepping into the role of a Process Lead in the order management department at SecureNet Data Centers. As part of your daily work, you leverage a Celonis App to investigate and refine the order management process, aiming to boost efficiency and ensure timely delivery.
+
+For the hands-on exercises, you’ll have three key objects in your View: (1) sales order, (2) sales order item, and (3) delivery. If you are not familiar with these objects, check out their descriptions below.
+
+
+Sales Order
+Sales Order Item
+Delivery
+
+The challenge: You have been informed that there are big issues with on-time delivery. It is possible that the order processing cycle is slowed down by manual interventions, frequent order changes, blocks, and cancellations, which create tedious rework. However, the root causes or when these events happen are unclear.
+
+Let’s jump into the exercises to understand what is happening at SecureNet Data Centers. Follow the steps listed on the next page to go to the Business User Training Environment and find the View dedicated to the Use and Interpret Views Training Track!
+--- Page 4 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Get Ready for the Exercises
+
+In this course, you’ll have the opportunity to have hands-on experience using a View in a custom training environment. Go through the following steps to get access.
+
+If you're coming from a previous course within the Use and Interpret Views training track, then you can jump to Step 3.
+
+
+Step 1
+Step 2
+Step 3
+
+After completing these steps, you're ready to begin the hands-on exercises! 🚀
+
+If you encounter any issues, you can contact us here.
+--- Page 5 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Select the Object Type
+
+Before getting started with the exercises of this course, please remove any filters that might be remaining from the previous course.
+
+When you’re working with an object-centric data model (OCDM), you will be able to review multiple different objects types.
+
+When using the Variant Explorer, you’d view one object at a time. Thus, the first step you would need to take when working with a Variant Explorer in a View, is to choose which object type you’d like to dive deeper into!
+
+The OCDM that you'll be working with for the exercises in this course has three key object types that belongs to the Order Management process.
+
+Now, let’s get to work!
+
+Go to your training environment and use the Controls to select the Sales Order object type.
+--- Page 6 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Overview
+
+Now that you have selected the object type, you’re ready to explore the variants!
+
+First, let's clarify what you're seeing on the Variant Explorer component of this View:
+
+Press O for more options
+	
+	
+	
+2:06
+	
+--- Page 7 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+The Most Common Variant
+
+As mentioned before, the Variant Explorer displays the most common variant by default.
+
+Let's get started by reviewing the most common variant in this dataset, which means the largest group of objects going through the same set of events, following the same sequence. The number of objects going through each connection is the same throughout the process, as you're viewing only one variant at this time.
+
+What is the percentage of objects covered by this variant?
+
+Answer
+
+When you review the events from start to end, you'll see that most often in this process, (1) sales order headers are created, (2) sales order items are created,  and then, (3) the sales order is approved.
+
+In this VE, under each event header you see the amount of times each event has occurred. Please note that, depending on how your Data Analyst configured your View, you might see other relevant KPIs in this area as well.
+--- Page 8 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Review Individual Variants
+
+It’s time to review another variant! Go over to the controls, and select variant #3 (and deselect variant #1). Take a look at the variant, and then come back to answer the question below:
+
+What is the number of objects covered by the 3rd most common variant?
+
+Answer
+--- Page 9 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Compare Multiple Variants
+
+It’s time to compare multiple variants with each other! To do so, you have the option to superimpose (i.e., layer, combine) multiple variants and thus, view them at once.
+
+In your training environment, use the controls to select the variants #1 and #3 at the same time.
+
+What is the number of objects going from "Approve Sales Order" event directly to process end?
+
+Answer
+
+What is the number of objects going from "Approve Sales Order" event to "Set Billing Block event"?
+
+Answer
+--- Page 10 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Switch the Process Metric
+
+So far, so good! But the object counts tell us only so much about what is going on in our business processes. It’s time to switch the process metric that is being displayed. 
+
+Go over to your View, and switch to the Throughput Time (Median) metric. Take a look at the new numbers being displayed, and then, come back to the course to answer the question below.
+
+How much longer does it take when the sales order goes through the "Set Billing Block" and "Release Billing Block" events (compared to the sales orders where the process ends right after the "Approve Sales Order" event)?
+
+Answer
+--- Page 11 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Filter on Objects Using Events
+
+To dive deeper into the data and reveal further process insights, let’s focus on the "Set Billing Block" event.
+
+Click on this event to reveal more information about it, and then filter your dataset to show you only the objects that go through this event.
+
+After applying the filter, pay attention to the upper right corner of the View. It informs you that you have filtered your data to only show you the subset which includes only the sales orders that go through the  Set Billing Block" event.
+
+You can always edit this filter to make adjustments. You can also remove it to go back to viewing the entire dataset, or opt for disabling the filter so that you can easily enable it again if you wish to come back to it.
+
+Note that once you add a filter, the entire View updates to show you the data that corresponds to the subset you have filtered for. For example, check out the new numbers on the KPI list.
+
+What’s the Net Order Value of the sales orders that go through the  Set Billing Block" event?
+
+Answer
+
+When you want to filter for a certain event, you can always use the built-in event filter from the top of the View, instead of interacting with the Variant Explorer. You can also leverage the various options here to customize your filter.
+
+Remember to remove or disable any filters you have applied before moving on!
+--- Page 12 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Filter on Objects Using Connections
+
+You can also filter your dataset by using connections.
+
+To do so, simply click on the connection that you’re interested in, just like how you filtered on the objects using an event.
+
+Time to try it for yourself! Start by removing any filters and superimpose variants #1 and #3 again. And then, filter for the sales orders that go from the "Approve Sales Order" event to the "Set Billing Block" event.
+
+Note that once you apply a filter, the entire View updates to show you the data that corresponds to the subset you have filtered for. This time, let's check out the updated variant list.
+
+What is the median throughput time for the most common variant of the dataset you filtered for (i.e., the sales orders that go from the Approve Sales Order directly to the Set Billing Block event)?
+
+Answer
+
+When you want to filter for a certain connection, you can always use the built-in process flow filter from the top of the View, instead of interacting with the Variant Explorer. You can also leverage the various options here to customize your filter.
+
+Remember to remove or disable any filters you have applied before moving on!
+
+Check out Celonis Docs for in-depth information on all filter types. We will be releasing even more filtering options, so stay tuned!
+
+=== Lesson 5: Set Up Your Training Environment [02:00] ===
+--- Page 1 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Welcome!
+
+In this course, you'll learn all about the Variant Explorer in Views - including hands-on exercises!
+
+This course is part of the Use and Interpret Views Training Track. We highly encourage you to take all the courses in the track, in the order that is predefined for you to help you gain a holistic understanding of Views.
+
+It should take you about 30 minutes to complete this course.
+
+Are you ready? Let’s get started! 🚀
+
+This content is available in multiple languages: English, German, French, Japanese, Spanish, and Portuguese. To switch your language, use the selector in the top navigation bar.
+
+In Courses: Switching languages will not affect your progress. If you are multilingual, comparing languages can even help deepen your understanding.
+In Exams: Do not switch the language once you start the exam. If you switch the language when you're already reviewing questions and answers, the page will refresh, causing your exam attempt to end prematurely. (Note: Once inside the exam course, you can switch the language anytime before clicking the Start Exam button.)
+
+
+
+
+If you encounter any technical or access issues during this course, check out our FAQs in the Support area or reach out to us via our Academy contact form.
+--- Page 2 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Introducing the Variant Explorer
+
+The Variant Explorer (also “VE” for short) is a View component that allows you to discover all of the different ways in which the business processes flow within your organization. Each of these unique ways is called a “variant”. In other words, a variant represents objects that follow the same path and sequence of events within your process.
+
+Reviewing the Variants allows you to understand whether the ways in which processes run in your organization follow your desired flows.
+
+With the Variant Explorer, you can:
+
+Review variants individually.
+
+Compare multiple variants to one another.
+
+Review the variants with process metrics or the Key Performance Indicators (KPIs) available in your dataset.
+
+Use the various filtering options.
+--- Page 3 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Are you ready to dive in?
+
+Get your hands dirty and interact with the Variant Explorer yourself!
+
+In the following hands-on exercises, you will imagine yourself stepping into the role of a Process Lead in the order management department at SecureNet Data Centers. As part of your daily work, you leverage a Celonis App to investigate and refine the order management process, aiming to boost efficiency and ensure timely delivery.
+
+For the hands-on exercises, you’ll have three key objects in your View: (1) sales order, (2) sales order item, and (3) delivery. If you are not familiar with these objects, check out their descriptions below.
+
+
+Sales Order
+Sales Order Item
+Delivery
+
+The challenge: You have been informed that there are big issues with on-time delivery. It is possible that the order processing cycle is slowed down by manual interventions, frequent order changes, blocks, and cancellations, which create tedious rework. However, the root causes or when these events happen are unclear.
+
+Let’s jump into the exercises to understand what is happening at SecureNet Data Centers. Follow the steps listed on the next page to go to the Business User Training Environment and find the View dedicated to the Use and Interpret Views Training Track!
+--- Page 4 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Get Ready for the Exercises
+
+In this course, you’ll have the opportunity to have hands-on experience using a View in a custom training environment. Go through the following steps to get access.
+
+If you're coming from a previous course within the Use and Interpret Views training track, then you can jump to Step 3.
+
+
+Step 1
+Step 2
+Step 3
+
+After completing these steps, you're ready to begin the hands-on exercises! 🚀
+
+If you encounter any issues, you can contact us here.
+--- Page 5 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Select the Object Type
+
+Before getting started with the exercises of this course, please remove any filters that might be remaining from the previous course.
+
+When you’re working with an object-centric data model (OCDM), you will be able to review multiple different objects types.
+
+When using the Variant Explorer, you’d view one object at a time. Thus, the first step you would need to take when working with a Variant Explorer in a View, is to choose which object type you’d like to dive deeper into!
+
+The OCDM that you'll be working with for the exercises in this course has three key object types that belongs to the Order Management process.
+
+Now, let’s get to work!
+
+Go to your training environment and use the Controls to select the Sales Order object type.
+--- Page 6 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Overview
+
+Now that you have selected the object type, you’re ready to explore the variants!
+
+First, let's clarify what you're seeing on the Variant Explorer component of this View:
+
+Press O for more options
+	
+	
+	
+2:06
+	
+--- Page 7 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+The Most Common Variant
+
+As mentioned before, the Variant Explorer displays the most common variant by default.
+
+Let's get started by reviewing the most common variant in this dataset, which means the largest group of objects going through the same set of events, following the same sequence. The number of objects going through each connection is the same throughout the process, as you're viewing only one variant at this time.
+
+What is the percentage of objects covered by this variant?
+
+Answer
+
+When you review the events from start to end, you'll see that most often in this process, (1) sales order headers are created, (2) sales order items are created,  and then, (3) the sales order is approved.
+
+In this VE, under each event header you see the amount of times each event has occurred. Please note that, depending on how your Data Analyst configured your View, you might see other relevant KPIs in this area as well.
+--- Page 8 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Review Individual Variants
+
+It’s time to review another variant! Go over to the controls, and select variant #3 (and deselect variant #1). Take a look at the variant, and then come back to answer the question below:
+
+What is the number of objects covered by the 3rd most common variant?
+
+Answer
+--- Page 9 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Compare Multiple Variants
+
+It’s time to compare multiple variants with each other! To do so, you have the option to superimpose (i.e., layer, combine) multiple variants and thus, view them at once.
+
+In your training environment, use the controls to select the variants #1 and #3 at the same time.
+
+What is the number of objects going from "Approve Sales Order" event directly to process end?
+
+Answer
+
+What is the number of objects going from "Approve Sales Order" event to "Set Billing Block event"?
+
+Answer
+--- Page 10 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Switch the Process Metric
+
+So far, so good! But the object counts tell us only so much about what is going on in our business processes. It’s time to switch the process metric that is being displayed. 
+
+Go over to your View, and switch to the Throughput Time (Median) metric. Take a look at the new numbers being displayed, and then, come back to the course to answer the question below.
+
+How much longer does it take when the sales order goes through the "Set Billing Block" and "Release Billing Block" events (compared to the sales orders where the process ends right after the "Approve Sales Order" event)?
+
+Answer
+--- Page 11 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Filter on Objects Using Events
+
+To dive deeper into the data and reveal further process insights, let’s focus on the "Set Billing Block" event.
+
+Click on this event to reveal more information about it, and then filter your dataset to show you only the objects that go through this event.
+
+After applying the filter, pay attention to the upper right corner of the View. It informs you that you have filtered your data to only show you the subset which includes only the sales orders that go through the  Set Billing Block" event.
+
+You can always edit this filter to make adjustments. You can also remove it to go back to viewing the entire dataset, or opt for disabling the filter so that you can easily enable it again if you wish to come back to it.
+
+Note that once you add a filter, the entire View updates to show you the data that corresponds to the subset you have filtered for. For example, check out the new numbers on the KPI list.
+
+What’s the Net Order Value of the sales orders that go through the  Set Billing Block" event?
+
+Answer
+
+When you want to filter for a certain event, you can always use the built-in event filter from the top of the View, instead of interacting with the Variant Explorer. You can also leverage the various options here to customize your filter.
+
+Remember to remove or disable any filters you have applied before moving on!
+--- Page 12 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Filter on Objects Using Connections
+
+You can also filter your dataset by using connections.
+
+To do so, simply click on the connection that you’re interested in, just like how you filtered on the objects using an event.
+
+Time to try it for yourself! Start by removing any filters and superimpose variants #1 and #3 again. And then, filter for the sales orders that go from the "Approve Sales Order" event to the "Set Billing Block" event.
+
+Note that once you apply a filter, the entire View updates to show you the data that corresponds to the subset you have filtered for. This time, let's check out the updated variant list.
+
+What is the median throughput time for the most common variant of the dataset you filtered for (i.e., the sales orders that go from the Approve Sales Order directly to the Set Billing Block event)?
+
+Answer
+
+When you want to filter for a certain connection, you can always use the built-in process flow filter from the top of the View, instead of interacting with the Variant Explorer. You can also leverage the various options here to customize your filter.
+
+Remember to remove or disable any filters you have applied before moving on!
+
+Check out Celonis Docs for in-depth information on all filter types. We will be releasing even more filtering options, so stay tuned!
+
+=== Lesson 6: Select the object type you're interested in [02:00] ===
+--- Page 1 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Welcome!
+
+In this course, you'll learn all about the Variant Explorer in Views - including hands-on exercises!
+
+This course is part of the Use and Interpret Views Training Track. We highly encourage you to take all the courses in the track, in the order that is predefined for you to help you gain a holistic understanding of Views.
+
+It should take you about 30 minutes to complete this course.
+
+Are you ready? Let’s get started! 🚀
+
+This content is available in multiple languages: English, German, French, Japanese, Spanish, and Portuguese. To switch your language, use the selector in the top navigation bar.
+
+In Courses: Switching languages will not affect your progress. If you are multilingual, comparing languages can even help deepen your understanding.
+In Exams: Do not switch the language once you start the exam. If you switch the language when you're already reviewing questions and answers, the page will refresh, causing your exam attempt to end prematurely. (Note: Once inside the exam course, you can switch the language anytime before clicking the Start Exam button.)
+
+
+
+
+If you encounter any technical or access issues during this course, check out our FAQs in the Support area or reach out to us via our Academy contact form.
+--- Page 2 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Introducing the Variant Explorer
+
+The Variant Explorer (also “VE” for short) is a View component that allows you to discover all of the different ways in which the business processes flow within your organization. Each of these unique ways is called a “variant”. In other words, a variant represents objects that follow the same path and sequence of events within your process.
+
+Reviewing the Variants allows you to understand whether the ways in which processes run in your organization follow your desired flows.
+
+With the Variant Explorer, you can:
+
+Review variants individually.
+
+Compare multiple variants to one another.
+
+Review the variants with process metrics or the Key Performance Indicators (KPIs) available in your dataset.
+
+Use the various filtering options.
+--- Page 3 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Are you ready to dive in?
+
+Get your hands dirty and interact with the Variant Explorer yourself!
+
+In the following hands-on exercises, you will imagine yourself stepping into the role of a Process Lead in the order management department at SecureNet Data Centers. As part of your daily work, you leverage a Celonis App to investigate and refine the order management process, aiming to boost efficiency and ensure timely delivery.
+
+For the hands-on exercises, you’ll have three key objects in your View: (1) sales order, (2) sales order item, and (3) delivery. If you are not familiar with these objects, check out their descriptions below.
+
+
+Sales Order
+Sales Order Item
+Delivery
+
+The challenge: You have been informed that there are big issues with on-time delivery. It is possible that the order processing cycle is slowed down by manual interventions, frequent order changes, blocks, and cancellations, which create tedious rework. However, the root causes or when these events happen are unclear.
+
+Let’s jump into the exercises to understand what is happening at SecureNet Data Centers. Follow the steps listed on the next page to go to the Business User Training Environment and find the View dedicated to the Use and Interpret Views Training Track!
+--- Page 4 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Get Ready for the Exercises
+
+In this course, you’ll have the opportunity to have hands-on experience using a View in a custom training environment. Go through the following steps to get access.
+
+If you're coming from a previous course within the Use and Interpret Views training track, then you can jump to Step 3.
+
+
+Step 1
+Step 2
+Step 3
+
+After completing these steps, you're ready to begin the hands-on exercises! 🚀
+
+If you encounter any issues, you can contact us here.
+--- Page 5 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Select the Object Type
+
+Before getting started with the exercises of this course, please remove any filters that might be remaining from the previous course.
+
+When you’re working with an object-centric data model (OCDM), you will be able to review multiple different objects types.
+
+When using the Variant Explorer, you’d view one object at a time. Thus, the first step you would need to take when working with a Variant Explorer in a View, is to choose which object type you’d like to dive deeper into!
+
+The OCDM that you'll be working with for the exercises in this course has three key object types that belongs to the Order Management process.
+
+Now, let’s get to work!
+
+Go to your training environment and use the Controls to select the Sales Order object type.
+--- Page 6 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Overview
+
+Now that you have selected the object type, you’re ready to explore the variants!
+
+First, let's clarify what you're seeing on the Variant Explorer component of this View:
+
+Press O for more options
+	
+	
+	
+2:06
+	
+--- Page 7 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+The Most Common Variant
+
+As mentioned before, the Variant Explorer displays the most common variant by default.
+
+Let's get started by reviewing the most common variant in this dataset, which means the largest group of objects going through the same set of events, following the same sequence. The number of objects going through each connection is the same throughout the process, as you're viewing only one variant at this time.
+
+What is the percentage of objects covered by this variant?
+
+Answer
+
+When you review the events from start to end, you'll see that most often in this process, (1) sales order headers are created, (2) sales order items are created,  and then, (3) the sales order is approved.
+
+In this VE, under each event header you see the amount of times each event has occurred. Please note that, depending on how your Data Analyst configured your View, you might see other relevant KPIs in this area as well.
+--- Page 8 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Review Individual Variants
+
+It’s time to review another variant! Go over to the controls, and select variant #3 (and deselect variant #1). Take a look at the variant, and then come back to answer the question below:
+
+What is the number of objects covered by the 3rd most common variant?
+
+Answer
+--- Page 9 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Compare Multiple Variants
+
+It’s time to compare multiple variants with each other! To do so, you have the option to superimpose (i.e., layer, combine) multiple variants and thus, view them at once.
+
+In your training environment, use the controls to select the variants #1 and #3 at the same time.
+
+What is the number of objects going from "Approve Sales Order" event directly to process end?
+
+Answer
+
+What is the number of objects going from "Approve Sales Order" event to "Set Billing Block event"?
+
+Answer
+--- Page 10 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Switch the Process Metric
+
+So far, so good! But the object counts tell us only so much about what is going on in our business processes. It’s time to switch the process metric that is being displayed. 
+
+Go over to your View, and switch to the Throughput Time (Median) metric. Take a look at the new numbers being displayed, and then, come back to the course to answer the question below.
+
+How much longer does it take when the sales order goes through the "Set Billing Block" and "Release Billing Block" events (compared to the sales orders where the process ends right after the "Approve Sales Order" event)?
+
+Answer
+--- Page 11 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Filter on Objects Using Events
+
+To dive deeper into the data and reveal further process insights, let’s focus on the "Set Billing Block" event.
+
+Click on this event to reveal more information about it, and then filter your dataset to show you only the objects that go through this event.
+
+After applying the filter, pay attention to the upper right corner of the View. It informs you that you have filtered your data to only show you the subset which includes only the sales orders that go through the  Set Billing Block" event.
+
+You can always edit this filter to make adjustments. You can also remove it to go back to viewing the entire dataset, or opt for disabling the filter so that you can easily enable it again if you wish to come back to it.
+
+Note that once you add a filter, the entire View updates to show you the data that corresponds to the subset you have filtered for. For example, check out the new numbers on the KPI list.
+
+What’s the Net Order Value of the sales orders that go through the  Set Billing Block" event?
+
+Answer
+
+When you want to filter for a certain event, you can always use the built-in event filter from the top of the View, instead of interacting with the Variant Explorer. You can also leverage the various options here to customize your filter.
+
+Remember to remove or disable any filters you have applied before moving on!
+--- Page 12 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Filter on Objects Using Connections
+
+You can also filter your dataset by using connections.
+
+To do so, simply click on the connection that you’re interested in, just like how you filtered on the objects using an event.
+
+Time to try it for yourself! Start by removing any filters and superimpose variants #1 and #3 again. And then, filter for the sales orders that go from the "Approve Sales Order" event to the "Set Billing Block" event.
+
+Note that once you apply a filter, the entire View updates to show you the data that corresponds to the subset you have filtered for. This time, let's check out the updated variant list.
+
+What is the median throughput time for the most common variant of the dataset you filtered for (i.e., the sales orders that go from the Approve Sales Order directly to the Set Billing Block event)?
+
+Answer
+
+When you want to filter for a certain connection, you can always use the built-in process flow filter from the top of the View, instead of interacting with the Variant Explorer. You can also leverage the various options here to customize your filter.
+
+Remember to remove or disable any filters you have applied before moving on!
+
+Check out Celonis Docs for in-depth information on all filter types. We will be releasing even more filtering options, so stay tuned!
+
+=== Lesson 7: Variant Explorer Overview [02:00] ===
+--- Page 1 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Welcome!
+
+In this course, you'll learn all about the Variant Explorer in Views - including hands-on exercises!
+
+This course is part of the Use and Interpret Views Training Track. We highly encourage you to take all the courses in the track, in the order that is predefined for you to help you gain a holistic understanding of Views.
+
+It should take you about 30 minutes to complete this course.
+
+Are you ready? Let’s get started! 🚀
+
+This content is available in multiple languages: English, German, French, Japanese, Spanish, and Portuguese. To switch your language, use the selector in the top navigation bar.
+
+In Courses: Switching languages will not affect your progress. If you are multilingual, comparing languages can even help deepen your understanding.
+In Exams: Do not switch the language once you start the exam. If you switch the language when you're already reviewing questions and answers, the page will refresh, causing your exam attempt to end prematurely. (Note: Once inside the exam course, you can switch the language anytime before clicking the Start Exam button.)
+
+
+
+
+If you encounter any technical or access issues during this course, check out our FAQs in the Support area or reach out to us via our Academy contact form.
+--- Page 2 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Introducing the Variant Explorer
+
+The Variant Explorer (also “VE” for short) is a View component that allows you to discover all of the different ways in which the business processes flow within your organization. Each of these unique ways is called a “variant”. In other words, a variant represents objects that follow the same path and sequence of events within your process.
+
+Reviewing the Variants allows you to understand whether the ways in which processes run in your organization follow your desired flows.
+
+With the Variant Explorer, you can:
+
+Review variants individually.
+
+Compare multiple variants to one another.
+
+Review the variants with process metrics or the Key Performance Indicators (KPIs) available in your dataset.
+
+Use the various filtering options.
+--- Page 3 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Are you ready to dive in?
+
+Get your hands dirty and interact with the Variant Explorer yourself!
+
+In the following hands-on exercises, you will imagine yourself stepping into the role of a Process Lead in the order management department at SecureNet Data Centers. As part of your daily work, you leverage a Celonis App to investigate and refine the order management process, aiming to boost efficiency and ensure timely delivery.
+
+For the hands-on exercises, you’ll have three key objects in your View: (1) sales order, (2) sales order item, and (3) delivery. If you are not familiar with these objects, check out their descriptions below.
+
+
+Sales Order
+Sales Order Item
+Delivery
+
+The challenge: You have been informed that there are big issues with on-time delivery. It is possible that the order processing cycle is slowed down by manual interventions, frequent order changes, blocks, and cancellations, which create tedious rework. However, the root causes or when these events happen are unclear.
+
+Let’s jump into the exercises to understand what is happening at SecureNet Data Centers. Follow the steps listed on the next page to go to the Business User Training Environment and find the View dedicated to the Use and Interpret Views Training Track!
+--- Page 4 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Get Ready for the Exercises
+
+In this course, you’ll have the opportunity to have hands-on experience using a View in a custom training environment. Go through the following steps to get access.
+
+If you're coming from a previous course within the Use and Interpret Views training track, then you can jump to Step 3.
+
+
+Step 1
+Step 2
+Step 3
+
+After completing these steps, you're ready to begin the hands-on exercises! 🚀
+
+If you encounter any issues, you can contact us here.
+--- Page 5 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Select the Object Type
+
+Before getting started with the exercises of this course, please remove any filters that might be remaining from the previous course.
+
+When you’re working with an object-centric data model (OCDM), you will be able to review multiple different objects types.
+
+When using the Variant Explorer, you’d view one object at a time. Thus, the first step you would need to take when working with a Variant Explorer in a View, is to choose which object type you’d like to dive deeper into!
+
+The OCDM that you'll be working with for the exercises in this course has three key object types that belongs to the Order Management process.
+
+Now, let’s get to work!
+
+Go to your training environment and use the Controls to select the Sales Order object type.
+--- Page 6 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Overview
+
+Now that you have selected the object type, you’re ready to explore the variants!
+
+First, let's clarify what you're seeing on the Variant Explorer component of this View:
+
+Press O for more options
+	
+	
+	
+2:06
+	
+--- Page 7 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+The Most Common Variant
+
+As mentioned before, the Variant Explorer displays the most common variant by default.
+
+Let's get started by reviewing the most common variant in this dataset, which means the largest group of objects going through the same set of events, following the same sequence. The number of objects going through each connection is the same throughout the process, as you're viewing only one variant at this time.
+
+What is the percentage of objects covered by this variant?
+
+Answer
+
+When you review the events from start to end, you'll see that most often in this process, (1) sales order headers are created, (2) sales order items are created,  and then, (3) the sales order is approved.
+
+In this VE, under each event header you see the amount of times each event has occurred. Please note that, depending on how your Data Analyst configured your View, you might see other relevant KPIs in this area as well.
+--- Page 8 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Review Individual Variants
+
+It’s time to review another variant! Go over to the controls, and select variant #3 (and deselect variant #1). Take a look at the variant, and then come back to answer the question below:
+
+What is the number of objects covered by the 3rd most common variant?
+
+Answer
+--- Page 9 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Compare Multiple Variants
+
+It’s time to compare multiple variants with each other! To do so, you have the option to superimpose (i.e., layer, combine) multiple variants and thus, view them at once.
+
+In your training environment, use the controls to select the variants #1 and #3 at the same time.
+
+What is the number of objects going from "Approve Sales Order" event directly to process end?
+
+Answer
+
+What is the number of objects going from "Approve Sales Order" event to "Set Billing Block event"?
+
+Answer
+--- Page 10 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Switch the Process Metric
+
+So far, so good! But the object counts tell us only so much about what is going on in our business processes. It’s time to switch the process metric that is being displayed. 
+
+Go over to your View, and switch to the Throughput Time (Median) metric. Take a look at the new numbers being displayed, and then, come back to the course to answer the question below.
+
+How much longer does it take when the sales order goes through the "Set Billing Block" and "Release Billing Block" events (compared to the sales orders where the process ends right after the "Approve Sales Order" event)?
+
+Answer
+--- Page 11 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Filter on Objects Using Events
+
+To dive deeper into the data and reveal further process insights, let’s focus on the "Set Billing Block" event.
+
+Click on this event to reveal more information about it, and then filter your dataset to show you only the objects that go through this event.
+
+After applying the filter, pay attention to the upper right corner of the View. It informs you that you have filtered your data to only show you the subset which includes only the sales orders that go through the  Set Billing Block" event.
+
+You can always edit this filter to make adjustments. You can also remove it to go back to viewing the entire dataset, or opt for disabling the filter so that you can easily enable it again if you wish to come back to it.
+
+Note that once you add a filter, the entire View updates to show you the data that corresponds to the subset you have filtered for. For example, check out the new numbers on the KPI list.
+
+What’s the Net Order Value of the sales orders that go through the  Set Billing Block" event?
+
+Answer
+
+When you want to filter for a certain event, you can always use the built-in event filter from the top of the View, instead of interacting with the Variant Explorer. You can also leverage the various options here to customize your filter.
+
+Remember to remove or disable any filters you have applied before moving on!
+--- Page 12 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Filter on Objects Using Connections
+
+You can also filter your dataset by using connections.
+
+To do so, simply click on the connection that you’re interested in, just like how you filtered on the objects using an event.
+
+Time to try it for yourself! Start by removing any filters and superimpose variants #1 and #3 again. And then, filter for the sales orders that go from the "Approve Sales Order" event to the "Set Billing Block" event.
+
+Note that once you apply a filter, the entire View updates to show you the data that corresponds to the subset you have filtered for. This time, let's check out the updated variant list.
+
+What is the median throughput time for the most common variant of the dataset you filtered for (i.e., the sales orders that go from the Approve Sales Order directly to the Set Billing Block event)?
+
+Answer
+
+When you want to filter for a certain connection, you can always use the built-in process flow filter from the top of the View, instead of interacting with the Variant Explorer. You can also leverage the various options here to customize your filter.
+
+Remember to remove or disable any filters you have applied before moving on!
+
+Check out Celonis Docs for in-depth information on all filter types. We will be releasing even more filtering options, so stay tuned!
+
+=== Lesson 8: The Most Common Variant [02:00] ===
+--- Page 1 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Welcome!
+
+In this course, you'll learn all about the Variant Explorer in Views - including hands-on exercises!
+
+This course is part of the Use and Interpret Views Training Track. We highly encourage you to take all the courses in the track, in the order that is predefined for you to help you gain a holistic understanding of Views.
+
+It should take you about 30 minutes to complete this course.
+
+Are you ready? Let’s get started! 🚀
+
+This content is available in multiple languages: English, German, French, Japanese, Spanish, and Portuguese. To switch your language, use the selector in the top navigation bar.
+
+In Courses: Switching languages will not affect your progress. If you are multilingual, comparing languages can even help deepen your understanding.
+In Exams: Do not switch the language once you start the exam. If you switch the language when you're already reviewing questions and answers, the page will refresh, causing your exam attempt to end prematurely. (Note: Once inside the exam course, you can switch the language anytime before clicking the Start Exam button.)
+
+
+
+
+If you encounter any technical or access issues during this course, check out our FAQs in the Support area or reach out to us via our Academy contact form.
+--- Page 2 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Introducing the Variant Explorer
+
+The Variant Explorer (also “VE” for short) is a View component that allows you to discover all of the different ways in which the business processes flow within your organization. Each of these unique ways is called a “variant”. In other words, a variant represents objects that follow the same path and sequence of events within your process.
+
+Reviewing the Variants allows you to understand whether the ways in which processes run in your organization follow your desired flows.
+
+With the Variant Explorer, you can:
+
+Review variants individually.
+
+Compare multiple variants to one another.
+
+Review the variants with process metrics or the Key Performance Indicators (KPIs) available in your dataset.
+
+Use the various filtering options.
+--- Page 3 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Are you ready to dive in?
+
+Get your hands dirty and interact with the Variant Explorer yourself!
+
+In the following hands-on exercises, you will imagine yourself stepping into the role of a Process Lead in the order management department at SecureNet Data Centers. As part of your daily work, you leverage a Celonis App to investigate and refine the order management process, aiming to boost efficiency and ensure timely delivery.
+
+For the hands-on exercises, you’ll have three key objects in your View: (1) sales order, (2) sales order item, and (3) delivery. If you are not familiar with these objects, check out their descriptions below.
+
+
+Sales Order
+Sales Order Item
+Delivery
+
+The challenge: You have been informed that there are big issues with on-time delivery. It is possible that the order processing cycle is slowed down by manual interventions, frequent order changes, blocks, and cancellations, which create tedious rework. However, the root causes or when these events happen are unclear.
+
+Let’s jump into the exercises to understand what is happening at SecureNet Data Centers. Follow the steps listed on the next page to go to the Business User Training Environment and find the View dedicated to the Use and Interpret Views Training Track!
+--- Page 4 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Get Ready for the Exercises
+
+In this course, you’ll have the opportunity to have hands-on experience using a View in a custom training environment. Go through the following steps to get access.
+
+If you're coming from a previous course within the Use and Interpret Views training track, then you can jump to Step 3.
+
+
+Step 1
+Step 2
+Step 3
+
+After completing these steps, you're ready to begin the hands-on exercises! 🚀
+
+If you encounter any issues, you can contact us here.
+--- Page 5 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Select the Object Type
+
+Before getting started with the exercises of this course, please remove any filters that might be remaining from the previous course.
+
+When you’re working with an object-centric data model (OCDM), you will be able to review multiple different objects types.
+
+When using the Variant Explorer, you’d view one object at a time. Thus, the first step you would need to take when working with a Variant Explorer in a View, is to choose which object type you’d like to dive deeper into!
+
+The OCDM that you'll be working with for the exercises in this course has three key object types that belongs to the Order Management process.
+
+Now, let’s get to work!
+
+Go to your training environment and use the Controls to select the Sales Order object type.
+--- Page 6 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Overview
+
+Now that you have selected the object type, you’re ready to explore the variants!
+
+First, let's clarify what you're seeing on the Variant Explorer component of this View:
+
+Press O for more options
+	
+	
+	
+2:06
+	
+--- Page 7 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+The Most Common Variant
+
+As mentioned before, the Variant Explorer displays the most common variant by default.
+
+Let's get started by reviewing the most common variant in this dataset, which means the largest group of objects going through the same set of events, following the same sequence. The number of objects going through each connection is the same throughout the process, as you're viewing only one variant at this time.
+
+What is the percentage of objects covered by this variant?
+
+Answer
+
+When you review the events from start to end, you'll see that most often in this process, (1) sales order headers are created, (2) sales order items are created,  and then, (3) the sales order is approved.
+
+In this VE, under each event header you see the amount of times each event has occurred. Please note that, depending on how your Data Analyst configured your View, you might see other relevant KPIs in this area as well.
+--- Page 8 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Review Individual Variants
+
+It’s time to review another variant! Go over to the controls, and select variant #3 (and deselect variant #1). Take a look at the variant, and then come back to answer the question below:
+
+What is the number of objects covered by the 3rd most common variant?
+
+Answer
+--- Page 9 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Compare Multiple Variants
+
+It’s time to compare multiple variants with each other! To do so, you have the option to superimpose (i.e., layer, combine) multiple variants and thus, view them at once.
+
+In your training environment, use the controls to select the variants #1 and #3 at the same time.
+
+What is the number of objects going from "Approve Sales Order" event directly to process end?
+
+Answer
+
+What is the number of objects going from "Approve Sales Order" event to "Set Billing Block event"?
+
+Answer
+--- Page 10 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Switch the Process Metric
+
+So far, so good! But the object counts tell us only so much about what is going on in our business processes. It’s time to switch the process metric that is being displayed. 
+
+Go over to your View, and switch to the Throughput Time (Median) metric. Take a look at the new numbers being displayed, and then, come back to the course to answer the question below.
+
+How much longer does it take when the sales order goes through the "Set Billing Block" and "Release Billing Block" events (compared to the sales orders where the process ends right after the "Approve Sales Order" event)?
+
+Answer
+--- Page 11 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Filter on Objects Using Events
+
+To dive deeper into the data and reveal further process insights, let’s focus on the "Set Billing Block" event.
+
+Click on this event to reveal more information about it, and then filter your dataset to show you only the objects that go through this event.
+
+After applying the filter, pay attention to the upper right corner of the View. It informs you that you have filtered your data to only show you the subset which includes only the sales orders that go through the  Set Billing Block" event.
+
+You can always edit this filter to make adjustments. You can also remove it to go back to viewing the entire dataset, or opt for disabling the filter so that you can easily enable it again if you wish to come back to it.
+
+Note that once you add a filter, the entire View updates to show you the data that corresponds to the subset you have filtered for. For example, check out the new numbers on the KPI list.
+
+What’s the Net Order Value of the sales orders that go through the  Set Billing Block" event?
+
+Answer
+
+When you want to filter for a certain event, you can always use the built-in event filter from the top of the View, instead of interacting with the Variant Explorer. You can also leverage the various options here to customize your filter.
+
+Remember to remove or disable any filters you have applied before moving on!
+--- Page 12 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Filter on Objects Using Connections
+
+You can also filter your dataset by using connections.
+
+To do so, simply click on the connection that you’re interested in, just like how you filtered on the objects using an event.
+
+Time to try it for yourself! Start by removing any filters and superimpose variants #1 and #3 again. And then, filter for the sales orders that go from the "Approve Sales Order" event to the "Set Billing Block" event.
+
+Note that once you apply a filter, the entire View updates to show you the data that corresponds to the subset you have filtered for. This time, let's check out the updated variant list.
+
+What is the median throughput time for the most common variant of the dataset you filtered for (i.e., the sales orders that go from the Approve Sales Order directly to the Set Billing Block event)?
+
+Answer
+
+When you want to filter for a certain connection, you can always use the built-in process flow filter from the top of the View, instead of interacting with the Variant Explorer. You can also leverage the various options here to customize your filter.
+
+Remember to remove or disable any filters you have applied before moving on!
+
+Check out Celonis Docs for in-depth information on all filter types. We will be releasing even more filtering options, so stay tuned!
+
+=== Lesson 9: Review Individual Variants [02:00] ===
+--- Page 1 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Welcome!
+
+In this course, you'll learn all about the Variant Explorer in Views - including hands-on exercises!
+
+This course is part of the Use and Interpret Views Training Track. We highly encourage you to take all the courses in the track, in the order that is predefined for you to help you gain a holistic understanding of Views.
+
+It should take you about 30 minutes to complete this course.
+
+Are you ready? Let’s get started! 🚀
+
+This content is available in multiple languages: English, German, French, Japanese, Spanish, and Portuguese. To switch your language, use the selector in the top navigation bar.
+
+In Courses: Switching languages will not affect your progress. If you are multilingual, comparing languages can even help deepen your understanding.
+In Exams: Do not switch the language once you start the exam. If you switch the language when you're already reviewing questions and answers, the page will refresh, causing your exam attempt to end prematurely. (Note: Once inside the exam course, you can switch the language anytime before clicking the Start Exam button.)
+
+
+
+
+If you encounter any technical or access issues during this course, check out our FAQs in the Support area or reach out to us via our Academy contact form.
+--- Page 2 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Introducing the Variant Explorer
+
+The Variant Explorer (also “VE” for short) is a View component that allows you to discover all of the different ways in which the business processes flow within your organization. Each of these unique ways is called a “variant”. In other words, a variant represents objects that follow the same path and sequence of events within your process.
+
+Reviewing the Variants allows you to understand whether the ways in which processes run in your organization follow your desired flows.
+
+With the Variant Explorer, you can:
+
+Review variants individually.
+
+Compare multiple variants to one another.
+
+Review the variants with process metrics or the Key Performance Indicators (KPIs) available in your dataset.
+
+Use the various filtering options.
+--- Page 3 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Are you ready to dive in?
+
+Get your hands dirty and interact with the Variant Explorer yourself!
+
+In the following hands-on exercises, you will imagine yourself stepping into the role of a Process Lead in the order management department at SecureNet Data Centers. As part of your daily work, you leverage a Celonis App to investigate and refine the order management process, aiming to boost efficiency and ensure timely delivery.
+
+For the hands-on exercises, you’ll have three key objects in your View: (1) sales order, (2) sales order item, and (3) delivery. If you are not familiar with these objects, check out their descriptions below.
+
+
+Sales Order
+Sales Order Item
+Delivery
+
+The challenge: You have been informed that there are big issues with on-time delivery. It is possible that the order processing cycle is slowed down by manual interventions, frequent order changes, blocks, and cancellations, which create tedious rework. However, the root causes or when these events happen are unclear.
+
+Let’s jump into the exercises to understand what is happening at SecureNet Data Centers. Follow the steps listed on the next page to go to the Business User Training Environment and find the View dedicated to the Use and Interpret Views Training Track!
+--- Page 4 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Get Ready for the Exercises
+
+In this course, you’ll have the opportunity to have hands-on experience using a View in a custom training environment. Go through the following steps to get access.
+
+If you're coming from a previous course within the Use and Interpret Views training track, then you can jump to Step 3.
+
+
+Step 1
+Step 2
+Step 3
+
+After completing these steps, you're ready to begin the hands-on exercises! 🚀
+
+If you encounter any issues, you can contact us here.
+--- Page 5 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Select the Object Type
+
+Before getting started with the exercises of this course, please remove any filters that might be remaining from the previous course.
+
+When you’re working with an object-centric data model (OCDM), you will be able to review multiple different objects types.
+
+When using the Variant Explorer, you’d view one object at a time. Thus, the first step you would need to take when working with a Variant Explorer in a View, is to choose which object type you’d like to dive deeper into!
+
+The OCDM that you'll be working with for the exercises in this course has three key object types that belongs to the Order Management process.
+
+Now, let’s get to work!
+
+Go to your training environment and use the Controls to select the Sales Order object type.
+--- Page 6 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Overview
+
+Now that you have selected the object type, you’re ready to explore the variants!
+
+First, let's clarify what you're seeing on the Variant Explorer component of this View:
+
+Press O for more options
+	
+	
+	
+2:06
+	
+--- Page 7 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+The Most Common Variant
+
+As mentioned before, the Variant Explorer displays the most common variant by default.
+
+Let's get started by reviewing the most common variant in this dataset, which means the largest group of objects going through the same set of events, following the same sequence. The number of objects going through each connection is the same throughout the process, as you're viewing only one variant at this time.
+
+What is the percentage of objects covered by this variant?
+
+Answer
+
+When you review the events from start to end, you'll see that most often in this process, (1) sales order headers are created, (2) sales order items are created,  and then, (3) the sales order is approved.
+
+In this VE, under each event header you see the amount of times each event has occurred. Please note that, depending on how your Data Analyst configured your View, you might see other relevant KPIs in this area as well.
+--- Page 8 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Review Individual Variants
+
+It’s time to review another variant! Go over to the controls, and select variant #3 (and deselect variant #1). Take a look at the variant, and then come back to answer the question below:
+
+What is the number of objects covered by the 3rd most common variant?
+
+Answer
+--- Page 9 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Compare Multiple Variants
+
+It’s time to compare multiple variants with each other! To do so, you have the option to superimpose (i.e., layer, combine) multiple variants and thus, view them at once.
+
+In your training environment, use the controls to select the variants #1 and #3 at the same time.
+
+What is the number of objects going from "Approve Sales Order" event directly to process end?
+
+Answer
+
+What is the number of objects going from "Approve Sales Order" event to "Set Billing Block event"?
+
+Answer
+--- Page 10 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Switch the Process Metric
+
+So far, so good! But the object counts tell us only so much about what is going on in our business processes. It’s time to switch the process metric that is being displayed. 
+
+Go over to your View, and switch to the Throughput Time (Median) metric. Take a look at the new numbers being displayed, and then, come back to the course to answer the question below.
+
+How much longer does it take when the sales order goes through the "Set Billing Block" and "Release Billing Block" events (compared to the sales orders where the process ends right after the "Approve Sales Order" event)?
+
+Answer
+--- Page 11 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Filter on Objects Using Events
+
+To dive deeper into the data and reveal further process insights, let’s focus on the "Set Billing Block" event.
+
+Click on this event to reveal more information about it, and then filter your dataset to show you only the objects that go through this event.
+
+After applying the filter, pay attention to the upper right corner of the View. It informs you that you have filtered your data to only show you the subset which includes only the sales orders that go through the  Set Billing Block" event.
+
+You can always edit this filter to make adjustments. You can also remove it to go back to viewing the entire dataset, or opt for disabling the filter so that you can easily enable it again if you wish to come back to it.
+
+Note that once you add a filter, the entire View updates to show you the data that corresponds to the subset you have filtered for. For example, check out the new numbers on the KPI list.
+
+What’s the Net Order Value of the sales orders that go through the  Set Billing Block" event?
+
+Answer
+
+When you want to filter for a certain event, you can always use the built-in event filter from the top of the View, instead of interacting with the Variant Explorer. You can also leverage the various options here to customize your filter.
+
+Remember to remove or disable any filters you have applied before moving on!
+--- Page 12 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Filter on Objects Using Connections
+
+You can also filter your dataset by using connections.
+
+To do so, simply click on the connection that you’re interested in, just like how you filtered on the objects using an event.
+
+Time to try it for yourself! Start by removing any filters and superimpose variants #1 and #3 again. And then, filter for the sales orders that go from the "Approve Sales Order" event to the "Set Billing Block" event.
+
+Note that once you apply a filter, the entire View updates to show you the data that corresponds to the subset you have filtered for. This time, let's check out the updated variant list.
+
+What is the median throughput time for the most common variant of the dataset you filtered for (i.e., the sales orders that go from the Approve Sales Order directly to the Set Billing Block event)?
+
+Answer
+
+When you want to filter for a certain connection, you can always use the built-in process flow filter from the top of the View, instead of interacting with the Variant Explorer. You can also leverage the various options here to customize your filter.
+
+Remember to remove or disable any filters you have applied before moving on!
+
+Check out Celonis Docs for in-depth information on all filter types. We will be releasing even more filtering options, so stay tuned!
+
+=== Lesson 10: Compare Multiple Variants [02:00] ===
+--- Page 1 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Welcome!
+
+In this course, you'll learn all about the Variant Explorer in Views - including hands-on exercises!
+
+This course is part of the Use and Interpret Views Training Track. We highly encourage you to take all the courses in the track, in the order that is predefined for you to help you gain a holistic understanding of Views.
+
+It should take you about 30 minutes to complete this course.
+
+Are you ready? Let’s get started! 🚀
+
+This content is available in multiple languages: English, German, French, Japanese, Spanish, and Portuguese. To switch your language, use the selector in the top navigation bar.
+
+In Courses: Switching languages will not affect your progress. If you are multilingual, comparing languages can even help deepen your understanding.
+In Exams: Do not switch the language once you start the exam. If you switch the language when you're already reviewing questions and answers, the page will refresh, causing your exam attempt to end prematurely. (Note: Once inside the exam course, you can switch the language anytime before clicking the Start Exam button.)
+
+
+
+
+If you encounter any technical or access issues during this course, check out our FAQs in the Support area or reach out to us via our Academy contact form.
+--- Page 2 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Introducing the Variant Explorer
+
+The Variant Explorer (also “VE” for short) is a View component that allows you to discover all of the different ways in which the business processes flow within your organization. Each of these unique ways is called a “variant”. In other words, a variant represents objects that follow the same path and sequence of events within your process.
+
+Reviewing the Variants allows you to understand whether the ways in which processes run in your organization follow your desired flows.
+
+With the Variant Explorer, you can:
+
+Review variants individually.
+
+Compare multiple variants to one another.
+
+Review the variants with process metrics or the Key Performance Indicators (KPIs) available in your dataset.
+
+Use the various filtering options.
+--- Page 3 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Are you ready to dive in?
+
+Get your hands dirty and interact with the Variant Explorer yourself!
+
+In the following hands-on exercises, you will imagine yourself stepping into the role of a Process Lead in the order management department at SecureNet Data Centers. As part of your daily work, you leverage a Celonis App to investigate and refine the order management process, aiming to boost efficiency and ensure timely delivery.
+
+For the hands-on exercises, you’ll have three key objects in your View: (1) sales order, (2) sales order item, and (3) delivery. If you are not familiar with these objects, check out their descriptions below.
+
+
+Sales Order
+Sales Order Item
+Delivery
+
+The challenge: You have been informed that there are big issues with on-time delivery. It is possible that the order processing cycle is slowed down by manual interventions, frequent order changes, blocks, and cancellations, which create tedious rework. However, the root causes or when these events happen are unclear.
+
+Let’s jump into the exercises to understand what is happening at SecureNet Data Centers. Follow the steps listed on the next page to go to the Business User Training Environment and find the View dedicated to the Use and Interpret Views Training Track!
+--- Page 4 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Get Ready for the Exercises
+
+In this course, you’ll have the opportunity to have hands-on experience using a View in a custom training environment. Go through the following steps to get access.
+
+If you're coming from a previous course within the Use and Interpret Views training track, then you can jump to Step 3.
+
+
+Step 1
+Step 2
+Step 3
+
+After completing these steps, you're ready to begin the hands-on exercises! 🚀
+
+If you encounter any issues, you can contact us here.
+--- Page 5 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Select the Object Type
+
+Before getting started with the exercises of this course, please remove any filters that might be remaining from the previous course.
+
+When you’re working with an object-centric data model (OCDM), you will be able to review multiple different objects types.
+
+When using the Variant Explorer, you’d view one object at a time. Thus, the first step you would need to take when working with a Variant Explorer in a View, is to choose which object type you’d like to dive deeper into!
+
+The OCDM that you'll be working with for the exercises in this course has three key object types that belongs to the Order Management process.
+
+Now, let’s get to work!
+
+Go to your training environment and use the Controls to select the Sales Order object type.
+--- Page 6 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Overview
+
+Now that you have selected the object type, you’re ready to explore the variants!
+
+First, let's clarify what you're seeing on the Variant Explorer component of this View:
+
+Press O for more options
+	
+	
+	
+2:06
+	
+--- Page 7 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+The Most Common Variant
+
+As mentioned before, the Variant Explorer displays the most common variant by default.
+
+Let's get started by reviewing the most common variant in this dataset, which means the largest group of objects going through the same set of events, following the same sequence. The number of objects going through each connection is the same throughout the process, as you're viewing only one variant at this time.
+
+What is the percentage of objects covered by this variant?
+
+Answer
+
+When you review the events from start to end, you'll see that most often in this process, (1) sales order headers are created, (2) sales order items are created,  and then, (3) the sales order is approved.
+
+In this VE, under each event header you see the amount of times each event has occurred. Please note that, depending on how your Data Analyst configured your View, you might see other relevant KPIs in this area as well.
+--- Page 8 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Review Individual Variants
+
+It’s time to review another variant! Go over to the controls, and select variant #3 (and deselect variant #1). Take a look at the variant, and then come back to answer the question below:
+
+What is the number of objects covered by the 3rd most common variant?
+
+Answer
+--- Page 9 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Compare Multiple Variants
+
+It’s time to compare multiple variants with each other! To do so, you have the option to superimpose (i.e., layer, combine) multiple variants and thus, view them at once.
+
+In your training environment, use the controls to select the variants #1 and #3 at the same time.
+
+What is the number of objects going from "Approve Sales Order" event directly to process end?
+
+Answer
+
+What is the number of objects going from "Approve Sales Order" event to "Set Billing Block event"?
+
+Answer
+--- Page 10 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Switch the Process Metric
+
+So far, so good! But the object counts tell us only so much about what is going on in our business processes. It’s time to switch the process metric that is being displayed. 
+
+Go over to your View, and switch to the Throughput Time (Median) metric. Take a look at the new numbers being displayed, and then, come back to the course to answer the question below.
+
+How much longer does it take when the sales order goes through the "Set Billing Block" and "Release Billing Block" events (compared to the sales orders where the process ends right after the "Approve Sales Order" event)?
+
+Answer
+--- Page 11 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Filter on Objects Using Events
+
+To dive deeper into the data and reveal further process insights, let’s focus on the "Set Billing Block" event.
+
+Click on this event to reveal more information about it, and then filter your dataset to show you only the objects that go through this event.
+
+After applying the filter, pay attention to the upper right corner of the View. It informs you that you have filtered your data to only show you the subset which includes only the sales orders that go through the  Set Billing Block" event.
+
+You can always edit this filter to make adjustments. You can also remove it to go back to viewing the entire dataset, or opt for disabling the filter so that you can easily enable it again if you wish to come back to it.
+
+Note that once you add a filter, the entire View updates to show you the data that corresponds to the subset you have filtered for. For example, check out the new numbers on the KPI list.
+
+What’s the Net Order Value of the sales orders that go through the  Set Billing Block" event?
+
+Answer
+
+When you want to filter for a certain event, you can always use the built-in event filter from the top of the View, instead of interacting with the Variant Explorer. You can also leverage the various options here to customize your filter.
+
+Remember to remove or disable any filters you have applied before moving on!
+--- Page 12 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Filter on Objects Using Connections
+
+You can also filter your dataset by using connections.
+
+To do so, simply click on the connection that you’re interested in, just like how you filtered on the objects using an event.
+
+Time to try it for yourself! Start by removing any filters and superimpose variants #1 and #3 again. And then, filter for the sales orders that go from the "Approve Sales Order" event to the "Set Billing Block" event.
+
+Note that once you apply a filter, the entire View updates to show you the data that corresponds to the subset you have filtered for. This time, let's check out the updated variant list.
+
+What is the median throughput time for the most common variant of the dataset you filtered for (i.e., the sales orders that go from the Approve Sales Order directly to the Set Billing Block event)?
+
+Answer
+
+When you want to filter for a certain connection, you can always use the built-in process flow filter from the top of the View, instead of interacting with the Variant Explorer. You can also leverage the various options here to customize your filter.
+
+Remember to remove or disable any filters you have applied before moving on!
+
+Check out Celonis Docs for in-depth information on all filter types. We will be releasing even more filtering options, so stay tuned!
+
+=== Lesson 11: Switch the Process Metric [02:00] ===
+--- Page 1 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Welcome!
+
+In this course, you'll learn all about the Variant Explorer in Views - including hands-on exercises!
+
+This course is part of the Use and Interpret Views Training Track. We highly encourage you to take all the courses in the track, in the order that is predefined for you to help you gain a holistic understanding of Views.
+
+It should take you about 30 minutes to complete this course.
+
+Are you ready? Let’s get started! 🚀
+
+This content is available in multiple languages: English, German, French, Japanese, Spanish, and Portuguese. To switch your language, use the selector in the top navigation bar.
+
+In Courses: Switching languages will not affect your progress. If you are multilingual, comparing languages can even help deepen your understanding.
+In Exams: Do not switch the language once you start the exam. If you switch the language when you're already reviewing questions and answers, the page will refresh, causing your exam attempt to end prematurely. (Note: Once inside the exam course, you can switch the language anytime before clicking the Start Exam button.)
+
+
+
+
+If you encounter any technical or access issues during this course, check out our FAQs in the Support area or reach out to us via our Academy contact form.
+--- Page 2 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Introducing the Variant Explorer
+
+The Variant Explorer (also “VE” for short) is a View component that allows you to discover all of the different ways in which the business processes flow within your organization. Each of these unique ways is called a “variant”. In other words, a variant represents objects that follow the same path and sequence of events within your process.
+
+Reviewing the Variants allows you to understand whether the ways in which processes run in your organization follow your desired flows.
+
+With the Variant Explorer, you can:
+
+Review variants individually.
+
+Compare multiple variants to one another.
+
+Review the variants with process metrics or the Key Performance Indicators (KPIs) available in your dataset.
+
+Use the various filtering options.
+--- Page 3 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Are you ready to dive in?
+
+Get your hands dirty and interact with the Variant Explorer yourself!
+
+In the following hands-on exercises, you will imagine yourself stepping into the role of a Process Lead in the order management department at SecureNet Data Centers. As part of your daily work, you leverage a Celonis App to investigate and refine the order management process, aiming to boost efficiency and ensure timely delivery.
+
+For the hands-on exercises, you’ll have three key objects in your View: (1) sales order, (2) sales order item, and (3) delivery. If you are not familiar with these objects, check out their descriptions below.
+
+
+Sales Order
+Sales Order Item
+Delivery
+
+The challenge: You have been informed that there are big issues with on-time delivery. It is possible that the order processing cycle is slowed down by manual interventions, frequent order changes, blocks, and cancellations, which create tedious rework. However, the root causes or when these events happen are unclear.
+
+Let’s jump into the exercises to understand what is happening at SecureNet Data Centers. Follow the steps listed on the next page to go to the Business User Training Environment and find the View dedicated to the Use and Interpret Views Training Track!
+--- Page 4 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Get Ready for the Exercises
+
+In this course, you’ll have the opportunity to have hands-on experience using a View in a custom training environment. Go through the following steps to get access.
+
+If you're coming from a previous course within the Use and Interpret Views training track, then you can jump to Step 3.
+
+
+Step 1
+Step 2
+Step 3
+
+After completing these steps, you're ready to begin the hands-on exercises! 🚀
+
+If you encounter any issues, you can contact us here.
+--- Page 5 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Select the Object Type
+
+Before getting started with the exercises of this course, please remove any filters that might be remaining from the previous course.
+
+When you’re working with an object-centric data model (OCDM), you will be able to review multiple different objects types.
+
+When using the Variant Explorer, you’d view one object at a time. Thus, the first step you would need to take when working with a Variant Explorer in a View, is to choose which object type you’d like to dive deeper into!
+
+The OCDM that you'll be working with for the exercises in this course has three key object types that belongs to the Order Management process.
+
+Now, let’s get to work!
+
+Go to your training environment and use the Controls to select the Sales Order object type.
+--- Page 6 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Overview
+
+Now that you have selected the object type, you’re ready to explore the variants!
+
+First, let's clarify what you're seeing on the Variant Explorer component of this View:
+
+Press O for more options
+	
+	
+	
+2:06
+	
+--- Page 7 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+The Most Common Variant
+
+As mentioned before, the Variant Explorer displays the most common variant by default.
+
+Let's get started by reviewing the most common variant in this dataset, which means the largest group of objects going through the same set of events, following the same sequence. The number of objects going through each connection is the same throughout the process, as you're viewing only one variant at this time.
+
+What is the percentage of objects covered by this variant?
+
+Answer
+
+When you review the events from start to end, you'll see that most often in this process, (1) sales order headers are created, (2) sales order items are created,  and then, (3) the sales order is approved.
+
+In this VE, under each event header you see the amount of times each event has occurred. Please note that, depending on how your Data Analyst configured your View, you might see other relevant KPIs in this area as well.
+--- Page 8 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Review Individual Variants
+
+It’s time to review another variant! Go over to the controls, and select variant #3 (and deselect variant #1). Take a look at the variant, and then come back to answer the question below:
+
+What is the number of objects covered by the 3rd most common variant?
+
+Answer
+--- Page 9 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Compare Multiple Variants
+
+It’s time to compare multiple variants with each other! To do so, you have the option to superimpose (i.e., layer, combine) multiple variants and thus, view them at once.
+
+In your training environment, use the controls to select the variants #1 and #3 at the same time.
+
+What is the number of objects going from "Approve Sales Order" event directly to process end?
+
+Answer
+
+What is the number of objects going from "Approve Sales Order" event to "Set Billing Block event"?
+
+Answer
+--- Page 10 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Switch the Process Metric
+
+So far, so good! But the object counts tell us only so much about what is going on in our business processes. It’s time to switch the process metric that is being displayed. 
+
+Go over to your View, and switch to the Throughput Time (Median) metric. Take a look at the new numbers being displayed, and then, come back to the course to answer the question below.
+
+How much longer does it take when the sales order goes through the "Set Billing Block" and "Release Billing Block" events (compared to the sales orders where the process ends right after the "Approve Sales Order" event)?
+
+Answer
+--- Page 11 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Filter on Objects Using Events
+
+To dive deeper into the data and reveal further process insights, let’s focus on the "Set Billing Block" event.
+
+Click on this event to reveal more information about it, and then filter your dataset to show you only the objects that go through this event.
+
+After applying the filter, pay attention to the upper right corner of the View. It informs you that you have filtered your data to only show you the subset which includes only the sales orders that go through the  Set Billing Block" event.
+
+You can always edit this filter to make adjustments. You can also remove it to go back to viewing the entire dataset, or opt for disabling the filter so that you can easily enable it again if you wish to come back to it.
+
+Note that once you add a filter, the entire View updates to show you the data that corresponds to the subset you have filtered for. For example, check out the new numbers on the KPI list.
+
+What’s the Net Order Value of the sales orders that go through the  Set Billing Block" event?
+
+Answer
+
+When you want to filter for a certain event, you can always use the built-in event filter from the top of the View, instead of interacting with the Variant Explorer. You can also leverage the various options here to customize your filter.
+
+Remember to remove or disable any filters you have applied before moving on!
+--- Page 12 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Filter on Objects Using Connections
+
+You can also filter your dataset by using connections.
+
+To do so, simply click on the connection that you’re interested in, just like how you filtered on the objects using an event.
+
+Time to try it for yourself! Start by removing any filters and superimpose variants #1 and #3 again. And then, filter for the sales orders that go from the "Approve Sales Order" event to the "Set Billing Block" event.
+
+Note that once you apply a filter, the entire View updates to show you the data that corresponds to the subset you have filtered for. This time, let's check out the updated variant list.
+
+What is the median throughput time for the most common variant of the dataset you filtered for (i.e., the sales orders that go from the Approve Sales Order directly to the Set Billing Block event)?
+
+Answer
+
+When you want to filter for a certain connection, you can always use the built-in process flow filter from the top of the View, instead of interacting with the Variant Explorer. You can also leverage the various options here to customize your filter.
+
+Remember to remove or disable any filters you have applied before moving on!
+
+Check out Celonis Docs for in-depth information on all filter types. We will be releasing even more filtering options, so stay tuned!
+
+=== Lesson 12: Filter on Objects Using Events [03:00] ===
+--- Page 1 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Welcome!
+
+In this course, you'll learn all about the Variant Explorer in Views - including hands-on exercises!
+
+This course is part of the Use and Interpret Views Training Track. We highly encourage you to take all the courses in the track, in the order that is predefined for you to help you gain a holistic understanding of Views.
+
+It should take you about 30 minutes to complete this course.
+
+Are you ready? Let’s get started! 🚀
+
+This content is available in multiple languages: English, German, French, Japanese, Spanish, and Portuguese. To switch your language, use the selector in the top navigation bar.
+
+In Courses: Switching languages will not affect your progress. If you are multilingual, comparing languages can even help deepen your understanding.
+In Exams: Do not switch the language once you start the exam. If you switch the language when you're already reviewing questions and answers, the page will refresh, causing your exam attempt to end prematurely. (Note: Once inside the exam course, you can switch the language anytime before clicking the Start Exam button.)
+
+
+
+
+If you encounter any technical or access issues during this course, check out our FAQs in the Support area or reach out to us via our Academy contact form.
+--- Page 2 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Introducing the Variant Explorer
+
+The Variant Explorer (also “VE” for short) is a View component that allows you to discover all of the different ways in which the business processes flow within your organization. Each of these unique ways is called a “variant”. In other words, a variant represents objects that follow the same path and sequence of events within your process.
+
+Reviewing the Variants allows you to understand whether the ways in which processes run in your organization follow your desired flows.
+
+With the Variant Explorer, you can:
+
+Review variants individually.
+
+Compare multiple variants to one another.
+
+Review the variants with process metrics or the Key Performance Indicators (KPIs) available in your dataset.
+
+Use the various filtering options.
+--- Page 3 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Are you ready to dive in?
+
+Get your hands dirty and interact with the Variant Explorer yourself!
+
+In the following hands-on exercises, you will imagine yourself stepping into the role of a Process Lead in the order management department at SecureNet Data Centers. As part of your daily work, you leverage a Celonis App to investigate and refine the order management process, aiming to boost efficiency and ensure timely delivery.
+
+For the hands-on exercises, you’ll have three key objects in your View: (1) sales order, (2) sales order item, and (3) delivery. If you are not familiar with these objects, check out their descriptions below.
+
+
+Sales Order
+Sales Order Item
+Delivery
+
+The challenge: You have been informed that there are big issues with on-time delivery. It is possible that the order processing cycle is slowed down by manual interventions, frequent order changes, blocks, and cancellations, which create tedious rework. However, the root causes or when these events happen are unclear.
+
+Let’s jump into the exercises to understand what is happening at SecureNet Data Centers. Follow the steps listed on the next page to go to the Business User Training Environment and find the View dedicated to the Use and Interpret Views Training Track!
+--- Page 4 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Get Ready for the Exercises
+
+In this course, you’ll have the opportunity to have hands-on experience using a View in a custom training environment. Go through the following steps to get access.
+
+If you're coming from a previous course within the Use and Interpret Views training track, then you can jump to Step 3.
+
+
+Step 1
+Step 2
+Step 3
+
+After completing these steps, you're ready to begin the hands-on exercises! 🚀
+
+If you encounter any issues, you can contact us here.
+--- Page 5 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Select the Object Type
+
+Before getting started with the exercises of this course, please remove any filters that might be remaining from the previous course.
+
+When you’re working with an object-centric data model (OCDM), you will be able to review multiple different objects types.
+
+When using the Variant Explorer, you’d view one object at a time. Thus, the first step you would need to take when working with a Variant Explorer in a View, is to choose which object type you’d like to dive deeper into!
+
+The OCDM that you'll be working with for the exercises in this course has three key object types that belongs to the Order Management process.
+
+Now, let’s get to work!
+
+Go to your training environment and use the Controls to select the Sales Order object type.
+--- Page 6 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Overview
+
+Now that you have selected the object type, you’re ready to explore the variants!
+
+First, let's clarify what you're seeing on the Variant Explorer component of this View:
+
+Press O for more options
+	
+	
+	
+2:06
+	
+--- Page 7 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+The Most Common Variant
+
+As mentioned before, the Variant Explorer displays the most common variant by default.
+
+Let's get started by reviewing the most common variant in this dataset, which means the largest group of objects going through the same set of events, following the same sequence. The number of objects going through each connection is the same throughout the process, as you're viewing only one variant at this time.
+
+What is the percentage of objects covered by this variant?
+
+Answer
+
+When you review the events from start to end, you'll see that most often in this process, (1) sales order headers are created, (2) sales order items are created,  and then, (3) the sales order is approved.
+
+In this VE, under each event header you see the amount of times each event has occurred. Please note that, depending on how your Data Analyst configured your View, you might see other relevant KPIs in this area as well.
+--- Page 8 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Review Individual Variants
+
+It’s time to review another variant! Go over to the controls, and select variant #3 (and deselect variant #1). Take a look at the variant, and then come back to answer the question below:
+
+What is the number of objects covered by the 3rd most common variant?
+
+Answer
+--- Page 9 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Compare Multiple Variants
+
+It’s time to compare multiple variants with each other! To do so, you have the option to superimpose (i.e., layer, combine) multiple variants and thus, view them at once.
+
+In your training environment, use the controls to select the variants #1 and #3 at the same time.
+
+What is the number of objects going from "Approve Sales Order" event directly to process end?
+
+Answer
+
+What is the number of objects going from "Approve Sales Order" event to "Set Billing Block event"?
+
+Answer
+--- Page 10 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Switch the Process Metric
+
+So far, so good! But the object counts tell us only so much about what is going on in our business processes. It’s time to switch the process metric that is being displayed. 
+
+Go over to your View, and switch to the Throughput Time (Median) metric. Take a look at the new numbers being displayed, and then, come back to the course to answer the question below.
+
+How much longer does it take when the sales order goes through the "Set Billing Block" and "Release Billing Block" events (compared to the sales orders where the process ends right after the "Approve Sales Order" event)?
+
+Answer
+--- Page 11 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Filter on Objects Using Events
+
+To dive deeper into the data and reveal further process insights, let’s focus on the "Set Billing Block" event.
+
+Click on this event to reveal more information about it, and then filter your dataset to show you only the objects that go through this event.
+
+After applying the filter, pay attention to the upper right corner of the View. It informs you that you have filtered your data to only show you the subset which includes only the sales orders that go through the  Set Billing Block" event.
+
+You can always edit this filter to make adjustments. You can also remove it to go back to viewing the entire dataset, or opt for disabling the filter so that you can easily enable it again if you wish to come back to it.
+
+Note that once you add a filter, the entire View updates to show you the data that corresponds to the subset you have filtered for. For example, check out the new numbers on the KPI list.
+
+What’s the Net Order Value of the sales orders that go through the  Set Billing Block" event?
+
+Answer
+
+When you want to filter for a certain event, you can always use the built-in event filter from the top of the View, instead of interacting with the Variant Explorer. You can also leverage the various options here to customize your filter.
+
+Remember to remove or disable any filters you have applied before moving on!
+--- Page 12 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Filter on Objects Using Connections
+
+You can also filter your dataset by using connections.
+
+To do so, simply click on the connection that you’re interested in, just like how you filtered on the objects using an event.
+
+Time to try it for yourself! Start by removing any filters and superimpose variants #1 and #3 again. And then, filter for the sales orders that go from the "Approve Sales Order" event to the "Set Billing Block" event.
+
+Note that once you apply a filter, the entire View updates to show you the data that corresponds to the subset you have filtered for. This time, let's check out the updated variant list.
+
+What is the median throughput time for the most common variant of the dataset you filtered for (i.e., the sales orders that go from the Approve Sales Order directly to the Set Billing Block event)?
+
+Answer
+
+When you want to filter for a certain connection, you can always use the built-in process flow filter from the top of the View, instead of interacting with the Variant Explorer. You can also leverage the various options here to customize your filter.
+
+Remember to remove or disable any filters you have applied before moving on!
+
+Check out Celonis Docs for in-depth information on all filter types. We will be releasing even more filtering options, so stay tuned!
+
+=== Lesson 13: Filter on Objects Using Connections [03:00] ===
+--- Page 1 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Welcome!
+
+In this course, you'll learn all about the Variant Explorer in Views - including hands-on exercises!
+
+This course is part of the Use and Interpret Views Training Track. We highly encourage you to take all the courses in the track, in the order that is predefined for you to help you gain a holistic understanding of Views.
+
+It should take you about 30 minutes to complete this course.
+
+Are you ready? Let’s get started! 🚀
+
+This content is available in multiple languages: English, German, French, Japanese, Spanish, and Portuguese. To switch your language, use the selector in the top navigation bar.
+
+In Courses: Switching languages will not affect your progress. If you are multilingual, comparing languages can even help deepen your understanding.
+In Exams: Do not switch the language once you start the exam. If you switch the language when you're already reviewing questions and answers, the page will refresh, causing your exam attempt to end prematurely. (Note: Once inside the exam course, you can switch the language anytime before clicking the Start Exam button.)
+
+
+
+
+If you encounter any technical or access issues during this course, check out our FAQs in the Support area or reach out to us via our Academy contact form.
+--- Page 2 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Introducing the Variant Explorer
+
+The Variant Explorer (also “VE” for short) is a View component that allows you to discover all of the different ways in which the business processes flow within your organization. Each of these unique ways is called a “variant”. In other words, a variant represents objects that follow the same path and sequence of events within your process.
+
+Reviewing the Variants allows you to understand whether the ways in which processes run in your organization follow your desired flows.
+
+With the Variant Explorer, you can:
+
+Review variants individually.
+
+Compare multiple variants to one another.
+
+Review the variants with process metrics or the Key Performance Indicators (KPIs) available in your dataset.
+
+Use the various filtering options.
+--- Page 3 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Are you ready to dive in?
+
+Get your hands dirty and interact with the Variant Explorer yourself!
+
+In the following hands-on exercises, you will imagine yourself stepping into the role of a Process Lead in the order management department at SecureNet Data Centers. As part of your daily work, you leverage a Celonis App to investigate and refine the order management process, aiming to boost efficiency and ensure timely delivery.
+
+For the hands-on exercises, you’ll have three key objects in your View: (1) sales order, (2) sales order item, and (3) delivery. If you are not familiar with these objects, check out their descriptions below.
+
+
+Sales Order
+Sales Order Item
+Delivery
+
+The challenge: You have been informed that there are big issues with on-time delivery. It is possible that the order processing cycle is slowed down by manual interventions, frequent order changes, blocks, and cancellations, which create tedious rework. However, the root causes or when these events happen are unclear.
+
+Let’s jump into the exercises to understand what is happening at SecureNet Data Centers. Follow the steps listed on the next page to go to the Business User Training Environment and find the View dedicated to the Use and Interpret Views Training Track!
+--- Page 4 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Get Ready for the Exercises
+
+In this course, you’ll have the opportunity to have hands-on experience using a View in a custom training environment. Go through the following steps to get access.
+
+If you're coming from a previous course within the Use and Interpret Views training track, then you can jump to Step 3.
+
+
+Step 1
+Step 2
+Step 3
+
+After completing these steps, you're ready to begin the hands-on exercises! 🚀
+
+If you encounter any issues, you can contact us here.
+--- Page 5 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Select the Object Type
+
+Before getting started with the exercises of this course, please remove any filters that might be remaining from the previous course.
+
+When you’re working with an object-centric data model (OCDM), you will be able to review multiple different objects types.
+
+When using the Variant Explorer, you’d view one object at a time. Thus, the first step you would need to take when working with a Variant Explorer in a View, is to choose which object type you’d like to dive deeper into!
+
+The OCDM that you'll be working with for the exercises in this course has three key object types that belongs to the Order Management process.
+
+Now, let’s get to work!
+
+Go to your training environment and use the Controls to select the Sales Order object type.
+--- Page 6 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Overview
+
+Now that you have selected the object type, you’re ready to explore the variants!
+
+First, let's clarify what you're seeing on the Variant Explorer component of this View:
+
+Press O for more options
+	
+	
+	
+2:06
+	
+--- Page 7 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+The Most Common Variant
+
+As mentioned before, the Variant Explorer displays the most common variant by default.
+
+Let's get started by reviewing the most common variant in this dataset, which means the largest group of objects going through the same set of events, following the same sequence. The number of objects going through each connection is the same throughout the process, as you're viewing only one variant at this time.
+
+What is the percentage of objects covered by this variant?
+
+Answer
+
+When you review the events from start to end, you'll see that most often in this process, (1) sales order headers are created, (2) sales order items are created,  and then, (3) the sales order is approved.
+
+In this VE, under each event header you see the amount of times each event has occurred. Please note that, depending on how your Data Analyst configured your View, you might see other relevant KPIs in this area as well.
+--- Page 8 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Review Individual Variants
+
+It’s time to review another variant! Go over to the controls, and select variant #3 (and deselect variant #1). Take a look at the variant, and then come back to answer the question below:
+
+What is the number of objects covered by the 3rd most common variant?
+
+Answer
+--- Page 9 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Compare Multiple Variants
+
+It’s time to compare multiple variants with each other! To do so, you have the option to superimpose (i.e., layer, combine) multiple variants and thus, view them at once.
+
+In your training environment, use the controls to select the variants #1 and #3 at the same time.
+
+What is the number of objects going from "Approve Sales Order" event directly to process end?
+
+Answer
+
+What is the number of objects going from "Approve Sales Order" event to "Set Billing Block event"?
+
+Answer
+--- Page 10 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Switch the Process Metric
+
+So far, so good! But the object counts tell us only so much about what is going on in our business processes. It’s time to switch the process metric that is being displayed. 
+
+Go over to your View, and switch to the Throughput Time (Median) metric. Take a look at the new numbers being displayed, and then, come back to the course to answer the question below.
+
+How much longer does it take when the sales order goes through the "Set Billing Block" and "Release Billing Block" events (compared to the sales orders where the process ends right after the "Approve Sales Order" event)?
+
+Answer
+--- Page 11 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Filter on Objects Using Events
+
+To dive deeper into the data and reveal further process insights, let’s focus on the "Set Billing Block" event.
+
+Click on this event to reveal more information about it, and then filter your dataset to show you only the objects that go through this event.
+
+After applying the filter, pay attention to the upper right corner of the View. It informs you that you have filtered your data to only show you the subset which includes only the sales orders that go through the  Set Billing Block" event.
+
+You can always edit this filter to make adjustments. You can also remove it to go back to viewing the entire dataset, or opt for disabling the filter so that you can easily enable it again if you wish to come back to it.
+
+Note that once you add a filter, the entire View updates to show you the data that corresponds to the subset you have filtered for. For example, check out the new numbers on the KPI list.
+
+What’s the Net Order Value of the sales orders that go through the  Set Billing Block" event?
+
+Answer
+
+When you want to filter for a certain event, you can always use the built-in event filter from the top of the View, instead of interacting with the Variant Explorer. You can also leverage the various options here to customize your filter.
+
+Remember to remove or disable any filters you have applied before moving on!
+--- Page 12 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Filter on Objects Using Connections
+
+You can also filter your dataset by using connections.
+
+To do so, simply click on the connection that you’re interested in, just like how you filtered on the objects using an event.
+
+Time to try it for yourself! Start by removing any filters and superimpose variants #1 and #3 again. And then, filter for the sales orders that go from the "Approve Sales Order" event to the "Set Billing Block" event.
+
+Note that once you apply a filter, the entire View updates to show you the data that corresponds to the subset you have filtered for. This time, let's check out the updated variant list.
+
+What is the median throughput time for the most common variant of the dataset you filtered for (i.e., the sales orders that go from the Approve Sales Order directly to the Set Billing Block event)?
+
+Answer
+
+When you want to filter for a certain connection, you can always use the built-in process flow filter from the top of the View, instead of interacting with the Variant Explorer. You can also leverage the various options here to customize your filter.
+
+Remember to remove or disable any filters you have applied before moving on!
+
+Check out Celonis Docs for in-depth information on all filter types. We will be releasing even more filtering options, so stay tuned!
+
+=== Lesson 14: Filter on Objects Using the Filter Bar [02:00] ===
+--- Page 1 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Welcome!
+
+In this course, you'll learn all about the Variant Explorer in Views - including hands-on exercises!
+
+This course is part of the Use and Interpret Views Training Track. We highly encourage you to take all the courses in the track, in the order that is predefined for you to help you gain a holistic understanding of Views.
+
+It should take you about 30 minutes to complete this course.
+
+Are you ready? Let’s get started! 🚀
+
+This content is available in multiple languages: English, German, French, Japanese, Spanish, and Portuguese. To switch your language, use the selector in the top navigation bar.
+
+In Courses: Switching languages will not affect your progress. If you are multilingual, comparing languages can even help deepen your understanding.
+In Exams: Do not switch the language once you start the exam. If you switch the language when you're already reviewing questions and answers, the page will refresh, causing your exam attempt to end prematurely. (Note: Once inside the exam course, you can switch the language anytime before clicking the Start Exam button.)
+
+
+
+
+If you encounter any technical or access issues during this course, check out our FAQs in the Support area or reach out to us via our Academy contact form.
+--- Page 2 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Introducing the Variant Explorer
+
+The Variant Explorer (also “VE” for short) is a View component that allows you to discover all of the different ways in which the business processes flow within your organization. Each of these unique ways is called a “variant”. In other words, a variant represents objects that follow the same path and sequence of events within your process.
+
+Reviewing the Variants allows you to understand whether the ways in which processes run in your organization follow your desired flows.
+
+With the Variant Explorer, you can:
+
+Review variants individually.
+
+Compare multiple variants to one another.
+
+Review the variants with process metrics or the Key Performance Indicators (KPIs) available in your dataset.
+
+Use the various filtering options.
+--- Page 3 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Are you ready to dive in?
+
+Get your hands dirty and interact with the Variant Explorer yourself!
+
+In the following hands-on exercises, you will imagine yourself stepping into the role of a Process Lead in the order management department at SecureNet Data Centers. As part of your daily work, you leverage a Celonis App to investigate and refine the order management process, aiming to boost efficiency and ensure timely delivery.
+
+For the hands-on exercises, you’ll have three key objects in your View: (1) sales order, (2) sales order item, and (3) delivery. If you are not familiar with these objects, check out their descriptions below.
+
+
+Sales Order
+Sales Order Item
+Delivery
+
+The challenge: You have been informed that there are big issues with on-time delivery. It is possible that the order processing cycle is slowed down by manual interventions, frequent order changes, blocks, and cancellations, which create tedious rework. However, the root causes or when these events happen are unclear.
+
+Let’s jump into the exercises to understand what is happening at SecureNet Data Centers. Follow the steps listed on the next page to go to the Business User Training Environment and find the View dedicated to the Use and Interpret Views Training Track!
+--- Page 4 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Get Ready for the Exercises
+
+In this course, you’ll have the opportunity to have hands-on experience using a View in a custom training environment. Go through the following steps to get access.
+
+If you're coming from a previous course within the Use and Interpret Views training track, then you can jump to Step 3.
+
+
+Step 1
+Step 2
+Step 3
+
+After completing these steps, you're ready to begin the hands-on exercises! 🚀
+
+If you encounter any issues, you can contact us here.
+--- Page 5 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Select the Object Type
+
+Before getting started with the exercises of this course, please remove any filters that might be remaining from the previous course.
+
+When you’re working with an object-centric data model (OCDM), you will be able to review multiple different objects types.
+
+When using the Variant Explorer, you’d view one object at a time. Thus, the first step you would need to take when working with a Variant Explorer in a View, is to choose which object type you’d like to dive deeper into!
+
+The OCDM that you'll be working with for the exercises in this course has three key object types that belongs to the Order Management process.
+
+Now, let’s get to work!
+
+Go to your training environment and use the Controls to select the Sales Order object type.
+--- Page 6 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Overview
+
+Now that you have selected the object type, you’re ready to explore the variants!
+
+First, let's clarify what you're seeing on the Variant Explorer component of this View:
+
+Press O for more options
+	
+	
+	
+2:06
+	
+--- Page 7 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+The Most Common Variant
+
+As mentioned before, the Variant Explorer displays the most common variant by default.
+
+Let's get started by reviewing the most common variant in this dataset, which means the largest group of objects going through the same set of events, following the same sequence. The number of objects going through each connection is the same throughout the process, as you're viewing only one variant at this time.
+
+What is the percentage of objects covered by this variant?
+
+Answer
+
+When you review the events from start to end, you'll see that most often in this process, (1) sales order headers are created, (2) sales order items are created,  and then, (3) the sales order is approved.
+
+In this VE, under each event header you see the amount of times each event has occurred. Please note that, depending on how your Data Analyst configured your View, you might see other relevant KPIs in this area as well.
+--- Page 8 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Review Individual Variants
+
+It’s time to review another variant! Go over to the controls, and select variant #3 (and deselect variant #1). Take a look at the variant, and then come back to answer the question below:
+
+What is the number of objects covered by the 3rd most common variant?
+
+Answer
+--- Page 9 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Compare Multiple Variants
+
+It’s time to compare multiple variants with each other! To do so, you have the option to superimpose (i.e., layer, combine) multiple variants and thus, view them at once.
+
+In your training environment, use the controls to select the variants #1 and #3 at the same time.
+
+What is the number of objects going from "Approve Sales Order" event directly to process end?
+
+Answer
+
+What is the number of objects going from "Approve Sales Order" event to "Set Billing Block event"?
+
+Answer
+--- Page 10 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Switch the Process Metric
+
+So far, so good! But the object counts tell us only so much about what is going on in our business processes. It’s time to switch the process metric that is being displayed. 
+
+Go over to your View, and switch to the Throughput Time (Median) metric. Take a look at the new numbers being displayed, and then, come back to the course to answer the question below.
+
+How much longer does it take when the sales order goes through the "Set Billing Block" and "Release Billing Block" events (compared to the sales orders where the process ends right after the "Approve Sales Order" event)?
+
+Answer
+--- Page 11 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Filter on Objects Using Events
+
+To dive deeper into the data and reveal further process insights, let’s focus on the "Set Billing Block" event.
+
+Click on this event to reveal more information about it, and then filter your dataset to show you only the objects that go through this event.
+
+After applying the filter, pay attention to the upper right corner of the View. It informs you that you have filtered your data to only show you the subset which includes only the sales orders that go through the  Set Billing Block" event.
+
+You can always edit this filter to make adjustments. You can also remove it to go back to viewing the entire dataset, or opt for disabling the filter so that you can easily enable it again if you wish to come back to it.
+
+Note that once you add a filter, the entire View updates to show you the data that corresponds to the subset you have filtered for. For example, check out the new numbers on the KPI list.
+
+What’s the Net Order Value of the sales orders that go through the  Set Billing Block" event?
+
+Answer
+
+When you want to filter for a certain event, you can always use the built-in event filter from the top of the View, instead of interacting with the Variant Explorer. You can also leverage the various options here to customize your filter.
+
+Remember to remove or disable any filters you have applied before moving on!
+--- Page 12 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Filter on Objects Using Connections
+
+You can also filter your dataset by using connections.
+
+To do so, simply click on the connection that you’re interested in, just like how you filtered on the objects using an event.
+
+Time to try it for yourself! Start by removing any filters and superimpose variants #1 and #3 again. And then, filter for the sales orders that go from the "Approve Sales Order" event to the "Set Billing Block" event.
+
+Note that once you apply a filter, the entire View updates to show you the data that corresponds to the subset you have filtered for. This time, let's check out the updated variant list.
+
+What is the median throughput time for the most common variant of the dataset you filtered for (i.e., the sales orders that go from the Approve Sales Order directly to the Set Billing Block event)?
+
+Answer
+
+When you want to filter for a certain connection, you can always use the built-in process flow filter from the top of the View, instead of interacting with the Variant Explorer. You can also leverage the various options here to customize your filter.
+
+Remember to remove or disable any filters you have applied before moving on!
+
+Check out Celonis Docs for in-depth information on all filter types. We will be releasing even more filtering options, so stay tuned!
+
+=== Lesson 15: Hide Events [01:00] ===
+--- Page 1 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Welcome!
+
+In this course, you'll learn all about the Variant Explorer in Views - including hands-on exercises!
+
+This course is part of the Use and Interpret Views Training Track. We highly encourage you to take all the courses in the track, in the order that is predefined for you to help you gain a holistic understanding of Views.
+
+It should take you about 30 minutes to complete this course.
+
+Are you ready? Let’s get started! 🚀
+
+This content is available in multiple languages: English, German, French, Japanese, Spanish, and Portuguese. To switch your language, use the selector in the top navigation bar.
+
+In Courses: Switching languages will not affect your progress. If you are multilingual, comparing languages can even help deepen your understanding.
+In Exams: Do not switch the language once you start the exam. If you switch the language when you're already reviewing questions and answers, the page will refresh, causing your exam attempt to end prematurely. (Note: Once inside the exam course, you can switch the language anytime before clicking the Start Exam button.)
+
+
+
+
+If you encounter any technical or access issues during this course, check out our FAQs in the Support area or reach out to us via our Academy contact form.
+--- Page 2 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Introducing the Variant Explorer
+
+The Variant Explorer (also “VE” for short) is a View component that allows you to discover all of the different ways in which the business processes flow within your organization. Each of these unique ways is called a “variant”. In other words, a variant represents objects that follow the same path and sequence of events within your process.
+
+Reviewing the Variants allows you to understand whether the ways in which processes run in your organization follow your desired flows.
+
+With the Variant Explorer, you can:
+
+Review variants individually.
+
+Compare multiple variants to one another.
+
+Review the variants with process metrics or the Key Performance Indicators (KPIs) available in your dataset.
+
+Use the various filtering options.
+--- Page 3 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Are you ready to dive in?
+
+Get your hands dirty and interact with the Variant Explorer yourself!
+
+In the following hands-on exercises, you will imagine yourself stepping into the role of a Process Lead in the order management department at SecureNet Data Centers. As part of your daily work, you leverage a Celonis App to investigate and refine the order management process, aiming to boost efficiency and ensure timely delivery.
+
+For the hands-on exercises, you’ll have three key objects in your View: (1) sales order, (2) sales order item, and (3) delivery. If you are not familiar with these objects, check out their descriptions below.
+
+
+Sales Order
+Sales Order Item
+Delivery
+
+The challenge: You have been informed that there are big issues with on-time delivery. It is possible that the order processing cycle is slowed down by manual interventions, frequent order changes, blocks, and cancellations, which create tedious rework. However, the root causes or when these events happen are unclear.
+
+Let’s jump into the exercises to understand what is happening at SecureNet Data Centers. Follow the steps listed on the next page to go to the Business User Training Environment and find the View dedicated to the Use and Interpret Views Training Track!
+--- Page 4 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Get Ready for the Exercises
+
+In this course, you’ll have the opportunity to have hands-on experience using a View in a custom training environment. Go through the following steps to get access.
+
+If you're coming from a previous course within the Use and Interpret Views training track, then you can jump to Step 3.
+
+
+Step 1
+Step 2
+Step 3
+
+After completing these steps, you're ready to begin the hands-on exercises! 🚀
+
+If you encounter any issues, you can contact us here.
+--- Page 5 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Select the Object Type
+
+Before getting started with the exercises of this course, please remove any filters that might be remaining from the previous course.
+
+When you’re working with an object-centric data model (OCDM), you will be able to review multiple different objects types.
+
+When using the Variant Explorer, you’d view one object at a time. Thus, the first step you would need to take when working with a Variant Explorer in a View, is to choose which object type you’d like to dive deeper into!
+
+The OCDM that you'll be working with for the exercises in this course has three key object types that belongs to the Order Management process.
+
+Now, let’s get to work!
+
+Go to your training environment and use the Controls to select the Sales Order object type.
+--- Page 6 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Overview
+
+Now that you have selected the object type, you’re ready to explore the variants!
+
+First, let's clarify what you're seeing on the Variant Explorer component of this View:
+
+Press O for more options
+	
+	
+	
+2:06
+	
+--- Page 7 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+The Most Common Variant
+
+As mentioned before, the Variant Explorer displays the most common variant by default.
+
+Let's get started by reviewing the most common variant in this dataset, which means the largest group of objects going through the same set of events, following the same sequence. The number of objects going through each connection is the same throughout the process, as you're viewing only one variant at this time.
+
+What is the percentage of objects covered by this variant?
+
+Answer
+
+When you review the events from start to end, you'll see that most often in this process, (1) sales order headers are created, (2) sales order items are created,  and then, (3) the sales order is approved.
+
+In this VE, under each event header you see the amount of times each event has occurred. Please note that, depending on how your Data Analyst configured your View, you might see other relevant KPIs in this area as well.
+--- Page 8 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Review Individual Variants
+
+It’s time to review another variant! Go over to the controls, and select variant #3 (and deselect variant #1). Take a look at the variant, and then come back to answer the question below:
+
+What is the number of objects covered by the 3rd most common variant?
+
+Answer
+--- Page 9 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Compare Multiple Variants
+
+It’s time to compare multiple variants with each other! To do so, you have the option to superimpose (i.e., layer, combine) multiple variants and thus, view them at once.
+
+In your training environment, use the controls to select the variants #1 and #3 at the same time.
+
+What is the number of objects going from "Approve Sales Order" event directly to process end?
+
+Answer
+
+What is the number of objects going from "Approve Sales Order" event to "Set Billing Block event"?
+
+Answer
+--- Page 10 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Switch the Process Metric
+
+So far, so good! But the object counts tell us only so much about what is going on in our business processes. It’s time to switch the process metric that is being displayed. 
+
+Go over to your View, and switch to the Throughput Time (Median) metric. Take a look at the new numbers being displayed, and then, come back to the course to answer the question below.
+
+How much longer does it take when the sales order goes through the "Set Billing Block" and "Release Billing Block" events (compared to the sales orders where the process ends right after the "Approve Sales Order" event)?
+
+Answer
+--- Page 11 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Filter on Objects Using Events
+
+To dive deeper into the data and reveal further process insights, let’s focus on the "Set Billing Block" event.
+
+Click on this event to reveal more information about it, and then filter your dataset to show you only the objects that go through this event.
+
+After applying the filter, pay attention to the upper right corner of the View. It informs you that you have filtered your data to only show you the subset which includes only the sales orders that go through the  Set Billing Block" event.
+
+You can always edit this filter to make adjustments. You can also remove it to go back to viewing the entire dataset, or opt for disabling the filter so that you can easily enable it again if you wish to come back to it.
+
+Note that once you add a filter, the entire View updates to show you the data that corresponds to the subset you have filtered for. For example, check out the new numbers on the KPI list.
+
+What’s the Net Order Value of the sales orders that go through the  Set Billing Block" event?
+
+Answer
+
+When you want to filter for a certain event, you can always use the built-in event filter from the top of the View, instead of interacting with the Variant Explorer. You can also leverage the various options here to customize your filter.
+
+Remember to remove or disable any filters you have applied before moving on!
+--- Page 12 ---
+Use the Variant Explorer in Views
+Variant Explorer in Views
+Filter on Objects Using Connections
+
+You can also filter your dataset by using connections.
+
+To do so, simply click on the connection that you’re interested in, just like how you filtered on the objects using an event.
+
+Time to try it for yourself! Start by removing any filters and superimpose variants #1 and #3 again. And then, filter for the sales orders that go from the "Approve Sales Order" event to the "Set Billing Block" event.
+
+Note that once you apply a filter, the entire View updates to show you the data that corresponds to the subset you have filtered for. This time, let's check out the updated variant list.
+
+What is the median throughput time for the most common variant of the dataset you filtered for (i.e., the sales orders that go from the Approve Sales Order directly to the Set Billing Block event)?
+
+Answer
+
+When you want to filter for a certain connection, you can always use the built-in process flow filter from the top of the View, instead of interacting with the Variant Explorer. You can also leverage the various options here to customize your filter.
+
+Remember to remove or disable any filters you have applied before moving on!
+
+Check out Celonis Docs for in-depth information on all filter types. We will be releasing even more filtering options, so stay tuned!
+
+=== Lesson 16: Wrap-up ===
+--- Page 1 ---
+Use the Variant Explorer in Views
+Wrap-up
+Congratulations!
+
+You have reached the end of the “Use the Variant Explorer in Views” course. 🎉
+
+You are now able to:
+
+Choose which object type you’d like to review.
+
+Select which process metric you’d like to review.
+
+Explore individual variants.
+
+Compare multiple variants.
+
+Filter on objects using events and connections.
+
+Filter on objects using the built-in filters.
+
+Filter on objects using the filter bar.
+
+
+But before you go, did you notice this loop around the Create Sales Order Item event during the exercises you did?
+
+
+Curious what that’s about? Well, maybe you’ll find out in the Process Explorer course up next 👀 
+
+We look forward to seeing you there!
+
+Please feel free to share your feedback with us on the next page so that we can further improve our content. Thank you!
+
+Want to dig deeper into the topic of this course? Join the Celonis Community to ask your product questions, hear about the latest product releases, and remain up-to-date by subscribing.
+
+We invite you to join our Celonis Academy Group to engage with your peers, get exclusive updates and answers directly from Academy experts, and stay connected!
+
+
+
+--- Page 2 ---
+Use the Variant Explorer in Views
+Wrap-up
+
+How satisfied are you with the course?
+
+	★	★★	★★★	★★★★	★★★★★
+Please select a rating					
+
+What did you like most about this course?
+
+What would you improve about this course?
+
+
+⇨ If you have files or screenshots, please send them to academy@celonis.com.
+
+Complete Survey
+
+

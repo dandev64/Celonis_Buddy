@@ -1,0 +1,800 @@
+﻿========================================================================
+  CELONIS ACADEMY - CONFIGURE ACTION FLOWS
+  Extracted: 2026-09-09 16:51  |  Personal study use only
+  Source: https://academy.celonis.com/learn/course/configure-action-flows
+  Lessons: 8
+========================================================================
+
+########################################################################
+  LESSON 1 : Tuning the Instruments [03:00]
+########################################################################
+
+----- Page 1 -----
+
+Overture [10:00]
+Tuning the Instruments [03:00]
+Welcome!
+
+Welcome to Configuring Action Flows! If you’ve already built a basic Action Flow, you know the thrill of seeing a "Success" message in your execution history. Now, it’s time to move beyond the basics and master the advanced logic required for professional-grade automations.
+
+In this course, we move from simple, linear "Point A to Point B" connections to multidimensional flows. You will learn how to handle complex data scenarios, transform information on the fly, and ensure your flows are robust enough to handle real-world irregularities.
+
+Course Overview
+
+We will explore the tools that give you full control over how data moves through Celonis, allowing you to build intelligent and flexible Action Flows.
+
+By the end of this course, you’ll be able to:
+
+Build Decision Logic: Use Routers and Filters to create "logical forks" in the road, allowing your flow to take different actions based on the data it finds.
+Master Data Transformation: Use Functions to clean, format, and calculate data (like changing date formats or modifying text) directly within your modules.
+Design for Resilience: Use foundational techniques to ensure your flows handle missing or unexpected data gracefully.
+Expand your Connectivity: Discover how to interact with external services and APIs to bring more power to your automations.
+
+
+
+
+Prerequisites
+
+To get the most out of these lessons, you should be comfortable with the Celonis Studio interface, basic module mapping, and the concept of data pills.
+
+If this is news to you, please consider taking the following courses first:
+
+Introduction to Celonis Studio
+
+Introduction to Studio Assets
+
+Introduction to Action Flows
+
+All set? Then let's go!
+
+----- Page 2 -----
+
+Overture [10:00]
+Tuning the Instruments [03:00]
+Prepare your Training Team
+
+To follow along with the exercises in this course, you will need to access to a central Training Team environment. This is a workspace where you can build and test advanced logic safely.
+
+Add me or check my access
+
+Create your Course package
+
+Staying organized is key when building complex automations. If you have taken the "Introduction to Action Flows" course before, you can simply reuse or duplicate your already existing package and Action Flow - more on how we're going to evolve it later.
+
+Otherwise, please make sure you have a dedicated package (optionally a space) ready in Celonis Studio.
+
+Pro-Tip: Using a clear naming convention now makes it much easier to locate your assets as your library of Action Flows grows.
+
+----- Page 3 -----
+
+Overture [10:00]
+Tuning the Instruments [03:00]
+
+No topic content.
+
+########################################################################
+  LESSON 2 : Recap (optional) [06:30]
+########################################################################
+
+----- Page 1 -----
+
+Overture [10:00]
+Recap (optional) [06:30]
+Action Flows vs. Process Orchestrations
+
+As you explore the Celonis Platform, you will encounter two primary ways to drive action: Action Flows and the Orchestration Engine (referred to in Studio as a Process Orchestration asset). While they often work together, they serve different purposes.
+
+The easiest way to understand the difference is through the analogy of an Orchestra 🎷:
+
+TOPIC	ACTION FLOW	PROCESS ORCHESTRATION
+Analogy	
+
+The Musician
+
+Think of an Action Flow as a specialized musician. A violinist is an expert at one specific task: playing the violin. They are fast, precise, and transactional.
+
+	
+
+The Conductor
+
+The Orchestration Engine (or Process Orchestration asset in Studio) is the Conductor. The Conductor doesn’t play an instrument; instead, they manage the entire performance. They know which musician should play and when.
+
+
+State	
+
+Stateless
+
+When the song ends, the musician doesn't need to "remember" the notes to perform the next task.
+
+	
+
+Stateful
+
+The Conductor must remember the "state" of the entire symphony - where we are in the music and what happens next.
+
+
+Focus	
+
+Action Flows are built for Task Automation. They execute a specific system update or notification in seconds and then finish their job.
+
+	
+
+The Orchestration Engine is built, as the name implies, for Process Orchestration. It manages long-running processes that span days or weeks, coordinating multiple Action Flows and human tasks over time.
+
+
+
+
+While it is important to understand how these two engines complement each other, this course focuses exclusively on Action Flows. If you are completing this as part of the "Build Action Flows" training track, you will find a deeper dive into the relationship between these assets in a later asset.
+
+If you're eager to learn all the details about the "Conductor", you can explore the "Orchestration Engine Fundamentals" course in the Academy at any time.
+
+----- Page 2 -----
+
+Overture [10:00]
+Recap (optional) [06:30]
+Action Flow Configuration Basics
+
+Before we dive into advanced logic, let’s quickly revisit the fundamental building blocks of an Action Flow. Professional configuration starts with a solid understanding of how data moves from the starting signal to the final output.
+
+The Core Components Recap
+
+Every Action Flow is built on three essential elements:
+
+The Trigger: This is the starting signal. Whether it is a Schedule (running at specific times) or a Webhook (reacting to a specific event), the trigger defines when the flow begins.
+Modules: These are the individual steps in your Action Flow. Each module performs a specific task, such as fetching data from an app, processing text with AI, or sending a notification.
+Connections: The secure "bridge" (using API keys or OAuth) that allows Celonis to communicate with your external applications like Outlook, Slack, or Jira.
+
+
+
+
+The Flow of Data
+
+The intelligence of your flow depends on how you move data between these components:
+
+Mapping: This is the process of connecting the output of one module to the input of another.
+Data Pills: These represent individual pieces of information (like an Order ID or a Customer Email) that you drag and drop into module fields.
+Bundles: Data is processed in "bundles." If a trigger finds multiple items, the flow will process each bundle through the subsequent modules individually.
+
+Moving Beyond Linear Paths
+
+So far, you’ve likely built Linear Flows - where every step follows a straight line. In this course, we are going to break that line. We will introduce Advanced Logic that allows the flow to evaluate data, transform it on the fly, and decide which path to take based on specific conditions.
+
+########################################################################
+  LESSON 3 : Add Routers and Filters to an Action Flow [09:00]
+########################################################################
+
+----- Page 1 -----
+
+Advanced Data Manipulation and Flow Control [37:00]
+Add Routers and Filters to an Action Flow [09:00]
+Add and Connect a Router Module
+
+In our original Sports Consultant flow, the Weather module was the first step. To build a more intelligent system, we need to change that. We will now place a Router at the very beginning of our flow so that the first thing Celonis does is decide which path to follow.
+
+Adding the Router as the first Module
+
+There are two ways to add the Router:
+
+Click the green Tools icon in the bottom menu and select Router, or
+Right-click into the canvas and select Add a module. Then add the Router.
+Drag the clock icon from the Weather module and drop it on the Router module. This marks the Router as the starting module. 
+Now, connect the router module and the Weather module, establishing the connection from the Weather module. 
+Optionally, if your flow now looks a little "messy", click the Auto-Align button in the top menu bar.
+
+
+
+
+
+
+
+Building the Branch Architecture
+
+Now that the Router is the head of the flow, we need to create our two different paths:
+
+The Training Path: Our current path, including the Weather. This path will eventually be filtered to run on Tuesday through Sunday.
+The Rest Day Path: Click the center of the Router to create a second branch. At the end of this new path, add another Email module. Specify the connection you've used before and add your email address and a subject (e.g., "Try this drink recipe today!"). Leave the body empty for now.
+
+Your canvas should now show a clear "Y-shape" split. The Router sits at the far left, with one path leading to your existing weather and AI logic, and a second path leading to your new email module.
+
+Architect's Note: By making the Router the first module, you ensure that no "operations" (like fetching weather data) are wasted if the condition for that path isn't met. The flow makes the decision first, then executes the work.
+
+Tip: You now see two email modules in your Action Flow. As a best practice, it is common to rename the modules to clearly distinguish their purpose at a glance. To do so, just right-click the respective module and select "Rename".
+
+----- Page 2 -----
+
+Advanced Data Manipulation and Flow Control [37:00]
+Add Routers and Filters to an Action Flow [09:00]
+Adding Filters and Conditions
+
+Did you already give it a try and run the new version of the flow? If not, go ahead and try! Watch your inbox to see what's happening…
+
+… exactly! You're receiving two emails, one for each path available. This is how routing works if you don't add filters and conditions to it.
+
+A filter sits on the connecting line between the Router and the next module, acting as a gatekeeper that only opens if specific conditions are met.
+
+Setting the Training Day Filter
+
+First, let’s ensure the Weather path only runs from Tuesday to Sunday.
+
+To add a filter to this route, simply right-click the dotted line between the modules and click Set up a filter. This opens the filter configuration screen.
+
+Label: The label is, as the name suggests, a visual cue on your flow that describes under which conditions this route is executed. We can, for example, call it Training Days, or, to be more precise Training Days (Tue - Sun).
+Fallback route: Based on the definition of fallback routes in the editor, we can keep the default setting, i.e., “No”.
+Condition: The condition consists of multiple elements: the incoming value, the operator, and the criterion to be fulfilled.
+We basically want to ensure that the current day is not "Monday". We, therefore, need a Text Operator, and select the one that says Not equal to.
+For the condition, we simply add Monday.
+
+
+
+
+What is still missing is identifying the current workday. And this is where something else comes into play: Functions, more precisely Date and Time functions. Let's give you some time to experiment a bit on your own! We give you a tip, though: 
+
+What you need are the formatDate and the now functions… Good luck!
+
+Solution: Define Filter Condition
+
+
+
+
+👉 With our condition set, give the Action Flow another run. Depending on the day that you're taking this course, what do you notice? Anything expected or also unexpected? 
+
+If it is any day other than a Monday that you are taking this course, both routes are likely still executed. And that makes sense: The upper route's condition is fulfilled, but the lower route is also still executed since no condition or filter are yet defined for it.
+
+👉 Go ahead and add a "gatekeeper" for that lower route!
+
+Solution: Add a Filter and Condition for Rest Days
+
+Note that you can combine multiple filter conditions by adding either an AND-type or OR-type rule!
+
+----- Page 3 -----
+
+Advanced Data Manipulation and Flow Control [37:00]
+Add Routers and Filters to an Action Flow [09:00]
+
+No topic content.
+
+########################################################################
+  LESSON 4 : Working with Arrays and Collections [28:00]
+########################################################################
+
+----- Page 1 -----
+
+Advanced Data Manipulation and Flow Control [37:00]
+Working with Arrays and Collections [28:00]
+Make a Get Request via the HTTP Module
+
+Now that our flow can distinguish between a training day and a rest day, it’s time to give our "Rest Day" path some actual purpose. Instead of an empty email, we want to provide a refreshing, non-alcoholic drink recipe to try out.
+
+Instead of doing an online search for a recipe every time on a rest day, we want to truly rest and let the Action Flow do the job. We plan to have it send a recipe directly to our inbox, instead of the daily sports recommendation.
+
+The Cocktail DB 🍷
+
+To retrieve recipes for drinks, we will leverage the open, crowd-sourced database "TheCocktailDB", or more precisely its open API.
+
+👉🏼 Think about it: How likely will we need to adjust our current Action Flow to receive a recipe from the CocktailDB and integrate it into our email?
+
+Solution
+
+
+
+
+Perhaps the heading of this lesson already gave you a hint on how to solve the riddle we posed to you above. Let's get back into the works now and add the HTTP module to our flow!
+
+Step 1
+
+To add a new module to an existing flow, just right-click the connection between the modules where you'd like to add the new module. Select "Add module".
+
+Step 2
+
+We're looking for a module called Make a request (HTTP). Add it.
+
+Step 3
+
+You should now see the configuration panel of the HTTP module.
+
+We will not go into a lot of details of HTTP right now, but rather focus on making the logic for our drinks request work. There is a variety of resources on the internet available if you need them.
+
+🕵️ Here's your next quest: A typical first step if you want to connect to a service via the HTTP module (i.e., there is no preconfigured app that will intuitively guide you) is taking a look at the respective API's documentation and the available endpoints.
+
+You already know what we're aiming for: A single, random, non-alcoholic drink recipe.
+
+Check out the API documentation and see how far you get in configuring the HTTP module yourself. Open the hints below one by one to either check in on your progress or, in case you need help.
+
+Hint #1
+Hint #2
+Hint #3
+Hint #4
+Hint #5
+
+----- Page 2 -----
+
+Advanced Data Manipulation and Flow Control [37:00]
+Working with Arrays and Collections [28:00]
+Set a Variable and Leverage Functions
+
+To solve our "long-list-of-available-drinks-problem", we need to pick a random drink from our list of non-alcoholic drinks and save it so we can request its recipe in a second HTTP request.
+
+Before we can pick a random item, we need to know how many drinks are actually in the list. In Action Flows, this "list" is called an Array.
+
+What is an Array?
+
+Think of an Array as a container.
+
+The Square Brackets [ ] are the walls of the container.
+
+Everything inside those brackets are the Collections { } (i.e., the individual drinks).
+
+👉 Take a look at the available functions again.. Anything that looks like it could help to count the items (or collections) inside an array?
+
+Solution
+
+Now that you know which function to use to solve at least a part of your problem, the next question is: Where to save the length of the array?
+
+To answer this, it is time for you to get acquainted with the unofficial Swiss Army knife of Action Flows: Variables!
+
+Variables in Action Flows can serve a variety of purposes, and their usage varies from being an integral part of the Action Flow to just a temporary solution to understand the outputs of one or multiple other preceding modules and operations better.
+
+In our case, we choose the former: the Set variable module will become an integral part of our flow. However, not to just store the length of our array…
+
+🕵️ It is time again for a quest! You've received a multitude of hints so far on how to proceed, and we'd like to put it again into your hands to figure out the solution. As before, multiple hints build on each other, and which you can expand as you need them.
+
+Good luck!
+
+Hint #1
+Hint #2
+Hint #3
+Hint #4
+Hint #5
+
+Our Set Variable module now outputs a randomly chosen index of the drinks array.
+
+The next step is to retrieve the recipe for our chosen drink. Bottoms up!
+
+----- Page 3 -----
+
+Advanced Data Manipulation and Flow Control [37:00]
+Working with Arrays and Collections [28:00]
+Access Nested Objects
+
+You’ve already mastered a rather complex "nested" function in the previous step - combining round, random, and length is no small feat! Now, it's time to put that randomly generated index to work.
+
+We are going to bridge the gap between our long list of drinks and the specific recipe we want to send to our inbox.
+
+The Second HTTP Request
+
+First, we need to add the module that actually fetches the ingredients and instructions.
+
+Add a second HTTP module (Make a request) after your Variable module.
+
+The Goal: We need the endpoint that looks up a cocktail by its ID.
+The URL: 👉 Take a look at the documentation again.
+The Parameter: Instead of appending the ID to the URL, let's keep it clean. Add an item under Query String: This is where the magic happens...
+
+In the Value field for the query item, we need to reach back to our very first HTTP module (the one with the big list) and use our Index variable to pull out exactly one idDrink.
+
+🕵️ Your Quest: Construct a function that does the following:
+
+Uses your Random non-alcoholic drink array index variable as the position.
+Extracts the idDrink property from that specific position.
+
+You know the drill… use the hints below as you need them!
+
+Hint #1
+Hint #2
+Hint #3
+
+If everything is configured correctly, you should now get an output similar to the one below from your second HTTP module (run the entire flow once to test and make sure to adjust the filter conditions if required):
+
+Note that we again activated the "Parse response" option to format the returned instructions nicely.
+
+We now have all the info we need to send our email, including the recipe! If you look at the output carefully, you may notice one or another hurdle to that still… Let's tackle it.
+
+----- Page 4 -----
+
+Advanced Data Manipulation and Flow Control [37:00]
+Working with Arrays and Collections [28:00]
+Map Complex Data
+
+You’ve (almost) done it! Our last hurdle is that the API provides 15 slots for ingredients (strIngredient1 through strIngredient15) and also measures, but our chosen drink may only use three or four ingredients (and measures).
+
+If we map all 15 fields directly into our email, the result will look like a messy shopping list with multiple empty lines.
+
+The "If" Function: Your Quality Filter
+
+To keep our email professional, we only want to show ingredients that actually exist. For this, we use the if() function.
+
+The logic works like this: "If Ingredient 4 exists, show it. If not, show nothing."
+
+In a professional, large-scale project - with 100 possible ingredients - an architect would use an Iterator to handle this automatically. However, because this specific API sends data in a "flat" format (Ingredient 1, Ingredient 2, etc.) rather than a clean list, we would have to build a complex transformation to loop through them.
+
+To keep our focus on mastering Conditional Logic, we are going to map only the first five ingredients. Since most non-alcoholic drinks are relatively simple, this covers 95% of our recipes without turning our email module into a construction site!
+
+💡 Don't worry—as you progress through the Build Action Flows Training Track, we’ll show you the "Pro" way to collapse hundreds of fields into a single list using Iterators and Array Aggregators. For now, let’s focus on getting these five looking perfect.
+
+Building the Recipe Body
+
+In your Email module, find the Content field. We want to structure it nicely using HTML (or plain text) and our new data pills.
+
+Your Quest: Map the strInstructions first. Then, for the ingredients, use the following pattern for the first five ingredients and measures:
+
+if(strIngredient1 ; strMeasure1 + strIngredient1 ; )
+
+Solution | Deconstructing the "If" Formula
+
+When the email arrives, it won't matter if the drink has 2 ingredients or 5—it will always look perfectly formatted!
+
+Victory Lap
+Save your Action Flow.
+Run the entire flow one last time.
+Check your inbox.
+
+
+
+
+If you see a refreshing non-alcoholic recipe waiting for you, congratulations! You’ve mastered Routers, Filters, HTTP Requests, Variables, and Nested Functions; all very important tools and skills on your road to successfully architecting Action Flows.
+
+You will find a beautified HTML example in the course resources, which will give you a nicely formatted email that looks like this:
+
+You'll furthermore find a blueprint of the final Action Flow in the course resources to retrace any details if needed!
+
+----- Page 5 -----
+
+Advanced Data Manipulation and Flow Control [37:00]
+Working with Arrays and Collections [28:00]
+Reviewing Action Flow Architecture Choices
+
+Congratulations! You’ve built a complex, dynamic engine that handles data like a pro. But before we cross the finish line, let’s pull back the curtain on why we built it this way. In the world of Action Flows, there is rarely only one "right" way—only the most elegant one for your specific goal.
+
+Why dynamic over static?
+
+You might wonder: "Why bother counting the array length every single time? Why not just count once and hard-code '58' into the random function?"
+
+The Dynamic Reality: In a real-world scenario, database content changes. Recipes are added or removed irregularly. A static flow (hard-coded at 58) would quickly break or miss new data.
+The Principle: Scalability. A great architect builds flows that adapt to the data, not the other way around.
+Where does the logic live?
+
+We chose to store the Index in our variable and then perform the get() function inside the second HTTP module. But we had other options! We could have:
+
+Constructed a variable that outputs the Drink ID directly.
+Constructed a variable that outputs the entire Drink Collection.
+
+
+
+
+So, why the Index? Keeping the Index as our variable makes the flow easier to maintain. If another person looks at your flow, seeing "Selected_Index" makes the mathematical logic clear. If you hide the entire get() function inside a variable, the next person might struggle to troubleshoot where the data is coming from.
+
+Architecting Principles
+
+As you move forward, keep these three principles in mind when choosing your design path:
+
+Maintenance: Can a teammate understand what this module does in 30 seconds?
+Computational Efficiency: Are you calling the same data three times, or could you save it to a variable once?
+Flexibility: If a teammate asks to send this recipe to Slack instead of Email tomorrow, how much of the flow would you have to rebuild?
+
+
+
+
+"An elegant solution isn't just one that works; it's one that is easy to read, hard to break, and simple to scale."
+
+----- Page 6 -----
+
+Advanced Data Manipulation and Flow Control [37:00]
+Working with Arrays and Collections [28:00]
+
+No topic content.
+
+########################################################################
+  LESSON 5 : Deployment and Stability [06:00]
+########################################################################
+
+----- Page 1 -----
+
+Resilient Action Flow Designs [11:00]
+Deployment and Stability [06:00]
+Deployment and Activation Recap
+
+You’ve officially built a sophisticated, data-driven engine. It calculates indices, fetches specific API records, and formats clean, professional emails. But right now, this engine is sitting in your "garage" (the editor). To make it a live service that delivers value every single day, we need to revisit the Action Flow Activation.
+
+From Draft to Production
+
+As you might recall from your first steps in Action Flows, a flow doesn't just "start" once you finish the logic. There is a specific "Launch Sequence" required to move from a working draft to an active asset…
+
+Which order of steps do you need to follow? Click the option you think is correct down below:
+
+Activating → Versioning → Deploying
+Deploying → Versioning → Activating
+Versioning → Deploying → Activating
+
+What do we not do in our training teams, though? Exactly, we don't activate Action Flows nor keep them active. After all, this is a training, not a productive environment, and we want to save our resources.
+
+Check out this video on Versioning and Deployment, if you need a refresher!
+
+Polling vs. On-Demand
+
+For our Sports Consultant, we’ve focused on a Scheduled approach.
+
+The Polling Interval: By setting a schedule (e.g., every 24 hours), you are telling the system to "Poll" the data. Every morning at your specified time, the flow wakes up, runs through its logic, and sends the recipe.
+A Look Ahead: While we are using a clock to trigger our flow today, keep in mind that many professional flows are On-Demand. This means they sit silently until a specific event - like a user clicking a button in a Celonis View or a Webhook receiving data from an outside system - triggers them instantly.
+
+🌍 The "UTC" Constraint
+
+Unlike some other tools, Action Flows exclusively follow UTC (Atlantic/Reykjavik) time. There is no setting to change the flow's internal clock to your local time.
+
+If you want your recipe or sports recommendation to land in a user's inbox at 8:00 AM in New York (EST), you’ll need to schedule your flow for 1:00 PM UTC. Always perform the "UTC Offset" calculation manually to ensure your flow hits the mark!
+
+The reason we emphasize the differences between development and 'live' phases isn't just for organization - it's for stability. By separating your "Drafting" area from your "Active" area, you ensure that your end-users never see a "Work in Progress." Even if you are currently rewriting the entire drink logic, the previously deployed version continues to send out recipes every rest day without a hitch.
+
+----- Page 2 -----
+
+Resilient Action Flow Designs [11:00]
+Deployment and Stability [06:00]
+Handling External Constraints
+
+Even the most perfectly designed Action Flow is only as fast as the APIs it communicates with. Most professional APIs have a "Rate Limit" - a maximum number of requests they will allow within a specific timeframe. If your flow sends requests faster than the API can process them, the server will block you with a 429 Error: Too Many Requests.
+
+In the world of automated flows, being "too fast" is a common cause of unexpected (or rather expected?) crashes. To prevent this, we use a simple but effective tool to pace our execution: The Sleep Tool.
+
+Adding the "Breather"
+
+By inserting a Sleep module, you are building resilience into your design. It ensures that your flow "takes a breath" before hitting the next module.
+
+While our drinks route only makes two rapid requests - a volume that most APIs handle easily - the Sleep tool is a mandatory skill for an Action Flow architect's toolkit. It becomes a lifesaver in high-volume scenarios, such as Mass Data Migrations, where you might be updating hundreds of records in a CRM and need to stay under a strict "requests-per-second" limit to avoid a system-wide failure.
+
+Let's, for illustrative purposes, still add a sleeper module to our flow (optional to follow this in your training team):
+
+Step 1
+
+Open the Tools menu (the purple icon in your lower toolbar).
+
+Step 2
+
+Search for and select the Sleep module.
+
+Step 3
+
+Place it on the path directly before your second HTTP module (the one fetching the specific drink details).
+
+Step 4
+
+Set the Delay to 2 seconds.
+
+Step 5
+
+Hit the "Auto-Align" button to make the flow look nice again.
+
+Now, when you run the flow, you’ll notice a deliberate 2-second pause. You have successfully designed a flow that respects external boundaries—a hallmark of a stable production asset.
+
+----- Page 3 -----
+
+Resilient Action Flow Designs [11:00]
+Deployment and Stability [06:00]
+
+No topic content.
+
+########################################################################
+  LESSON 6 : Quality Assurance and Root Cause Analysis [05:00]
+########################################################################
+
+----- Page 1 -----
+
+Resilient Action Flow Designs [11:00]
+Quality Assurance and Root Cause Analysis [05:00]
+Advanced Logs and Auditability
+
+While the Simple Log is your go-to for checking the data inputs and outputs, the Advanced Log provides a technical play-by-play of the execution's lifecycle.
+
+It reveals the operational phases of each module, such as when a module is initialized, when the data commit begins, and exactly when the process completes.
+
+While you usually won't need this for daily troubleshooting, it is invaluable when a flow "hangs" or stops unexpectedly, as it allows you to see exactly which phase of the processing was the last to successfully fire.
+
+Searching the History
+
+You don't have to scroll through hundreds of "Success" bubbles to find one specific failure. Within the History tab of your Action Flow, you can use the Search and Filter tools to narrow down the list. You can filter by:
+
+Status: Quickly isolate only the "Error" states.
+Date Range: Focus on a specific window of time.
+Specific Data: Search for executions containing a specific keyword.
+
+Packing Your Bags: The Audit Log
+
+You may eventually need to export your data for compliance or long-term troubleshooting. Because execution logs in the history tab eventually expire, Celonis provides a central hub for your records in the Admin & Settings section.
+
+Step 1
+
+Navigate to Audit Logs: Go to the Admin Section and select Audit Logs.
+
+Step 2
+
+Define a Period: Before downloading, use the Define Period calendar tool to select the specific timeframe you are interested in.
+
+Step 3
+
+Download the Evidence: Click the blue Download button. Here, you have the specific option to Download Action Flow Execution Logs (.csv).
+
+This CSV file serves as your permanent "Black Box" recorder, ensuring that even after the history is cleared from the Studio, you still have a searchable, auditable record of every move your flow made.
+
+----- Page 2 -----
+
+Resilient Action Flow Designs [11:00]
+Quality Assurance and Root Cause Analysis [05:00]
+
+No topic content.
+
+########################################################################
+  LESSON 7 : From Learning to Building [06:00]
+########################################################################
+
+----- Page 1 -----
+
+The Action Flow Builder's Launchpad [11:00]
+From Learning to Building [06:00]
+Leverage the Training Environment
+
+You’ve finished the formal blueprints, but the best way to solidify your skills is to start "breaking" things in a safe space. The Training Environment isn’t just where this course lives - it’s your personal sandbox for experimentation.
+
+The "What-If" Challenge
+
+Don’t delete your Sports (and Wellness) flow just yet. Instead, use it as a base to test new ideas. A great Action Flow builder is always asking "What if?"
+
+Try these modifications to see how the logic holds up:
+
+The Notification Swap: What if you replaced the Email module with a Slack or Microsoft Teams module?
+The Personal Touch: What if you used String Functions to ensure the drink name is always in UPPERCASE, or tried to parse the "Instructions" text to highlight the ingredients in bold within the email?
+The Logic Pivot: What if you changed the logic to fetch two random drinks instead of one, and compared their calorie counts?
+Your Library of Blueprints
+
+You don't always have to start with a blank canvas. The Celonis Marketplace is filled with Action Flow Templates. These are pre-built flows designed for common business scenarios - like clearing credit blocks in SAP or updating records in Salesforce.
+
+Exploring these templates is one of the fastest ways to see how Master Architects structure their logic and handle complex data mappings.
+
+The Golden Rule: Training vs. Production
+
+As you start exploring, always keep the Architect’s Guardrail in mind:
+
+Training Environment
+
+Use this for learning, testing "crazy" ideas, and exploring new modules. Keep in mind, though, that you don't have any of your "own" data available here.
+
+Production Environment
+
+This is for live business processes. Never "test" a new idea in a production flow. Build it in Training first, verify the data, and only then migrate your design to the live environment.
+
+Architect's Mindset: Separation of environments is the first step toward system stability. Treat your Production flows like a high-speed highway - no construction allowed while traffic is moving!
+
+----- Page 2 -----
+
+The Action Flow Builder's Launchpad [11:00]
+From Learning to Building [06:00]
+Identifying Your Use Case
+
+Now that you have the technical skills, the question is: What should I build first? Not every manual task is a good candidate for an Action Flow. As an Architect, you want to focus your energy on "Automation Gold" - tasks where the effort to build the flow is far outweighed by the time saved and errors avoided.
+
+The "Three R's" Framework
+
+When looking at your own business processes, evaluate potential ideas against the Three R's:
+
+Repetitive: Does this task happen frequently (daily or weekly)? If you only do it once a quarter, it might not be worth automating. If it’s a daily recommendation style task, it’s a prime candidate.
+Rule-Based: Can you describe the logic using "If/Then" statements? Action Flows thrive on clear rules. If a task requires "gut feeling" or subjective human intuition, it’s likely not ready for an Action Flow - other than the Action Flow creating a task for a human, perhaps!
+Reach: Does the task require moving data between different systems? Action Flows are the "bridges" of the Celonis world. If you find yourself manually copy-pasting data from a Celonis Analysis into an Excel sheet, an Email, or a CRM like Salesforce, you’ve found a high-value use case.
+Start Small, Scale Fast
+
+The most successful Architects don't try to automate an entire department on day one. They start with a Micro-Automation:
+
+The Alert: "If a high-priority invoice is overdue by 10 days, send a Ping to the account owner."
+The Data Sync: "When a status changes in SAP, update the corresponding record in our tracking spreadsheet."
+Best Practices for Design
+
+As you identify your first project, keep these principles in mind:
+
+Keep it Modular
+
+It’s better to have three small, simple flows than one "Mega-Flow" that is impossible to troubleshoot.
+
+Name Your Modules
+
+Don't leave them as "HTTP 1" and "HTTP 2." Rename them to "Fetch Random ID" and "Get Drink Details." Your future self (and your teammates) will thank you.
+
+Plan for Failure
+
+Always assume an API might go down or a field might be empty. Use the error-handling skills we practiced before and will still practice a lot in a dedicated module!
+
+Architect's Tip: Think of your first Action Flow as a "Minimum Viable Product" (MVP). Solve one specific pain point perfectly before adding the next ten features!
+
+----- Page 3 -----
+
+The Action Flow Builder's Launchpad [11:00]
+From Learning to Building [06:00]
+Personal and Dynamic Connections
+
+As you start exploring new modules, you will notice that almost every one of them requires a Connection. If Action Flows are the "engine," then Connections are the "Keys."
+
+
+
+
+Think of it as "Logging In"
+
+Creating a connection is essentially logging into that specific system through Celonis.
+
+When you set up an Outlook module, you are authorizing Celonis to send emails from your account.
+When you connect to SAP, you are granting the Action Flow the power to read or write data using your credentials.
+Your Rights are the Flow's Rights
+
+An Action Flow cannot do what you cannot do. If your user profile in a target system doesn't have the permission to delete a record or approve an invoice, the Action Flow will fail with a "401 Unauthorized" or "403 Forbidden" error if it tries to perform those tasks.
+
+Architect’s Note: Always verify your permissions in the target system before building a complex flow. If the flow needs to perform an action your personal user shouldn't have (like high-level financial approvals), you may need to speak with your Admin about using a "Service Account" connection.
+
+The Paper Trail
+
+Because the connection is tied to an account, every action the flow takes is logged under that name.
+
+If your flow updates 500 invoices in SAP, the SAP audit log will show that [Your Name] modified those invoices at 4:00 AM.
+
+This is why "naming" your modules and using the Change History is so important - it ensures that when people see your name in the system logs, they know it was part of a carefully designed automation.
+
+----- Page 4 -----
+
+The Action Flow Builder's Launchpad [11:00]
+From Learning to Building [06:00]
+
+No topic content.
+
+########################################################################
+  LESSON 8 : Wrap Up [05:00]
+########################################################################
+
+----- Page 1 -----
+
+The Action Flow Builder's Launchpad [11:00]
+Wrap Up [05:00]
+
+----- Page 2 -----
+
+The Action Flow Builder's Launchpad [11:00]
+Wrap Up [05:00]
+Your Learning Journey - Continued
+
+Congratulations - mission accomplished! You have officially transitioned from an Action Flow spectator to a builder. Over the course of these lessons, you haven’t just learned how to click buttons; you’ve developed the Architect’s Mindset. You are now equipped to handle the three pillars of professional automation:
+
+Navigating Data Structures: You’ve mastered the "Box-within-a-Box" nature of API responses. You now know how to peel back the layers of Nested Collections and Arrays, pinpointing exactly where a piece of data lives so you can map it with precision.
+Dynamic Item Selection: You’ve moved beyond hard-coding. By using math and index pointers, you can now instruct a flow to intelligently pick a single specific item out of a massive list - no matter how many items that list contains.
+Building for the Real World: You understand that systems have limits. By using the Sleep tool and respecting rate limits, you’ve learned to build "polite" automations that don't crash when they talk to external APIs.
+Data Verification: You’ve learned to look "Beyond the Green Checkmark," using logs to verify that the data arriving at the end of your flow is exactly what you expected.
+
+The learning doesn't stop here! The world of automation moves fast, and the best architects are those who stay connected to the latest blueprints and strategies.
+
+Action Flows Community: Your hub for technical deep-dives. If you hit a wall or find a clever workaround, this is where you’ll find your peers.
+Celonis Academy Group: Stay updated on new modules and platform features to keep your skills sharp and your flows efficient.
+The most successful Architects share one trait: Curiosity. Don't be afraid to take a template apart to see how it works, or to "break" a flow in the training environment to find its limits. Every error you encounter today is a more stable system you'll build tomorrow.
+
+
+
+
+We hope to see you again soon at the next course of the "Build Action Flows" Training Track!
+
+Your Celonis Academy team
+
+----- Page 3 -----
+
+The Action Flow Builder's Launchpad [11:00]
+Wrap Up [05:00]
+
+How satisfied are you with the course?
+
+	★	★★	★★★	★★★★	★★★★★
+Please select a rating					
+
+What did you like most about this course?
+
+What would you improve about this course?
+
+
+⇨ If you have files or screenshots, please send them to academy@celonis.com.
+
+Complete Survey
+
+----- Page 4 -----
+
+The Action Flow Builder's Launchpad [11:00]
+Wrap Up [05:00]
+
+No topic content.

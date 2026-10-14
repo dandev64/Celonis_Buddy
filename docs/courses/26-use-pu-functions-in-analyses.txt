@@ -1,0 +1,638 @@
+﻿========================================================================
+  CELONIS ACADEMY - USE PU FUNCTIONS IN ANALYSES
+  Extracted: 2026-09-09 16:40  |  Personal study use only
+  Source: https://academy.celonis.com/learn/course/use-pu-functions-in-analyses
+  Lessons: 5
+========================================================================
+
+########################################################################
+  LESSON 1 : 1. Introduction to PU-Functions
+########################################################################
+
+----- Page 1 -----
+
+Use PU-Functions in PQL
+1. Introduction to PU-Functions
+Welcome to Use PU-Functions for Aggregations course!
+
+This course will take about 45-60 minutes to complete. After completing it, you will be able to:
+
+
+Apply PU functions instead of standard aggregation where necessary.
+
+Understand underlying table structure.
+
+Understand filter behavior.
+
+Act on error messages like “no common table” and “PU-function could not be executed”.
+
+Apply correct syntax.
+
+As a prerequisite, we highly recommend you first complete the following two courses:
+
+"Basic Coding with PQL"
+
+"Joins & Filters in PQL"
+
+Proceed to the next page to read a short recap of the Joins & Filters course.
+
+
+This content is available in multiple languages: English, German, French, Japanese, Spanish, and Portuguese. To switch your language, use the selector in the top navigation bar.
+
+In Courses: Switching languages will not affect your progress. If you are multilingual, comparing languages can even help deepen your understanding.
+In Exams: Do not switch the language once you start the exam. If you switch the language when you're already reviewing questions and answers, the page will refresh, causing your exam attempt to end prematurely. (Note: Once inside the exam course, you can switch the language anytime before clicking the Start Exam button.)
+
+
+
+
+If you encounter any technical or access issues during this course, check out our FAQs in the Support area or reach out to us via our Academy contact form.
+
+----- Page 2 -----
+
+Use PU-Functions in PQL
+1. Introduction to PU-Functions
+Play Audio
+Recap on Joins & Filters in PQL
+
+Every asset in Celonis has an underlying Data Model with multiple tables and 1:N relationships. The joins between those tables are left-outer joins, where the N-side is on the left.
+
+When you write a PQL-query, all tables involved are pulled to a common table first, which means that the tables are joined implicitly. This has consequences, for example, in KPI calculation involving several tables. The common table is always the table on the most N-side.
+
+
+Whenever you want to put multiple KPIs based on different tables inside the same component, think about the common table and joins!
+
+----- Page 3 -----
+
+Use PU-Functions in PQL
+1. Introduction to PU-Functions
+From Standard Aggregations to PU-Functions
+
+One could say, PU-functions are the big brothers and sisters of standard aggregations. You ask: “But why do I need them? I already learned how to calculate sums, minima and averages!”
+
+Watch the following video to understand the need and advantages of PU-functions.
+
+
+Remember: You can use PU-functions to calculate aggregations across multiple tables! They add a temporary column with the aggregation result to the target table.
+
+Right now, you got to know the sum PU-function. However, there are a lot of different kinds of PU-functions. Proceed to the next page to get to know them.
+
+For more details on PU-functions, refer the Celonis documentation on Pull Up Aggregation.
+
+New feature update: 
+Aggregation Selector added to the PQL Editor
+
+Benefits of the new Aggregation Selector:
+
+The Knowledge Sidebar in the PQL Editor is now aware of the data model structure and common table.
+If the common table has a direct 1:N relationship to the source column, then the functions menu offers to apply PU functions.
+If the common table has an indirect 1:N relationship to the source column, then the functions menu offers PU functions for every relevant connection.
+The Aggregation Selector shows the relationships between the tables to better understand the connections.
+The Selector also respects the data type of the column (e.g. integers can be averaged, strings cannot) to proactively prevent errors.
+
+How to use it:
+
+To use it, add a column to the PQL Editor to establish a common table (aka your target table).
+Select an attribute (aka your source column) from the left Sidebar through the function menu (the inline “f” icon) and select the aggregation(s).
+
+For more details, refer the Release Notes on Aggregation Selector.
+
+
+If you wish to access the transcript of the video you can access the document under resource library names - From standard aggregations to PU-functions.
+
+----- Page 4 -----
+
+Use PU-Functions in PQL
+1. Introduction to PU-Functions
+Types of PU-Functions
+
+Thinking back to the standard aggregations in the previous courses, the first 8 functions should be quite intuitive to understand. The syntax starts always the same:
+
+PU_X(target_table, source_table.column) with X being the aggregation you want to perform
+
+In addition, there are three PU-functions that don’t correspond to a regular aggregation: PU_FIRST, PU_LAST and PU_STRING_AGG.
+
+Click through the tabs to learn more about each function.
+
+
+PU_SUM
+PU_AVG
+PU_COUNT, PU_COUNT_DISTINCT
+PU_MAX, PU_MIN
+PU_MEDIAN
+PU_QUANTILE
+PU_FIRST, PU_LAST
+PU_STRING_AGG
+
+Additionally, a filter condition can be passed to all PU-functions. You will learn more about this later in this course.
+
+
+Example
+
+As PU_FIRST and PU_LAST are quite new, let’s have a look at an example with a case and an activity table. You can use PU_FIRST and PU_LAST to identify the first and last activities for all your entries in the case table.
+
+Assume you want to analyze where the process ends, or in other words, which activity was the last one conducted for every case.
+
+To configure the PU-function we again need to think about three major things:
+
+What is the aggregation type?
+
+Which table is the target? As we want to return a result for every case, we take the Case table.
+
+And lastly, which table is the source table, and which column are you interested in? As we want to pull the last activity, we specify the Activity table with the activity name column.
+
+PU_LAST("Cases", "Activities"."Activity")
+
+
+This function will now return the last activity for every case.
+
+
+Examples for all PU-functions can be found in the PQL documentation.
+
+----- Page 5 -----
+
+Use PU-Functions in PQL
+1. Introduction to PU-Functions
+Advantage of PU-Functions
+
+PU-functions can be applied in many use cases and are often the only way to calculate a certain KPI or dimension. Note that we’ll dive deeper into each advantage during the next chapters.
+
+Click on the plus icons to see an example for each of them.
+
+
+Ready for a quiz? Proceed to the next page to test your knowledge.
+
+----- Page 6 -----
+
+Use PU-Functions in PQL
+1. Introduction to PU-Functions
+
+Welcome to the first quiz of this course!
+
+
+For each of the following use cases, reflect on whether you need a standard aggregation, a PU-function or a combination of both.
+
+Start
+
+----- Page 7 -----
+
+Use PU-Functions in PQL
+1. Introduction to PU-Functions
+
+No topic content.
+
+########################################################################
+  LESSON 2 : 2. Specifics of PU-functions
+########################################################################
+
+----- Page 1 -----
+
+Use PU-Functions in PQL
+2. Specifics of PU-functions
+Play Audio
+Relationship between tables and PU-Functions
+
+As mentioned in the previous chapter, PU-functions are key when working across multiple tables that are connected with a 1:N relationship.
+
+However, a PU-function NEVER introduces a new 1:N relation, but is always based on the connections that are defined in the data model.
+
+
+
+
+Looking at this example data model, we can use PU-functions for each of the outlined 1:N relations. Remember we always aggregate from the N-side to the 1-side.
+
+We could for example aggregate values from Table A (N-side) to Table C (1-side) or from Table C (N-side) to Table D (1-side).
+
+We can also aggregate data across multiple tables as long as the 1:N relations build a row. In the above example, we could also aggregate from Table A(N-side) to Table E (1-side) as there are two consecutive 1:N relations in a row.
+
+In contrast, we can’t aggregate from Table A (N-side) to Table B (N-side) as this would mean an N:1:N relation.
+
+Take a second to let this sink in before you switch to the next page.
+
+----- Page 2 -----
+
+Use PU-Functions in PQL
+2. Specifics of PU-functions
+Behaviour of PU-Functions
+
+You want to understand what exactly happens when applying a PU-function? Watch the video below to learn about the temporary columns that you’ll produce.
+
+Press O for more options
+	
+	
+	
+1:54
+	
+
+The fact that we’re creating a temporary column on the 1-side table provides another valuable feature: You can reduce the number of implicit joins in your query and aggregate data from tables that are not directly linked!
+
+Proceed to the next page to learn more about that!
+
+
+If you wish to access the transcript of the video you can access the document under resource library names - Transcript Behaviour of PU-functions.
+
+----- Page 3 -----
+
+Use PU-Functions in PQL
+2. Specifics of PU-functions
+PU-Functions as input for aggregations and multi-level aggregations
+
+Given that this output data is a temporary column and row-data, it can then be further aggregated with the normal aggregation functions.
+
+On this page, we will present you with two examples of different data models.
+
+
+Press O for more options
+	
+	
+	
+1:38
+	
+Aggregating across multiple levels
+
+Until now, we only aggregated across one level. However, it is also possible to aggregate across multiple levels.
+
+Assume we want to calculate the average number of people per continent. 
+
+If we break that down, we see two aggregation layers:
+
+
+First, we need to create the PU-function for this, as we did before: PU_COUNT(“Continents”,”People”.”ID”)
+
+The second aggregation layer is taking the average of the previous PU-function. We can get this by adding an “Average”-operator. Let’s add this formula as a custom KPI: AVG(PU_COUNT(“Continents”,”People”.”ID”))
+
+
+Besides aggregating over multiple levels, PU-functions can be used in combination with several other operators. In the PQL functions library, you can find a full overview of what’s available.
+
+
+If you wish to access the transcript of the video you can access the document under resource library names - Transcript PU-Functions as input for aggregations and multi-level aggregations.
+
+----- Page 4 -----
+
+Use PU-Functions in PQL
+2. Specifics of PU-functions
+
+Let's do some practice!
+
+Start
+
+----- Page 5 -----
+
+Use PU-Functions in PQL
+2. Specifics of PU-functions
+
+No topic content.
+
+########################################################################
+  LESSON 3 : 3. Filtering
+########################################################################
+
+----- Page 1 -----
+
+Use PU-Functions in PQL
+3. Filtering
+Play Audio
+Using PU-functions inside filters
+
+In chapter 1, we learned that one of the advantages of using PU-functions over standard aggregations is that PU-functions can be used inside filters, whereas standard aggregations can’t be used in this context. In fact, this was one of the motivations why PU-functions were added to PQL.
+
+Let’s have a look at the following example:
+
+Suppose we have a generic activity and a case table and we want to filter for the cases with more than 3 activities.
+
+The syntax for using PU-functions inside filters is very straightforward.
+
+First, you write the FILTER keyword and the PU-function expression, followed by the comparison operator and the value you want to use for the filter.
+
+So we end up with FILTER PU_COUNT("Cases", "Activities"."Activity") > 3;
+
+As a result, we obtain 1, as only case 1 has more than 3 activities. Every other case will be filtered out as the PU-function calculates on case level and the filter is therefore applied on case level.
+
+----- Page 2 -----
+
+Use PU-Functions in PQL
+3. Filtering
+PU-Functions do not consider FILTER statements
+
+An important property of PU-functions is that they ignore external FILTER statements, meaning the result of the aggregation does not consider previously defined filters. However, filters are still applied to the target table. Watch the following video to go through this with the help of an example.
+
+Press O for more options
+	
+	
+	
+1:27
+	
+
+But if regular filters are not applied, how can we filter on specific subsets in our data?
+
+Proceed to the next page to learn about the additional filter option inside a PU-function.
+
+
+If you wish to access the transcript of the video you can access the document under resource library names - Transcript PU-Functions do not consider FILTER statements.
+
+----- Page 3 -----
+
+Use PU-Functions in PQL
+3. Filtering
+Play Audio
+Filters inside a PU-Function
+
+Continuing with the previous example, assume we want to analyze how many cases went through "Activity A" more than once.
+
+This means that first, we need to count how often 'Activity A' occurs per case using a PU function.
+
+To configure the PU-function we again need to think about three major things:
+
+What is the aggregation type? As we want to count activities we specify "Count" as aggregation.
+Which table is the target or 1-side table? As we want to count activities per case, we define the case table as the first input parameter.
+And lastly, which table is the source or N-side table, and which column are you interested in? As we want to count activities, we specify the Activity column of the activity table.
+
+In order to exclusively count the "Activity A", we can add a filter condition to the PU-function, separated by a comma. In our example, we restrict the function to only those columns in the Activities table where the activity name is equal to "Activity A".
+
+PU_COUNT("Cases", "Activities"."Activity", "Activities"."Activity" = 'Activity A')
+
+
+We only want to count the cases in which "Activity A" was conducted more than once. This means that we need to add a CASE WHEN statement, checking if the PU_COUNT function returns a value greater or equal to 2. Wherever that’s the case we return 1, else NULL. Now, we can add a COUNT operator, and we’re done!
+
+COUNT( CASE WHEN PU_COUNT("Cases", "Activities"."Activity", "Activities"."Activity" = 'Activity A') >= 2 THEN 1 ELSE NULL)
+
+This PQL formula precisely calculates the number of cases that went through "Activity A" twice or more.
+
+Therefore, you can think of a filter inside a PU-function as an optional parameter to restrict your calculations on a subset of your data.
+
+Remember: The filter statement can be added as an additional input parameter in every PU-function. Just add a comma and insert the desired filter condition!
+
+----- Page 4 -----
+
+Use PU-Functions in PQL
+3. Filtering
+
+Let's check your new filter knowledge!
+
+Start
+
+########################################################################
+  LESSON 4 : 4. Error messages
+########################################################################
+
+----- Page 1 -----
+
+Use PU-Functions in PQL
+4. Error messages
+No common table error
+
+Maybe you remember that in the “Joins & Filters in PQL” course, we mentioned that PU-functions are one of the best possibilities for solving the “no common table” error. Probably you have already experienced this error before. 
+
+In this chapter, we explain how to leverage PU-functions in this case.
+
+As the name suggests, this error occurs when it is not possible to identify a common table in a query.
+
+Quick reminder: All tables involved in a query in PQL are joined to a common table first. As a rule of thumb, the common table is the table on the most N-side.
+
+Usually, the error happens when you have two tables on the most N-side. Remember this example? For tables E and F, there’s no common table.
+
+
+
+
+The error message tells you the join path:
+
+No common table could be found. The tables ["Table E"] and ["Table F"] are connected, but have no common table. This means that they do not have a direct (or indirect) 1:N or N:1 relationship. Join path: [Table E]N <-- 1![Table B]!1 --> N[Table F]. For more information on the join path, search for "Join functionality" in PQL documentation.
+
+----- Page 2 -----
+
+Use PU-Functions in PQL
+4. Error messages
+Solution using PU-Functions
+
+The key for using PU-functions to solve this error is that PU-functions do not introduce joins.
+
+Most times this error occurs when you want to use two tables located at the most-N side in the same component. When both tables are on the N-side, there’s no common table. To solve the error, you can aggregate the data from one of the tables on the N-side to the table on the 1-side.
+
+Let’s go back to our books example. Now we have added the author information, which is linked to the rest of the data model through the Mapping table. So, a person can be the author of many books and a book can have many authors, as presented in the Mapping table. 
+
+Finally, as seen before, obviously a book can be composed of many chapters.
+
+Suppose we want to get the number of chapters per author ID. This question cannot be solved with the regular COUNT function, because before executing the COUNT, the common table between the involved tables (i.e. Chapters and Mapping) would be calculated. Both tables are linked via the Books table in the middle, therefore, we find an N:1:N relation. As we learned before, this join is not possible, and we would get the "no common table" error.
+
+We can solve the problem by first counting the number of chapters per book using a PU_COUNT. The resulting column belongs to the Books table, i.e. it behaves as if there was a "Number of Chapters" column in the Books table.
+
+PU_COUNT("BOOKS", "CHAPTERS"."TITLE")
+3
+2
+4
+
+
+
+
+Thanks to the PU function, we don't need to do the join between the Chapters and the Books table anymore, and only the join between the Books table and the Mapping table will be introduced. 
+
+So, we can sum up the number of chapters per author ID using a regular SUM and the author ID as a dimension, and we have solved the task.
+
+
+"BOOK_AUTHOR_MAPPING"."AUTHOR ID"	SUM(PU_COUNT("BOOKS", "CHAPTERS"."TITLE"))
+100	3
+101	3
+102	6
+103	4
+104	4
+
+----- Page 3 -----
+
+Use PU-Functions in PQL
+4. Error messages
+1:N:1 cases (“PU-function could not be executed”)
+
+In some cases it is not possible to solve the problem directly with a single PU-function. As seen throughout this course, it is possible to aggregate from the N to the one side only. If we have a case where we need to use tables that are on the one-side, so a 1:N:1 relationship, we need to use the command BIND.
+
+BIND joins a column or constant to a specified target table. In the case of a column, this requires that the corresponding table and the target table have a direct or indirect 1:N relationship. The syntax of BIND is very simple:
+
+BIND (target_table, value)
+
+Value can be a constant or a column.
+
+Example
+
+Continuing with the books example, if we want to aggregate book information at the author level, we have a 1:N:1 relationship between the Books, the Mapping and the Authors tables. Therefore, we need to BIND the tables before using the PU-function.
+
+If we want to analyze book information at the author level, we can use BIND between the source and the intermediate table, which is the Mapping table in this case. Then we use the PU-function between the BIND result and the target table (Authors table in this case).
+
+
+If we want to get the number of pages per author without using regular aggregations (e.g. in order to use the result inside a FILTER statement), we can use a three-step approach:
+
+Remember that to aggregate chapters information (number of pages) at book level, we use a PU-function directly, as the relation Chapters:Books is N:1. 
+PU_SUM("Books","Chapters"."Number of Pages")
+
+The "Number of pages" information is now on "Books" level. Since the relationship Books:Mapping table is 1:N, we use BIND, and we pass the value of the previous PU-function.
+BIND("Book_Author_Mapping", PU_SUM("Books","Chapters"."Number of Pages"))
+
+The "Number of pages" information is now on Mapping table level. Finally, we use the PU-function to sum at Author level. We pull the result of BIND to the Authors table.
+
+Finally, we end up with:
+
+PU_SUM("Authors", BIND("Book_Author_Mapping", PU_SUM ("Books", "Chapters"."Number of Pages")) )
+
+----- Page 4 -----
+
+Use PU-Functions in PQL
+4. Error messages
+
+It's quiz time again!
+
+Start
+
+########################################################################
+  LESSON 5 : 5. Apply your knowledge
+########################################################################
+
+----- Page 1 -----
+
+Use PU-Functions in PQL
+5. Apply your knowledge
+Play Audio
+Summary of syntax
+
+You already made it to the last chapter of this course. In case you would like to do some more practice in the Celonis Platform, we included some practical exercises in the following pages. If you want to skip the practical part, feel free to skip the next page.
+
+If you prefer some practice, let’s quickly recap the syntax you learned throughout the course:
+
+When using PU-functions you always need to specify the kind of aggregation and at least two parameters, the target table and the column of the source table you want to pull data from.
+
+
+PU_X(target_table, source_table.column)
+
+Then, we learned how to optionally add a filter inside, just adding a comma and introducing the filter expression. Note that the square brackets should only indicate that this parameter is optional for you to add.
+
+
+PU_X ( target_table, source_table.column [, filter_expression] )
+
+For some PU-functions there are some additional mandatory or optional parameters available.
+
+
+When using PU_QUANTILE, the quantile has to be specified.
+PU_QUANTILE ( target_table, source_table.column, quantile [, filter_expression] )
+
+
+For PU_FIRST and PU_LAST you can specify an optional parameter ORDER BY (specify ascending or descending order).
+PU_X ( target_table, source_table.column [, filter_expression] [, ORDER BY source_table.column] )
+
+
+For PU_STRING_AGG the delimiter string (what should be used to separate the strings in the result) has to be specified, and the optional parameter ORDER BY can be included.
+PU_STRING_AGG ( target_table, source_table.column, delimiter [, filter_expression] [, ORDER BY source_table.column [ASC|DESC] ] )
+
+We invite you to read the documentation of the function you want to apply.
+
+----- Page 2 -----
+
+Use PU-Functions in PQL
+5. Apply your knowledge
+Final Checkpoint: Practical Exercise
+
+For this simple exercise, you are using the Books-Chapters-Authors Data Model. If you haven’t previewed the Data Model, this is what it looks like:
+
+Note how there is a case table (Books table) and an Activity table. The Activity table is the event log of the processes between the authors completing the first draft of their books to publishing their books.
+
+
+Next, you’ll need to set up your training environment to do this exercise.
+
+Step 1: Create or login to your training team
+Step 2: Create a Space
+
+
+Step 3: Create a Package
+
+
+
+
+
+For more details on View’s layout, its settings, and its components, refer the "Fundamentals of a View" Academy course.
+
+Now, let's proceed with the exercise.
+
+1. Create a table that shows the book titles in the first column and the corresponding sum of pages in the second column.
+
+
+Solution
+
+
+2. Create a single KPI that shows the maximal number of pages per book.
+
+Solution
+
+
+3. Create a table that shows the number of books per country of authors.
+
+Solution
+
+
+4. Create a table that shows the number of pages per author's name.
+
+Solution
+
+
+5. Who is the author with the highest number of books?
+
+Solution
+
+----- Page 3 -----
+
+Use PU-Functions in PQL
+5. Apply your knowledge
+Congratulations!
+
+You have completed the Use PU-Functions for Aggregations course!
+
+Let’s quickly recap what we’ve learned throughout this course. You’re now able to:
+
+
+Identify cases where PU-functions should be used instead of standard aggregation.
+
+Understand the requirements for applying a PU-function.
+
+Understand filter behavior of PU-functions.
+
+Act on error messages “no common table” and “PU-function could not be executed”.
+
+Apply filters, either inside PU-functions or using the PU-function as the parameter for the filter.
+
+Last but not least, we want to invite you to the PQL channel on Celonis Support where you can connect, ask or answer questions from other people who are also learning PQL around the globe.
+
+
+Want to dig deeper into the topic of this course? Join the Celonis Community to ask your product questions, hear about the latest product releases, and remain up-to-date by subscribing.
+
+We invite you to join our Celonis Academy Group to engage with your peers, get exclusive updates and answers directly from Academy experts, and stay connected!
+
+
+
+
+Thank you for taking this course, we hope you enjoyed it!
+
+Your feedback matters
+
+Remember to stop at our feedback page to help us improve our content
+
+- Your Celonis Academy
+
+----- Page 4 -----
+
+Use PU-Functions in PQL
+5. Apply your knowledge
+
+How satisfied are you with the course?
+
+	★	★★	★★★	★★★★	★★★★★
+Please select a rating					
+
+What did you like most about this course?
+
+What would you improve about this course?
+
+
+⇨ If you have files or screenshots, please send them to academy@celonis.com.
+
+Complete Survey
+
+----- Page 5 -----
+
+Use PU-Functions in PQL
+5. Apply your knowledge
+
+No topic content.

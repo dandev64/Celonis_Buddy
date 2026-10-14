@@ -1,0 +1,804 @@
+﻿=== Celonis Docs: process-adherence-manager ===
+
+--- Process Adherence Manager ---
+https://docs.celonis.com/en/process-adherence-manager.html
+Celonis Product DocumentationStudioProcess Adherence Manager
+Process Adherence Manager
+
+Process Adherence Manager creates a baseline model for your process using data from the Celonis Platform. Alternatively, you can use your own baseline model by uploading a BPMN model file or, if you have access to Process Designer, you can import a process model from Process Designer.
+
+You edit and refine this baseline model to create a target model for your process. By comparing your actual process against the target model, you can see where your process deviates from the target model. Drilling down into these deviations lets you view their root causes and see how they impact performance, helping you understand where and how you can improve your process.
+
+Once you've created your target model, you can export it to Process Designer or as a BPMN model file, allowing you to use it in other applications.
+
+Benefits of using Process Adherence Manager
+
+Process Conformance Monitoring: Monitor your actual, mined processes against a target model to achieve and maintain optimal process conformance.
+
+Deviation and Root Cause Analysis: Define how your process should ideally work (the target model). Visualize and analyze deviations between the actual process flow and the target process flow. Identify the root causes of these deviations in a ranked order based on key performance indicators (KPIs).
+
+Process Improvement and Steering: Use your findings from the analysis to take action and improve the process.
+
+Value Opportunity Identification: Identify value opportunities by comparing event data against a "should-be" process model in a guided way.
+
+Key concepts
+
+Baseline model: Represents how a process actually runs, based on event data. It is typically mined automatically from historical execution data.
+
+Target model: Represents how the process should run. It is derived by refining the baseline model or importing a predefined process design and defining which activities and paths are required, optional, or disallowed.
+
+Adherence: Measures how closely real process executions conform to the target model. High adherence indicates consistent, standardized execution; low adherence highlights deviations.
+
+Deviation: Any difference between actual execution and the target model, such as:
+
+● Missing or skipped activities.
+
+● Activities executed in the wrong order.
+
+● Unexpected repetitions or rework.
+
+● Additional, non-standard steps.
+
+Variant: A distinct end-to-end execution path that cases take through the process. Process Adherence Manager helps you understand which variants conform to the target process and which do not.
+
+Getting started with Process Adherence Manager
+
+The key steps you'll be guided through in Process Adherence Manager are:
+
+Creating a Process Adherence Manager model.
+
+Exploring deviations.
+
+Exploring variants.
+
+--- Creating a Process Adherence Manager model ---
+https://docs.celonis.com/en/creating-a-process-adherence-manager-model.html
+Celonis Product DocumentationStudioProcess Adherence ManagerCreating a Process Adherence Manager model
+Creating a Process Adherence Manager model
+
+To start analyzing processes with Process Adherence Manager (PAM), you need to create a baseline model. You can generate a model automatically using Studio, import an existing model from Process Designer, or upload a BPMN model from an external system into PAM.
+
+Collapse all
+Before you begin
+
+Before you begin, ensure you have completed the following steps or meet the requirements listed below:
+
+If importing a model from Process Designer: Ensure the Process Adherence Manager integration with Celonis Process Management is enabled.
+
+Note the following limitations for BPMN files:
+
+You cannot edit imported BPMN models in the Process Adherence Manager Model Editor, although you can remove event logs.
+
+You can select only one event log for your imported BPMN model.
+
+BPMN models that contain more than 16 tasks or events in parallel may be rejected due to state space limitations.
+
+BPMN file prerequisites
+
+Your BPMN file must meet the following criteria:
+
+Be less than 5MB in file size.
+
+Include at least one task or event, with each task or event having a unique name.
+
+Have a unique start event and a unique end event.
+
+Have all flow nodes accessible from the start event in the direction indicated by the flow arrows.
+
+Have its end event accessible from every flow node in the direction indicated by the flow arrows.
+
+Include supported BPMN elements only.
+
+Creating a Process Adherence Manager baseline model
+
+To create a PAM model, follow these steps:
+
+In Celonis Platform, create a package containing a knowledge model in your Studio space.
+
+Select Add asset > Process Adherence Manager.
+
+Enter a name for your adherence analysis.
+
+Select a knowledge model from the dropdown list.
+
+Note
+
+You can change or update this knowledge model later if necessary. For more information, see Viewing and changing knowledge models in PAM.
+
+Select Create.
+
+The Target Model Editor screen appears.
+
+Select one of the following creation options:
+
+To allow Process Adherence Manager to generate your baseline model automatically, select Start mining. Your baseline model is created and opens in the Model Miner screen.
+
+To import a process model from Process Designer, see Importing a model from Process Designer.
+
+To upload a BPMN model from an external system, see Importing a BPMN file from other systems.
+
+Importing a BPMN model from Process Designer
+
+Important
+
+Before you can import a Process Designer model into PAM or export a model from PAM into Process Designer, Enable integration with Process Adherence Manager must be turned on by an admin in the Celonis Platform Admin & Settings. For more information, see Enabling access to Celonis Process Management.
+
+If you have an existing process model created in Process Designer, you can import it for use in PAM. Note that you cannot edit a Process Designer model directly within PAM, but you can view it.
+
+To import a BPMN model from Process Designer, follow these steps:
+
+In the Target Model Editor, select Import from Process Designer.
+
+The Import from Process Designer: Step 1: Select a process model screen appears.
+
+Navigate to and select the Process Designer model you want to import into PAM.
+
+Note
+
+If multiple versions of the process exist, select the target version from the version dropdown. For details on how updates to CPM affect imported models, see Working with target models and CPM.
+
+Select Next: Select event log.
+
+The Import Process Model: Step 1: Select an event log screen appears.
+
+Select an event log to use for baseline model creation.
+
+Select Next: Map activities.
+
+The Import Process Model: Step 2: Map activities screen appears.
+
+Map each activity in your process model to a corresponding event in the event log.
+
+Note
+
+Leave any activities that do not correspond to logged events unmapped.
+
+Select Import.
+
+Your Process Designer model opens in the Target Model Editor.
+
+Select Save and Continue.
+
+Your BPMN model opens in the Explore deviations screen.
+
+Exploring deviations
+
+Importing a BPMN file from other systems
+
+To import a BPMN file, follow these steps:
+
+Verify that your BPMN file meets all requirements.
+
+Confirm your file complies with all BPMN file limitations.
+
+In the Target Model Editor, drag and drop your BPMN file onto Import BPMN File or browse to select the file.
+
+The Import BPMN File: Step 1 screen appears.
+
+Select the event log containing data for your imported BPMN model.
+
+Select Next: Map activities.
+
+The Import BPMN File: Step 2 screen appears.
+
+Map each activity in your BPMN file to an event in the selected event log.
+
+Note
+
+Leave any activities that do not correspond to logged events unmapped.
+
+Select Import.
+
+Your BPMN model opens in the Target Model Editor.
+
+Select Save and Continue.
+
+Your BPMN model opens in the Explore deviations screen.
+
+Note
+
+After checking your BPMN file for conformance and analyzing deviations, you can export it from Process Adherence Manager for use in external systems. For more details, see Exporting a BPMN model.
+
+Related topics
+
+Refining a baseline model
+
+Exploring variants
+
+Exporting models from PAM
+
+--- Exploring deviations ---
+https://docs.celonis.com/en/exploring-deviations-in-process-adherence-manager.html
+Celonis Product DocumentationStudioProcess Adherence ManagerExploring deviations
+Exploring deviations in Process Adherence Manager
+
+The deviation explorer is an analysis component in Process Adherence Manager that allows you to investigate where actual process executions do not follow the defined target process.
+
+In this example, the Process Adherence Manager is used to explore deviations in a sales order process. The Create Sales Order Item event in the PO Celonis Sales Order event log occurred too often for 24.85% of cases and had an impact of an additional 17 days on throughput time:
+
+From this data, you can see that:
+
+In the first deviation, the Create Sales Order Item event occurred repeatedly after the Create Sales Order Header event in 487 event logs, adding an extra five hours of throughput time.
+
+In the second deviation, the Create Sales Order Item event occurred repeatedly after itself (in a loop) across 10 event logs, adding 849 days to the throughput time.
+
+Collapse all
+Before you begin
+
+Before you begin, ensure you have completed the following steps or meet the requirements listed below:
+
+Create a baseline model in PAM
+
+Create a target model to compare to the baseline model
+
+Be assigned the Analyst role
+
+The benefits of exploring deviations
+
+By exploring your process deviations, you can see:
+
+List of deviations: You’ll see a list of deviations detected when comparing your actual event log(s) against the target process model. These deviations are grouped by category. For more information, see: Understanding deviation categories.
+
+Deviation metrics: For each deviation, you can typically see which event log and event the deviation occurs in, how frequently the deviation occurs (as a percentage or number of cases), and the impact this deviation has on performance KPIs.
+
+Conformance rate: The percentage of your process instances that conform to the target model versus those that deviate. This gives you a quick sense of overall adherence.
+
+Root cause analysis: You can drill into specific deviations to perform root cause analysis — identifying attributes, patterns, or data conditions that are strongly correlated with the deviation. This lets you understand what is driving non-conformance.
+
+Actions on deviations: You can also take actions such as allow-listing deviations (ignoring them in conformance calculations) or switching views to analyze related variants and their end-to-end flows. For more information, see: Allowlisting deviations in Process Adherence Manager
+
+Exploring deviations from the target process
+
+To explore deviations from the target process in Process Adherence Manager follow these steps:
+
+Open your target model.
+
+Select the deviations tile. The Explore deviations screen opens. Any filters you applied when creating your target model are displayed. You can remove or edit them here or add new filters.
+
+In Deviations, deviations display for all event logs, with each deviation including the:
+
+Deviation category. Event log and event where the deviation occurs.
+
+Percentage of cases across all event logs (weighted average) the deviation occurs in.
+
+Impact on the throughput time caused by the deviation.
+
+Select any deviation to view more details about that deviation.The dashed line shows where the deviation occurs. Here, the deviation is a missing event.
+
+Select the magnifying glass icon to analyze the root causes of the deviation .A table that displays detailed information about the selected deviation appears. You may need to select Refresh data to ensure all data is displayed.
+
+Explore the variants associated with specific deviations and perform an end-to-end analysis.
+
+Linking views for actionable deviations
+
+You can link to another view from deviations. This can be helpful if, for example, you want to build a custom deep dive.
+
+To link a view:
+
+Select your target model and open the Explore deviations view.
+
+Under Settings, find and enable Enable deviation profile view.
+
+The Deviation Profile View panel opens. Corresponding variables for the deviation are created automatically and linked once the variable names fit. Make any changes you want, and then close the panel. Save your model and exit.
+
+In the Deviation list, hover over the deviation you want to analyze and select Deviation profile.
+
+The view you linked in step 3 will open.
+
+Allowlisting deviations in Process Adherence Manager
+
+Note
+
+Only users with at least the Analyst role can create allowlists in PAM
+
+You can allowlist specific deviations from Explore deviations. Once allowlisted, these deviations will move to the allowlist and will no longer appear in Explore deviations. Allowlisted deviations don’t affect Conformance rate.
+
+To allowlist deviations, follow these steps:
+
+In Explore deviations, select the deviation you want to allowlist.
+
+Select the checkmark. Your deviation is moved to your allowlist.
+
+Select the allowlist icon at any time to see your allowlist. You can also remove any entries from your allowlist here.
+
+Understanding deviation categories
+
+When exploring deviations in Process Adherence Manager, the following categories are frequently used:
+
+Deviation category
+
+	
+
+Description
+
+
+
+
+Missing event
+
+	
+
+An event that is required in the target model but does not occur.
+
+
+
+
+Occurred too often
+
+	
+
+An event that should only happen once in the target model but occurs multiple times. This could be because of a loop or duplicates.
+
+
+
+
+Occurred out of sequence
+
+	
+
+An event that was required in the target model but occurs in the wrong place in the process flow.
+
+
+
+
+Unexpected event
+
+	
+
+An event occurred that is included in the data model but not included in the target model.
+
+Tip
+
+Unexpected event deviations are included in your target model by default. You can hide all unexpected event deviations in Edit mode by selecting Settings and using the Unexpected event deviations toggle.
+
+
+
+
+Violated condition
+
+	
+
+A condition added from the Knowledge Model's condition list has not been met.
+
+For more information, see Adding conditions to a baseline model.
+
+
+
+
+Violated exclusive gateway
+
+	
+
+Two possible events occur at a point in the process where only one event should occur. One or more events that should occur sequentially do not occur at all.
+
+Related topics:
+
+Creating a PAM model
+
+Creating a baseline model
+
+Exploring variants
+
+--- Filtering in Process Adherence Manager ---
+https://docs.celonis.com/en/filtering-in-process-adherence-manager.html
+Celonis Product DocumentationStudioProcess Adherence ManagerUsing the process modelFiltering in Process Adherence Manager
+Filtering in Process Adherence Manager
+
+You can filter on event logs, event types and relationships to change what is included in the process model and displayed in the process model graph.
+
+The Data & Coverage Info panel shows the percentage of the total number of cases that remain in the process model after filtering.
+
+You can also view a breakdown of the coverage for all event logs by clicking the double arrows in the upper right corner to expand the panel. The coverage rate for each event or event log that meets the filter criteria is displayed.
+
+Collapse all
+Before you begin
+
+Before you begin, ensure you have completed the following steps or meet the requirements listed below:
+
+Created a target model
+
+Creating a filter in Process Adherence Manager
+
+To create a filter, follow these steps:
+
+Click the Filter icon in the top left of the screen.
+
+In the Filters panel, click Add a filter.
+
+Select the type of filter you want to add from the dropdown list.
+
+Tip
+
+Hover over any option to see a description of the filter type.
+
+Enter the criteria for your filter from the lists provided.
+
+The available fields and options vary based on the type of filter being created. You can also use Search to narrow down the list of options.
+
+Select the specific items you want to filter on from the dropdown list.
+
+Click Apply filter.
+
+The process model graph and data and coverage information are automatically updated based on your selected criteria.
+
+Save your filters to the knowledge model if you want to reuse them.
+
+Using preset filters from the knowledge model
+
+To use a preset filter, follow these steps:
+
+In Model Miner, select the pencil icon to enter Edit Mode.
+
+In the Preset filters panel, select Add a filter.
+
+Click Saved filters to view any filters saved in your knowledge model.
+
+Select any filters you want to apply.
+
+The process model graph and data and coverage information are automatically updated based on your selected criteria.
+
+Tip
+
+Hover over the info icon to view the filter PQL query.
+
+Filter types
+
+You can use filters created elsewhere in Studio that have been saved to your knowledge model or create your own filters before saving them to your knowledge model. Any filters saved to your knowledge model can be used in other parts of Studio.
+
+Filter
+
+	
+
+Description
+
+
+
+
+Event log attribute
+
+	
+
+Filters on event logs based on specified attributes.
+
+
+
+
+Event flow
+
+	
+
+Filters on flows based on the specific ordering of events.
+
+
+
+
+Throughput time
+
+	
+
+Filters on flows based on the throughput time between two events.
+
+
+
+
+Event log start/end
+
+	
+
+Filters on events logs that start or end with a specific event type.
+
+
+
+
+Saved filters
+
+	
+
+Filters that have been saved in your knowledge model.
+
+Note
+
+You must be in edit mode to apply this filter type. For more information, see Using preset filters from the knowledge model.
+
+Saving filters to the knowledge model
+
+To save a filter, follow these steps:
+
+Add a filter.
+
+In the Filters panel, click the triple-dot icon.
+
+Select Save all filters in Knowledge Model.
+
+Enter a name for your filter when prompted to do so.
+
+Select Save.
+
+Tip
+
+Any filters saved to the knowledge model can be used in any Studio assets that use the same knowledge model. This means you don't need to re-create filters multiple times.
+
+Related topics
+
+Refining a baseline model
+
+Exploring variants
+
+Making changes to a target model
+
+--- Exporting BPMN models from Process Adherence Manager ---
+https://docs.celonis.com/en/exporting-bpmn-models-from-process-adherence-manager.html
+Celonis Product DocumentationStudioProcess Adherence ManagerExporting BPMN models from Process Adherence Manager
+Exporting BPMN models from Process Adherence Manager
+
+After checking file for conformance and analyzing any deviations, you can export your BPMN models to your downloads folder or to Process Designer so you can use them in other systems.
+
+Collapse all
+The benefits of exporting BPMN models
+
+By exporting your BPMN models, you can:
+
+Create a model once, use it everywhere: Your process models are yours, and exporting them between systems makes it easy to ensure consistency.
+
+Before you begin
+
+Before you begin, ensure you have completed the following steps or meet the requirements listed below:
+
+If you are exporting a model to Process Designer, make sure Enable integration with Process Adherence Manager has been turned on by an admin in the Celonis Platform Admin & Settings.
+
+Exporting a BPMN model from Process Adherence Manager
+
+To export a BPMN model, follow these steps:
+
+In the Explore deviations or Explore deviating variants screen, select Edit model.
+
+Select Export model and then choose Download BPMN file.
+
+Select the event logs you want to download.
+
+Select Download.
+
+Your BPMN file will be saved as a zipped file in your downloads folder. When you unzip the file, each event log file will be saved as a separate BPMN file.
+
+Exporting a BPMN model to Process Designer
+
+Important
+
+Before you can import a Process Designer model into PAM or export a model from PAM into Process Designer, Enable integration with Process Adherence Manager must be turned on by an admin in the Celonis Platform Admin & Settings. For more information, see Enabling access to Celonis Process Management.
+
+To export a BPMN model to Celonis Process Management, follow these steps:
+
+In the Explore deviations or Explore deviating variants screen, select Edit model.
+
+Select Export model and then choose Export to Process Designer.
+
+The Export to Process Designer: Select 1: Select event log screen appears.
+
+Select the event logs you want to export.
+
+Select Next.
+
+The Export to Process Designer: Select 2: Select export location screen appears.
+
+Select where you want to save your exported model file.
+
+Select Export.
+
+The BPMN model will be saved to your selected location in Process Designer.
+
+Related topics
+
+Creating a PAM model
+
+Refining a baseline model
+
+--- Troubleshooting ---
+https://docs.celonis.com/en/troubleshooting-in-process-adherence-manager.html
+Celonis Product DocumentationStudioProcess Adherence ManagerTroubleshooting
+Troubleshooting in Process Adherence Manager
+
+There are some common errors that can occure when working with PAM. The following sections describe them and their solutions.
+
+Collapse all
+Event log size in Process Adherence Manager
+
+You may experience issues if your event log is too big. For optimal performance, we recommend your event log contains a maximum of:
+
+100 million events.
+
+10 thousand variants.
+
+Reducing event log size in Process Adherence Manager
+
+You can reduce event log size by:
+
+Filtering your event log during event log creation (recommended); or
+
+Filtering your existing event log.
+
+Target model complexity in Process Adherence Manager
+
+The complexity of your target model may affect its performance, with large numbers of parallel flows having a significant impact. Simplifying your target model where possible is good practice and will help improve performance.
+
+Key Process Adherence Manager errors
+PQL Error during operation: %operation_alias%." + " The query exceeded the execution time limit." + 
+" Please contact support to limit the number of variants computed.
+
+Description: Your query timed out due to the large volume of data being processed.
+
+Action: Create a Support ticket requesting a variant limit is added for your alignment calculation.
+
+Note
+
+Once a variant limit has been applied, the information displayed may be affected because fewer variants will be included in the alignment calculation.
+
+"PQL Error during operation: %operation_alias%." + " The query result exceeded the rows limit." + 
+" Please, reduce the size of the event log."
+
+Description: Your query failed because your event log is too big.
+
+Action: Reduce the number of events in your event log so it meets our event log recommendations. If you continue to receive this error, create a Support ticket.
+
+BPMN elements supported in Process Adherence Manager
+
+Important
+
+If unsupported BPMN elements are included in your BPMN file, the BPMN file import will typically stop and an error will display.
+
+Filter
+
+Element
+
+	
+
+Supported?
+
+	
+
+Further information
+
+
+
+
+Exclusive choice gateways
+
+Parallel/And gateways
+
+	
+
+Yes
+
+	
+
+Each gateway must have one of:
+
+A single incoming sequence flow and a single outgoing sequence flow.
+
+A single incoming sequence flow and multiple outgoing sequence flows (single entry).
+
+Multiple incoming sequence flows but one single outgoing sequence flow (single exit).
+
+
+
+
+Event
+
+	
+
+Yes, except boundary events.
+
+	
+
+Start and end events are interpreted as event log start and event log end.
+
+Intermediate events are interpreted as Celonis events and are named using the event name field.
+
+Boundary events are not supported and will stop the import wth an error.
+
+
+
+
+Task
+
+	
+
+Yes
+
+	
+
+Tasks are interpreted as Celonis events and are named using the task name field.
+
+Tasks with a loop marker or multi-instance characteristic are interpreted as self-loops.
+
+All other task types, markers and characteristics are not supported and will be ignored but the BPMN file import will not be disrupted.
+
+
+
+
+Flow
+
+	
+
+Sequence flows only.
+
+	
+
+All other flow types are not supported and will be ignored but the BPMN file import will not be disrupted.
+
+Note
+
+Call activities, sub-processes and transactions are not supported. We recommend removing any call activities, sub-processes and transactions from your flow and integrating their content directly into your model.
+
+Adherence check in Process Adherence Manager
+
+To make a BPMN model ready for adherence checking, ensure that:
+
+The model has exactly one start and one end event.
+
+There are no gateways other than exclusive or parallel.
+
+Each opening gateway has a corresponding closing gateway of the same type.
+
+Gateways are either opening or closing, not mixed (no gateways with several incoming and several outgoing sequence flows).
+
+There are no equally named tasks or events.
+
+Tasks have exactly one incoming and one outgoing edge.
+
+No boundary events.
+
+No disconnected flow elements.
+
+No deadlocks, no lifelocks.
+
+Automatic repair
+
+If model validation fails, we attempt a series of repair operations aiming at transforming the input BPMN model into a valid PAM model.
+
+Missing start/end events
+
+If a task, gateway or event (excluding start events) has no incoming flow, a new start event will be added and connected as input to the node. Similarly, if a task, gateway or event (excluding end events) has no outgoing flow, a new end event will be added and connected as output of the node.
+
+This model lacks a start event, which means importing it would fail. With automated repair, a start event is added, and the import succeeds.
+
+Duplicate task/event names
+
+If multiple tasks or events in a model have the same name, we will add suffixes to differentiate between them.
+
+This model has duplicate activity names (Task B), which means importing it would fail. With automated repair, names are assigned a suffix that turns them into unique names
+
+Empty activity name
+
+If a task or event has an empty activity name, a placeholder name (__UNLABELED__) is added to it.
+
+Uploading a model with an empty activity would fail. With automated repair, a placeholder __UNLABELED__ is added so the import proceeds to the next step
+
+Missing incoming/outgoing tags
+
+If a model’s flow nodes (tasks, events and gateways) <incoming>/<outgoing> tags are inconsistent with the information provided in the sequence flow tags, the model will be modified using the sequence flows as a source of truth.
+
+Here, the model looks correct on the surface; however, its XML is broken, which causes errors in the downstream processing
+
+If the repair operations are enough to turn the imported model into a valid PAM model, the import proceeds with the “repaired” model. Otherwise, the import will fail, and diagnostics will be displayed on top of the original model.
+
+Multiple start events
+
+In case a model contains multiple start events, these are merged into a single start event using a gateway. The gateway type is guessed to ensure that the resulting model is sound.
+
+Uploading models with multiple start events would fail. With automated repair, these are merged into a single event with an outgoing parallel gateway.
+
+Multiple end events
+
+In case a model contains multiple end events, these are merged into a single end event using a gateway. The gateway type is guessed to ensure that the resulting model is sound.
+
+Uploading models with multiple end events would fail. With automated repair, these are merged into a single event with an incoming exclusive gateway.
+
+Multiple Incoming/Outgoing Edges
+
+In case a task/event contains multiple incoming/outgoing sequence flows, the model is repaired by inserting gateways before/after the task/event. The gateway types are guessed to ensure that the resulting model is sound.
+
+Uploading models where tasks contain multiple incoming flows will fail. Automated repair resolves it by adding incoming exclusive gateways.
+
+Uploading models where tasks contain multiple outgoing flows will fail. Automated repair resolves it by adding outgoing parallel gateways.
+
+

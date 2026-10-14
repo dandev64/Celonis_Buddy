@@ -1,0 +1,576 @@
+﻿========================================================================
+  CELONIS ACADEMY - JOINS & FILTERS IN PQL
+  Extracted: 2026-09-09 16:36  |  Personal study use only
+  Source: https://academy.celonis.com/learn/course/joins-filters-in-pql
+  Lessons: 4
+========================================================================
+
+########################################################################
+  LESSON 1 : Joins in Your Data [18:00]
+########################################################################
+
+----- Page 1 -----
+
+Joins & Filters in PQL
+Joins in Your Data [18:00]
+Welcome to Joins and Filters in PQL course!
+
+Bring your analyses and apps to the next level by mastering filters and joins in Celonis PQL. Learn what you should consider when working with joins and filters, and how to correctly interpret and use them! 
+
+As a prerequisite for this course, we recommend you to take the "Basic Coding with PQL" course first. Otherwise, please make sure you already have a good idea of PQL basics. If you want to learn more about the origins of PQL and the Celonis Data Model structure, the course "Introduction to PQL and the Celonis PQL Engine" might be useful for you. Additionally, a basic understanding of relational databases is beneficial, but this is not a must.
+
+The course should take about 45 minutes and the breakdown for each section can be found on the left sidebar, beside the page title. Let's dive right in.
+
+Happy Learning!
+
+This content is available in multiple languages: English, German, French, Japanese, Spanish, and Portuguese. To switch your language, use the selector in the top navigation bar.
+
+In Courses: Switching languages will not affect your progress. If you are multilingual, comparing languages can even help deepen your understanding.
+In Exams: Do not switch the language once you start the exam. If you switch the language when you're already reviewing questions and answers, the page will refresh, causing your exam attempt to end prematurely. (Note: Once inside the exam course, you can switch the language anytime before clicking the Start Exam button.)
+
+
+
+
+If you encounter any technical or access issues during this course, check out our FAQs in the Support area or reach out to us via our Academy contact form.
+
+----- Page 2 -----
+
+Joins & Filters in PQL
+Joins in Your Data [18:00]
+Introduction
+
+If you have worked with PQL before, you might have encountered the following:
+
+
+You used the same formula in different components, but got different results.
+
+You get an error saying “No common table”.
+You applied a filter, but the result is different from what you expected.
+
+If this sounds familiar: You’re not alone! Others experience the same issues and most of the time they’re related to underlying joins in your data.
+
+In this course, you’ll learn some concepts to avoid these errors and situations described previously.
+
+Note: In this course, you won’t do exercises directly in the Celonis Platform, as we’re covering generic knowledge applied across different applications in the Celonis Platform. The setup of joins in Data Integration won’t be covered in this training. You can have a look at our training track "Get Data into Celonis" for this topic.
+
+
+Structure
+
+
+We’ll start with diving deep into Data Models with multiple tables, relationships between tables and joins. We’ll also learn how to easily find the Data Model visualization in Celonis Process Analytics and Studio.
+
+Throughout the second chapter, we’ll clarify the execution order of joins and aggregations.
+
+Let's tackle the error “No common table” in the third chapter and discuss some recommendations on how to solve it.
+
+We’ll wrap this course up with the concept of filters, discussing basic filters on a single table as well as filter propagation to multiple tables.
+
+
+Are you ready?
+
+----- Page 3 -----
+
+Joins & Filters in PQL
+Joins in Your Data [18:00]
+Play Audio
+Joins in Your Data Model
+
+Do you remember the term digital footprint from the previous courses you took with us? By now you probably know it by heart. The activity table contains the data about the case identification, activity, and timestamp for every process you want to analyze in Celonis. In addition, you always have a case table with one row for each of your cases and an arbitrary number of tables with additional information about for example your vendors, material, customers, routes, etc. This data is gathered from one or many source systems.
+
+The set of tables containing all the data is called the Data Model. In Celonis, every asset you build is based on an underlying Data Model. To obtain the desired information and interpret results or KPIs, it’s crucial that you know the structure of the Data Model you’re working with.
+
+The tables in a Data Model are connected via specific relationships to associate rows of one table with rows of another table. This is done using a foreign key. In general, these relationships can be classified as:
+
+One-to-many or 1:N
+One-to-one or 1:1
+Many-to-many or N:M
+
+...depending on the number of rows of one table that can be matched with a row of another table. In Celonis Data Models only one-to-many (1:N) relationships are supported. We’ll learn more about these relationships in the video below.
+
+Basic SAP P2P Data
+
+Remember the Purchase-to-pay (P2P) process SAP tables? We're going to use this Data Model example again throughout the next lessons. If you need a refresher, click the text below.
+
+Recap of Basic SAP P2P tables
+
+Download Summary of Basic SAP P2P Tables in the Resources (on the left sidebar) if you want to have a summary of SAP P2P Data tables.
+
+
+
+
+
+Feel free to skip the next video if you answer all questions correctly.
+
+Download the Transcript - Joins in your data from the Resources (on the left) if you need it.
+
+
+
+
+
+
+
+
+
+
+Remember
+
+Every asset in Celonis has an underlying Data Model with multiple Tables and 1:N relationships. The N-side is always put on the left side of the join.
+
+If you want to learn more about snowflake schemas, feel free to search for information on different sources like ScienceDirect but remember, this is not required for the rest of the course!
+
+----- Page 4 -----
+
+Joins & Filters in PQL
+Joins in Your Data [18:00]
+
+Let's Practice!
+
+Identify the table relationship type correctly using the P2P Data Model.
+
+HIDE ANSWERS UNTIL THE END OF THE QUIZ
+
+Start
+
+----- Page 5 -----
+
+Joins & Filters in PQL
+Joins in Your Data [18:00]
+Data Model Visualization
+How to find the visualization of your specific data model?
+
+You can easily access the Data Model following these steps in Studio.
+
+
+
+
+Select the Package: In the left-hand navigation menu, select the relevant package (e.g., "My first Package").
+Access Settings: Navigate to the package settings by clicking the Package Settings icon (wheel icon) in the header menu.
+Go to Variables: Within the Package Settings view, select the Variables tab.
+Preview Data Model: Locate the desired Data Model in the list. Click the three dots icon (Action menu) on the right side of the row, and then select Preview Data Model from the dropdown menu.
+
+After following the steps, the Data Model will appear and if you hover over the link between two tables, the type of relationship will be displayed.
+
+----- Page 6 -----
+
+Joins & Filters in PQL
+Joins in Your Data [18:00]
+Additional Joins in Your Components
+
+In the previous lesson, you learned that every asset has an underlying Data Model with multiple tables linked by 1:N relationships.
+
+You also learned that the Celonis PQL engine implicitly joins multiple tables if required by the query. The rules for implicit joins are based on the Data Model. These joins are left-outer joins, where the N-side is on the left. But what are the implications of left-outer joins? Let’s discover this in the next video!
+
+Feel free to download the Transcript - Additional Joins in Your Components from the Resources.
+
+
+
+
+Remember:
+
+The N-side is always on the left of the join!
+
+----- Page 7 -----
+
+Joins & Filters in PQL
+Joins in Your Data [18:00]
+
+Joins in Your Data
+
+It seems like you're ready for another quiz. Let's practice what you've learned in the first chapter!
+
+Start
+
+----- Page 8 -----
+
+Joins & Filters in PQL
+Joins in Your Data [18:00]
+
+No topic content.
+
+########################################################################
+  LESSON 2 : Build Components with the Joins in Mind [13:00]
+########################################################################
+
+----- Page 1 -----
+
+Joins & Filters in PQL
+Build Components with the Joins in Mind [13:00]
+Execution Order
+The Common Table
+
+In the previous chapter, we learned that every asset in Celonis is based on an underlying Data Model with several tables linked with one-to-many (1:N) relationships. When we write a PQL query that involves multiple tables in the same component, we always consider the implicit left-outer join that occurs in the background.
+
+All tables involved in a query in PQL are pulled to a common table first. As a rule of thumb, the common table is the table on the most N-side.
+
+
+
+
+Let’s have a look at some examples.
+
+
+
+
+Pulling Up the Data
+
+When we have only two tables, the common table is the one associated with N. If you take Table C and A, Table A is the common table as it's on the N-side of the relationship.
+
+The common table can also be a third table in between. As an example, for Table C and Table D, Table A is identified as the common table, because it connects Table C and Table D, and it is the table on the N-side among all three involved tables. This means, if a column from Table C should be joined with a column from Table D, Table A is identified as the common table. It then joins the needed columns from Table C and Table D to Table A. We call this step pulling up the data.
+
+Our P2P Example
+Execution Order
+
+A PQL query is executed in the following order:
+
+Joins and regular PQL functions (not aggregations). The common table is defined after joining the required tables.
+Filters are applied (if there are filters defined). We will learn more about filters in chapter 4.
+Standard Aggregations (AVG, COUNT, SUM, etc.).
+
+Aggregations are executed at the very end after the common table is defined. This is particularly relevant for KPI calculation where aggregation functions come into play.
+
+
+
+
+
+
+
+
+
+
+
+Whenever you want to put multiple KPIs based on different tables inside the same component, think about the common table and joins!
+
+----- Page 2 -----
+
+Joins & Filters in PQL
+Build Components with the Joins in Mind [13:00]
+ Let's have a look at an example!
+
+Suppose we have a basic Data Model consisting of Table A and Table B. The relationship Table A : Table B is N:1, and the foreign key is:
+
+"Table A"."ID" = "Table B"."ID".
+
+Let's look at those tables separately to begin with.
+
+We can easily sum the values of Table A using SUM("Table A"."Value"), the result is 10 (1+2+3+4). Obviously, as we are only requiring Table A, the common table is Table A.
+
+If we want to do the same for Table B, we use SUM("Table B"."Value"), the result would be 30 (10+20). In this situation, the common Table is Table B.
+
+Now suppose we want to get the same values, but this time, in the same component (e.g. the same table or chart). The required tables are pulled up to the common table, which in this situation is Table A.
+
+Column 1: SUM("Table A"."Value")
+
+Column 2: SUM("Table B"."Value")
+
+We get the following result:
+
+
+
+
+
+
+
+When reviewing the results, we observe that for SUM("Table B"."Value"), column 2, we get 60 instead of 30. This is because we did not consider the common table concept when writing the query. A left-outer join was introduced, since both tables were required in the same query. Therefore, we are now considering 4 values in both sums.
+
+
+We have seen that the common table is very important for KPI calculation. It would be quite misleading if you'd review twice the actual value of your KPI.
+
+
+
+
+
+
+
+
+While writing PQL in Studio
+
+
+Celonis supports you in staying aware of the common table inside your component. When writing a query, you will always see the current common table, e.g.
+
+
+
+
+However, that doesn't release you from really reflecting whether this is the common table you WANT to have.
+
+In the next lesson, you can test your new knowledge in a case study.
+
+----- Page 3 -----
+
+Joins & Filters in PQL
+Build Components with the Joins in Mind [13:00]
+
+Case Study
+
+Start
+
+----- Page 4 -----
+
+Joins & Filters in PQL
+Build Components with the Joins in Mind [13:00]
+Case Study - Conclusion
+
+That's right. The second KPI requiring the Activity table introduces a join between Activity and Case tables. Since the Activity table is on the N-side, it is now identified as the common table.
+
+
+
+
+
+The result has changed, we know the average value should be 150, but we get 133.33. Why is that?
+
+Since the Activity table is now the common table, and due to the introduced join, we are taking the average over 6 values.
+
+
+
+
+This example has shown us that the same query can give us different results in KPI calculation due to implicit joins happening in the background. Remember, it is very important to be aware of the Data Model structure and how the tables you’re working with are related!
+
+In the next lesson, we will learn some techniques to avoid this issue. Stay tuned!
+
+----- Page 5 -----
+
+Joins & Filters in PQL
+Build Components with the Joins in Mind [13:00]
+Practical Advice
+
+Here are some tips to make sure you always build components consciously with the joins in mind:
+
+Step 1
+Step 2
+Step 3
+Step 4
+Step 5
+Step 6
+Step 7
+
+There is a Summary of Building Components with Joins in the Resources that contains a brief of the steps we presented above.
+
+----- Page 6 -----
+
+Joins & Filters in PQL
+Build Components with the Joins in Mind [13:00]
+
+No topic content.
+
+########################################################################
+  LESSON 3 : Resolve the 'No Common Table' Error [05:00]
+########################################################################
+
+----- Page 1 -----
+
+Joins & Filters in PQL
+Resolve the 'No Common Table' Error [05:00]
+Interpret the 'No common table' Error
+
+In the previous chapter, we learned about the common table and its importance for correct KPI calculation.
+
+The “No common table” error is very common when working in Celonis. Probably you have already experienced it before. As the name suggests, this error occurs when it is not possible to identify a common table in a query. Let’s understand the meaning of this error with an example.
+
+
+In lesson 1 of chapter 2, we had a look at a basic Data Model. In that Data Model, it was possible to define a common table for each combination of any given pair of tables.
+
+For example, for Tables A and B, the common table would be E. For Tables C and D, the common table would be A. For Tables C and B, it would be E. We just have to remember that the common table is the one on the most N-side.
+
+
+
+
+
+Nevertheless, that is not always the case. We could have a Data Model with two tables on the most N-side.
+
+In this example, there is no common table for Table E and Table F, because both tables are on the N-side of the join graph. The same holds for Tables A and F. Please note that all other table combinations do have a common table, for example:
+
+
+For tables A and B, Table E is the common table
+For tables B and E, Table E is the common table
+
+In Celonis, two tables can only be joined when they have a common table. So if the tables which are required inside a query do not have a common table, they can't be joined together, and we get the error message:
+
+No common table could be found. The tables ["Table E"] and ["Table F"] are connected, but have no common table. This means that they do not have a direct (or indirect) 1:N or N:1 relationship. Join path: [Table E]N <-- 1![Table B]!1 --> N[Table F]. For more information on the join path, search for "Join functionality" in PQL documentation.
+
+You can even see the join path inside the error message. Pretty handy right?
+
+----- Page 2 -----
+
+Joins & Filters in PQL
+Resolve the 'No Common Table' Error [05:00]
+
+Knowledge Check!
+
+Let's practice what we just learned!
+
+Start
+
+----- Page 3 -----
+
+Joins & Filters in PQL
+Resolve the 'No Common Table' Error [05:00]
+Resolve the 'No common table' Error
+
+There is no unique or one-size-fits-all solution for this error. As the problem depends mostly on your Data Model, each situation must be analyzed independently. Nevertheless, there is a process and certain steps you can follow, that almost guarantees that you'll resolve the error:
+
+Find the table which is causing the problem.
+Which table could you remove from the query such that it works? Most of the time, you'll use many tables in the query, but only one of them causes the error. Utilize the Data Model visualization and the join path in the error message for this.
+Reflect on what you actually want to show in your component.
+
+
+Is the complexity really needed? Sometimes dividing the problem in smaller pieces is useful. As the ancient Romans said, "divide et impera". Could the content also be displayed in two components? And maybe it will make things more understandable for your target audience as well.
+If the complexity is needed, Pull Up Aggregation (PU) functions might help. As we mentioned before, you can find more information in the documentation or in the course "Use PU-Functions for Aggregations".
+
+Now that you learned everything about the "No common table" error, let's move on and look at filters in PQL.
+
+----- Page 4 -----
+
+Joins & Filters in PQL
+Resolve the 'No Common Table' Error [05:00]
+
+No topic content.
+
+########################################################################
+  LESSON 4 : Filter Like a Pro [12:00]
+########################################################################
+
+----- Page 1 -----
+
+Joins & Filters in PQL
+Filter Like a Pro [12:00]
+The Filter Statement
+
+One of the advantages of PQL is the variety of options to focus on your desired output. With filters you can center your attention on a given subset of data in order to better understand the information or view it from different angles.
+
+In PQL, the filter statement allows you to remove some rows of the result table of a query, according to a specified condition. Only rows that meet the condition remain, while the rest are discarded.
+
+The syntax is very simple. You start with the keyword FILTER, followed by the condition. An easy condition starts with the table and column you'd like to apply the filter to, followed by the predicate operator, which could be BETWEEN, !=, <, >=, <=, =, or many others. To complete the condition, you add the respective value that you would like to filter on. Finally, the FILTER statement is terminated with a semicolon. Remember you can find information on predicate operators in the course "Basic Coding with PQL".
+
+FILTER "table"."column" = 'value';
+
+Let’s have a look at some examples.
+
+FILTER "Table A"."Column 4" BETWEEN 100 AND 200;
+FILTER "Table B"."Column 3" != 4;
+FILTER "Countries"."Name" IN ('Germany', 'Austria', 'Switzerland');
+
+
+
+
+
+
+
+
+
+Filter statements can be used in different assets in the Celonis Platform, e.g. in knowledge models, analyses, views etc. For practical instructions on how to set a filter, please check the respective courses for those assets. This chapter will focus on the pure PQL statements.
+
+
+
+
+
+
+
+
+
+
+Multiple filter statement
+
+Many situations require filtering the data based on multiple criteria. In these situations we can define several filter statements. You only need to separate them with a semicolon. The important thing for you to remember is that filters will be connected one to another following the AND logic.
+
+
+
+
+Execution Order
+
+Do you remember the execution order of a PQL query we presented in chapter 2?
+
+Joins & regular PQL functions (not aggregations)
+Filters
+Standard aggregations (AVG, COUNT, SUM, etc.)
+
+
+
+
+Filters are executed in second place, after joins and before standard aggregations. As we learned, the execution order is important for tasks like KPI calculation. When we use an aggregation like AVG or SUM, the filters (if any) will be applied before the aggregate calculation takes place. So, the results of these calculations are already affected by the filter. On the other hand, filters are executed after the joins, so always keep in mind the Data Model you’re working with.
+
+----- Page 2 -----
+
+Joins & Filters in PQL
+Filter Like a Pro [12:00]
+
+Quiz - Filter Statement
+
+Let's answer some questions on filter statement!
+
+Start
+
+----- Page 3 -----
+
+Joins & Filters in PQL
+Filter Like a Pro [12:00]
+Filter Propagation
+
+In the previous lesson we learned about the filter statement, its function, and the execution order in PQL queries. What happens when there are joins in the Data Model? How are filters propagated? Let’s discover that in the following video.
+
+
+
+
+Feel free to download the Transcript - Filter Propagation from the Resources.
+
+
+Exercise
+
+We have a Data Model with two tables, the Students table for storing the weight in kilograms and height in centimeters of 4 students, and the Actions table for recording the duration in hours of some common actions in students’ daily routines. The relationship between the Students and Actions table is 1:N and the foreign key is "Students"."ID"="Actions"."ID".
+
+----- Page 4 -----
+
+Joins & Filters in PQL
+Filter Like a Pro [12:00]
+Congratulations!
+
+You have completed the Joins & Filters in PQL course!
+
+Let’s quickly recap what we’ve learned throughout this course. You’re now able to:
+
+Identify table connections by looking at the defined Data Model
+Recognize the importance and consequences of joins in your Data Model
+Act on the error message “No common table”
+Understand how filters work and how they can help you focus on a subset of data
+Consider the execution order of PQL queries
+
+Last but not least, we want to invite you to the PQL channel on "Celonis Support" where you can connect, ask or answer questions from other people who are also learning PQL around the globe.
+
+
+Want to dig deeper into the topic of this course? Join the Celonis Community to ask your product questions, hear about the latest product releases, and remain up-to-date by subscribing.
+
+We invite you to join our Celonis Academy Group to engage with your peers, get exclusive updates and answers directly from Academy experts, and stay connected!
+
+
+
+
+Thank you for taking this course, we hope you enjoyed it!
+
+Your feedback matters
+
+Remember to stop at our feedback page to help us improve our content
+
+- Your Celonis Academy
+
+----- Page 5 -----
+
+Joins & Filters in PQL
+Filter Like a Pro [12:00]
+
+How satisfied are you with the course?
+
+	★	★★	★★★	★★★★	★★★★★
+Please select a rating					
+
+What did you like most about this course?
+
+What would you improve about this course?
+
+
+⇨ If you have files or screenshots, please send them to academy@celonis.com.
+
+Complete Survey
+
+----- Page 6 -----
+
+Joins & Filters in PQL
+Filter Like a Pro [12:00]
+
+No topic content.

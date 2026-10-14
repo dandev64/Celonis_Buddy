@@ -1,0 +1,503 @@
+﻿========================================================================
+  CELONIS ACADEMY - INTRODUCTION TO CELONIS STUDIO
+  Extracted: 2026-09-09 14:19  |  Personal study use only
+  Source: https://academy.celonis.com/learn/course/introduction-to-celonis-studio
+  NOTE: Video course - each page below is one video lesson with its text description.
+========================================================================
+
+########################################################################
+  PAGE 1
+########################################################################
+
+Introduction to Celonis Studio
+Welcome to the course “Introduction to Celonis Studio”
+
+This course marks the beginning of your journey to build or customize Celonis solutions. As a data analyst who's new to Celonis, you’ll explore the structure of Celonis Studio, and understand how it all comes together to organize and publish Assets for your business users. A solid understanding of the Studio’s structure is key before moving on to creating Apps (or more specifically, Assets).
+
+This course should take you about 1 hour to finish.
+
+There are no prerequisites to this course but your knowledge of how the Celonis platform works would be useful to further your understanding of the Celonis Studio. If you’d like to learn more about process mining and what the Celonis platform offers, consider taking up the Celonis Kickstarter before you begin this course.
+
+
+
+
+Tip: You can Hide the Menu bar.
+
+This content is available in multiple languages: English, German, French, Japanese, Spanish, and Portuguese. To switch your language, use the selector in the top navigation bar.
+
+In Courses: Switching languages will not affect your progress. If you are multilingual, comparing languages can even help deepen your understanding.
+In Exams: Do not switch the language once you start the exam. If you switch the language when you're already reviewing questions and answers, the page will refresh, causing your exam attempt to end prematurely. (Note: Once inside the exam course, you can switch the language anytime before clicking the Start Exam button.)
+
+
+
+
+If you encounter any technical or access issues during this course, check out our FAQs in the Support area or reach out to us via our Academy contact form.
+
+Go to the next page to find out how the Data, Studio, and Apps function to make up the core services of the Celonis platform!
+
+########################################################################
+  PAGE 2
+########################################################################
+
+Introduction to Celonis Studio
+Recap: Core Services of the Celonis Platform
+
+If you already understand how Data, Studio, and Apps work together from the Celonis Kickstarter course, feel free to move on to the next page.
+
+
+
+
+Not familiar with the Celonis platform? Let’s take a short tour and find out its core capabilities in this video!
+
+In the video, you got a sense of how Data, Studio, and Apps relate to each other in a Celonis team (also known as a Celonis environment). You'll get a training environment of your own later in the course!
+
+When you hover to the left of the platform, each of these services is accessible via the navigation panel.
+
+
+
+
+Each service is generally associated with a persona whose role and responsibilities center around using the service.
+
+Try matching the persona description to the services. Drag the descriptions to the images.
+
+Where data engineers connect source systems to Celonis and prepare Data Models to be used by analysts
+Where analysts build process mining and process intelligence solutions such as analyses, Apps, and automation
+Where the business users interact with dashboards, Apps, and other Celonis solutions
+SELECT THE CORRESPONDING MATCH BELOW
+Studio
+Apps
+Data
+
+
+
+
+Need to accelerate time-to-value?
+
+
+
+
+Let’s now move on to exploring the Celonis Studio!
+
+########################################################################
+  PAGE 3
+########################################################################
+
+Introduction to Celonis Studio
+Studio & Apps: Space, Package, and Asset!
+
+Celonis Studio (or simply, Studio) combines the capabilities of process mining with functional expertise to offer a low-code development service. It serves as a hub for you - as analysts, app developers, and dashboard builders - to create, test, and customize dashboards, apps, and other Celonis solutions.
+
+Business users will access the solutions you publish in the "Apps" service. Let’s take a look at Apps and what it offers your business users.
+
+Both Apps and Studio have a very similar user interface (UI) for navigation - with Studio having additional functions that would guide you to build the Apps your business users need. Before you begin, it’s crucial to comprehend the structural elements of Studio, which dictate how Apps are housed and organized.
+
+Check out the example of an app, with a dashboard that was built using a View in Studio.
+
+Studio
+Space (Order Management)
+Package (Order to Cash)
+Asset (Overview)
+Folder (Documentation)
+
+Take note that you can have multiple Spaces, Packages, Assets, as well as Folders in an environment. This gives you the flexibility to organize your Apps in a way that works for the specific use cases of your business users.
+
+
+
+
+For reference, the following is the same dashboard that business users would see in Apps.
+
+
+
+
+Let's now dive deeper and explore Studio firsthand!
+
+########################################################################
+  PAGE 4
+########################################################################
+
+Introduction to Celonis Studio
+Setting up the Training Environment
+
+Before you can move further in this course, you have to set up your training environment. Using a separate tab (in your browser), go through the following steps to set your training team up...
+
+Step 1: Join or log in to your training team
+Step 2: Go to Studio
+
+If you encounter any issues, feel free to contact us and we will get back to you as soon as we can.
+
+After you’ve completed the last step, you can move on to the next page.
+
+########################################################################
+  PAGE 5
+########################################################################
+
+Introduction to Celonis Studio
+Creating a Space
+
+Assuming that this is your first time using Studio, let's start by creating an "empty App". If Studio is empty, you’ll be prompted to start by creating a Space.
+
+If you don't see the options to go to 'Studio' on the navigation panel or 'Create space', please contact us and we'll get back to you as soon as we can. In the meantime, you can go through the course descriptively, as the hands-on exercises are optional (but highly recommended).
+
+With the guided user experience, you should be able to easily create a Space yourself.
+
+Create a Space using the following information:
+
+Space Icon: Briefcase 
+
+Space Name: Academy Training - [Your Name]
+
+Description: A dedicated Space for all your Academy training needs!
+
+After you’re done, you should see the UI of an empty Space, which is very similar to what you've seen before. The Space settings give you options to edit your Space, as seen on the following image.
+
+For simplicity, we're not naming the Studio elements (including the Spaces) in the demos, but please name yours so that you can easily reference it in the future!
+
+Click on the plus icon.
+
+Let’s make a small change to the Space details.
+
+Add a suggested Data Model to the Space, using the ocpm_ordermanagement Data Model.
+
+When you’re done, you should see this small addition to the Space…
+
+If you need additional guidance, watch this step-by-step walkthrough demo on creating a Space in Studio.
+
+
+
+
+You might’ve noticed that there are many other settings and functionalities available but let’s move on for now.
+
+########################################################################
+  PAGE 6
+########################################################################
+
+Introduction to Celonis Studio
+Creating a Package
+
+Spaces help you to organize Packages, which in turn allow you to organize your Assets in meaningful ways! Package creation is pretty much as easy as creating a Space, with a few additional fields to consider.
+
+Go back to your "Academy Training" Space using the breadcrumbs.
+
+In the Space, create a new Package using the following information:
+
+Package name: Introduction to Celonis Studio
+
+Description: Your first training Package!
+
+Initial content: View
+
+Data Model: ocpm_ordermanagement
+
+When you’re done, you should see something like this…
+
+If you need additional guidance on creating a Package, watch the following demo to see how you’d do it…
+
+Take note that as a best practice, each Package is meant to focus on a specific use case. In that sense, you’d typically build one app per Package - with all the Assets inside contributing to process improvement of the use case in their own unique way.
+
+########################################################################
+  PAGE 7
+########################################################################
+
+Introduction to Celonis Studio
+The Knowledge Model
+
+If you have a look at your Package, you'll notice the initial asset was created with a Knowledge Model (commonly referred as "KM"). The Knowledge Model is the semantic layer between the Data Model and assets. A Knowledge Model interacts with a Data Model, taking the data ingested from source systems to make it accessible and human-readable. The Knowledge Model stores all the reusable business definitions and knowledge on the app (Package) level.
+
+Let’s have a look at some of the more commonly used Knowledge Model Entities.
+
+Data
+Metrics
+Filters
+Event Logs
+Update: Knowledge Model UI
+
+The Knowledge Model user interface (UI) has been recently updated! While the layout surfaces more features, the core functionality remains unchanged. All knowledge entities — like data/records, metrics/KPIs, and filters — function exactly as before within their connected assets.
+
+Please note that some training may still display the previous interface. This difference should not alter the flow or content of the training.
+
+For more information about the Knowledge Model, check out the documentation.
+
+You'll learn more about the Knowledge Model and the uses of its specific Knowledge Entities as you learn how to build its associated assets.
+
+So what does being the “semantic layer” technically mean? Why do assets have to be connected to a Knowledge Model? Let’s see how that happens - and more importantly, why.
+
+########################################################################
+  PAGE 8
+########################################################################
+
+Introduction to Celonis Studio
+Data Flow
+
+To appreciate the Knowledge Model, you first have to understand what an app could look like.
+
+This is an Order Management app. Notice the various types of assets in it.
+
+In order for all these assets to have a coherent language, you’d need a central repository of all the knowledge on an app level - that’s where the Knowledge Model comes in! All the assets you see are connected to the same Knowledge Model so that a common knowledge is shared throughout.
+
+
+
+
+This is how assets get data:
+
+Data is integrated from source systems into a Data Model. The Data Model connects to a Knowledge Model in Studio — enabling data, as Knowledge Entities, to be used in assets. Data flows from the Data Model to the Knowledge Model and other assets via Process Query Language (PQL).
+
+A note on using either case-centric or object-centric Data Models
+
+########################################################################
+  PAGE 9
+########################################################################
+
+Introduction to Celonis Studio
+Using the PQL Editor
+
+Process Query Language (PQL) is a programming language used to manipulate and analyze data within the context of process mining and analytics. It is simpler than SQL and specialized for process-related queries. In the Knowledge Model (or any other asset), you’d use the PQL Editor to specify the data you want to query.
+
+Watch the video demo to see how you’d use it in a View.
+
+
+
+
+The Knowledge Sidebar in the PQL Editor surfaces all available data from the Data Model as well as all reusable business entities in the Knowledge Model. Here are a couple more pointers in the knowledge sidebar that would help you in creating PQL queries.
+
+Search, filter, and sort
+Common transformations
+Inline Suggestions
+
+
+
+
+Let’s now bring it all together and create a metric in the Knowledge Model. Let's say you want the total number of deliveries the company has made. You want this metric created and centralized across the app.
+
+In the training environment, go the Knowledge Model. Create a metric using the following information:
+
+PQL Query: COUNT("o_celonis_Delivery"."ID")
+
+KPI name: # Deliveries
+
+Format: Rounded Number (#,###)
+
+Hint: To create the PQL query using the Knowledge Sidebar, you’d reference the Delivery table. Since you want to count the total number of deliveries, you can transform the (delivery) Id column using the aggregation, Count.
+
+This is what you should see in the PQL Editor preview
+
+########################################################################
+  PAGE 10
+########################################################################
+
+Introduction to Celonis Studio
+[Optional] Understanding The PQL Query
+
+Feel free to skip this page if you are already familiar with PQL or if you're planning on taking the Write PQL Queries training. This page simply explains the PQL query you've just created.
+
+
+
+
+In the last exercise, you counted the number of deliveries using:
+
+  COUNT ( "o_celonis_Delivery"."ID" )
+
+The COUNT function aggregates the Data Model table column (i.e., Ids from the Delivery table). PQL queries require the key or ID of the data - not the display name.
+
+"o_celonis_Delivery" is the key of the Data Model table
+"ID" is the key of the Data Model table column
+
+Put together (separated by the " . "), they inform the Celonis system that you are referencing the specific “Id” column from the "o_celonis_Delivery" Data Model table.
+
+
+
+
+You should be able to see these details in the Data of the Knowledge Model.
+
+
+
+
+But wait, what are keys or IDs?
+
+
+
+
+The PQL function, COUNT counts the number of values in a table column. Each PQL function requires a specific expression to work - otherwise, it will express an error.
+
+If you are unfamiliar with PQL and its functions, use the product documentation or the documentation in the PQL Editor to guide you as you create new PQL queries.
+
+PQL is used in all Studio assets to varying degrees. That’s enough PQL for now. Let’s get back to your Package!
+
+########################################################################
+  PAGE 11
+########################################################################
+
+Introduction to Celonis Studio
+Versioning and Deploying a Package
+
+After you've created a Package, you'd move on to building individual Assets that make up your App.
+
+You will learn more about Assets and how to build them in other trainings. More about this later in the course.
+
+After you've built your Assets, you’d have to version and deploy (or simply, 'publish') them so that they would show up in Apps for your business users to consume them. Let's see an example of how this works.
+
+The following video covers the complete Celonis release management workflow, from Data to Apps. Click on the play button at the video controls to start the video at 02:42 (Chapter: Transitioning to Studio for App Management), where it demos the release management of apps in Studio.
+
+Let's now version and deploy the Package in its current (empty) state!
+
+Hint: Enable the "Open deployment after creating the version" option to streamline the process.
+
+Open if you need more details with what to do...
+
+Leave Studio and go to Apps. Navigate to the "Introduction to Celonis Studio" Package you've just deployed. Which assets do you see (acting as a business user)?
+
+A. Only the Knowledge Model.
+B. Only the View.
+C. Both the Knowledge Model and the View.
+
+Great! Now let's move on to permission settings.
+
+########################################################################
+  PAGE 12
+########################################################################
+
+Introduction to Celonis Studio
+Permission Settings
+
+Lastly, let’s talk about access rights. In practice, you’ll likely have various types of business users (e.g., users from the Accounts Payable, Logistics, or Customer Services departments) who will be utilizing the apps you’ve created. This means you’ll be building and publishing different types of apps to meet their specific needs. As such, it’s important to selectively grant them access to specific apps, rather than allowing all business users to access every app in the environment. This is where permission settings become crucial.
+
+Take note that the training environment provided has a few limitations. Specifically, access to the Admin & Settings service, and Studio Permission settings have been disabled. If you have access to a productive environment, feel free to explore how these features work there.
+
+Before we get into permissions, you first need to understand the Admin & Settings service.
+
+In short, accessing a Celonis team typically requires an invitation and the assignment of a role. Your role defines your level of access to the services available on the Celonis platform. To access Studio, you'd need to have at either an Analyst or Admin role.
+
+In the training environment, you have the Analyst role.
+
+To learn more, check out the documentation or consider taking up the Set Up Security and Permissions (admin) course.
+
+Once your business users have access to the Celonis environment (through their assigned roles), you'd want to set permissions based on the specific apps they should have access to. Permissions can be easily set based on the Studio structure levels.
+
+Space Level
+Package Level
+Asset Level
+
+Take note that not all permission options give users access to all Packages within the Space.
+
+The 'Edit', 'Delete', and 'Manage' space options are all Space-specific permissions, which do not include access to existing Packages within the Space. If you’d like to review the details of all the Space permission options, you can refer to the documentation.
+
+You can flexibly adjust permission settings at any level at any time. For now, simply understand that managing user permissions in Celonis has multiple layers, reflecting the necessary granularity to suit the specific circumstances of each user.
+
+########################################################################
+  PAGE 13
+########################################################################
+
+Introduction to Celonis Studio
+Examples of Studio Structure
+
+When implementing Celonis, it is important to structure Studio well in order to:
+
+improve transparency of available analyses, dashboards, and other supporting capabilities
+
+facilitate the most optimum structure for permissions management
+
+Scale and unify the App building experience in designated Spaces in large enterprises
+
+Ease the browsing experience of Spaces in the Celonis platform
+
+
+
+
+As the analyst, you have full control over how Spaces, Packages, and Assets are organized. The following are 2 example models of different Studio organizations...
+
+Prev
+Slide 1 of 2
+Next Slide
+
+By Process / Operating Model of the Business
+
+This model could be used when there are multiple use cases within the same processes and different analysts are working on separate use cases. Additionally, business users across different use cases remain the same and analysts should have the ability to create new use cases for their respective business users.
+
+
+
+
+In this example, you can see the following elements...
+Space: Inventory Management
+Packages: Material Shortage, Inventory Cycle, and Stock Review
+
+
+Other Spaces within the Celonis Team could be "Purchase to Pay" and "Order to Cash".
+
+
+1
+2
+
+Since there are no limitations coming from the underlying data setup and structure, you should generally have:
+
+1 Space for 1 Data Model - depending on how the analysts in the given Celonis team operate
+
+1 Package for 1 app or use case
+
+Folders to separate/group the different types of Assets
+
+
+
+
+Keep in mind that these aren't strict rules, but guidelines you could follow. As you create more apps and expand your use cases, consider setting dedicated "maintenance weeks" to evaluate how your Celonis team structure aligns with your organization and how effectively it supports your business users.
+
+########################################################################
+  PAGE 15
+########################################################################
+
+Introduction to Celonis Studio
+
+Congratulations!
+
+You've completed the “Introduction to Celonis Studio” course.
+
+This is you - just beginning your journey into Studio!
+
+
+
+
+You should now be able to:
+
+Conceptualize the structure of Studio and organize it to align with business needs
+
+Manage access and permissions to ensure users can securely interact with and utilize built Apps.
+
+Take note that this course covered the fundamental settings and configurations that are generally applicable to Studio and app building. As you dive deeper, you’ll learn more about the specific configurations each Asset requires that will help you optimize their functionalities.
+
+
+
+
+If you don't know where to go from here, check out the "Get Trained" section on our Data Analyst role page to explore the core trainings recommended for your learning journey. If you're already taking this course as part of a training plan or training track, feel free to continue your learning journey!
+
+
+
+
+Want to dig deeper into the topic of this course? Join the Celonis Community to ask your product questions, hear about the latest product releases, and remain up-to-date by subscribing.
+
+We invite you to join our Celonis Academy Group to engage with your peers, get exclusive updates and answers directly from Academy experts, and stay connected!
+
+Thank you for taking this course, we hope you enjoyed it!
+
+Your feedback matters
+
+Remember to stop at our feedback page to help us improve our content
+
+- Your Celonis Academy
+
+########################################################################
+  PAGE 16
+########################################################################
+
+Introduction to Celonis Studio
+
+How satisfied are you with the course?
+
+	★	★★	★★★	★★★★	★★★★★
+Please select a rating					
+
+What did you like most about this course?
+
+What would you improve about this course?
+
+
+⇨ If you have files or screenshots, please send them to academy@celonis.com.
+
+Complete Survey

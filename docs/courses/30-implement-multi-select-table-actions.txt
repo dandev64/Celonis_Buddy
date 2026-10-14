@@ -1,0 +1,408 @@
+﻿========================================================================
+  CELONIS ACADEMY - IMPLEMENT MULTI-SELECT TABLE ACTIONS
+  Extracted: 2026-09-09 17:13  |  Personal study use only
+  Source: https://academy.celonis.com/learn/course/implement-multi-select-table-actions
+  Lessons: 1
+========================================================================
+
+########################################################################
+  LESSON 1 : Welcome to Native Table Actions [03:00]
+########################################################################
+
+----- Page 1 -----
+
+Welcome to Native Table Actions [03:00]
+Welcome to Native Table Actions
+
+Welcome! Whether you’ve just completed our "Data Wrangling" case study or you’re joining us specifically to master View-to-Action Flow integrations, we’re glad you’re here.
+
+In this microcourse, we are learning how to trigger powerful automations exactly where the business happens: inside a Celonis View Table.
+
+Course Objectives
+
+In this microcourse, we are going to build a small Batch Reporting Tool. The goal is to allow a user to select one or multiple rows from a customer table in a Celonis View and trigger an Action Flow that:
+
+Enriches data received from the View.
+Processes the data.
+Consolidates original and processed data into a single, professional HTML report sent via email.
+
+The goal of this microcourse is for you to be able to:
+
+Connect a View Table to an Action Flow using the native trigger.
+Analyze why "standard" Action Flow Inputs may not always lead to desired results and how to implement Array Inputs for batch processing.
+Evaluate AI-driven data enrichment to handle raw or low-quality data.
+Utilize Iterators and Aggregators to manipulate bundle structures, allowing you to transform multiple individual records into a single, consolidated output.
+Explain error-handling patterns to manage inconsistencies in source data without halting process execution.
+
+
+
+
+Prerequisites
+
+This microcourse is part of the "Build Action Flows" Training Track. You can complete this microcourse on its own, too. Please note that it builds upon the story and knowledge established in the preceding training assets, particularly the "Data Wrangling in Action Flows" case study.
+
+We assume you are comfortable with:
+
+Navigating Celonis Studio
+
+Configuring Action Flows, including some intermediate logic
+
+Running tests and troubleshooting erroneous failed Action Flow executions
+
+Preparation: Your Training Environment
+
+All practical examples shown in this microcourse can be rebuilt in a central training team.
+
+Add me or check my access
+
+
+
+
+You find a YAML file and an Action Flow Blueprint in the course resources, which you can now upload to your training team as a starting point. The data model we are leveraging is the ocpm-ordermanagement.
+
+Tip: You can reuse your package and Knowledge Model from the "Data Wrangling in Action Flows" case study! You need a new View and a new Action Flow, though.
+
+----- Page 2 -----
+
+Establish a Connection between a View and an Action Flow [05:00]
+Establish a Connection between a View and an Action Flow
+
+At this stage, you (should) have two assets in your Studio package: a View with a customer table and an Action Flow that already contains a basic "currency conversion engine".
+
+View Asset
+Action Flow Asset
+
+Our goal is to select one or multiple rows in the View's table and trigger an Action Flow that processes the data coming from the selected rows according to our use case. 
+
+Our Use Case
+
+For very peculiar reporting purposes, our View's business users would like to select one or multiple customers and, with the click of a button, convert each of the selected customers' total revenues into their (the customer's) local currencies. 
+
+The conversion results should, along with the values in the original currency (Euro), be sent via email to a given email address (your email address). This email should contain all of the initially selected customer revenues and their conversion results, no matter how many rows have been selected. 
+
+All we need to implement this use case are the two assets we already have in our training environment: the View and the Action Flow. Right now, no connection exists yet between our two assets, and they don't know how to communicate with one another. So let's start by building out exactly this connection. 
+
+
+
+
+Step 1: Preparing the Action Flow
+
+We will need to make adjustments on both sides to establish the connection between our two assets. The table inside the View requires an Action to be set up, which in this case will trigger an Action Flow. The Action Flow, on the other hand, needs to know what data to expect from the "outside". We will leverage Action Flow Inputs for that purpose.
+
+Inside the imported Action Flow, you'll find three predefined inputs:
+
+CustomerName (Type: Text)
+Country (Type: Text)
+TotalRevenue (Type: Number)
+
+
+
+
+While the inputs are already mapped to the respective modules, make sure to still initialize the modules where needed. That includes setting up an email connection and specifying your own email address to receive the test emails later on. 
+
+Save, version, deploy, and activate the Flow. Furthermore, ensure your Action Flow is scheduled to run on-demand. "Active" and "On-demand" are the two necessary conditions that need to be fulfilled for an Action Flow for it to be "visible" for other Studio assets like our View. 
+
+
+
+
+Step 2: Adding the Table Action
+
+Now, we head back to the View to create the Action button inside the table.
+
+Enter Edit Mode in your View and select your Table component.
+In the right-hand settings panel, look for a section labeled Interactions and add a new Action 'Run Action Flow'.
+Select the prepared Action Flow.
+Map the Action Flow Inputs. We want the Action Flow to run using the data the user selects from the table. To make that happen, we need to map which column values fill which Action Flow input (automatically). 
+Give your Action Button a proper name.
+This is what will be displayed in the table later on. As a best practice, always add a short tooltip text such that users of your View (and the table) easily understand what is happening when they click the action button.
+Take note of the filters that can be applied to an action.
+In this case, we don't need to configure a filter.
+Click Add to finish the action setup.
+
+Note that the appearance of the table has slightly changed: you can now select multiple rows from the table. Upon selecting at least one row, the new action button will appear.
+
+Try the steps above on your own first, then check the video below for a full demonstration.
+
+This is how you could do it...
+The First Test: Push the Button!
+
+With the connection established, let’s push the (action) button and see what happens…
+
+Select some rows of your choice in your table and click your new action button. Upon execution, you should see a "success" message displayed on the screen.
+Check the Execution History: Navigate back to your Action Flow and look at the history tab.
+Also, open your email inbox to see what you have received.
+
+
+
+
+If everything worked out as planned, you'll see multiple executions in the history list—one for every row you selected. And: Instead of a consolidated report, your inbox looks a little spammed with one email having been received per row selected…
+
+Every selected row has been treated as an independent trigger event. While this may be desired for other use cases, our objective is to send a single consolidated report.
+
+Let's see how we can change our approach (and our Action Flow) to get closer to our goal.
+
+----- Page 3 -----
+
+Batch Processing with Array Inputs [05:00]
+
+Batch Processing with Array Inputs
+
+To send a single, consolidated report and avoid spamming our inboxes, we need the Action Flow to "collect" all selected data first and process it as a single unit.
+
+In the case of our Action Flow-View combination, we can achieve this by replacing our individual inputs with an Array Input.
+
+Make sure to bookmark the relevant documentation page for future reference on array inputs. 
+
+
+
+
+Step 1: Updating the Input Architecture
+
+An Array Input allows the View to pass all selected rows as an array of collections in one single execution cycle, where one collection reflects one row selected.
+
+To switch to Array Inputs, let's:
+
+Open your Action Flow and navigate back to the Action Flow Inputs.
+Delete the three individual inputs.
+Add a new Input of type "Array": Name it CustomerInformation.
+Configure the "Item Specification":
+Set the nested type to Collection.
+Inside this collection, recreate our three data fields as three distinct items: CustomerName (Text), Country (Text), and TotalRevenue (Number).
+Save, Version, and Deploy: Ensure the Action Flow is active so the View can "see" the new structure.
+Step 2: Enabling Batch Mode in the View
+
+Of course, when we change the input structure of our Action Flow, we also need to make adjustments on "the other side", the View.
+
+Go back to your View and edit the Table Action.
+Notice that the three individual slots are gone. In their place is the CustomerInformation array. The individual revenue, country, and name inputs have now become Array attributes. Mapping these to the respective table columns is no different than before.
+
+Try the steps above on your own first. Only watch the video below in case you get stuck.
+
+This is how you could do it...
+
+
+
+
+Step 3: Iterator & Aggregator – The Logical Bookends
+
+Because the Action Flow now receives one "bundle" containing multiple packages with customer information, we somehow need to account for this in our Action Flow logic. We still want to open and process every package (every collection) individually and only aggregate the processed results again into a single, consolidated output.
+
+We will make use of two tools in Action Flows that usually work closely together: Iterators and Aggregators. Let's look at these two advanced flow control modules in more detail on the next page.
+
+Tip: Bookmark the documentation for future reference on Iterators and Aggregators.
+
+----- Page 4 -----
+
+Control the Flow with Iterators and Aggregators [10:00]
+Control the Flow with Iterators and Aggregators
+
+If you try pushing the button right now, it probably still works. However, when you open the hood and take a closer look, you will quickly notice that it doesn't give you the outputs (and emails) you would expect.
+
+Since you're already somewhat experienced in building Action Flows, you will have a suspicion of what the issue is: Our previous inputs are no longer there, which means that the mappings in our modules are broken. You might just want to replace the previous mappings with the new array inputs, but that doesn't work. All you have at your disposal is just the CustomerInformation array...
+
+
+
+
+When we use an Array Input, the Action Flow receives all selected rows wrapped in a single consolidated batch of bundles. However, processing modules—like our AI prompt and the HTTP currency converter—are designed to work on one bundle at a time.
+
+To bridge this gap and access individual items in our CustomerInformation collection, we use two modules that act as the logical bookends of our process: the Iterator and the Aggregator.
+
+The "Exploder": The Iterator
+
+The Iterator takes in an array with a series of bundles and outputs every array item as a separate bundle. In our case, it takes the CustomerInformation array received from the View and "explodes" it into individual bundles—in this case, individual customer information packages. If you select, for example, 5 rows in your table, the Iterator will produce 5 separate bundles.
+
+To make the Array Input work for our Action Flow, let's add the "opening bookend":
+
+Add the Iterator: Place it as the very first module in the Action Flow.
+Configuration: In the "Array" field, map the CustomerInformation array from your Inputs.
+The Result: Every module placed after the Iterator will now run once for every item in that list.
+
+Now you can finally re-map the affected data pills in your Action Flow's modules with the outputs of the Iterator module.
+
+Tip: Remember to "Run the new Iterator module only" to make its outputs visible and available to map in the succeeding modules. A panel will open up that lets you insert dummy values for that purpose.
+
+Try the steps on your own first and only take a look at the video if you get stuck.
+
+This is how you could do it...
+
+If you were pushing the button in the View right now (after you versioned and deployed the Action Flow again), you would still receive two separate emails (assuming two rows selected in the table). This is because so far we've only "exploded" the input array, but haven't yet tied the resulting individual bundles back together. 
+
+
+This is what we'll achieve with an aggregator tool in just a few moments. For practical purposes, though, we'll first do an intermediate data "clean up" step to make our lives easier once we get to the aggregator. 
+
+The "Refiner": Set Multiple Variables
+
+Inside the loop, our HTTP module fetches live exchange rates. However, API responses are sometimes "messy"—the value we need can, as in this case, be buried deep inside a complex JSON structure (e.g., data -> rates -> GBP).
+
+To make our final report in our consolidated email clean, we use a Set Multiple Variables module to "catch" both the converted value as well as the identified currency and give them simple names.
+
+Why do this? It allows the Aggregator to look for clear variables (like Customer_Currency and Converted_Amount) rather than trying to dig through raw API code for every single row.
+An alternative would be to create a single variable only and just map the converted value. The customer's currency, we technically already get from the AI module. We, however, deem the Action Flow logic to be a little more intuitive and easier to reverse engineer later on if needed.
+
+Go ahead and add a "Set Multiple Variables" module in between your JSON and email module. Define two new variables, "Customer_Currency" and "Converted_Amount". Try to figure out how to calculate the values. 
+
+In case you get stuck, you know where to find the solution.. :) 
+
+This is how you could do it...
+
+👉🏼  Tip: Always feel free to version and deploy the current setup of the Action Flow and trigger an action from the View to fully comprehend what every adjustment we make results in! This is pretty much what you would do in reality, too.
+
+The "Collector": The Aggregator
+
+Once the data is processed and refined, we (still) have multiple individual results floating through the flow. We need to "re-pack" them into a single summary that we can then push into a single email.
+
+Let's put up the "closing bookend":
+
+Add the Aggregator: Place a Text Aggregator after your "Set Multiple Variables" module. A text aggregator is a special type of aggregator that works best for our use case to pass its result on to the email module.
+The Source Module (Crucial): Set the Source Module to your Iterator. This tells the Aggregator: "Wait here until the Iterator has finished every item in the batch before moving forward."
+Text: We're going to map the "Clean" variables we just created (e.g., Converted_Amount, Customer_Currency) as well as two other data points we also want to include in our final email: the customer name and the original amount (both right away from the Iterator module).
+
+For formatting purposes in our email later on, you should specify the following logic in the text field:
+
+{{Iterator.CustomerName}}</td><td>{{formatNumber(Iterator.amount; 2; "."; ",")}}</td><td>{{formatNumber(SetMultipleVariables.ConvertedValue; 2; "."; ",")}}</td><td>{{SetMultipleVariables.CustomerCurrency}}
+
+Also, just for formatting purposes, enable advanced settings, select "Other" as the Row separator, and specify the following as the separator:
+
+</td></tr><tr style="border-bottom: 1px solid #eee;"><td style="padding: 12px;">
+
+You know the drill by now... Give it a shot and only look at the video if you get stuck.
+
+This is how you could do it...
+
+Phew, this was quite a lot! Before we move on to the final edits, let's quickly recap what we did:
+
+The Start: Receive 1 Consolidated Batch (Array Input).
+The Expansion: The Iterator breaks it into individual rows.
+The Refining: AI, HTTP, and Variable modules process and clean each row.
+The Collapse: The Aggregator catches everything and turns it back into 1 text block.
+The End: The Email module sends 1 consolidated report.
+Moving to the Final Result
+
+Now that the data is being processed correctly, it’s time to see the final output. On the next page, we will finalize the Email module and take a closer look at the "hidden" logic we included in the blueprint (like the JSON module and the Resume module) to handle those tricky data inconsistencies.
+
+----- Page 5 -----
+
+The Masterpiece - A Resilient Batch Report [05:00]
+The Masterpiece – A Resilient Batch Report
+
+It’s time to look at the final result! We're about to map your Text Aggregator output into your Email module! Once done, you should be receiving a single, professional email regardless of how many rows you select in the View.
+
+Open the Email Module: Locate the "Body" or "Content" field.
+HTML Wrapping: As we are building a modern table, paste the following HTML structure. Notice how we "wrap" the text aggregator result to complete the table:
+<h3>Converted Revenue Report</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Customer</th>
+      <th>Original (EUR)</th>
+      <th>Converted</th>
+      <th>Currency</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>
+      {{Text Aggregator.text}} </td></tr>
+  </tbody>
+</table>
+
+
+
+
+Behind the Scenes: What Makes it Work? 🕵️
+
+While you focused on the connection and the batch architecture, the blueprint you imported contains "hidden" logic designed to handle real-world data issues. Let's look "under the hood" at why this flow is so resilient:
+
+1. AI-Powered Data Enrichment
+
+In your table, "Country" might be a full name like "United States" or a code like "US." Our Currency API, however, strictly requires 3-letter ISO Currency Codes (like USD or GBP).
+
+
+The Logic: The AI Prompt acts as a translator. It takes whatever "raw" country text comes from the View and converts it into the specific currency code the API expects. A very precise instruction on the expected output is key in the prompt here.
+
+2. Handling "Same-Currency" Errors
+
+A common "trap" in automation is trying to convert a currency into itself (e.g., EUR to EUR). The Frankfurter API will, in this case, throw an error and stop the entire flow.
+
+The Logic: We implemented an Error Handler (the Resume module) on the HTTP module. If the API fails because no conversion is needed, the flow doesn't crash. It simply bypasses the error and uses the original Revenue value for the report.
+
+3. Establishing common grounds with the JSON module
+
+Notice how we kept the "Parse response" option in the HTTP module to "No". This is mainly due to the Resume module and the kind of "stand-in" output it produces. To continue the flow based on common grounds, no matter whether the HTTP module or the Resume module was executed, we outsource the parsing of either one of the outputs to a separate JSON module. If this is a little hard to grasp, we recommend you experiment a bit yourself with different setups (set "Parse response" to yes, then trigger an error, etc.). This way, you will probably come to the same result we present to you in the blueprint. 
+
+
+
+
+The Final Verification 👀
+
+It is about time! Go to your View and select a mix of customers: some who need conversion (e.g., Canada, UK) and some who don't (e.g., Belgium).
+
+Push the Button.
+Check your Inbox: You should receive a single email with a perfectly formatted, clean table where every row - even the "errors" - has been processed successfully.
+
+
+
+
+Not yet beautiful enough? 💅🏼
+
+----- Page 6 -----
+
+Summary & Best Practices [02:00]
+Summary & Best Practices
+
+Congratulations! You have moved from simple triggers to a sophisticated Batch Processing Engine.
+
+Key Takeaways:
+
+
+
+
+Table Actions turn static insights into immediate execution without leaving the Celonis View.
+Array Inputs are the "consolidated package" of Action Flows. They allow you to process multiple rows as a single unit, preventing, e.g., inbox spam.
+The logic of Iterator → Processing → Aggregator is the gold standard for handling batch data (think "diamond shape").
+Data Refinement: Using a Set Multiple Variables module makes your logic easier to read and maintain.
+Pro-Tip: Controlling Access to Table Actions
+
+Not every View user should necessarily be able to trigger the underlying Action Flow. You can control the visibility of your Table Actions by managing (Action Flow) Asset Permissions.
+
+A Table Action button will only appear for users who have the explicit right to "Use" the connected Action Flow. If a user lacks this permission, the button is automatically hidden from their View, ensuring that sensitive actions (like updating an ERP system or sending an email) are restricted to authorized personnel.
+
+To review or restrict access:
+
+In Studio, click the three dots (⋮) next to your Action Flow asset. 
+Select Permissions.
+Assign the "Use" permission only to the specific users, groups, or applications that require it. 
+
+The screenshot above shows an example of the "Use" Asset Permissions settings for an Action Flow called "Currency conversion service". Here, the application "Call Process Copilot" and the user "Nicole Wendler" have the "Use" Asset Permission enabled. In contrast, the user "Celonis Training" would not be able to see or use a button in a View that is linked to this particular Action Flow.
+
+Note that the above sample permission assignment cannot be performed in the central training team.
+
+💡 Outlook: Beyond the Table
+
+While we focused on triggering flows from specific rows in a table, Celonis Studio offers two primary ways to engage with your automations:
+
+Table Actions
+View Actions
+
+Table-Specific: As you’ve seen, these are perfect for when you need to "pass" specific data points (like Customer Name or Revenue) from a selected row directly into your flow.
+
+Congratulations on passing another important milestone on your journey to truly master Celonis Action Flows!
+
+Your Celonis Academy team
+
+----- Page 7 -----
+
+Feedback
+
+How satisfied are you with the course?
+
+	★	★★	★★★	★★★★	★★★★★
+Please select a rating					
+
+What did you like most about this course?
+
+What would you improve about this course?
+
+
+⇨ If you have files or screenshots, please send them to academy@celonis.com.
+
+Complete Survey

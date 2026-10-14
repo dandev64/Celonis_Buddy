@@ -1,0 +1,532 @@
+﻿========================================================================
+  CELONIS ACADEMY - OCPM MODELING BEST PRACTICES
+  Extracted: 2026-09-09 13:50  |  Personal study use only
+  Source: https://academy.celonis.com/learn/course/ocpm-modeling-best-practices
+  Lessons: 6
+========================================================================
+
+########################################################################
+  LESSON 1 : Learning Objectives
+########################################################################
+
+----- Page 1 -----
+
+Object-Centric Modeling Best Practices
+Learning Objectives
+Learning Objectives
+
+This course covers object-centric modeling best practices based on field experience. Specifically, you will learn about:
+
+Project Types and Setup
+Opting for the right modeling approach
+Data pool architecture
+Data pre-processing
+Modeling best practices
+The three core modeling principles
+Deciding how to model objects, events, attributes and relationships
+Transformation best practices
+Scoping and creating perspectives
+Maximizing your work with important product features
+Validating and Fixing Issues
+Basic validation for your object-centric data model
+Finding the source of issues
+
+For each area, we will highlight both theoretical best practices and where applicable, OCPM features that can make your life easier when working with Objects and Events.
+
+This course is updated regularly and should serve as a reference. Feel free to jump around to your area of interest, bookmark the course and come back when needed!
+
+Prerequisites: We recommend you complete the OCPM Foundations and OCPM in Action courses, and ideally, have basic experience in working with Celonis' Objects and Events.
+
+Let's get started!
+
+----- Page 2 -----
+
+Object-Centric Modeling Best Practices
+Learning Objectives
+
+No topic content.
+
+########################################################################
+  LESSON 2 : Project Types and Setup
+########################################################################
+
+----- Page 1 -----
+
+Object-Centric Modeling Best Practices
+Project Types and Setup
+Opting for the Right Modeling Approach
+
+When starting your modeling work in a project, there are generally three approaches to create an object-centric data model:
+
+Celonis catalog
+Celonis catalog with customizations
+Custom implementation
+
+Let's look at the what, when, and how of each approach.
+
+Celonis Catalog
+Celonis Catalog with Customization
+Custom
+What it is
+
+The catalog approach is the most direct and streamlined implementation for businesses that want to adopt pre-built core processes. With minimal configuration, you can enable the processes from the catalog, select the appropriate source system, and quickly deploy relevant objects and events.
+
+The goal here is to achieve a rapid time-to-value with minimal intervention—ideal for businesses looking to get started quickly without extensive customization.
+
+When to use it
+
+If your objective is to implement standard core processes already available in the catalog. The approach is perfect for businesses that need quick value with minimal setup and no extensive customizations.
+
+How to do it
+
+1. Download extractions from the Marketplace.
+2. Enable the process directly from the catalog. If a process or system is not available directly in your Celonis environment, make sure to reach to Celonis to double check availability.
+3. Deploy pre-configured transformations that match the source system.
+See this quickstart documentation and this quickstart video for instructions.
+
+The flexibility of Celonis’ modeling approaches ensures that businesses can deploy solutions aligned with their unique needs—whether through pre-built catalog processes, customized adaptations, or fully bespoke solutions built from scratch. The decision criteria outlined help you determine the right path, balancing speed, customization, and complexity based on your goals.
+
+----- Page 2 -----
+
+Object-Centric Modeling Best Practices
+Project Types and Setup
+Data Pool Architecture
+
+Generally, it is a recommended best practice to have a dedicated data pool that holds all source system connections and data extractions, then export and import connections from that dedicated extraction data pool to the OCPM data pool. Architecturally, the structure would look like this:
+
+The benefits of having a dedicated extraction data pool include:
+
+Fewer parallel extractions, which usually means that the average extraction performance is going to be better (the extractions run faster on average).
+Less load on the source system, which the responsible IT departments usually appreciate.
+Less duplicated data within Celonis.
+A single source of truth for raw data and no accidental edits or deletions on raw source data. This makes data validation a lot easier and ensures that you’re always working on a consistent data foundation across all your analytical use cases.
+
+----- Page 3 -----
+
+Object-Centric Modeling Best Practices
+Project Types and Setup
+Data Pre-Processing
+
+If you use object and event types from the Celonis catalog, you may need to pre-process your data for it to fit the expected data types. This is especially the case if your source system is customized or is a data lake.
+
+In custom projects, pre-processing data also helps in reducing your data scope and accelerate your data pipeline.
+
+Here are core reasons to pre-process your data:
+
+REASON	EXPLANATION
+Table names mismatches	If your source table names don't match the expected ones in Celonis transformations, they need to be renamed.
+Type casting	Celonis transformations expect certain data types. Matching these types is important for the transformations to run without errors.
+Pre-filtering	If not all table data is needed for your catalog or custom transformations, you should consider filtering it at extraction or in subsequent transformations.
+Temporary tables	If a similar calculation is done accross multiple transformations, you can also do this once ahead of time using a temp table to save processing overhead.
+How to pre-process data
+
+General steps to pre-process your data are the following:
+
+Global data job - In your OCPM Data Pool, set up a new data job in the global scope as the source (so you have access to all your incoming connections).
+Script transformations - Write and run your transformations, create tables or views using input tables.
+A view is usually recommended as long as you are only doing light pre-processing (type casts, name changes, filters).
+A table may become a valid option when you do multiple complex join and plan to reuse the result repeatedly.
+Use in your object transformations - To use the pre-processed data in an object or event transformation, select global scope as source. Write transformation based on your pre-processed tables.
+Schedule your pre-processing data job to run before the OCPM data job.
+
+If you have any issues pre-processing data, make sure to check out this troubleshooting page.
+
+Alternatives to pre-processing
+Skip missing data
+
+If you have a data type issue or missing tables, you can use the "skip missing data" toggle when activating Celonis catalog transformations. This toggle is a great way to get going fast. You can go back and fix the issues when you've decided you want to implement this use case.
+
+Using Common Table Expressions
+
+If you need to use one or more temporary tables within one transformation, you can use common table expressions (CTEs -here is an article with a full explanation on CTEs). To make CTEs more performant in your transformations, you can enable materialization. You'll find this in the three dots on your transformation scripts:
+
+CTEs are an alternative to pre-processed temporary tables but they cannot be used across transformations.
+
+----- Page 4 -----
+
+Object-Centric Modeling Best Practices
+Project Types and Setup
+
+No topic content.
+
+########################################################################
+  LESSON 3 : Modeling Best Practices
+########################################################################
+
+----- Page 1 -----
+
+Object-Centric Modeling Best Practices
+Modeling Best Practices
+Event Modeling Guidelines
+
+Accurately capturing real-world and CRUD (Create, Read, Update, Delete) events is challenging, and poor design can lead to ineffective event logs and difficult analysis. Let's look at three types of events (concurrent, unbounded, and static) and how to handle them with in your modeling work.
+
+
+1. Concurrent events
+
+Concurrent events occur when multiple system-level actions happen simultaneously to achieve a single business result (e.g., creating a customer record involves setting a name, assigning an ID, and saving an address at the same timestamp).
+
+INDEX	EVENT	TIME
+1	Add new customer	1/10/2025 09:00:00
+2	Assign rewards membership number	1/10/2025 09:00:05
+3	Set new customer name	1/10/2025 09:00:05
+4	Set new customer address	1/10/2025 09:00:06
+5	Add new customer to marketing mailing list	1/10/2025 09:00:45
+
+In this example, events 1, 2, 3, and 4 always occur when a new customer signs up for the rewards program. 5 only occurs when the customer signs up for the mailing list.
+
+Modeling Guideline for Concurrent Events
+
+With the introduction of event grouping, the best practice is to model the lowest-level CRUD (Create, Read, Update, Delete) events as distinct entries rather than flattening them into a single event with multiple attributes. You should then leverage the platform's event grouping functionality to hierarchically roll these system-level events up into a "Real-World Event" (or Business Event).
+
+Concurrent events can be divided into three categories: the “CRUD” (Create, Read, Update, Delete) events that always occur with a real world event (e.g., #2, 3, and 4); the real world event itself (#1); and CRUD events that can only occur when the real world event occurs, but do not always happen (#5).
+
+Model Granularity: Capture each granular system action—such as "Create Header," "Set Name," or "Assign Membership ID"—as its own event row in the event log. Do not artificially merge them during the extraction or transformation phase.
+Preserve Detail: By keeping events granular, you ensure no data is lost. Users can drill down from high-level phases to these exact system steps when doing root-cause analysis.
+2. Unbounded Events
+
+Events with an associated attribute field that is either customizable, or has a free text component that describes the activity occurring so that a single event name cannot capture all variations of the event.
+
+Example: Coffee Flavoring
+
+A barista makes a specialty coffee. The flavor used is stored in a field “Flavor:”.
+
+INDEX	EVENT	TIME
+1	Add Flavor - Chocolate	1/10/2025 09:00:01
+2	Add Flavor - Vanilla	1/11/2025 11:00:05
+3	Add Flavor - Pumpkin Spice	1/12/2025 08:00:45
+4	Add Flavor - Winter 2025 Specialty: Candy Cane	1/12/2025 14:00:15
+Modeling Guideline for Unbounded Events
+
+Unbounded events should always be addressed using the relabel event name (concatenation) feature available in the event log builder.
+
+3. Static Events
+
+Static events refer to events that do not correspond to an action taken or an activity, but to a notable point in time. This point in time reflects a key date-time in the process where the state of an object is changing or expected to change.
+
+INDEX	EVENT	TIME
+1	Prepare Model Order	1/10/2025 09:08:45
+2	Mobile Order Due	1/10/2025 09:15:00
+3	Mobile Order Complete	1/10/2025 09:17:13
+4	Mobile Order Picked Up	1/10/2025 09:23:01
+Modeling Guideline for Static Events
+
+When static events have bearing on real events, the real events should reflect this information so that the static event can be excluded. For example, instead of a separate "Due Date" event, use:
+
+Prepare Mobile Order
+Mobile Order Completed After Due
+Mobile Order Picked Up
+
+Avoid adding customer specific business logic directly into event transformations. This creates a redundancy with the knowledge layer, where heuristics and formulae must be maintained in two places. For example, the classification of an object based on a static event (Late because it is after the Due Date) should be made in the Knowledge Model (attribute “On Time Indicator” classifying “If days between Due Date and Completion Date between -3 and 3 then On Time, etc.”) and not in an event or object transformation.
+
+A summary for event types
+EVENT MODELING SCENARIOS	CORRECT MODELING	INCORRECT MODELING
+Concurrent Events	
+
+Model the lowest-level CRUD events as distinct entries.
+
+For example, capture "Approve Purchase Requisitions," "Approve Approval Step 1," and "Approve Approval Step 2" as separate events.
+
+Then, use event grouping to roll these up into a "Approve Purchase Requisition" business event. This preserves granular data for root-cause analysis while enabling high-level business process analysis.
+
+	
+
+Flattening events into attributes.
+
+Do not merge "Set Purchase Order ID" and "Set Vendor Name" into a single "Create Purchase Order" event during ETL. This loses the precise timestamp and sequence of system actions.
+
+
+Unbounded Events	
+
+Use relabeling of events for "Change Purchase Order" events, for example, "Change Purchase Order → Quantity," "Change Purchase Order → Price," "Change Purchase Order → Delivery Date." This provides context while keeping the core event consistent.
+
+	
+
+Create separate events like "Change PO - Change Quantity," "Change PO - Change Price," "Change PO - Change Delivery Date." This results in a proliferation of event names for a single type of action.
+
+
+Static Events	
+
+If the static event changes the nature of a real life event, then include this change in the naming of the real event or as an attribute of it. For example, "Invoice Paid After Due Date" is a real life event that contains information about the due date passing; the due date can then be an attribute on the Invoice event log. If the static event represents an important planned event or moment in time in the process, or if there is benefit to visualizing it in the Process Explorer then it can be left as a static event.
+
+	
+
+Include events like "Purchase Order Due Date" or "Invoice Payment Deadline" as distinct events in the event log. These are notable points in time but not actual activities.
+
+Use the Event Log Builder for refinements
+
+The event log builder in knowledge models is the way forward to create and shape event logs based on the objects and events included in your data models. With it you can handpick events to include, filter on object or event attributes at creation and select a sort column if your events have overlapping timestamps.
+
+General Event Modeling Guidelines
+
+And here are some more general guidelines for defining events along with positive and negative examples of how to implement these guidelines:
+
+
+CORRECT MODELING	INCORRECT MODELING
+
+
+Capture all relevant events with their objects: In a Procure-To-Pay process; Purchase Requisition Created, Purchase Order Created, Goods Receipt Recorded, Invoice Received, Payment Initiated, Payment Completed
+
+	
+
+Only link to a single "case" object when multiple are involved.
+
+
+Record accurate timestamps: Timestamp when the purchase requisition is created, when the PO is sent, when goods arrive, etc.	Neglect timestamp accuracy.
+Use consistent and descriptive names: Use names like "Goods Receipt Recorded" instead of just "Receipt".	Use inconsistent or ambiguous names.
+Explicitly link events to all involved objects: When a "Purchase Order Created" event occurs, link it to the specific Purchase Requisition(s) it fulfills, the Supplier, the Materials being ordered, and the relevant organizational unit. When "Shipment Initiated" occurs, link it to the specific Sales Order, Customer, Order Items being shipped, and the Shipment object itself (tracking number, carrier).	Lose object relationships within events.
+Ensure all events have an ID, EventName, timestamp in source systems and all important attributes	Overlook valuable optional attributes (e.g., resource, location).
+Consider event granularity*: Explore pre-built/Core Celonis types. Instead of "Invoice Processed", capture "Invoice Received", "Invoice Approved", and "Payment Completed" as distinct events. Instead of "Invoice Item Change" use "Change Invoice Net Amount".	Assume data source order is chronological.
+
+----- Page 2 -----
+
+Object-Centric Modeling Best Practices
+Modeling Best Practices
+Transformation Best Practices
+SQL Dialect
+
+Object-centric transformations use a SQL dialect called CeloSQL which is very close to "standard" or ANSI SQL. This dialect is different from the one used in case-centric transformations.
+
+When scripting make sure to use only the supported functions listed in documentation. For non-supported functions, the documentation page offers a list of alternative ways to write your script.
+
+When writing your transformations, you should follow the suggested script. This script is based on the object and event attributes and relationships you create:
+
+Unique IDs
+
+Always ensure you have unique IDs for your objects and events by including the name of the source system if you're using more than one. For objects, there is no need for the object name in the ID as most will have unique IDs based on the source tables.
+
+For events, you will see event names since the source data may not provide an obvious unique ID beyond its main object name:
+
+Use Primary Keys and Composite Keys at Creation
+
+If activated in your environment, we recommend you make use of composite keys and define primary keys right at object and event creation. This ensures you have unique records and for the most part removes the need for scripting for IDs and foreign keys. For more information on composite keys, refer to documentation on primary keys.
+
+Avoid NULL Values
+
+Avoid NULL values in you ID fields by either using WHERE clauses or with the COALESCE function. For example:
+
+SELECT "Table"."Column1" || '::' || "Table"."Column2" AS "ID",
+...
+FROM ...
+WHERE "Table"."Column1" IS NOT NULL
+SELECT 
+    COALESCE("Table"."Column1", '-') || '::' || 
+    COALESCE("Table"."Column2", '-') AS "ID",
+...
+Use the SourceSystem Parameter
+
+If working with multiple instances of the same type of source system, chances are you will have non-unique IDs. As an example, material number 000123 in source system A may refer to a different material than material number 000123 in source system B. To retain the uniqueness of IDs, make sure to create separate transformations and use the "sourceSystem" parameter:
+
+SELECT
+  <%=sourceSystem%> || '::' || "Table"."Column1" || '::' || "Table"."Column2" AS "ID",
+...
+
+The reasons for the importance of unique IDs are covered in the OCPM in Action training but also more extensively in this documentation article.
+
+Scripting for Additional Attributes or Partial Overwrites
+
+When you add an attribute or overwrite one or more attributes, you need an extra transformation. An extra attribute creates an extension script and an attribute overwrite edits adds on an overwrite script in your ocpm transformation.
+
+Since both of these scripts are joined onto the main object tables, keep in mind that your IDs should match those of the main table. An easy way to script is to open your main transformation and copy over the ID line, along with the FROM and WHERE portion of your statement. You can then gradually replace portions of the script as needed.
+
+The main script:
+
+Using the ID and FROM portion as a basis for the extra attribute script:
+
+Finding the Right Tables in Transformations
+
+When writing transformations or troubleshooting, mastering the type table naming conventions will come in handy. The following table is a quick review with examples based on the main table prefixes. The general convention follows a "prefix_namespace_name" structure.
+
+TABLE	TABLE NAME PREFIX	ROW CONTAINS	EXAMPLE
+Object type	o_	One object instance (id) and the current values of its attributes	o_celonis_Plant
+Event type	e_	One event instance (id) and the current values of its attributes	e_celonis_PostGoodsIssue
+Object Change table	c_o	One change to one instance (id) of the referenced object type table	c_o_celonis_Plant
+Object to object relationship table	r_o_	One relationship between two object instances (ids)	r_o_celonis_PurchaseRequisitionItem__PurchaseOrderItems
+
+This is only for m:n relationships. "PurchaseRequisitionItem" is the name of object owning the relationsion and "PurchaseOrderItems" is the name of the relationship.
+
+
+Event to object relationship table	r_e	One relationship between one event instance (id) and one object instance (id)	r_e_celonis_PostGoodsIssue__DeliveryItems
+Field extension to object table	x_	One object instance (id) and the current values of its (extended) attributes	x_custom_celonis_Plant
+
+"Custom" for custom attribute. This is an exception where two namespaces (custom and celonis) follow one another.
+
+c_x_custom_celonis_Plant for the table that contains changes on this extra attribute.
+
+
+Field extension to event table	y_	One event instance (id) and the current values of its (extended) attributes	y_custom_celonis_PostGoodsIssue
+
+If you've extended a catalog object (e.g. "Plant") with extra attributes and want to use to these fields for event transformations, look for the "x" table that has the object name, i.e. "x_custom_celonis_Plant".
+
+----- Page 3 -----
+
+Object-Centric Modeling Best Practices
+Modeling Best Practices
+Scoping and Creating Perspectives
+
+The final goal of modeling objects and events is to build and load data models for analysis and action. Remember the following points when creating a custom perspective:
+
+Keep value in mind
+
+Identify the required set of objects and events that you need to build the use case that has been identified. The general tendency is to always create a comprehensive data model that includes all objects and events that were created. However, this is not necessary.
+
+Start fast and iterate
+
+Create the perspective in a modular manner starting with the lead object for your use case.
+
+Understand how to link objects
+
+Linking correctly is crucial as you build up the perspective. The most simple approach here is to link (include) transactional objects and embed master data objects needed in the context of the use case.
+
+The key here is to ensure there are no cyclic relationships. Embedding objects helps avoid cyclic relationships if there are any as the modeling progresses. This constraint is needed to build a PQL compatible interface, because PQL currently doesn’t support cycles in data models.
+
+A Full List
+
+There is no way around it, here is the full list of recommendations on perspectives:
+
+GUIDELINE	CORRECT APPROACH	INCORRECT APPROACH
+
+
+Modularity: Start with the lead object and incrementally add objects and events relevant to the use case.
+
+	
+
+Begin with the central object in a process (e.g., Purchase Order Item in a procurement perspective) and add related objects like PO, Vendor Invoices, etc., step by step.
+
+	
+
+Creating a perspective with a large number of objects and events upfront, without a clear focus or use case.
+
+
+
+
+Linking Strategy:
+
+Use 'Include relationship' for transactional objects.
+Use 'Embed' for master data to avoid cyclic relationships and ensure PQL compatibility.
+	
+Using 'Include relationship' to connect transactional objects like Purchase Order Items and Goods Receipts.
+Using 'Embed' to incorporate master data like Vendor or Material into a transactional perspective.
+	
+Using 'Embed' for transactional objects, leading to data redundancy and potential performance issues.
+Using 'Include relationship' for master data, which can create cyclic relationships and hinder PQL queries.
+
+
+
+Event logs: Rely on automatically created for each object upon perspective loading. Only define custom event logs for specific use cases (e.g. filtered events, indirect event inclusion).
+
+	
+
+Relying on the automatically generated event logs for standard analysis. Creating a custom event log on Studio side to analyze specific process variants or filter out noise.
+
+	
+
+Creating custom event logs for every object without a clear need, which can increase complexity and processing time.
+
+
+
+
+Consider the use case when Linking: The linking strategy can vary depending on the perspective’s intended use case.
+
+	
+
+Choosing 'Include relationship' for a performance-focused analysis where detailed object-level drill-down is needed.
+
+	
+
+Applying a linking strategy without considering the analytical goals, leading to a perspective that doesn't effectively support the intended use case.
+
+
+
+
+Connecting multiple processes: Identify the events that constituted the end of a process and the first event of the new process. Investigate what are the relationships to needs to be in place to expand the process into multiple processes.
+
+	
+
+Verify that relationships between PurchaseOrderItem and MaterialDocumentItems are included in SupplyChain perspective, or PurchaseOrderItem and VendorInvoiceItem for a ProcureToPay process
+
+	
+
+Failing to identify and model the connections between processes, leading to an incomplete view of the overall business flow.
+
+
+
+
+Leverage UI Visualization: Use the 'Show added → adjacent to Selected' option for a guided modeling experience.
+
+	
+
+Once perspective has been deployed into development, use Celonis Studio's visualization components like Process Explorer, Case Explorer and tables to understand the impact of added → adjacent selected objects, events and relationships works properly.
+
+	
+
+Building a perspective and not using the visualization components, potentially leading to errors or inefficiencies and rework.
+
+----- Page 4 -----
+
+Object-Centric Modeling Best Practices
+Modeling Best Practices
+Maximizing your work in the Objects and Events Environment
+
+Part of best practices is to be able to work efficiently with the tool itself. New features come out regularly to accelerate and scale your work. Browse through this list to make sure you are aware of it all! And make sure to subscribe to product releases in our Celonis Community.
+
+Work with Transformations
+Enabling and disabling transformations
+Generating transformations at object import
+Partial or full overwrites and custom scripts
+Transformation templates
+Add attributes directly within the editor
+Preview source tables
+Filter transformations
+Execution Logs
+Use multiple data sources in one transformation
+Save draft transformations
+Troubleshoot and test in the SQL editor
+Prep data with table transformations where applicable
+Accelerate Creation
+Import objects or events based on tables
+Relabel events to create events based on attributes
+Extend Celonis catalog objects, events, and perspectives
+Skip missing data
+Use standalone objects in perspectives
+Duplicate objects and events
+Organize your Work
+Custom tags and filtering for objects and events
+Rename, delete and duplicate custom types
+Update the Celonis catalog
+Schedule required perspectives only
+Versioning and Deployment
+
+----- Page 5 -----
+
+Object-Centric Modeling Best Practices
+Modeling Best Practices
+
+No topic content.
+
+########################################################################
+  LESSON 4 : Validating & Fixing
+########################################################################
+
+Object-Centric Modeling Best Practices
+Validating & Fixing
+
+No topic content.
+
+########################################################################
+  LESSON 5 : Migrating to OCPM
+########################################################################
+
+Object-Centric Modeling Best Practices
+Migrating to OCPM
+
+No topic content.
+
+########################################################################
+  LESSON 6 : Summary
+########################################################################
+
+Object-Centric Modeling Best Practices
+Summary
+
+No topic content.

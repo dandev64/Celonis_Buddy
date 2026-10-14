@@ -1,0 +1,448 @@
+﻿========================================================================
+  CELONIS ACADEMY - LOAD
+  Extracted: 2026-09-09 13:28  |  Personal study use only
+  Source: https://academy.celonis.com/learn/course/load
+  Lessons: 11
+========================================================================
+
+########################################################################
+  LESSON 1 : Learning Objectives
+########################################################################
+
+Intro
+Learning Objectives
+Welcome!
+
+If you've made it to this course, you are now in one of the final stages of building your Data Pipeline:
+
+After completing this course you will be able to:
+
+Set up and load a Data Model
+Apply name mapping to technical table names
+Choose the appropriate load method
+Troubleshoot your Data Model loads
+
+Let's get started!
+
+Two important notes:
+
+This course does not cover delta data model loads. This is covered in the "Set up a Delta Data Pipeline" course. 
+This course is case-centric: The steps shown to set up a data model presented in this course reflect the case-centric methodology. If you are looking for the newer and recommended object-centric approach, please refer to the OCPM in Action course, also include in the Get Data into Celonis training track.
+
+Personal Training Environment Required
+
+This course contains hands-on exercises that require a personal Celonis Training Environment, also called a "Celonis Team".
+
+Not sure if you have one? Click below and we'll either create one for you or show you how to access your existing Team if you have one. Please make sure to disable adblockers on this page if the button is not working for you.
+
+Check / Create my training environment
+
+
+
+
+This content is available in multiple languages: English, German, French, Japanese, Spanish, and Portuguese. To switch your language, use the selector in the top navigation bar.
+
+In Courses: Switching languages will not affect your progress. If you are multilingual, comparing languages can even help deepen your understanding.
+In Exams: Do not switch the language once you start the exam. If you switch the language when you're already reviewing questions and answers, the page will refresh, causing your exam attempt to end prematurely. (Note: Once inside the exam course, you can switch the language anytime before clicking the Start Exam button.)
+
+
+
+
+If you encounter any technical or access issues during this course, check out our FAQs in the Support area or reach out to us via our Academy contact form.
+
+########################################################################
+  LESSON 2 : Add Activity Table
+########################################################################
+
+Set up your Data Model
+Add Activity Table
+Try it out - Add Activity Table to Data Model
+
+It's now your turn. As usual, go to your personal training environment to complete this exercise. Here, we assume you have already completed the following three courses:
+
+Connect to Systems
+Extract Data
+Transform Data
+
+If not, you can of course proceed through the course and simply skip the hands on "Try it out" pages. We leave it up to you.
+
+Basic Instructions
+Steps
+Result
+
+########################################################################
+  LESSON 3 : Add Case Table and other Tables
+########################################################################
+
+Set up your Data Model
+Add Case Table and other Tables
+Why is the Case Table needed?
+
+Just the Activity table on its own in a Data Model is not enough. To be able to drill down into case information, we need the Case table and other master data tables.
+
+The case table contains one row per case, holding the static attributes that describe what that case is — its identity and metadata — rather than the events that occurred within it.
+
+In our example, we are looking at the Purchase-to-Pay process and the Purchase order Items as the central object we follow through the process. By looking at the Case Key, we have already seen (see courses "Extract Data" and "Transform Data") that one case refers to one line in the "EKPO" table. That's why we have to select this table as the Case table.
+
+By specifying a Case table, you're able to use predefined metrics in the Celonis analysis, such as a case count. The case count now specifically refers to table "EKPO" and will always count the number of entries in this table with respect to the applied filters. This a screenshot from the Studio showing what is behind the metric:
+
+########################################################################
+  LESSON 4 : Table Relationships
+########################################################################
+
+----- Page 1 -----
+
+Set up your Data Model
+Table Relationships
+Link Tables Correctly
+
+Did you wonder when connecting tables what the Dimension table (1) and the Fact table (N) labels mean?
+
+This relationship is important for downstream work with your Data Model. Here are important guidelines you should follow when connecting your tables to avoid issues in your Data Model load and Analysis later on:
+
+
+The Fact (N) table is always the table with multiple rows for one row in the (1) table. So in the Activity to Case table relationship, the Activity table is the Fact table (N), and the Case table is the Dimension table(1). In other words there are always multiple activities for one Case ID
+
+A Fact (N) table can have multiple 1 relationships with other tables, but a 1 table should not have multiple N relationships in your Data Model. Avoiding this is important for working within Analyses and the Process Query Language (PQL) later on.
+The Data Model only works with 1:N or 1:1 relationships. Cyclic relationships or M:N relationships should be avoided as they cause issues in the Data Model load and Analyses.
+
+Bear in mind: Thankfully, wrongly set up relationships are normally automatically corrected when loading the Data Model but you should avoid them where possible as wrong relationships can slightly increase the load time.
+
+----- Page 2 -----
+
+Set up your Data Model
+Table Relationships
+
+No topic content.
+
+########################################################################
+  LESSON 5 : How the Load works
+########################################################################
+
+Set up your Data Model
+How the Load works
+Loading Sequence
+
+Once your Data Model is set up and you click on "load",  the data from the Celonis Data Storage is loaded into a Data Model for the Query Engine. 
+
+Together the Data Storage and the Query Engine form what is called the "Process Data Engine". This is also what you see in the Data Flow Diagram:
+
+At this point, it's easy to get confused about what gets loaded where. Hopefully a quick glance at a Data Flow diagram in a Data Pool makes this clear. Here is a review of how data makes its way into a Celonis Data Model.
+
+Extraction: The first step is an extraction from a source system. As per an extraction configuration, Celonis calls the requested data from a source system directly or from an Extractor server installed in a closed hosting environment. This data lands in a transactional database known as the Celonis Data Storage.
+Transformation: Next, the data is transformed according to your transformations and all new tables and results are also stored in the Data Storage.
+Data Model Load: Once you’ve defined your Data Model and load it, Celonis pulls the data from Data Storage, transforms it into several parquet files (here is a good parquet definition), and using metadata information on your Data Model’s schema, stores it into the Query Engine. The Query Engine is an analytical database best suited for Analyses.
+Downstream Activities in Studio: From here, you can now use this Data Model to create Analyses and other Celonis objects in the Studio.
+
+########################################################################
+  LESSON 6 : Loading Options
+########################################################################
+
+----- Page 1 -----
+
+Set up your Data Model
+Loading Options
+Partial Data Model Loads
+
+A full load is the automatic option when you load from within a Data Model:
+
+Aside from normal Data Model load, you can also run partial Data Model loads when loading Data Models using tasks in Data Jobs.
+
+To Test Partial Data
+
+Imagine you are gradually setting up a new data pipeline and want to load the data to test it in an Analysis. Doing a Complete Load every time can take too long. So instead you can set up a Partial Data Model Load Task in Data Jobs.
+
+With Schedules
+
+Another important time you can use partial Data Model Loads is with schedules. As with your testing work, the partial load makes sense when you know only a few tables need to be updated and the rest are unaffected.
+
+Setting up a Partial Data Model Load
+
+First, you create a Data Model Load task (partial or full) within a Data Job:
+
+Then you simply click on Execute Data Job and select which tables to load in your Data Model:
+
+
+In most cases, this will speed up the loading process and your testing work.
+
+If running your Data Model Load manually as a task in a Data Job, you can always choose which tables to load regardless of whether you set up your Data Model Load task as partial or full.
+
+----- Page 2 -----
+
+Set up your Data Model
+Loading Options
+Capacity Recommendations
+
+What happens if you load very large data sets in your Data Model? In most cases, you will never reach the hard upper limit of rows per table which is 2.1 billion rows. That said, there are a couple of general upper recommended limits you should follow for performance and visualization reasons:
+
+Per table, aim to have no more than 800 million rows per table.
+Per individual case, aim to have an average case length of 20 activities or less.
+In the Activity Table, aim to have no more than 1000 distinct activities.
+
+
+If you want to learn more about recommended limits, have a look at this engine limitations.
+
+----- Page 3 -----
+
+Set up your Data Model
+Loading Options
+Try it out - Load your Data Model
+
+Let's load your Data Model and have a look at it in the Studio. If you're familiar with the Studio, you can probably follow the Basic Instructions. If not, have a look at the Steps.
+
+Basic Instructions
+Steps
+Result
+
+########################################################################
+  LESSON 7 : Troubleshooting
+########################################################################
+
+----- Page 1 -----
+
+Set up your Data Model
+Troubleshooting
+The Most Common Errors and Warnings
+
+Occasionally, your Data Model may fail or display some warnings. Especially in the early stages, or when making changes, it’s a good idea for you to stay aware of the most common issues that can happen here. Here is a short list of the most common errors and the actions you can take to resolve them—have a quick read to get an impression:
+
+Mismatch of cases between Activity Table and Case Table
+No distinct order with timestamp and sorting columns
+Invalid associations between Activity Table and Case Table
+Day-based activities detected
+Could not execute foreign key join: there are duplicates on both sides of the specified key relationship
+
+The warnings here reflect a few important points for your Data Model. You need:
+
+clearly sorted timestamps for your activities
+accurate case keys
+accurate joins between your tables
+clean and matching data in your activity and case table
+no data job running on your tables while you are loading your data model
+no delta extractions when no primary keys were defined
+
+----- Page 2 -----
+
+Set up your Data Model
+Troubleshooting
+Subscribing to Alerts
+
+In addition to the warnings you just saw, your Data Model load can potentially fail when you are away due to various reasons.
+
+To receive an email notifications of failed loads, make sure to subscribe to your Data model under the Data Model’s extra options.
+
+########################################################################
+  LESSON 8 : Permissions
+########################################################################
+
+Set up your Data Model
+Permissions
+Usage and Data Permissions
+
+Another important aspect of Data Models are permissions. There are two types:
+
+Usage Permissions: who can use the model for downstream activities in the Studio such as an Analyses.
+Data Permissions: who can see which part of the data in the Data Model.
+
+You can access both of these options in the extra options of your Data Models.
+
+Data Permissions allow you to restrict access to your Data Model for certain users. As an example, you could restrict the access of user A, in a way that the user could only see data for a specific company code when opening an analysis that builds on the respective data model.
+
+To set up the Data Permissions for your Data Model, you can again choose to manually configure it within Celonis or upload an existing permission table with pre-stored information.
+
+For more information on permissions, have a look at our "Administer Celonis" course.
+
+########################################################################
+  LESSON 9 : Name Mapping & Aliasing
+########################################################################
+
+----- Page 1 -----
+
+Set up your Data Model
+Name Mapping & Aliasing
+The Issue of Technical Table Names
+
+Note that this feature is now only compatible with Studio Analyses - a legacy asset no longer meant to be used for new implementations.
+
+
+Implementations based on views should rely on Studio side translations or object-centric approaches tor each similar results.
+
+Having added all desired tables to the Data Model, we can now use all this information to build up an Analysis or View. But there is one obstacle we still have to overcome.
+
+Typically, an Analyst works with the finalized Data Model to create Analyses. Often the Analyst is a power user with an analytical and business background, but limited or no knowledge of technical table names.
+
+Looking at the SAP tables we incorporated into our Data Model, we can only see the technical names. Ideally, we would have self-explanatory translations.
+
+Name Mapping
+
+Translation in Celonis is termed “Name Mapping” and can be found in the configuration of the Data Model.
+
+In general, there are two ways to embed translations in your Celonis analyses:
+
+Name Mapping from File
+Name Mapping from Pool
+
+Let's look at each of these in more detail.
+
+----- Page 2 -----
+
+Set up your Data Model
+Name Mapping & Aliasing
+Name Mapping from File
+
+To apply name mapping from a file, you first download a template. This template contains all the tables in your Data Model as well as all the columns of the corresponding tables.
+
+For each of the tables and columns, you can insert a translation with respect to different languages like English, German(DE), Spanish(ES-ES), or Dutch(NL). For example, you could type in “Purchase Order Items” as a translation for table EKPO, save the template, go to your Data Model Name Mapping and upload the file we just saved.
+
+
+Note, you have to reload the Data Model after you have applied the Name Mapping for the changes to become effective. In an Analysis or other assets in the Studio, this results in table “P2P_EKPO” being translated to Purchase Order Items and the other tables still displaying their technical names
+
+Similarly, you can add your own translations for every table and column in your Data Model.
+
+Next, let's look at how to apply name mapping from an existing translation table.
+
+----- Page 3 -----
+
+Set up your Data Model
+Name Mapping & Aliasing
+Name Mapping from Pool
+
+When looking at the number of tables and columns we would have to translate using the “Name Mapping from File”, it's obvious that this is no pragmatic approach for large Data Models.
+
+That's where the second possibility “Name Mapping from Pool” comes into play.
+
+DD02T and DD03M's contents
+
+You should already be familiar with the tables “DD02T” and “DD03M”. When connecting processes out of SAP, these tables provide a very elegant solution to the name mapping challenge. As you might guess, the two tables contain translations for SAP tables and SAP table columns.
+
+Note that the methodology we apply here is universally applicable for any SAP process because the tables “DD02T” and “DD03M” can always be used.
+
+By running a SELECT * in a transformation to look at DD02T's contents, you can see that the table contains the table name translations for different languages.
+
+DD03M is structured in a very similar way. The main difference is that it contains translations for every column in the respective tables.
+
+
+In order to incorporate the name mapping tables into our Celonis Data Model, we simply have to select these two tables in Name Mapping.
+
+Aliasing newly created tables
+
+By default, your re-created tables such as "P2P_EKKO" and "P2P_EKPO" won't be included in the name mapping. In your Data Model, you first need to give the tables aliases based on source system names for the translations to work.
+
+
+
+How to Name Map from Pool
+
+This is an explanation, you can follow steps on the next page to do this in your environment.
+
+For Table Name Mapping, we simply select DD02T and match the respective columns to the fields:
+
+Note, that naturally, the Activity Table with the name “ _CEL_P2P_ACTIVITIES” can’t be found within “DD02T”. This is because we created the Activity Table ourselves and it is not a standard SAP table. As a result, only three out of four tables are translated. If important, you could simply use an alias for the Activity Table.
+
+
+On that note: Name mappings have priority over aliases for table names. If there is no name mapping for a table, then its alias will appear in the studio.
+
+The same can be done for the Column Name Mapping with DD03M:
+
+When now clicking on “load mappings from pool”, we see that most of the columns have been translated successfully as well. We can now reload the Data Model for the Name Mapping to become effective.
+
+
+Translation Tables are not only for SAP
+
+Translation tables like "DD02T" and "DD03M" are not exclusively used in SAP. Other source systems often host similar tables which can be used for name mapping in Celonis.
+
+----- Page 4 -----
+
+Set up your Data Model
+Name Mapping & Aliasing
+Try it out - Name Mapping from Pool
+
+Ready for action? Apply name mapping to your tables and columns using DD02T and DD03M.
+
+Basic Instructions
+Steps
+Result
+
+----- Page 5 -----
+
+Set up your Data Model
+Name Mapping & Aliasing
+
+No topic content.
+
+########################################################################
+  LESSON 10 : Set up Calendar Options
+########################################################################
+
+----- Page 1 -----
+
+Set up your Data Model
+Set up Calendar Options
+Calculate Throughput Times with the Calendar
+
+You can use the calendar to refine the calculation of throughput times within your Analyses. If activated, Celonis adjusts all calculations in your Analyses using your Data Model. To activate a calendar, you have two options:
+
+You can either connect a factory calendar from your Data Pool—so an already existing calendar you use in your company,
+
+or you can define a custom calendar by specifying which days and working hours to take into consideration.
+
+Note that all calendar times are in Universal Time Coordinated (UTC). This is the default and cannot be changed.
+
+----- Page 2 -----
+
+Set up your Data Model
+Set up Calendar Options
+
+No topic content.
+
+########################################################################
+  LESSON 11 : Course Recap
+########################################################################
+
+----- Page 1 -----
+
+Set up your Data Model
+Course Recap
+Course Recap
+
+This course was all about setting up and loading case-centric data models:
+
+You learned:
+
+how to add an Activity Table to a Data Model
+how to add other tables such as the Case table and link tables via foreign keys
+how to apply the different types of Data Model loads—full or partial
+how to load Data Models—either manually or via Data Model Load tasks
+how to troubleshoot your Data Model loads
+how permissions can be applied to Data Models
+how to use name mapping and calendar options
+
+Well done on completing this course!
+
+Remember to visit the Feedback page. Your feedback is optional but greatly appreciated. 
+
+Want to dig deeper into the topic of this course? Join the Celonis Community to ask your product questions, hear about the latest product releases, and remain up-to-date by subscribing.
+
+We invite you to join our Celonis Academy Group to engage with your peers, get exclusive updates and answers directly from Academy experts, and stay connected!
+
+----- Page 2 -----
+
+Set up your Data Model
+Course Recap
+
+How satisfied are you with the course?
+
+	★	★★	★★★	★★★★	★★★★★
+Please select a rating	
+	
+	
+	
+	
+
+What did you like most about this course?
+
+What would you improve about this course?
+
+
+⇨ If you have files or screenshots, please send them to academy@celonis.com.
+
+Retake Survey

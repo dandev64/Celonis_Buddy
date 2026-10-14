@@ -1,0 +1,780 @@
+﻿========================================================================
+  CELONIS ACADEMY - TRANSFORM
+  Extracted: 2026-09-09 13:23  |  Personal study use only
+  Source: https://academy.celonis.com/learn/course/transform
+  Lessons: 14
+========================================================================
+
+########################################################################
+  LESSON 1 : Learning Objectives
+########################################################################
+
+Intro
+Learning Objectives
+Welcome!
+
+Your central task in Data Integration is to build a process Data Model. To do so you first connect to systems, extract raw data, and then “transform” the extracted data.
+
+For a case-centric data model, transforming means:
+
+building one or more Activity Table(s) with all relevant process activities
+reworking as necessary your Case Table(s) and other relevant master data tables.
+
+Sounds cryptic? Not to worry, after this course you'll have mastered the foundations and will be able to:
+
+Explain what it means to transform data
+Choose the appropriate tool for transformations
+Set up transformations with Data Jobs and the Replication Cockpit
+Build your Activity table and other important tables using transformations
+Accelerate your work with templates
+Troubleshoot your transformations
+
+Let's get started!
+
+Personal Training Environment Required
+
+This course contains hands-on exercises that require a personal Celonis Training Environment, also called a "Celonis Team".
+
+Not sure if you have one? Click below and we'll either create one for you or show you how to access your existing Team if you have one. Please make sure to disable adblockers on this page if the button is not working for you.
+
+Check / Create my training environment
+
+
+
+
+Note on case-centric vs. object-centric data models
+
+This course is all about the transform phase of building a case-centric data model. For new data pipelines, Celonis recommends you favor the object-centric approach described in the OCPM in Action course which is also part of the Get Data into Celonis training track.
+
+########################################################################
+  LESSON 2 : Transformation Tools
+########################################################################
+
+Overview of Transformations
+Transformation Tools
+
+No topic content.
+
+########################################################################
+  LESSON 3 : Tables for your Data Model
+########################################################################
+
+----- Page 1 -----
+
+Data Jobs - Set up Transformations
+Tables for your Data Model
+Expanding the Activity Table
+
+Typically, you’ll expand your Activity Table with other columns. Here are some examples.
+
+User Type
+Sorting
+Activity Key
+Other Examples
+
+Summing up, the activity table always contains the case key, activity, and event time columns. From there you typically add extra columns with specific activity information that will support and enrich your process analysis later down the line. The final list of columns in your activity table really depends on the process at hand and what information you need for your downstream analyses and executions.
+
+CASE KEY	ACTIVITY	EVENT TIME	SORTING	USER TYPE	ACTIVITY KEY	...
+123	Create Order	12-02-21	0	B	1234	
+123	...	...	...	...	...	
+123	Pack Order	13-02-21	20	A	1235	
+123	...	...	...	...	...	
+123	Ship Order	14-02-21	40	A	1236	
+123	...	...	...	...	...
+
+----- Page 2 -----
+
+Data Jobs - Set up Transformations
+Tables for your Data Model
+What Other Tables are Relevant?
+
+Imagine you're only using the Activity Table to analyze your process, is it enough for you to discover root causes of issues and get insights? Probably not. Here is what you typically need on top.
+
+TABLE TYPE	DESCRIPTION
+Case Table	
+
+Besides the Activity Table, another important table is the Case table.
+
+
+Typically, you’ll find one table in your IT source system that contains more specific information about the case you follow through the process. This is the Case table.
+
+In our P2P example, this is the table “EKPO” containing more detailed information about the single purchase order items. In an Order-to-Cash (O2C) process, for example, it would be the sales order items.
+
+
+Master Data Table	
+
+On top of the Activity and Case table, you also add master data information to your Process Data Model.
+
+A good example in P2P is the LFA1 table that contains more detailed information on vendors. With this table linked in your Data Model, you can easily filter for vendors later on in Analyses.
+
+In other words, you typically enrich your Activity Table with:
+
+
+a Case Table and
+any master or transactional data tables that will support process analyses and executions later on.
+
+In your Data Model, all these tables will connect to one another using foreign keys.
+
+Recalling our Purchase-to-Pay (P2P) process, we’re going to add information on the vendors (LFA1), the purchase order (EKKO) and the purchase order item (EKPO: Case Table) to have a proper foundation for our analysis in the frontend. Looking into the future, you'll build this Data Model beauty:
+
+----- Page 3 -----
+
+Data Jobs - Set up Transformations
+Tables for your Data Model
+Recap on Tables for your Data Model
+
+To recap, your central task in Data Integration is to build a process Data Model. To do so, you “transform” extracted data. Transforming means:
+
+building one or more Activity Table(s) with all relevant process activities
+reworking as necessary your Case Table(s) and other relevant master data tables.
+Fast Forwarding to Views
+
+What you build with your transformations is then reflected—once you've loaded a Data Model—in Views and other Celonis Services later on.
+
+E.g.: The Process Explorer shows your Activity table's activities. The activities' sequence and numbers are calculated using the Case ID, timestamp, and sorting columns:
+
+E.g. The Case table and other tables you create in transformations and add to your Data Model are available to support filtering options and metric work in Views:
+
+Excited? Next, let’s start with Data Job transformations and create our Activity table.
+
+----- Page 4 -----
+
+Data Jobs - Set up Transformations
+Tables for your Data Model
+
+No topic content.
+
+########################################################################
+  LESSON 4 : Build and Expand the Activity Table
+########################################################################
+
+----- Page 1 -----
+
+Data Jobs - Set up Transformations
+Build and Expand the Activity Table
+Note on Vertica SQL
+
+Before working with transformation task here is what you should know.
+
+The Celonis transformations editor (SQL Workbench) uses Vertica SQL syntax, which is very similar to PostgreSQL.
+
+Vertica is Celonis' original engine and as a new or migrated customer in 2026, your environment may be on the newer ETL engine that relies on Spark SQL.
+
+This course takes you through a workflow based on Vertica using double quotes ("") as a main syntax differentiator. If your data pool is on the ETL Engine (Celocore), then please use backticks (``) when scripting transformations.
+
+For more information on Spark SQL and the newer ETL engine, please refer to our ETL engine documentation.
+
+To continue and fully understand what is happening, make sure you have basic knowledge in SQL. More precisely, we recommend you eventually familiarize yourself with at least the basics category of the following SQL statements / functions:
+
+LEVEL	STATEMENTS / FUNCTIONS
+Basics	
+CREATE TABLE / CREATE VIEW
+DROP TABLE / DROP VIEW
+SELECT
+FROM
+WHERE
+WHERE EXISTS
+GROUP BY
+ORDER BY
+JOIN
+INSERT INTO
+COUNT
+CASE WHEN
+CAST
+||
+
+Intermediate	
+UNION ALL
+LTRIM
+ISNULL
+DELETE
+ROW NUMBER () OVER
+PARTITION BY
+COALESCE
+
+You can learn along the way! If at any time you need more details or to check how to do something, you can consult the Vertica SQL Reference Manual or consult this PostgreSQL documentation which is a bit more user-friendly. PostgreSQL syntax has minimal differences to Vertica and is an easier starting point.
+
+----- Page 2 -----
+
+Data Jobs - Set up Transformations
+Build and Expand the Activity Table
+
+----- Page 3 -----
+
+Data Jobs - Set up Transformations
+Build and Expand the Activity Table
+Two small SQL pointers:
+Semicolons: Did you notice the semicolon ";" at the end of the DROP TABLE and the CREATE TABLE statements? This allows you to separate SQL statements in one call to the Server. Without the semicolon after DROP TABLE, you would get an error next time you execute the query.
+Underscores: Notice how we added an underscore in front of every column name? We did this to keep it simple. In Process Connectors from the Marketplace, you may see variations where some columns have underscore prefixes and some don’t.
+From a programming perspective, the underscore is meant to highlight which columns will be used by the Celonis backend. Whichever way it’s done, simply make sure to keep it consistent in your transformations. Of course, by default, the scripts from all connectors you download are consistent and standardized so you don’t have to worry about adjusting anything.
+
+----- Page 4 -----
+
+Data Jobs - Set up Transformations
+Build and Expand the Activity Table
+Try it out - Create an Activity Table
+
+It's your turn to create an Activity table. Here we assume you went through the "Connect to Systems" and "Extract Data" courses and set up a connection and a Data Job with an extraction.
+
+As usual, continue your work in your personal Training environment.
+
+Steps
+Result
+
+----- Page 5 -----
+
+Data Jobs - Set up Transformations
+Build and Expand the Activity Table
+Add an Activity to the Activity Table - The Steps
+
+Here is a video to show you the basics of adding activities to your Activity Table. We use the process activity "Create Purchase Requisition Item" as an example.
+
+So in short, to add an activity in the Activity Table you script:
+
+INSERT INTO () - Into which table/columns you insert
+SELECT - what data you insert
+FROM / JOIN - from where you get the data
+WHERE - with what filter
+
+Now let's dig into questions you may have on the script.
+
+----- Page 6 -----
+
+Data Jobs - Set up Transformations
+Build and Expand the Activity Table
+Add an Activity to the Activity Table - Common Questions
+
+Here is the full script for the first activity to add to the Activity Table:
+
+INSERT INTO _CEL_P2P_ACTIVITIES
+(
+    _CASE_KEY
+    , _ACTIVITY_EN
+    , _EVENTTIME
+    , _SORTING
+)
+SELECT
+    EKPO.MANDT || EKPO.EBELN || EKPO.EBELP AS _CASE_KEY
+    , 'Create Purchase Requisition Item' AS _ACTIVITY_EN
+    , EBAN.BADAT AS _EVENTTIME
+    , 10 AS _SORTING
+FROM EKPO
+JOIN EKKO ON 1=1
+    AND EKPO.MANDT = EKKO.MANDT
+    AND EKPO.EBELN = EKKO.EBELN
+    AND EKPO.BSTYP = 'F'
+JOIN EBAN ON 1=1
+    AND EKPO.MANDT = EBAN.MANDT
+    AND EKPO.BANFN = EBAN.BANFN
+    AND EKPO.BNFPO = EBAN.BNFPO
+;
+
+So in short, to add an activity in the Activity Table you script:
+
+Into which table/columns you insert (INSERT INTO)
+What data you insert (SELECT)
+From where you get the data (FROM/JOIN)
+With what filter (WHERE)
+
+Let's look at the most commonly raised questions on this script:
+
+Why is that the Case Key? (_CASE_KEY)
+Why is EBAN.BADAT the timestamp? (_EVENTTIME)
+Why 10 as Sorting?
+What is the EKKO join for?
+What is the EBAN join for?
+Why is EKKO.BSTYP = 'F' not in a WHERE statement at the end?
+Why are there 1=1 in the joins?
+
+To recap, once you’ve created your Activity Table, you then add your activities - also known as process steps - one by one. To add an activity, you need the case key, the activity name, the event time and information to fill out the extra columns in your Activity Table.
+
+In SQL terms this means:
+
+INSERT INTO pointing to the Activity Table and its columns
+SELECT to indicate which columns come together to fill out the Activity Table columns
+FROM / JOIN and WHERE statements to link and filter from all the relevant tables for your SELECT
+
+Things do get more complex than this but this is the basic logic followed when you create transformations from scratch and that you’ll see when working with existing Process Connectors with pre-written transformations.
+
+----- Page 7 -----
+
+Data Jobs - Set up Transformations
+Build and Expand the Activity Table
+Try it out - Add an Activity
+
+Now it's your turn to add an Activity to your Activity Table.
+
+Steps
+Result
+
+########################################################################
+  LESSON 5 : Using Templates
+########################################################################
+
+Data Jobs - Set up Transformations
+Using Templates
+Using Templates Overview
+
+Task templates are used to reuse extractions and transformations in different data jobs and data connections. You’ll learn about best practices to connect multiple source systems, later in this training.
+
+Right now, imagine you have a second source system in your company. This system contains the very same tables as the one system you already connected, but for another company code. In other words, the system shows the same data structure but stores different data in it.
+
+Since the structure is the same, you can potentially reuse all the extraction and transformation tasks created for the first system.
+
+This is where templates come in.
+
+
+The tasks that come with all Process Connectors you download from the Marketplace are templates. They are marked in the Data Jobs:
+
+And are centrally stored in your Data Pool in the top right of the Data Flow Diagram under the cog icon:
+
+########################################################################
+  LESSON 6 : Add and expand Case table and other tables
+########################################################################
+
+----- Page 1 -----
+
+Data Jobs - Set up Transformations
+Add and expand Case table and other tables
+Try it out - Add Case Table and Other Tables
+
+It's your turn again. Here your goal is to add the Case Table as well as other tables to your Data Model. For this, you'll need to create new "Create Table" transformations.
+
+Steps
+Result
+
+----- Page 2 -----
+
+Data Jobs - Set up Transformations
+Add and expand Case table and other tables
+
+No topic content.
+
+########################################################################
+  LESSON 7 : Troubleshoot Transformations
+########################################################################
+
+Data Jobs - Set up Transformations
+Troubleshoot Transformations
+Troubleshooting Transformations
+
+When creating new transformations, you should always execute them manually to ensure they work. This way, you know upfront if there are syntax errors or something is off in your results. As with extractions, testing immediately after scripting your SQL helps you avoid errors later down the line when running entire data jobs. Here are some simple common errors to watch out for:
+
+Semicolons added? : If you're missing semicolons after DROP TABLE or independent queries, your script will not run.
+Using the right quotes? : Sometimes your language or keyboard may type different types of quotation marks such as ”A” or «A» instead of these "A" straight ones. This will lead to errors.
+Missing or added underscores?: Especially when scripting without a template, you may forget to add an underscore on one of your Activity Table columns.
+Extra line (return) space?: Believe it or not, an extra empty line can cause your execution to hit an error. If the error is unclear or simply indicates empty quotes "", chances are you may have an empty line somewhere.
+Table/Column misspelled?: This is sometimes hard to catch when your script is not running. That said, the error in the logs or when you run your script manually will usually tell you on which line the error occurred or that the table or column does not exist:
+
+########################################################################
+  LESSON 8 : Write Performant Transformations
+########################################################################
+
+----- Page 1 -----
+
+Data Jobs - Set up Transformations
+Write Performant Transformations
+Performant Transformation Basics
+
+Simply said, how you script affects performance. Improving the performance of Transformation Tasks is an important and large topic covered in the Boost your SQL Transformations course. For now, consider the following basic points:
+
+Avoid SELECT * if possible and select only the columns you need to reduce system load.
+Avoid SELECT DISTINCT if possible as it is a taxing statement. The need for DISTINCT usually means something in your query or source system data is causing duplicates. More information on alternatives in the SQL Best Practices course.
+Move conditions into Extractions where possible. E.g. in our simple use case, the EKKO.BSTYP = "F" could have been moved to the EKKO table extraction.
+Move WHERE conditions directly into JOINS. This is what with did with EKKO.BSTYP = 'F'. It could have been applied using a WHERE statement at the end of our scripts but we added it directly in the JOIN:
+
+
+
+Use WHERE EXISTS instead of JOIN where possible. Don't use a JOIN if you only need to filter on another table. This is something we did not do when creating our P2P_EKPO table. The result is the same but WHERE EXISTS is simply more efficient. Here is a side to side comparison:
+
+
+
+
+Don't worry if some of these points seem confusing, you'll learn more on this topic in the Boost your SQL Transformations course. Over time, you'll be able to read transformations and make the right choices.
+
+----- Page 2 -----
+
+Data Jobs - Set up Transformations
+Write Performant Transformations
+Tables vs Views in Transformations
+
+Once you start working with Process Connectors from the Marketplace, you'll encounter both tables and views in your transformations. Let's look at the differences.
+
+	TABLES	VIEWS
+Definition	In Vertica, a table is a collection of related data entries and consists of columns and rows.	A view is a stored query that encapsulates one or more SELECT statements. Views dynamically access and compute data from the database at execution time.
+Use Cases	If what you create needs to be accessed in transformations, it is faster to use tables. This is because with tables, calculations are done once and you can access your table afterward.	If you use a view, every time you want to access it, it calculates results anew. If you want to create something that won't be accessed in a transformation, it is quicker to use a view, as it's just a reference.
+Example	In our P2P example, we join the EKPO and EKKO tables in all of our Add Activity transformations. Saving this join as a table would save the system a lot of repetitive calculations. In many cases, you will see this kind of re-used table labeled as a Temporary table, e.g. CREATE TABLE TMP_P2P_EKPO_EKKO	In our P2P example, the tables P2P_EKPO, P2P_EKKO, and P2P_LFA1 could be views as they are not used in our other transformations and you will only need them for the Data Model.
+
+----- Page 3 -----
+
+Data Jobs - Set up Transformations
+Write Performant Transformations
+
+No topic content.
+
+########################################################################
+  LESSON 9 : Recap on Data Job Transformations
+########################################################################
+
+Data Jobs - Set up Transformations
+Recap on Data Job Transformations
+
+########################################################################
+  LESSON 10 : Data Job Transformations vs Real-time Transformations
+########################################################################
+
+Replication Cockpit - Set up Transformations
+Data Job Transformations vs Real-time Transformations
+Data Job vs Replication Cockpit Transformations
+
+With Data Job transformations—also called batch transformations—tables are dropped and re-created from scratch with every execution. In other words, batch transformations process the full data available in Celonis, even when only a delta extraction was performed.*
+
+In contrast, real-time transformations only consider the data changed since the last execution. New or changed entries (delta) are inserted or merged into the existing table records. Have a look at the graphics to better understand the difference.
+
+Data Job Transformations:
+
+
+Real-Time Transformations
+
+*A feature for case-centric Data Job Delta transformations (only transforming changed records) is available. This is covered in delta pipeline training and also available in the delta transformation documentation.
+
+########################################################################
+  LESSON 11 : How Real-Time Transformations Work
+########################################################################
+
+----- Page 1 -----
+
+Replication Cockpit - Set up Transformations
+How Real-Time Transformations Work
+This video was recorded on a previous version of the Data Integration UI. Aside from the difference in how to navigate to the Replication Cockpit, the content is up-to-date.
+
+----- Page 2 -----
+
+Replication Cockpit - Set up Transformations
+How Real-Time Transformations Work
+Trigger Tables
+
+So how do real-time transformations function? In short, they are triggered by real-time delta extractions (also called replications).
+
+Real-time transformations happen each time new records are extracted to a specific table. This means that you need to map each transformation statement to a table whose extraction should trigger the transformation. This table is called a Trigger Table. In the Replication Cockpit, transformations are always defined at table-level.
+
+Looking at the graphic above, the CDHDR is the trigger table for the highlighted transformations. An update in CDHDR (through a replication or initialization) triggers the execution of the transformation statements.
+
+As you can see, one extraction on a table can trigger multiple transformations.
+
+
+Note: You will not be able to see this in your personal training environment as it would require you to set up a real-time connection.
+
+----- Page 3 -----
+
+Replication Cockpit - Set up Transformations
+How Real-Time Transformations Work
+Staging Tables
+
+So how are delta records identified and put aside in new extractions? In short, using “Staging tables”.
+
+
+Staging tables are intermediary tables that allow you to execute Real-Time Transformations. They contain only the specific subset of records that have been changed since the last extraction. For every table that is extracted in the Replication Cockpit, two separate staging tables exist - a “created and updated table” and a “deleted table”. The idea is that your transformation selects from the Staging Table instead of the fully extracted table.
+
+The overall flow is as follows:
+
+
+Extraction is started
+Extraction is finished
+Delta is inserted into Staging Table
+Transformation is started
+Transformation is finished
+Staging Table is cleared
+The Staging Table's Syntax
+
+Staging tables have an easy syntax, if your transformation pulls the trigger table EKPO for example, then the Staging table's name is _CELONIS_TMP_EKPO_TRANSFORM_DATA
+
+
+No Manual Executions Possible
+
+Note that Staging tables only exist within a "Replication Execution"—i.e. when the Replication Cockpit runs a real-time delta extraction (replication), the extracted delta records become a temporary Staging table for your triggered transformations. Since Staging tables only exist at delta extraction in the Replication Cockpit, you cannot run a real-time transformation manually on its own as you would run Data Job transformation.
+
+----- Page 4 -----
+
+Replication Cockpit - Set up Transformations
+How Real-Time Transformations Work
+Dependencies
+
+But what happens when a transformation depends on multiple tables? As you can imagine, you can’t execute a transformation if the tables it pulls from were updated at different times.
+
+So we need to consider dependent tables—tables referenced in a transformation that must be up-to-date when a transformation is executed. Dependent tables are usually all tables that are being inner joined on or used in an EXIST statement.
+
+You'll find these under "Replication Dependencies" under "Transformation Configuration"
+
+Dependent tables are not the trigger table (CDHDR in graphic above) as this one is always up-to-date when the transformation is triggered. Let’s look at a simple example:
+
+Example
+A transformation is triggered by the table CDHDR (Change Document Header)
+In a transformation, we also reference the table CDPOS (Change Document Items)
+We need to make sure that CDHDR and CDPOS are "synchronized"
+→ We define a dependency on CDPOS for the table CDHDR. The Replication Cockpit automatically handles this synchronization in the background.
+How it works in more detail
+Last Extraction date of CDPOS: 00:00:20
+Last Extraction date of CDHDR: 00:00:30
+→ Minimum last extraction date: 00:00:20
+→ In the staging table, only records before the minimum extraction date (00:00:20) are processed
+→ The later records (between 00:00:20 and 00:00:30) will be processed as soon as the dependent table (CDPOS) gets extracted again.
+
+----- Page 5 -----
+
+Replication Cockpit - Set up Transformations
+How Real-Time Transformations Work
+Initializations of Transformations
+
+In the Replication Cockpit, you create Data Model tables and Activity Tables using initialization scripts. The created tables serve as the basis for the full transformations and ongoing delta transformations. You'll find the scripts under Scope Settings → Initialization Scripts:
+
+Initialization scripts are not automatic full loads
+
+When running an initialization, you have three options:
+
+On which raw table to run a full extraction
+On which trigger table (extracted table) to run a full transformation
+Which initialization scripts to run to create the relevant necessary tables
+
+
+An important point to understand is that initialization scripts should create empty tables. Adding a "LIMIT 0" to initialization scripts ensures created tables are empty:
+
+As for the full transformation loads, they rely on the transformations linked to your trigger tables. Instead of relying on delta records, they run using all extracted records.
+
+Scheduling Transformation Initializations
+
+To fix and backup any issues—e.g. metadata changes, deletions—that may occur over time in your transformation tables, you can schedule regular runs of your transformation initializations under Scope Settings -> Initialization Transformation Scheduling:
+
+
+Whenever these schedules run, they run the selected initialization scripts to create new empty tables and trigger a full transformation load on all of your tables.
+
+----- Page 6 -----
+
+Replication Cockpit - Set up Transformations
+How Real-Time Transformations Work
+
+No topic content.
+
+########################################################################
+  LESSON 12 : Set up Delta Real-Time Transformations
+########################################################################
+
+----- Page 1 -----
+
+Replication Cockpit - Set up Transformations
+Set up Delta Real-Time Transformations
+Setting up Real-Time Transformations
+
+At a high level, you have three simple steps to set up each real-time transformation:
+
+Identify the trigger table
+Define the transformation(s) on this Trigger Table
+Define dependent tables
+
+Step 2 is the most intricate here. Next, let’s look at how to do it in practice for Data Model tables and Activity transformations.
+
+----- Page 2 -----
+
+Replication Cockpit - Set up Transformations
+Set up Delta Real-Time Transformations
+
+This video was recorded on a previous version of the Data Integration UI. Aside from the difference in how to navigate to the Replication Cockpit, the content is up-to-date.
+
+----- Page 3 -----
+
+Replication Cockpit - Set up Transformations
+Set up Delta Real-Time Transformations
+Script Real-Time Transformations for Data Model Tables
+
+Below is a review of what you just watched in the video. It's an overview of steps to define real-time transformations for Data Model tables—i.e. any table that is part of your Data Model apart from the Activity table. These steps are how you would adapt a Data Job transformation script into a real-time delta transformation script.
+
+The keyword here is Delta. Delta is the reason real-time transformations are different from Data Job transformations. Let’s go through these steps using the table KNA1 from the O2C process.
+
+1. Select the Staging Table
+2. Use tables instead of views
+3. Change to Delete + Insert Approach
+4. Move Temp Tables into queries or use triggered Temp Tables
+5. Select all columns specifically
+
+These steps may be a bit overwhelming at first. What's important here is for you to understand the reason for these differences and the logic behind real-time transformations.
+Here is what a final real-time transformation could look like for KNA1:
+
+
+DELETE FROM O2C_KNA1 
+WHERE EXISTS (SELECT 1 FROM _CELONIS_TMP_KNA1_TRANSFORM_DATA as NEW_DATA WHERE 1=1
+                                AND O2C_KNA1.MANDT=NEW_DATA.MANDT 
+                                AND O2C_KNA1.KUNNR=NEW_DATA.KUNNR);
+
+INSERT INTO O2C_KNA1
+        SELECT 
+        "KNA1"."MANDT", "KNA1"."KUNNR", "KNA1"."LAND1", "KNA1"."NAME1", "KNA1"."NAME2", "KNA1"."ORT01",         "KNA1"."PSTLZ", "KNA1"."REGIO", "KNA1"."SORTL", "KNA1"."STRAS", "KNA1"."TELF1", "KNA1"."TELFX", "KNA1"."XCPDK", "KNA1"."ADRNR", "KNA1"."MCOD1", "KNA1"."MCOD2", "KNA1"."MCOD3", "KNA1"."ANRED", "KNA1"."AUFSD", "KNA1"."BAHNE", "KNA1"."BAHNS", "KNA1"."BBBNR", "KNA1"."BBSNR", "KNA1"."BEGRU", "KNA1"."BRSCH", "KNA1"."BUBKZ", "KNA1"."DATLT", "KNA1"."ERDAT", "KNA1"."ERNAM", "KNA1"."EXABL", "KNA1"."FAKSD", "KNA1"."FISKN", "KNA1"."KNAZK", "KNA1"."KNRZA", "KNA1"."KONZS", "KNA1"."KTOKD", "KNA1"."KUKLA", "KNA1"."LIFNR", "KNA1"."LIFSD", "KNA1"."LOCCO", "KNA1"."LOEVM", "KNA1"."NAME3", "KNA1"."NAME4", "KNA1"."NIELS", "KNA1"."ORT02", "KNA1"."PFACH", "KNA1"."PSTL2", "KNA1"."COUNC", "KNA1"."CITYC", "KNA1"."RPMKR", "KNA1"."SPERR", "KNA1"."SPRAS", "KNA1"."STCD1", "KNA1"."STCD2", "KNA1"."STKZA", "KNA1"."STKZU", "KNA1"."TELBX", "KNA1"."TELF2", "KNA1"."TELTX", "KNA1"."TELX1", "KNA1"."LZONE", "KNA1"."XZEMP", 
+ "KNA1"."VBUND", "KNA1"."STCEG", "KNA1"."DEAR1", "KNA1"."DEAR2", "KNA1"."DEAR3", "KNA1"."DEAR4", KNA1"."DEAR5", "KNA1"."GFORM", "KNA1"."BRAN1", "KNA1"."BRAN2", "KNA1"."BRAN3", "KNA1"."BRAN4", "KNA1"."BRAN5", "KNA1"."EKONT", "KNA1"."UMSAT", "KNA1"."UMJAH", "KNA1"."UWAER", "KNA1"."JMZAH", "KNA1"."JMJAH", "KNA1"."KATR1", "KNA1"."KATR2", "KNA1"."KATR3", "KNA1"."KATR4", "KNA1"."KATR5", "KNA1"."KATR6", "KNA1"."KATR7", "KNA1"."KATR8", "KNA1"."KATR9", "KNA1"."KATR10", "KNA1"."STKZN", "KNA1"."UMSA1", "KNA1"."TXJCD", "KNA1"."PERIV", "KNA1"."ABRVW", "KNA1"."INSPBYDEBI", "KNA1"."INSPATDEBI", "KNA1"."KTOCD", "KNA1"."PFORT", "KNA1"."WERKS", "KNA1"."DTAMS", "KNA1"."DTAWS", "KNA1"."DUEFL", "KNA1"."HZUOR", "KNA1"."SPERZ", "KNA1"."ETIKG", "KNA1"."CIVVE", "KNA1"."MILVE", "KNA1"."KDKG1", "KNA1"."KDKG2", "KNA1"."KDKG3", "KNA1"."KDKG4", "KNA1"."KDKG5", "KNA1"."XKNZA", "KNA1"."FITYP", "KNA1"."STCDT", "KNA1"."STCD3", "KNA1"."STCD4", "KNA1"."XICMS", "KNA1"."XXIPI", "KNA1"."XSUBT", "KNA1"."CFOPC",   "KNA1"."TXLW1", "KNA1"."TXLW2", "KNA1"."CCC01", "KNA1"."CCC02", "KNA1"."CCC03", "KNA1"."CCC04", "KNA1"."CASSD", "KNA1"."KNURL", "KNA1"."J_1KFREPRE", "KNA1"."J_1KFTBUS", "KNA1"."J_1KFTIND", "KNA1"."CONFS", "KNA1"."UPDAT", "KNA1"."UPTIM", "KNA1"."NODEL", "KNA1"."DEAR6", "KNA1"."/VSO/R_PALHGT", "KNA1"."/VSO/R_PAL_UL", "KNA1"."/VSO/R_PK_MAT", "KNA1"."/VSO/R_MATPAL", "KNA1"."/VSO/R_I_NO_LYR", "KNA1"."/VSO/R_ONE_MAT",     "KNA1"."/VSO/R_ONE_SORT", "KNA1"."/VSO/R_ULD_SIDE", "KNA1"."/VSO/R_LOAD_PREF", "KNA1"."/VSO/R_DPOINT", "KNA1"."ALC", "KNA1"."PMT_OFFICE", "KNA1"."PSOFG", "KNA1"."PSOIS", "KNA1"."PSON1", "KNA1"."PSON2", "KNA1"."PSON3", "KNA1"."PSOVN", "KNA1"."PSOTL", "KNA1"."PSOHS", "KNA1"."PSOST", "KNA1"."PSOO1", "KNA1"."PSOO2", "KNA1"."PSOO3", "KNA1"."PSOO4", "KNA1"."PSOO5", "KNA1"."ZZVPOPNE", "KNA1"."ZZKFZTYPMIN", "KNA1"."ZZKFZTYPMAX",      "KNA1"."ZZHAENGERKZ", "KNA1"."ZZTOBACCOCUST", "KNA1"."ZZTOBCUSTDAT", "KNA1"."ZZF_TYPE", "KNA1"."ZZTOBSERVICE",
+        CAST("KNA1"."ERDAT" AS DATE) AS "TS_ERDAT",
+        CAST("KNA1"."UPDAT" AS DATE) AS "TS_UPDAT"
+        FROM "_CELONIS_TMP_KNA1_TRANSFORM_DATA" AS "KNA1"
+    WHERE EXISTS(
+        SELECT 1 
+                FROM VBAK 
+        WHERE 1=1
+                AND "VBAK"."MANDT" = "KNA1"."MANDT"
+                AND "VBAK"."KUNNR" = "KNA1"."KUNNR" 
+                        AND "VBAK"."VBTYP" = '<%=orderDocSalesOrders%>'
+    );
+
+----- Page 4 -----
+
+Replication Cockpit - Set up Transformations
+Set up Delta Real-Time Transformations
+
+This video was recorded on a previous version of the Data Integration UI. Aside from the difference in how to navigate to the Replication Cockpit, the content is up-to-date.
+
+----- Page 5 -----
+
+Replication Cockpit - Set up Transformations
+Set up Delta Real-Time Transformations
+Script Real-Time Transformations for Activities
+
+The approach to set up real-time transformations for activities—i.e. transformations called "Add Activity: {name_of_activity}"—is slightly different. This is because these transformations combine and transform data from multiple sources and the base SQL script is quite different from Data Model tables.
+The keyword again is Delta. The differences to Data Job transformations exist because we are working with delta records.
+
+Below is the overview of steps to prepare and script your transformations in this case.
+
+1. Identify the Trigger Table
+2. Split the Activity Table into many based on Trigger Tables
+3. Use INSERT + WHERE NOT EXISTS in most cases
+4. Move Temp Tables into queries or use triggered Temp Tables
+
+As before this is a lot to take in. Take a second to look at this sample script to grasp how the principles apply. This is for the activity "Create Sales Order Item" triggered by VBAP.
+
+
+INSERT INTO _CEL_O2C_VBAP_ACTIVITIES (
+    _CASE_KEY,
+    ACTIVITY_DE,
+    ACTIVITY_EN,
+    EVENTTIME,
+    _SORTING,
+    USER_NAME,
+    USER_TYPE,
+    MANDT,
+    VBELN,
+    POSNR, 
+    TRANSACTION_CODE,
+    _ACTIVITY_KEY)
+
+SELECT * FROM (
+
+    SELECT 
+        VBAP.MANDT || VBAP.VBELN || VBAP.POSNR AS _CASE_KEY
+        ,'Lege Auftragsposition an' AS ACTIVITY_DE
+        , 'Create Sales Order Item' AS ACTIVITY_EN
+        , CAST(VBAP.ERDAT AS DATE) + CAST(VBAP.ERZET AS TIME) AS EVENTTIME
+        , 20 AS _SORTING
+        ,VBAP.ERNAM AS USER_NAME
+        , USR02.USTYP AS USER_TYPE
+        ,VBAP.MANDT AS MANDT
+        ,VBAP.VBELN AS VBELN
+        ,VBAP.POSNR AS POSNR
+    ,V_CHANGES.TCODE AS TRANSACTION_CODE
+    ,VBAP.MANDT || VBAP.VBELN || VBAP.POSNR AS _ACTIVITY_KEY
+FROM
+        _CELONIS_TMP_VBAP_TRANSFORM_DATA AS VBAP
+    JOIN VBAK ON 1=1 
+        AND VBAK.MANDT = VBAP.MANDT
+        AND VBAK.VBELN = VBAP.VBELN
+        AND VBAK.VBTYP ='<%=orderDocSalesOrders%>'
+        LEFT JOIN USR02 AS USR02 ON
+                VBAP.MANDT = USR02.MANDT AND
+                VBAP.ERNAM = USR02.BNAME 
+    LEFT JOIN TMP_SO_CDHDR_CDPOS AS V_CHANGES ON 1=1
+            AND VBAP.MANDT || VBAP.VBELN || VBAP.POSNR = V_CHANGES.TABKEY 
+
+) AS NEW_ACTIVITIES 
+ WHERE NOT EXISTS (
+                    SELECT 1 FROM _CEL_O2C_VBAP_ACTIVITIES AS OLD_ACTIVITIES
+                    WHERE 
+                        NEW_ACTIVITIES._ACTIVITY_KEY=OLD_ACTIVITIES._ACTIVITY_KEY
+                        AND NEW_ACTIVITIES.ACTIVITY_EN=OLD_ACTIVITIES.ACTIVITY_EN
+                    )
+;
+
+########################################################################
+  LESSON 13 : Templates and Parameters for Replication Cockpit
+########################################################################
+
+Replication Cockpit - Set up Transformations
+Templates and Parameters for Replication Cockpit
+Templates
+
+To save time and share best practices, you should know that for the core processes (O2C, P2P, AP, AR), you can import templates for both delta extractions and delta transformations in the Replication Cockpit. Note that these templates are not the same as the ones from the Celonis Marketplace which are the Data Job templates.
+
+
+Parameters
+
+Bear in mind that all parameters for the Replication Cockpit are Data Pool Parameters and can be re-used as necessary in Data Jobs as well.
+
+The same parameters appear when configuring replications:
+
+########################################################################
+  LESSON 14 : Recap on Replication Cockpit Transformations
+########################################################################
+
+----- Page 1 -----
+
+Replication Cockpit - Set up Transformations
+Recap on Replication Cockpit Transformations
+
+----- Page 2 -----
+
+Replication Cockpit - Set up Transformations
+Recap on Replication Cockpit Transformations
+Course Recap
+
+Recapping this section on Replication Cockpit Transformations, you learned:
+
+when to favor the Replication Cockpit for transformations - for transactional tables used in operational use cases
+how to set up your Replication Cockpit transformations using the concepts of trigger tables, staging tables, and dependencies
+the purpose of initialization scripts and the transformation initialization schedule
+how to script real-time transformations for both Data Model tables and Activities
+about the use of templates and parameters in the Replication Cockpit
+
+Congratulations on completing this course!
+
+
+We recognize that this is one of the most challenging sections in this track. Don't expect to remember and master everything in one go. Thankfully the process connectors and templates serve as solid foundation to get you started in project. Also our Replication Cockpit setup guide is also there to help whenever you need a refresher or to dig deeper into certain concepts.
+
+Need a refresher on Data Jobs? Here is the recap from the last section:
+
+
+Data Job Transformations
+
+Remember to visit the Feedback page. Your feedback is optional but greatly appreciated. 
+
+Want to dig deeper into the topic of this course? Join the Celonis Community to ask your product questions, hear about the latest product releases, and remain up-to-date by subscribing.
+
+We invite you to join our Celonis Academy Group to engage with your peers, get exclusive updates and answers directly from Academy experts, and stay connected!
+
+----- Page 3 -----
+
+Replication Cockpit - Set up Transformations
+Recap on Replication Cockpit Transformations
+
+How satisfied are you with the course?
+
+	★	★★	★★★	★★★★	★★★★★
+Please select a rating					
+
+What did you like most about this course?
+
+What would you improve about this course?
+
+
+⇨ If you have files or screenshots, please send them to academy@celonis.com.
+
+Complete Survey
+
+----- Page 4 -----
+
+Replication Cockpit - Set up Transformations
+Recap on Replication Cockpit Transformations
+
+No topic content.

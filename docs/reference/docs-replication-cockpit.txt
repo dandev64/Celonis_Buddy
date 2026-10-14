@@ -1,0 +1,1600 @@
+﻿=== Celonis Docs: replication-cockpit ===
+
+--- Replication Cockpit ---
+https://docs.celonis.com/en/replication-cockpit.html
+Celonis Product DocumentationData IntegrationExtracting and transforming dataReplication Cockpit
+Replication Cockpit
+
+The Replication Cockpit enables continuous, real-time data replication from your SAP ECC and SAP S/4HANA systems directly into a Celonis Platform Data Pool.
+
+Instead of relying on traditional, scheduled batch extractions that pull large volumes of data at set intervals, the Replication Cockpit uses a trigger-based push mechanism. This allows your Celonis environment to stream data updates—insertions, modifications, and deletions—the moment they occur in your source system.
+
+Using the Replication Cockpit brings the following key business benefits:
+
+Near real-time insights: Process and analyze your data almost instantly. This eliminates the "data lag" inherent in overnight batch jobs, giving you immediate visibility into process deviations.
+
+Reduced SAP system load: Massive batch queries can strain your source systems. By only capturing and sending incremental changes (deltas) via database triggers, the Replication Cockpit significantly reduces the performance impact on your underlying SAP infrastructure.
+
+Live Automation: Feed continuous data into Celonis Action Flows to trigger real-time alerts, system updates, and automated interventions the exact moment a process bottleneck or compliance issue occurs.
+
+How the Replication Cockpit works
+
+The Replication Cockpit shifts your data pipeline from a traditional "pull" model to a highly efficient "push" model:
+
+SAP real-time extension: A lightweight extension is installed on your SAP system to enable real-time tracking.
+
+Trigger-based logging: Whenever a record is created, updated, or deleted in SAP, a database trigger instantly records this event in a dedicated, low-footprint logging table.
+
+Continuous streaming: The extension continuously reads this logging table and pushes the delta changes securely to the Celonis Platform Data Pool.
+
+Live updating: Celonis processes the incoming stream, dynamically updating your process models, Views, and apps without requiring a scheduled Data Job.
+
+The diagram below explains how the end-to end data pipeline components interact:
+
+Supported systems and requirements
+
+To use the Replication Cockpit, your system must meet the following requirements:
+
+Pipeline compatibility: Pipelines must run on an SAP ECC extractor.
+
+RFC module: Version 2.0.0 or higher.
+
+Extractor: Version 2020-10-19 or higher.
+
+Source system configuration: The real-time extractor must be enabled in the source SAP system.
+
+Next steps
+
+Choose your path based on where you are in your implementation journey:
+
+Evaluating and designing: Unsure if your use case requires real-time streaming? Read our comparison guide on Replications vs Data Jobs to choose the right architecture for your pipeline - see: Architecture and pipeline design
+
+Preparing for setup: Review the Setup Checklist - Real Time Connectivity to SAP to ensure your SAP environment, network, and Celonis platform permissions are ready - see: Prerequisites and setup checklist
+
+Implementing: Ready to build the pipeline? Start here: Setting up the Replication Cockpit
+
+Operating and maintenance: Already live? Learn how to monitor your replications and define degredation: Monitoring and operations
+
+--- Real time extractions through Replication Cockpit ---
+https://docs.celonis.com/en/real-time-extractions-through-replication-cockpit.html
+Celonis Product DocumentationData IntegrationExtracting and transforming dataCreating extraction tasks using the visual editorReal time extractions through Replication Cockpit
+Real time extractions through Replication Cockpit
+
+The Replication Cockpit enables you to execute real time extractions from your source systems based on triggers. This ensures that your using the latest data in the Celonis Platform with minimal setup and maintenance system.
+
+During the startup of the database extractor server, a request to integration will be made to get a list of real-time extractions that need to be executed.
+
+For uplinked database servers: Only the real-time tables where the data sources uses that uplink, will be retrieved
+
+For the cloud database servers: All the real-time tables where the data source connection type is direct
+
+For the retrieved real-time tables, a continuous extraction will be created.
+
+This extraction will query the corresponding change log table where CEL_EXTRACTED=false
+
+Extracted data will be inserted into replicated tables using the real-time service
+
+The inserted records are then streamed to the Transformation Service, where the records are processed according to the transformation logic of each table, as defined in EC.
+
+The transformed records are inserted/merged into the transformed tables
+
+Collapse all
+Supported source systems
+
+You can use the Replication Cockpit for real time extractions from the following source systems:
+
+Azure SQL
+
+Azure Synapse
+
+Microsoft SQL Server
+
+Oracle
+
+Oracle 11g
+
+SAP S/4HANA
+
+SAP S/4HANA (Encrypted)
+
+Setting up real time extractions
+
+When configuring the real time extractions, the following steps are needed for data pools where the Replication Cockpit is configured:
+
+Activating the live extraction mode in the Celonis Platform.
+
+Creating the changelog tables to store the changes in the source system (performed in the database).
+
+Installing triggers to monitor the changes in the source systems (performed in the database).
+
+Step 1: Activating live extraction mode
+
+The first step is to activate the live extraction mode in the Celonis Platform:
+
+From your data pool diagram, click Data Connections and open the required data connection.
+
+Enable Live Data.
+
+Step 2: Creating the changelog tables
+
+The tables which should be extracted need to be added to the Replication Cockpit.
+
+Database tables in the Replication Cockpit have four options in the context menu:
+
+Start: Starts the real-time extraction for that table
+
+Stop: Stops the real-time extraction for that table
+
+Delete: Deletes the table from the real-time cockpit
+
+Trigger Code: This option will display the “Create Table” statement for a changelog table and a “Create Trigger” statement. The statement ist dynamically generated according to the table and database type and copy&paste of the statement should work without any modification.
+
+Step 3: Installing triggers
+
+Initially, in order to start a real-time extraction for the table, users need to execute the trigger code that is supplied with the table in the Replication Cockpit.
+
+Trigger code will have two separate statements:
+
+“Create Table” statement for a changelog table:
+
+This table should not exist before there “create if not exists” should not be used.
+
+This table will contain the changes for that specific table
+
+This table will be named as CEL_CL_{TARGET_TABLE_NAME}
+
+This table will have the following structure;
+
+CEL_ID (varchar 40): Random UUID serves as the primary key for the table
+
+ROW_ID (varchar 255): Unique identifier for the record being changed
+
+CEL_CHANGE_TYPE (type enum(‘I’, ‘U’,’D’)): Defined type of the change either Insert, Update or Delete
+
+CEL_CHANGE_DATE (type datetime): Timestamp of the change
+
+CEL_EXTRACTED (type boolean): if it is already extracted or not
+
+“Trigger Table” statement to create the trigger:
+
+This statement can be ignored if a trigger already exists with the same name
+
+This trigger will insert the changes to the change log table for the corresponding table.
+
+This trigger will be named as CEL_TR_{TARGET_TABLE_NAME}
+
+Frequently Asked Questions
+How does the Replication Cockpit work for JDBC connections?
+
+The process is the same as for the replication from SAP:
+
+A CL tables and respective triggers are created in the database.
+
+The changes are being tracked in the CL tables.
+
+On each extraction, an inner join will be done between the main and CL tables to capture the delta.
+
+What is the difference between _CELONIS_TMP_XXX_NEW_DATA and _CELONIS_TMP_XXX_TRANSFORM_DATA?
+
+You should always select from the _CELONIS_TMP_XXX_TRANSFORM_DATA. It gives a guarantee that the same record will be process only once. XXX_NEW_DATA exposes all the “staged” records to the query and will result in processing the same record more than once. This might lead to slower transformation runtime and the same record being processed multiple times.
+
+What is the role of the Dependency Transformation Offset value?
+
+The records in the dependent tables are processed with the defined offset to make sure that the “late arriving” records have been properly captured.
+
+Related topics
+
+Prerequisites and setup checklist
+
+Setting up the Replication Cockpit
+
+Monitoring and operations
+
+--- Architecture and pipeline design ---
+https://docs.celonis.com/en/replication-cockpit---architecture-and-pipeline-design.html
+Celonis Product DocumentationData IntegrationExtracting and transforming dataReplication CockpitArchitecture and pipeline design
+Replication Cockpit - Architecture and pipeline design
+
+When building a real-time data pipeline from SAP, the Replication Cockpit and traditional Data Jobs must co-exist. Designing your pipeline requires two main decisions: deciding which tables should be replicated in real-time, and choosing the right Data Pool architecture to support your transformation needs.
+
+Replications vs. Data Jobs
+
+While the Replication Cockpit (RC) handles real-time continuous streaming, traditional Data Jobs (DJ) are still used for orchestration and specific extractions.
+
+Here is the recommended approach for dividing your tables:
+
+Transactional Tables: Tables that include a Case or Activity (e.g., EKKO, EKPO, CDPOS, CDHDR, BKPF) are highly dynamic. These should be extracted via the Replication Cockpit using real-time streaming.
+
+Metadata Tables: Tables that contain relatively static or infrequently updated information can be extracted using either the Replication Cockpit or traditional Data Jobs.
+
+Collapse all
+Managing Full Loads (Initializations)
+
+To begin replicating data, you must first perform a full extraction.
+
+Best Practice: We highly recommend using the Initialization functionality within the Replication Cockpit to execute full loads rather than doing it via Data Jobs.
+
+If you must use Data Jobs for Full Loads: You must deactivate the corresponding table in the Replication Cockpit while the Data Job runs. Because there can only be one data push job per table at a time, running both concurrently will lead to data loss. You can manage concurrent extraction limits using the Replication Calendar.
+
+Choosing a Data Pool Architecture
+
+The Golden Rule of the Replication Cockpit: Because real-time extractions are based on SAP change logs, each table can only be extracted once. If you attempt to extract the same SAP table via the Replication Cockpit into multiple different Data Pools, the replications will conflict and data will be lost.
+
+To safely centralize your extractions, you must choose between two Data Pool architectures based on your need for Real-Time Transformations.
+
+Option A: The Single Data Pool (Required for Real-Time Transformations)
+
+In this setup, all extractions, transformations, and Data Models reside in one unified Data Pool.
+
+How it works: Because real-time transformations in the Replication Cockpit are directly coupled to extractions, they must exist in the exact same Data Pool.
+
+The Impact: This is the only architecture that fully supports Real-Time Transformations. The trade-off is that you cannot separate processes or use-cases at the Data Pool level; instead, you must rely on separate Data Jobs and Data Models within the single pool to organize your processes.
+
+Option B: The Global Extraction Data Pool (For Separated Use Cases)
+
+In this setup, extractions and transformations are decoupled to maintain strict boundaries between different business processes.
+
+How it works: You create one central "Global" Data Pool dedicated solely to extracting raw data via the Replication Cockpit. You then create separate, process-specific Data Pools (e.g., one for P2P, one for O2C) that import the raw data from the Global pool via database views.
+
+The Impact: This is ideal if you need strict permission management separated by use-case. However, Real-Time Transformations are not possible in this architecture because the extractions and transformations do not reside in the same pool.
+
+Related topics
+
+Prerequisites and setup checklist
+
+Setting up the Replication Cockpit
+
+Monitoring and operations
+
+--- Prerequisites and setup checklist ---
+https://docs.celonis.com/en/setting-up-the-replication-cockpit---prerequisites-and-setup-checklist.html
+Celonis Product DocumentationData IntegrationExtracting and transforming dataReplication CockpitPrerequisites and setup checklist
+Setting up the Replication Cockpit - Prerequisites and setup checklist
+
+Before you begin configuring the Replication Cockpit, you must ensure your SAP system, network environment, and Celonis platform meet the necessary prerequisites.
+
+Use this guide to verify your system readiness and complete the pre-flight checklist before moving on to the installation steps.
+
+Collapse all
+System and architecture requirements
+
+The Replication Cockpit relies on specific SAP components and database configurations to capture real-time changes.
+
+Supported SAP Systems: SAP ECC or SAP S/4HANA.
+
+Supported Databases: Your underlying SAP database must support database triggers (e.g., SAP HANA, Oracle, MS SQL). Note: Cluster tables (like BSEG) require special handling or replacement views.
+
+Data Pool Architecture: Decide in advance whether you are using a Single Data Pool (supports Real-Time Transformations) or a Global Extraction Data Pool (for separated use cases). See [Architecture &amp; Pipeline Design] for guidance.
+
+Required permissions and authorizations
+
+You will need administrative access on both the SAP side and the Celonis side to complete this setup.
+
+SAP environment
+
+Your SAP Basis/Admin team will need to provide a user with the following authorizations to install the real-time extension and create the necessary RFC connection:
+
+Transport Management: Ability to import the Celonis SAP transport requests (STMS).
+
+RFC User Authorizations: The SAP user account designated for the Celonis connection must have the necessary authorization objects assigned (e.g., S_RFC, S_TABU_DIS, S_TABU_NAM).
+
+Developer Keys (Optional): Required only if custom ABAP modifications are necessary for your specific environment.
+
+Celonis Platform
+
+Your Celonis user account must have the following permissions:
+
+Team Admin or Data Integration Admin rights to create and configure Data Connections and Data Pools.
+
+Access to the target Data Pool where the real-time data will be stored.
+
+Pre-flight checklist
+
+Ensure all of the following items are completed or confirmed before proceeding to the configuration:
+
+System Compatibility Verified: Confirmed that the SAP system and underlying database are supported.
+
+Transports Downloaded: The latest Celonis SAP Real-Time Extension transport files have been downloaded from the Celonis standard delivery.
+
+Architecture Decided: You have selected between a Single Data Pool or Global Data Pool setup.
+
+SAP Authorizations Granted: The designated SAP RFC user has the correct authorization roles.
+
+Celonis Permissions Confirmed: You are logged into Celonis with Data Integration Admin privileges.
+
+Network Connectivity: Firewalls and proxies are configured to allow communication between your SAP environment and the Celonis Platform.
+
+Next steps
+
+Once you have checked off all the prerequisites above, you are ready to begin the technical implementation.
+
+Setting up the Replication Cockpit
+
+--- Setting up the Replication Cockpit ---
+https://docs.celonis.com/en/setting-up-the-replication-cockpit.html
+Celonis Product DocumentationData IntegrationExtracting and transforming dataReplication CockpitSetting up the Replication Cockpit
+Setting up the Replication Cockpit
+
+Configure the Replication Cockpit to enable continuous, real-time data streaming from your SAP ECC or SAP S/4HANA system into the Celonis Platform.
+
+Collapse all
+Before you begin
+
+Before setting up the Replication Cockpit, confirm that your system environment meets all prerequisite requirements:
+
+Prerequisites and setup checklist
+
+Step 1: Setting up SAP real-time extraction
+
+To configure real-time extraction, install and configure the Celonis Real-Time Extension directly in your SAP environment. This extension supports both Full Cloud and Hybrid deployments.
+
+Supported databases
+
+Real-time extraction relies on database triggers, which are supported on the following SAP database systems:
+
+Oracle
+
+IBM DB2
+
+Microsoft SQL Server (2012 and higher)
+
+SAP HANA
+
+SAP ASE (Sybase)
+
+Installing the RFC Module and Extractor
+
+The Real-Time Extension requires the core Celonis RFC Module and Extractor Service installed on your SAP system. For installation instructions, see Installing the RFC module.
+
+2. Set up and Configure the Real-Time Extractor
+
+The Real-time extractor setup mainly includes the following two actions:
+
+Create the Log tables to store the changes in SAP
+
+Install triggers to monitor the changes in SAP
+
+This step has been simplified by including the Change Logs of the standard templates (O2C, P2P, AR, AP) in the transports of the Celonis RFC Module. This means that the customer who are installing the RFC Extractor the first time, can easily activate the Change Log tables for the respective process with a minimal effort, as described below.
+
+Note
+
+If you're migrating from SAP ECC to S/4HANA, before setting up your log tables, be aware that many traditional ECC tables have been replaced by simplified tables in the S/4HANA data model.
+
+For example:
+
+MATDOC replaces MSEG, MKPF, and other related inventory tables.
+
+ACDOCA replaces BSEG, COEP, and other financial/controlling line item tables.
+
+Before configuring log tables for replication, we recommend checking if you are targeting outdated ECC tables, and switching to the S/4HANA-native replacement. For more information, see the following SAP documentation:
+
+MATDOC reference
+
+ACDOCA reference
+
+2.1 - Creating Log Tables
+
+The standard SAP landscape is comprised of 3 systems - DEV, QA and PROD. The Log tables can usually be created only in the DEV system, because the QA and PROD systems are locked for these kinds of changes.After the tables are added in DEV, they should be transported to QA and then to PRD via a transport. However, the triggers are not transportable, and should be installed in QA (for testing) and then subsequently in PRD (for productive use). The diagram below describes a typical setup process.
+
+To add a Change Log table:
+
+Log in into SAP and navigate to Transaction Code /CELONIS/CLMAN_UI.
+
+Click the Add Change Log Tables button.
+
+In the pop up select the process you want to activate. The respective tables will be populated in the screen.
+
+Click Check Tables to dry run the creation process. If everything is green, click Save, and the Change Log tables will be added.
+
+After the tables are created, you will need to transport them to the next system as described inn the next section.
+
+Required SAP rights to add log tables and triggers
+
+The SAP User should have minimum the following rights to be able to create the tables and add triggers. However, usually this action is performed by SAP BASIS who has full admin rights.
+
+To access /CELONIS/CLMAN_UI and install triggers
+
+Object: S_TCODE
+
+TCD: /CELONIS/CLMAN_UI
+
+To create/delete Change Log tables
+
+Object: S_DEVELOP
+
+ACTVT: *
+
+DEVCLASS: ZCELONISCL
+
+OBJNAME: *
+
+OBJTYPE: TABL
+
+2.2 - Transporting the Change Log Tables Forward
+
+To streamline the transfer of CL tables from DEV to either of QAS or PRD, the T code /CELONIS/CLMAN_UI allows the user to generate a transport that carries forward the setup configurations to the next system in the landscape.
+
+Before creating the transport in DEV, the SAP BASIS admin should change the Transport Layer of the package ZCELONISCL. Make sure to select a Layer that contains a Consolidation Route connecting DEV to QAS. This will ensure that the log tables can be assigned to a transportable request, and therefore, be pushed forward from DEV to QAS. To change the layer:
+
+Call SE80 to open the Object Navigator.
+
+In the object list selection, choose Package.
+
+Enter ZCELONISCL and choose Display.
+
+Double-click the name of the package.
+
+Switch to edit mode.
+
+Select a Transport Layer that contains a Consolidation Route connecting DEV to QAS.
+
+Tip
+
+After saving the Transport Layer change, you may be prompted to transport that modification too. However, this change is not needed in QA/PRD so you don't need to transport it.
+
+After performing the steps above, create a transport request for the Change Log tables:
+
+Call the transaction code /CELONIS/CLMAN_UI
+
+Select the Change Log tables that you want to transport forward and click Transport.
+
+You will be prompted to select or create a transport.
+
+The selected tables will be added to the transport request, which you can release to the next system.
+
+2.3 - Creating Triggers
+
+A trigger should be installed to track the changes in the source tables, and capture them in the respective Change Logs. To do that:
+
+Log in into SAP and navigate to Transaction Code /CELONIS/CLMAN_UI.
+
+Find the table(s) in the grid (check this section for the steps on how to add a table).
+
+Click Install Trigger.
+
+After the trigger is installed successfully, its name will be displayed in the “Trigger Name” column.
+
+After these steps are completed successfully, the Delta Extractions for the specified tables will be executed in real time mode. The date and time of latest successful execution will be displayed in the column “Last Extracted Date”.
+
+Warning
+
+Triggers cannot be transported. They should be installed in QA (for testing) and then subsequently in PRD (for productive use).
+
+2.4 - Activating the Clean Up Background Job
+
+In the CL Management UI you can set up a recurring background job in SAP which will run on a daily basis and clean up the records from the Log tables.
+
+To setup the job click the Clean Up Settings button.
+
+A dialogue will pop up where you should define:
+
+Number of days to keep records also called the retention period. All records older than the specified date will be removed from the log tables. The retention period value is displayed above the change view. If the value is "N/D", it means that that there is no background job configured.
+
+Where to run the background job. If the "Run Anywhere" option is selected, SAP system will decide on which server to execute the job. Otherwise, the job will be run on the same server where the settings have been defined.
+
+Warning
+
+The clean up background job is an important element to control the size of the Log tables. It prevents the tables from growing in case they are not being extracted.
+
+Managing change log tables
+
+To update your replication environment, you can add new tables or remove existing change log tables.
+
+Deleting change log tables
+
+Removing tables from production requires deleting database triggers in the production system and deleting change log tables via transport request from your development environment.
+
+Database triggers are non-DDIC objects and do not require opening the client. Remove triggers directly in production using SAP transaction code /CELONIS/CLMAN_UI.
+
+Warning
+
+Do not delete change log tables directly in production. Delete tables in your development system, assign the deletion to a transport request, and import the transport into production.
+
+Note
+
+Deleting change log tables requires an SAP developer key.
+
+In SAP, open transaction code /CELONIS/CLMAN_UI.
+
+Select the target change log tables and select Delete Change Log.
+
+Select or create a transport request to record the table deletions.
+
+Import the transport request into your production system to complete table removal, then verify deletion in transaction /CELONIS/CLMAN_UI.
+
+Step 2: Creating a Data Connection
+
+After installing the SAP extension, establish a Data Connection within your target Data Pool to authenticate and stream tables.
+
+Creating the SAP Connection
+
+In the Celonis Platform, navigate to Admin & Settings > Data Integration.
+
+Select your target Data Pool.
+
+In the left-hand menu, select Data Connections, then select Add Data Connection.
+
+Select SAP ECC or SAP S/4HANA (on-prem + private cloud).
+
+Enter your SAP system parameters (System ID, Client, RFC User credentials, and Extractor routing).
+
+Enable the Enable Real-Time Extractions toggle.
+
+Important
+
+Enabling real-time extraction is required to make the connection available in the Replication Cockpit.
+
+Select Save and test the connection.
+
+Adding tables to the Replication Cockpit
+
+After saving the connection, add the SAP tables you intend to replicate:
+
+Navigate to the Replication Cockpit tab inside your Data Pool.
+
+Select your SAP Data Connection.
+
+Select Add Table and search for required tables (for example, EKKO, BKPF).
+
+Warning
+
+Add only tables that have active change logs and database triggers configured in SAP via transaction /CELONIS/CLMAN_UI. Adding tables without triggers generates connection warnings (except for CDPOS and CDHDR).
+
+Replicating SAP Views (Optional)
+
+For Extractor v3.10.0+ and RFC Module v3.1.4+, you can replicate ABAP dictionary views (such as CDS and Database views without parameters) by mapping them to underlying tables:
+
+Select Add Table and select the target View.
+
+Enable the Override Changelog table toggle.
+
+Select the underlying SAP table that the View is based on. The Replication Cockpit monitors the underlying table change log to track view deltas.
+
+Configuring table extraction settings
+
+Define field-level configuration options before initiating extraction:
+
+Column selection: Include or exclude specific table fields.
+
+Pseudonymization: Mask sensitive PII or financial fields.
+
+Target table overrides: Rename target tables in the Data Pool.
+
+Filter statements: Apply conditional logic to restrict extracted records.
+
+Initialization joins: Configure join logic applied exclusively during full initial loads.
+
+Step 3: Initializing and replicating data
+
+Before starting incremental replication, execute an initial load to establish baseline data in your Data Pool.
+
+Initialize a table: Executes a full load (applying initialization joins) and automatically transitions the table to continuous delta replication upon completion.
+
+Replicate a table: Executes incremental delta loads for new or updated records.
+
+Execution conflicts
+
+Remove tables managed by the Replication Cockpit from standard Delta Data Jobs. Replicating the same table across both mechanisms causes concurrent write conflicts in target tables.
+
+Executing table initialization
+
+You can execute initializations individually by table or in bulk at the connection level:
+
+Individual table initialization
+
+In the Replication Cockpit tab, locate the target table in the list.
+
+Select the options menu next to the table and select Initialize.
+
+Monitor status until it displays Initialized. Continuous replication starts automatically.
+
+Bulk connection initialization
+
+In the Replication Cockpit tab, select your target SAP Data Connection.
+
+Use the connection control menu to trigger bulk initialization across all uninitialized tables.
+
+Step 4: Configuring a Replication Calendar
+
+Use the Replication Calendar to establish concurrent extraction limits and schedule maintenance blackout windows.
+
+Opening the Replication Calendar
+
+In your Data Pool, navigate to the Replication Cockpit.
+
+Select the Calendar tab to view the weekly schedule editor.
+
+Defining concurrent extraction limits
+
+Select Add Block or drag across a time range in the calendar grid.
+
+In the configuration panel, set the Max Concurrent Extractions threshold (typically 3 to 5 concurrent threads during business hours).
+
+Select Save.
+
+Scheduling blackout maintenance windows
+
+Select Add Block and select the timeframe corresponding to legacy batch data jobs.
+
+Set the extraction limit to 0.
+
+Select Save.
+
+Note
+
+During blackout windows, SAP database changes queue up safely in change log tables and process automatically once the window closes.
+
+Related topics
+
+Architecture and pipeline design
+
+Monitoring and operations
+
+Replication Cockpit
+
+--- Monitoring and operations ---
+https://docs.celonis.com/en/replication-cockpit---monitoring-and-operations.html
+Celonis Product DocumentationData IntegrationExtracting and transforming dataReplication CockpitMonitoring and operations
+Replication Cockpit - Monitoring and operations
+
+After successfully configuring your Replication Cockpit and initiating your first data loads, your pipeline will continuously stream data from SAP into the Celonis platform. However, maintaining a healthy real-time pipeline requires proactive oversight.
+
+This section provides the tools you need to ensure your data remains perfectly synchronized and your system performs optimally. Here, you will learn how to:
+
+Monitor active replications: Track the real-time extraction status, data volumes, and health of your table streams.
+
+Configure degradation alerts: Define maximum latency thresholds and receive automated email notifications if your SAP connection experiences delays or interruptions.
+
+Collapse all
+Monitoring the replications
+
+Once your Replication Cockpit is actively streaming data, it is critical to monitor the health and performance of your pipeline. The Celonis platform provides a centralized dashboard to track extraction statuses, data volumes, and immediately identify any table-level sync issues.
+
+Accessing the Monitoring Dashboard
+
+In the Celonis Platform, navigate to Data Integration and open your target Data Pool.
+
+Click on the Replication Cockpit tab.
+
+Select your active SAP Data Connection from the dropdown menu to view the real-time table list.
+
+Understanding Replication Statuses
+
+The dashboard provides a real-time overview of every table in your pipeline. Pay close attention to the following key metrics:
+
+Replication Status: This indicates the current operational state of the table.
+
+Active: The table is successfully and continuously streaming delta records from SAP.
+
+Initializing: A full load is currently running to establish the baseline. Delta streaming will begin automatically once complete.
+
+Stopped: The replication has been manually paused or is currently blocked by a Maintenance Window in your Replication Calendar.
+
+Error / Failed: An issue occurred during extraction. (Click the three-dot menu next to the table to view the detailed error logs).
+
+Row Count / Extracted Records: The volume of delta records that have been pulled into the staging environment.
+
+Last Extraction Time: The exact timestamp when Celonis last successfully pulled data. If this timestamp is exceptionally old while the status remains Active, it may indicate a network degradation or that no transactions have occurred in SAP.
+
+Defining degradation thresholds and subscribing to alerts
+
+Because the Replication Cockpit is designed for near real-time streaming, any significant delay in data delivery (latency) can impact your live Views and Action Flows. To proactively manage pipeline health, you can define Degradation Thresholds and subscribe to automated email alerts.
+
+What is a Degradation Threshold?
+
+A degradation threshold is a defined maximum latency limit. If the Celonis platform does not receive expected delta updates from your SAP source system for a period of time that exceeds this limit (e.g., due to an SAP outage, network interruption, or locked database table), the system flags the connection as "degraded."
+
+Configuring Thresholds and Subscribing to Alerts
+
+To ensure your Data Integration or SAP Basis administrators are notified immediately of a degradation, follow these steps:
+
+Navigate to your Data Pool and open the Replication Cockpit tab.
+
+Select your data connection and click on Settings (or the Alerts configuration menu).
+
+Locate the Degradation Threshold setting.
+
+Enter your maximum allowable latency in minutes (e.g., 60 minutes). Note: Ensure this threshold accounts for any planned downtime you configured in your Replication Calendar to avoid false positive alerts.
+
+In the Alert Subscriptions field, enter the email addresses of the users or distribution lists that should be notified if the threshold is breached.
+
+Click Save.
+
+Note
+
+How Alerts Work: Once saved, the system actively monitors the pipeline. If the time since the Last Extraction Time breaches your defined threshold, an automated email alert is immediately dispatched to the subscribers containing connection details and the affected tables, allowing your team to investigate the SAP source or network route.
+
+Related topics
+
+Replication Cockpit
+
+Architecture and pipeline design
+
+Setting up the Replication Cockpit
+
+--- Real-Time Transformations ---
+https://docs.celonis.com/en/real-time-transformations.html
+Celonis Product DocumentationData IntegrationExtracting and transforming dataReplication CockpitReal-Time Transformations
+Real-Time Transformations
+
+Real-Time Transformations (RTT) allow you to process only the records that have changed since the last execution. Think of this as the "Delta Load" equivalent for your transformation logic.
+
+Unlike Batch Transformations, which drop and recreate tables from scratch every time, RTT merges new or updated data into your existing tables. This results in:
+
+Faster processing: Reduced calculation overhead by focusing only on changed data.
+
+Improved stability: Predictable runtimes and lower risk of timeout errors.
+
+Better resource usage: No need to constantly process millions of static records.
+
+Collapse all
+Where to configure Real-Time Transformations
+
+Unlike standard transformations managed in Data Jobs, RTT is configured within the Replication Cockpit.
+
+Logic location: Enter your SQL in the Transformation Configuration tab of your specific table.
+
+Automatic trigger: The transformation runs automatically as soon as that table’s delta extraction finishes.
+
+When to use Real-Time Transformations
+
+While powerful, RTT is most effective when applied strategically.
+
+Use case
+
+	
+
+Recommended approach
+
+
+
+
+High-Frequency Data (e.g., Order Statuses, Logistic Milestones)
+
+	
+
+Real-Time
+
+
+
+
+Event Logs/Activities (The fuel for Process Mining)
+
+	
+
+Real-Time
+
+
+
+
+Static Master Data (e.g., Company Names, Country Codes)
+
+	
+
+Batch (scheduled)
+
+
+
+
+Complex Aggregations (e.g., Multi-year financial KPIs)
+
+	
+
+Batch (scheduled)
+
+Comparison: Batch vs. Real-Time Logic
+
+The most significant change is how data is updated. Use this table to understand the fundamental shift in logic:
+
+Filter
+
+Transformation Type
+
+	
+
+Logic (simplified)
+
+	
+
+Example diagram
+
+
+
+
+Batch Transformation
+
+	
+
+The target table is dropped (deleted) and rebuilt from scratch using all available records.
+
+	
+
+
+
+Real-Time Transformation
+
+	
+
+The target table stays in place. New or changed records (the delta) are merged into the existing table.
+
+	
+Core concepts of Real-Time Transformations
+
+To use RTT effectively, you need to understand three key components:
+
+Trigger Tables: Transformations are defined at the Table Level. A "Trigger Table" is the primary table that tells Celonis to run the logic.
+
+The One-Table Limit: You can only assign one Trigger Table per transformation.
+
+Execution: The transformation logic only kicks off when the Trigger Table completes a delta extraction.
+
+Choosing a Trigger: Always pick the table that is updated most frequently or is the "driving force" of the process (e.g., Sales Items VBAP).
+
+Note
+
+Replace [TableName] with the actual name of your trigger table, e.g., _CELONIS_TMP_VBAP_TRANSFORM_DATA.)
+
+Staging Tables:
+
+To process only the changed data, your SQL must pull from temporary staging tables instead of the standard data tables.
+
+To process new or updated records, use:: _CELONIS_TMP_[TableName]_TRANSFORM_DATA
+
+To handle deleted records, use: [TableName]_DELETED_DATA
+
+Tip
+
+In your SQL script, simply find your FROM or JOIN statements and replace the standard table name with the corresponding Staging Table name.
+
+Dependencies: If your transformation joins the Trigger Table with other tables, define them as Dependencies to ensure data consistency.
+
+Mandatory for Inner Joins: Always define a dependency for tables used in INNER JOIN statements to avoid missing records.
+
+For example: You are transforming Sales Order Items (VBAP) and joining them to the Header table (VBAK). In this case, Set VBAK as a dependency. If an item arrives but the header hasn't been extracted yet, the system waits. This prevents the record from being dropped entirely by your INNER JOIN logic.
+
+Optional for Left Joins: Only define the dependency if you want to prevent NULL values. If defined, the system will "wait" to process the trigger record until the dependent record is available.
+
+For example: You are joining a Vendor table (LFA1) to your Invoices to get a vendor name. In this case, set LFA1 as a dependency. The transformation will only process the invoice once the vendor details are available. If you don't set this dependency, the invoice will process immediately, but the vendor name column will be NULL.
+
+Related topics
+
+Setting up Real-Time Transformations
+
+Prerequisites and setup checklist
+
+Setting up the Replication Cockpit
+
+--- Setting up Real-Time Transformations ---
+https://docs.celonis.com/en/setting-up-real-time-transformations.html
+Celonis Product DocumentationData IntegrationExtracting and transforming dataReplication CockpitReal-Time TransformationsSetting up Real-Time Transformations
+Setting up Real-Time Transformations
+
+Setting up Real-Time Transformations (RTT) is not a single task, but a transition from "Batch" thinking to "Delta" thinking. Use the following guides in order to move your process from daily updates to real-time execution.
+
+Phase 1: Preparation and strategy
+
+Before writing SQL, you must understand how RTT changes your data flow.
+
+Real-Time Transformations Overview: Understand the difference between Batch and Real-Time logic, and learn about the new staging table architecture (_CELONIS_TMP_).
+
+Phase 2: Implementation
+
+Follow these guides based on the type of data you are transforming:
+
+Step 1: Data Model Tables - Learn how to convert standard tables. You will move from "Drop and Create" logic to a "Delete and Insert" delta logic.
+
+Step 2: Activity Tables - Activities require a different architecture to prevent database locks. This guide explains how to split your activities by trigger and recombine them using a Union View.
+
+Phase 3: Synchronization
+
+Once your real-time logic is built, you must ensure your existing tools don't break it.
+
+Step 3: Data Job Compatibility - Harmonize your weekly full loads and daily tasks with the Replication Cockpit to ensure your Data Model always shows a single, consistent version of the truth.
+
+Quick reference
+
+Use this quick-reference table to decide where to start:
+
+Understand how RTT works, see: Real-Time Transformations
+
+Convert a Customer or Vendor master table, see: Step 1: Configuring Real-Time Transformations for Data Model Tables
+
+Speed up your "Create Sales Order" activity, see: Step 2: Setting up Real-Time Transformations for Activities
+
+Fix errors between your Data Job and the Cockpit, see: Step 3: Compatibility of Data Jobs and Real Time Transformations
+
+--- Step 1: Configuring Real-Time Transformations for Data Model Tables ---
+https://docs.celonis.com/en/step-1--configuring-real-time-transformations-for-data-model-tables.html
+Celonis Product DocumentationData IntegrationExtracting and transforming dataReplication CockpitReal-Time TransformationsSetting up Real-Time TransformationsStep 1: Configuring Real-Time Transformations for Data Model Tables
+Step 1: Configuring Real-Time Transformations for Data Model Tables
+
+To convert your standard Data Model tables into Real-Time Transformations, follow these steps to transition from "Batch" processing to a "Delta" approach.
+
+Collapse all
+Before you begin
+
+Before configuring your real-time transformations, ensure you meet the following:
+
+Data Pool Setup: You must have a Data Pool connected to a source system using the Real-Time Extraction (Replication Cockpit).
+
+Target OCDM: The Object-Centric Data Model must be created and the target table schema defined.
+
+Permissions: You must have "Edit" permissions for the Data Pool and the Replication Cockpit.
+
+Step 1.1 - Identifying the Trigger Table
+
+In the Replication Cockpit, identify the primary source table (e.g., KNA1) that should initiate the transformation. You will save and execute your SQL statement directly under this table.
+
+Step 1.2 - Selecting the staging table
+
+Modify your SQL to select data from the temporary staging table instead of the base table. This ensures you only process new or changed records.
+
+Staging Table Syntax
+
+The syntax of the Staging Table is defined as _CELONIS_TMP_TABLE_TRANSFORM_DATA → for KNA1 it is _CELONIS_TMP_KNA1_TRANSFORM_DATA
+
+Syntax: Use _CELONIS_TMP_[TableName]_TRANSFORM_DATA.
+
+Example: Change FROM KNA1 to FROM _CELONIS_TMP_KNA1_TRANSFORM_DATA.
+
+Before
+
+DROP VIEW IF EXISTS "O2C_KNA1";
+
+CREATE VIEW "O2C_KNA1" AS (
+        SELECT 
+        "KNA1".*, 
+        CAST("KNA1"."ERDAT" AS DATE) AS "TS_ERDAT",
+        CAST("KNA1"."UPDAT" AS DATE) AS "TS_UPDAT"
+        FROM "KNA1" AS "KNA1"
+    WHERE EXISTS(
+        SELECT * 
+        FROM "O2C_VBAK_VBAP" AS "C"
+        "C"."MANDT" = "KNA1"."MANDT"
+                AND "C"."KUNNR" = "KNA1"."KUNNR"
+    )
+);
+	
+
+After
+
+DROP VIEW IF EXISTS "O2C_KNA1";
+
+CREATE VIEW "O2C_KNA1" AS (
+        SELECT 
+        "KNA1".*, 
+        CAST("KNA1"."ERDAT" AS DATE) AS "TS_ERDAT",
+        CAST("KNA1"."UPDAT" AS DATE) AS "TS_UPDAT"
+        FROM "_CELONIS_TMP_KNA1_TRANSFORM_DATA" AS "KNA1"
+    WHERE EXISTS(
+        SELECT * 
+        FROM "O2C_VBAK_VBAP" AS "C"
+        "C"."MANDT" = "KNA1"."MANDT"
+                AND "C"."KUNNR" = "KNA1"."KUNNR"
+    )
+);
+Step 1.3 - Switching from Views to Tables
+
+Because delta transformations require INSERT, UPDATE, and DELETE operations, you must change your target objects from Views to Tables.
+
+Initial Setup: If the table doesn't exist yet, run a one-time "Create Table" script in a Data Job to initialize it.
+
+SQL Change: Update your script from CREATE VIEW to CREATE TABLE.
+
+Before
+
+DROP VIEW IF EXISTS "O2C_KNA1";
+
+CREATE VIEW "O2C_KNA1" AS (
+        SELECT 
+        "KNA1".*, 
+        CAST("KNA1"."ERDAT" AS DATE) AS "TS_ERDAT",
+        CAST("KNA1"."UPDAT" AS DATE) AS "TS_UPDAT"
+        FROM "_CELONIS_TMP_KNA1_TRANSFORM_DATA" AS "KNA1"
+    WHERE EXISTS(
+        SELECT * 
+        FROM "O2C_VBAK_VBAP" AS "C"
+        "C"."MANDT" = "KNA1"."MANDT"
+                AND "C"."KUNNR" = "KNA1"."KUNNR"
+    )
+);
+	
+
+After
+
+DROP TABLE IF EXISTS "O2C_KNA1";
+
+CREATE TABLE "O2C_KNA1" AS (
+        SELECT 
+        "KNA1".*, 
+        CAST("KNA1"."ERDAT" AS DATE) AS "TS_ERDAT",
+        CAST("KNA1"."UPDAT" AS DATE) AS "TS_UPDAT"
+        FROM "_CELONIS_TMP_KNA1_TRANSFORM_DATA" AS "KNA1"
+    WHERE EXISTS(
+        SELECT * 
+        FROM "O2C_VBAK_VBAP" AS "C"
+        "C"."MANDT" = "KNA1"."MANDT"
+                AND "C"."KUNNR" = "KNA1"."KUNNR"
+    )
+);
+Step 1.4 - Implementing Delete + Insert Logic
+
+Instead of dropping the entire table, use a two-step approach to incrementally update your data and avoid duplicates:
+
+Delete: Remove existing entries from your Data Model table that share a primary key with records in the staging table.
+
+Insert: Add the new records from the staging table into your Data Model table.
+
+Before
+
+DELETE FROM O2C_KNA1 
+WHERE EXISTS (SELECT 1 FROM _CELONIS_TMP_KNA1_TRANSFORM_DATA as NEW_DATA
+                                AND O2C_KNA1.MANDT=NEW_DATA.MANDT 
+                                AND O2C_KNA1.KUNNR=NEW_DATA.KUNNR);
+
+INSERT INTO O2C_KNA1
+        SELECT 
+        "KNA1".*, 
+        CAST("KNA1"."ERDAT" AS DATE) AS "TS_ERDAT",
+        CAST("KNA1"."UPDAT" AS DATE) AS "TS_UPDAT"
+        FROM "_CELONIS_TMP_KNA1_TRANSFORM_DATA" AS "KNA1"
+    WHERE EXISTS(
+        SELECT 1 
+                FROM VBAK 
+        "VBAK"."MANDT" = "KNA1"."MANDT"
+                AND "VBAK"."KUNNR" = "KNA1"."KUNNR" 
+                        AND "VBAK"."VBTYP" = '<%=orderDocSalesOrders%>'
+    );
+	
+
+After
+
+DELETE FROM O2C_KNA1 
+WHERE EXISTS (SELECT 1 FROM _CELONIS_TMP_KNA1_TRANSFORM_DATA as NEW_DATA
+                                AND O2C_KNA1.MANDT=NEW_DATA.MANDT 
+                                AND O2C_KNA1.KUNNR=NEW_DATA.KUNNR);
+
+INSERT INTO O2C_KNA1
+        SELECT 
+        "KNA1"."MANDT", "KNA1"."KUNNR", "KNA1"."LAND1", "KNA1"."NAME1", "KNA1"."NAME2", "KNA1"."ORT01",         "KNA1"."PSTLZ", "KNA1"."REGIO", "KNA1"."SORTL", "KNA1"."STRAS", "KNA1"."TELF1", "KNA1"."TELFX", "KNA1"."XCPDK", "KNA1"."ADRNR", "KNA1"."MCOD1", "KNA1"."MCOD2", "KNA1"."MCOD3", "KNA1"."ANRED", "KNA1"."AUFSD", "KNA1"."BAHNE", "KNA1"."BAHNS", "KNA1"."BBBNR", "KNA1"."BBSNR", "KNA1"."BEGRU", "KNA1"."BRSCH", "KNA1"."BUBKZ", "KNA1"."DATLT", "KNA1"."ERDAT", "KNA1"."ERNAM", "KNA1"."EXABL", "KNA1"."FAKSD", "KNA1"."FISKN", "KNA1"."KNAZK", "KNA1"."KNRZA", "KNA1"."KONZS", "KNA1"."KTOKD", "KNA1"."KUKLA", "KNA1"."LIFNR", "KNA1"."LIFSD", "KNA1"."LOCCO", "KNA1"."LOEVM", "KNA1"."NAME3", "KNA1"."NAME4", "KNA1"."NIELS", "KNA1"."ORT02", "KNA1"."PFACH", "KNA1"."PSTL2", "KNA1"."COUNC", "KNA1"."CITYC", "KNA1"."RPMKR", "KNA1"."SPERR", "KNA1"."SPRAS", "KNA1"."STCD1", "KNA1"."STCD2", "KNA1"."STKZA", "KNA1"."STKZU", "KNA1"."TELBX", "KNA1"."TELF2", "KNA1"."TELTX", "KNA1"."TELX1", "KNA1"."LZONE", "KNA1"."XZEMP", 
+ "KNA1"."VBUND", "KNA1"."STCEG", "KNA1"."DEAR1", "KNA1"."DEAR2", "KNA1"."DEAR3", "KNA1"."DEAR4", KNA1"."DEAR5", "KNA1"."GFORM", "KNA1"."BRAN1", "KNA1"."BRAN2", "KNA1"."BRAN3", "KNA1"."BRAN4", "KNA1"."BRAN5", "KNA1"."EKONT", "KNA1"."UMSAT", "KNA1"."UMJAH", "KNA1"."UWAER", "KNA1"."JMZAH", "KNA1"."JMJAH", "KNA1"."KATR1", "KNA1"."KATR2", "KNA1"."KATR3", "KNA1"."KATR4", "KNA1"."KATR5", "KNA1"."KATR6", "KNA1"."KATR7", "KNA1"."KATR8", "KNA1"."KATR9", "KNA1"."KATR10", "KNA1"."STKZN", "KNA1"."UMSA1", "KNA1"."TXJCD", "KNA1"."PERIV", "KNA1"."ABRVW", "KNA1"."INSPBYDEBI", "KNA1"."INSPATDEBI", "KNA1"."KTOCD", "KNA1"."PFORT", "KNA1"."WERKS", "KNA1"."DTAMS", "KNA1"."DTAWS", "KNA1"."DUEFL", "KNA1"."HZUOR", "KNA1"."SPERZ", "KNA1"."ETIKG", "KNA1"."CIVVE", "KNA1"."MILVE", "KNA1"."KDKG1", "KNA1"."KDKG2", "KNA1"."KDKG3", "KNA1"."KDKG4", "KNA1"."KDKG5", "KNA1"."XKNZA", "KNA1"."FITYP", "KNA1"."STCDT", "KNA1"."STCD3", "KNA1"."STCD4", "KNA1"."XICMS", "KNA1"."XXIPI", "KNA1"."XSUBT", "KNA1"."CFOPC",   "KNA1"."TXLW1", "KNA1"."TXLW2", "KNA1"."CCC01", "KNA1"."CCC02", "KNA1"."CCC03", "KNA1"."CCC04", "KNA1"."CASSD", "KNA1"."KNURL", "KNA1"."J_1KFREPRE", "KNA1"."J_1KFTBUS", "KNA1"."J_1KFTIND", "KNA1"."CONFS", "KNA1"."UPDAT", "KNA1"."UPTIM", "KNA1"."NODEL", "KNA1"."DEAR6", "KNA1"."/VSO/R_PALHGT", "KNA1"."/VSO/R_PAL_UL", "KNA1"."/VSO/R_PK_MAT", "KNA1"."/VSO/R_MATPAL", "KNA1"."/VSO/R_I_NO_LYR", "KNA1"."/VSO/R_ONE_MAT",     "KNA1"."/VSO/R_ONE_SORT", "KNA1"."/VSO/R_ULD_SIDE", "KNA1"."/VSO/R_LOAD_PREF", "KNA1"."/VSO/R_DPOINT", "KNA1"."ALC", "KNA1"."PMT_OFFICE", "KNA1"."PSOFG", "KNA1"."PSOIS", "KNA1"."PSON1", "KNA1"."PSON2", "KNA1"."PSON3", "KNA1"."PSOVN", "KNA1"."PSOTL", "KNA1"."PSOHS", "KNA1"."PSOST", "KNA1"."PSOO1", "KNA1"."PSOO2", "KNA1"."PSOO3", "KNA1"."PSOO4", "KNA1"."PSOO5", "KNA1"."ZZVPOPNE", "KNA1"."ZZKFZTYPMIN", "KNA1"."ZZKFZTYPMAX",      "KNA1"."ZZHAENGERKZ", "KNA1"."ZZTOBACCOCUST", "KNA1"."ZZTOBCUSTDAT", "KNA1"."ZZF_TYPE", "KNA1"."ZZTOBSERVICE",
+        CAST("KNA1"."ERDAT" AS DATE) AS "TS_ERDAT",
+        CAST("KNA1"."UPDAT" AS DATE) AS "TS_UPDAT"
+        FROM "_CELONIS_TMP_KNA1_TRANSFORM_DATA" AS "KNA1"
+    WHERE EXISTS(
+        SELECT 1 
+                FROM VBAK 
+        "VBAK"."MANDT" = "KNA1"."MANDT"
+                AND "VBAK"."KUNNR" = "KNA1"."KUNNR" 
+                        AND "VBAK"."VBTYP" = '<%=orderDocSalesOrders%>'
+    );
+
+Step 1.5 - Removing temporary tables
+
+Real-Time Transformations do not support global temporary tables. Instead, implement any necessary temporary logic as subqueries directly within your main transformation script. Always select from raw tables extracted via the Replication Cockpit, never from tables created in other transformations.
+
+Before
+
+DELETE FROM O2C_KNA1 
+WHERE EXISTS (SELECT 1 FROM _CELONIS_TMP_KNA1_TRANSFORM_DATA as NEW_DATA
+                                AND O2C_KNA1.MANDT=NEW_DATA.MANDT 
+                                AND O2C_KNA1.KUNNR=NEW_DATA.KUNNR);
+
+INSERT INTO O2C_KNA1
+        SELECT 
+        "KNA1".*, 
+        CAST("KNA1"."ERDAT" AS DATE) AS "TS_ERDAT",
+        CAST("KNA1"."UPDAT" AS DATE) AS "TS_UPDAT"
+        FROM "_CELONIS_TMP_KNA1_TRANSFORM_DATA" AS "KNA1"
+    WHERE EXISTS(
+        SELECT * 
+        FROM "O2C_VBAK_VBAP" AS "C"
+        "C"."MANDT" = "KNA1"."MANDT"
+                AND "C"."KUNNR" = "KNA1"."KUNNR"
+    );
+	
+
+After
+
+DELETE FROM O2C_KNA1 
+WHERE EXISTS (SELECT 1 FROM _CELONIS_TMP_KNA1_TRANSFORM_DATA as NEW_DATA
+                                AND O2C_KNA1.MANDT=NEW_DATA.MANDT 
+                                AND O2C_KNA1.KUNNR=NEW_DATA.KUNNR);
+
+INSERT INTO O2C_KNA1
+        SELECT 
+        "KNA1".*, 
+        CAST("KNA1"."ERDAT" AS DATE) AS "TS_ERDAT",
+        CAST("KNA1"."UPDAT" AS DATE) AS "TS_UPDAT"
+        FROM "_CELONIS_TMP_KNA1_TRANSFORM_DATA" AS "KNA1"
+    WHERE EXISTS(
+        SELECT 1 
+                FROM VBAK 
+        "VBAK"."MANDT" = "KNA1"."MANDT"
+                AND "VBAK"."KUNNR" = "KNA1"."KUNNR" 
+                        AND "VBAK"."VBTYP" = '<%=orderDocSalesOrders%>'
+    );
+
+
+Note
+
+Only select from raw tables (the tables that are extracted via the Replication Cockpit). Do not use tables that are created within other transformations!
+
+Step 1.6 - Explicitly reference columbs
+
+To prevent the transformation from breaking during source system metadata changes, avoid using SELECT *. Specifically list every column name required for your Data Model table.
+
+Step 1.7 - Defining dependencies
+
+Identify any tables used in INNER JOIN or EXISTS statements and list them as Dependencies in the Replication Cockpit. This ensures the transformation only runs when all necessary related data is synchronized.
+
+Next steps
+
+Step 2: Setting up Real-Time Transformations for Activities
+
+--- Step 2: Setting up Real-Time Transformations for Activities ---
+https://docs.celonis.com/en/step-2--setting-up-real-time-transformations-for-activities.html
+Celonis Product DocumentationData IntegrationExtracting and transforming dataReplication CockpitReal-Time TransformationsSetting up Real-Time TransformationsStep 2: Setting up Real-Time Transformations for Activities
+Step 2: Setting up Real-Time Transformations for Activities
+
+To move your Activity transformations to real-time, you must transition from a single, massive activity table to a decentralized model where each trigger table manages its own specific activities.
+
+Collapse all
+Step 2.1 - Identifying Your Trigger Tables
+
+For activities, the "Trigger Table" is the one where a new or updated record creates the event (e.g., the table containing the timestamp).
+
+Common Triggers: VBFA (for status changes), CDHDR (for record changes), or BKPF (for financial headers).
+
+Action: You will save your SQL logic in the Replication Cockpit under each specific trigger table.
+
+Step 2.2 - Splitting the Activity Table
+
+In a real-time environment, multiple tables may try to write activities simultaneously, causing "table locks." To prevent this, you must create a dedicated table for each trigger.
+
+The Rule: Create one table per trigger (e.g., _CEL_O2C_CDHDR_ACTIVITIES).
+
+Initial Setup: Run a one-time script in a Data Job to initialize these tables using the structure of your existing activity table.
+
+CREATE TABLE _CEL_O2C_CDHDR_ACTIVITIES LIKE _CEL_O2C_ACTIVITIES;
+
+Warning
+
+You must manually initialize your dedicated activity tables in a Data Job (using the LIKE syntax) before activating the transformation in the Replication Cockpit.
+
+Step 2.3 - Choosing a Delta Approach
+
+Depending on how your activity behaves, choose one of these three logic patterns for your SQL:
+
+Filter
+	
+
+Insert
+
+	
+
+Insert where not exists
+
+	
+
+Merge
+
+
+
+
+When to use?
+
+	
+
+no updates of activities required after the first creation
+
+no updates possible in the trigger table (insert only) or new activity for every update wanted
+
+	
+
+no updates of activities are required after the first creation
+
+updates are possible in the trigger table
+
+	
+
+updates of activities after the first creation required
+
+updates are possible in the trigger table
+
+
+
+
+Implications
+
+	
+
+Creation or updating a record in the trigger table always creates a new activity.
+
+	
+
+Creation or updating a record in the trigger table creates a new activity when one with the specified conditions does not exist yet.
+
+	
+
+Creation or updating a record in the trigger table creates a new activity and updates existing ones that fulfill the specified condition.
+
+
+
+
+Disadvantage
+
+		
+
+Activities cannot be updated, once they were created
+
+	
+
+very complex script (might require introducing an Activity Key)
+
+
+
+
+Performance
+
+	
+
++++
+
+	
+
+++
+
+	
+
++
+
+Tip
+
+An Activity Key is typically a concatenation of your Case Key, Activity Name, and Eventtime. This unique identifier allows the MERGE statement to find and update the exact row without creating duplicates.
+
+Step 2.4 - Implementing the SQL logic
+
+Update your transformation script to pull from the staging table. Use the "After" logic below as a template to avoid duplicates.
+
+Example: Insert where not exists
+
+INSERT INTO _CEL_O2C_VBAP_ACTIVITIES ( ... )
+SELECT * FROM (
+    SELECT 
+        VBAP.MANDT || VBAP.VBELN || VBAP.POSNR AS _CASE_KEY,
+        'Create Sales Order Item' AS ACTIVITY_EN,
+        ...
+    FROM _CELONIS_TMP_VBAP_TRANSFORM_DATA AS VBAP
+) AS NEW_ACTIVITIES 
+WHERE NOT EXISTS (
+    SELECT 1 FROM _CEL_O2C_VBAP_ACTIVITIES AS OLD_ACTIVITIES
+    WHERE NEW_ACTIVITIES._ACTIVITY_KEY = OLD_ACTIVITIES._ACTIVITY_KEY
+);
+Step 2.5 - Creating a Union view
+
+Combine your individual activity tables into one "Union View." This view acts as the single source of truth for your Data Model.
+
+Action: Create a view that uses UNION ALL to pull from every dedicated activity table.
+
+Benefit: This only needs to be created once; it automatically reflects new data from all triggers.
+
+CREATE VIEW _CEL_O2C_ACTIVITIES AS (
+    SELECT * FROM _CEL_O2C_VBAK_ACTIVITIES   
+    UNION ALL
+    SELECT * FROM _CEL_O2C_VBAP_ACTIVITIES    
+    -- Add all other dedicated activity tables here
+);
+
+Note
+
+Always use UNION ALL instead of UNION. UNION ALL is significantly faster because it does not perform a distinct check, which is unnecessary since your source activity tables are already decentralized by trigger.
+
+Step 2.6 - Replacing temporary table and define dependencies
+
+No Temp Tables: Real-Time Transformations do not support global temporary tables. Move this logic into subqueries or CTEs within your main script.
+
+Set Dependencies: List any tables used in INNER JOIN or EXISTS statements as Dependencies in the Replication Cockpit to ensure data is synchronized.
+
+Next steps
+
+Step 3: Compatibility of Data Jobs and Real Time Transformations
+
+--- Step 3: Compatibility of Data Jobs and Real Time Transformations ---
+https://docs.celonis.com/en/step-3--compatibility-of-data-jobs-and-real-time-transformations.html
+Celonis Product DocumentationData IntegrationExtracting and transforming dataReplication CockpitReal-Time TransformationsSetting up Real-Time TransformationsStep 3: Compatibility of Data Jobs and Real Time Transformations
+Step 3: Compatibility of Data Jobs and Real Time Transformations
+
+While the Replication Cockpit handles your fast, real-time updates, you still need standard Data Jobs for your "big picture" tasks—like full weekly reloads or currency conversions. If your Data Jobs aren't updated to match the new Real-Time structure, they will overwrite your delta changes or cause data inconsistencies in your Data Model.
+
+Filter
+	
+
+Full Load
+
+	
+
+Delta Load
+
+
+
+
+Extraction
+
+	
+
+Data Job
+
+	
+
+Replication Cockpit
+
+
+
+
+Transformation
+
+	
+
+Data Job
+
+	
+
+Replication Cockpit
+
+
+
+
+Data Model Load
+
+	
+
+Data Job
+
+	
+
+Data Job
+
+Collapse all
+Step 3.1 - Converting Views to Tables
+
+The Replication Cockpit requires physical tables to perform delta operations (inserting and deleting rows). You must update your Data Job SQL to create tables instead of views.
+
+Action: Change CREATE VIEW to CREATE TABLE.
+
+Manual Task: You must manually DROP the existing view in your database once before the new table-based script can run.
+
+The syntax shift:
+
+-- Old Batch Style
+CREATE VIEW "O2C_KNA1" AS ...
+
+-- New Compatible Style (Required for RTT)
+CREATE TABLE "O2C_KNA1" AS ...
+Step 3.2 - Synchronizing table names
+
+To avoid data silos, your Data Jobs must write to the exact same dedicated activity tables used by the Replication Cockpit.
+
+Action: Target trigger-specific tables (e.g., _CEL_O2C_VBAP_ACTIVITIES) rather than one giant, shared activity table.
+
+Step 3.3 - Rebuilding the Union view
+
+Because activities are now split into multiple tables, your Data Job needs to "glue" them back together at the end of a full load. This ensures your Data Model sees every activity as a single, continuous list.
+
+Action: Add a final step to your Data Job to refresh the Union View using UNION ALL.
+
+-- Glue your split tables back together for the Data Model
+CREATE OR REPLACE VIEW _CEL_O2C_ACTIVITIES AS (
+    SELECT * FROM _CEL_O2C_VBAK_ACTIVITIES
+    UNION ALL
+    SELECT * FROM _CEL_O2C_VBAP_ACTIVITIES
+    -- Add all other dedicated trigger tables here
+);
+Step 3.4 - Establishing a new loading schedule
+
+Organize your work into three distinct job types to keep the system synchronized:
+
+Filter
+
+Job type
+
+	
+
+Frequency
+
+	
+
+Purpose
+
+
+
+
+Full Load
+
+	
+
+Weekly
+
+	
+
+Wipes and rebuilds all tables to ensure 100% data integrity.
+
+
+
+
+Daily Load
+
+	
+
+Daily
+
+	
+
+Handles complex logic not yet in real-time (e.g., Currency Conversion).
+
+
+
+
+Data Model Load
+
+	
+
+Hourly
+
+	
+
+Refreshes the frontend to display the latest real-time delta changes.
+
+Final checklist
+
+Before moving your new configuration into production, verify these four critical areas:
+
+Database Cleanup:
+
+Drop Legacy Views: Did you manually run DROP VIEW for every table you converted to a physical table? (SQL will throw an "Object already exists" error if you try to create a table where a view still resides).
+
+Clear Old Activity Tables: Have you deleted the old, centralized _CEL_O2C_ACTIVITIES table to ensure it doesn't conflict with your new Union View of the same name?
+
+Configuration Alignment:
+
+Match Table Names: Open your Replication Cockpit and your Data Job side-by-side. Do the target table names (e.g., _CEL_O2C_VBAP_ACTIVITIES) match character-for-character?
+
+Verify Columns: If you added new columns to your Data Job logic, have you also added them to the corresponding Real-Time Transformation script in the Cockpit?
+
+Schedule Synchronization:
+
+Data Model Load Frequency: Is your Data Model set to reload frequently (e.g., every 30 mins)?
+
+Note
+
+Real-time transformations update the database instantly, but users won't see those changes until the Data Model reloads.
+
+Full Load Blackout: Have you ensured that your Weekly Full Load doesn't overlap with heavy extraction periods to avoid system timeouts?
+
+Dependency Validation:
+
+Check Trigger Logic: For every transformation in the Replication Cockpit, is the Trigger Table correctly assigned?
+
+Mandatory Dependencies: Are all tables used in INNER JOIN statements listed as dependencies? (Missing a dependency here is the #1 cause of "missing records" in RTT).
+
+Tip
+
+After completing this checklist, perform a manual delta extraction for one table. Check the execution logs in the Replication Cockpit to ensure the status shows "Success" and that the number of "Records Processed" matches the expected delta size.
+
+Troubleshooting common setup errors
+
+If your first run doesn't go as planned, use this table to identify the cause.
+
+Filter
+
+Error / symptom
+
+	
+
+Likely Cause
+
+	
+
+Solution
+
+
+
+
+"Object already exists"
+
+	
+
+A legacy View is still in the database.
+
+	
+
+Manually run DROP VIEW [TableName] before re-running the Data Job.
+
+
+
+
+Missing Records
+
+	
+
+A Dependency was not defined for an INNER JOIN.
+
+	
+
+Add the joined table as a dependency in the Replication Cockpit.
+
+
+
+
+"Table Not Found"
+
+	
+
+The target table wasn't initialized.
+
+	
+
+Run a one-time Data Job using CREATE TABLE ... LIKE to set up the schema.
+
+
+
+
+Stale Data in Dashboards
+
+	
+
+The Data Model hasn't reloaded.
+
+	
+
+Check your Data Model load schedule; ensure it runs shortly after your extractions.
+
+
+
+
+Duplicate Activities
+
+	
+
+Incorrect Delta Approach (e.g., using INSERT instead of MERGE).
+
+	
+
+Update your SQL to include a WHERE NOT EXISTS clause or a MERGE statement.
+
+Related topics
+
+Prerequisites and setup checklist
+
+Setting up the Replication Cockpit
+
+Monitoring and operations
+
+--- Scheduling jobs and replication cockpit ---
+https://docs.celonis.com/en/scheduling-jobs-and-replication-cockpit.html
+Celonis Product DocumentationBusiness ApplicationsInventory Management AppsInventory Management ConnectorScheduling jobs and replication cockpit
+Scheduling jobs and replication cockpit
+
+As of April 2022, the Inventory Management Connector supports real time extraction. This is enabled via the Replication Cockpit (RC). The relevant use cases are described in this section.
+
+Use Case 1: Replication cockpit in use
+
+In this approach, the extractions are being continuously executed in the Replication Cockpit (by default every 15 minutes), while all transformations are executed by the scheduled Data Job. Additionally the standard extraction process is in use for the non-transactional tables (eg. master data about currency rates).
+
+This requires the following data jobs:
+
+Inventory Management – Daily Load: with extractions and transformations of the non-transactional tables.
+
+Inventory Management – Full Transformation: transformation of the transactional tables (for example once a day).
+
+Use Case 2: Replication cockpit not in use
+
+This is the standard method for Data Extraction and transformation by executing data jobs.In this approach, the process is executed by the following data jobs:
+
+Inventory Management – Daily Load: Extraction and transformation of transactional and non-transactional tables. (Note: Enable the Extract Tables: SAP IM Connector (Delta Without RC).
+
+Inventory Management – Full Extraction: Extraction of all transactional and non-transactional tables used in the transformations.
+
+Inventory Management – Full Transformation: transformation of the transactional tables (for example once a day).
+
+

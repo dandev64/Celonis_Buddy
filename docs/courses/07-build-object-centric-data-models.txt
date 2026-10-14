@@ -1,0 +1,1052 @@
+﻿========================================================================
+  CELONIS ACADEMY - BUILD OBJECT-CENTRIC DATA MODELS
+  Extracted: 2026-09-09 13:35  |  Personal study use only
+  Source: https://academy.celonis.com/learn/course/build-object-centric-data-models
+  Lessons: 9
+========================================================================
+
+########################################################################
+  LESSON 1 : Build Object-Centric Data Models Introduction
+########################################################################
+
+Build Object-Centric Data Models Introduction
+
+No topic content.
+
+########################################################################
+  LESSON 2 : Gather Requirements
+########################################################################
+
+----- Page 1 -----
+
+Gather Requirements
+Gathering Requirements with an Object-Centric Mindset
+
+There are three basic steps to gathering requirements for an object-centric process mining project.
+
+Understand the problem you want to solve
+Identify objects, events, and their relationships
+Identify data sources
+
+If you are familiar with requirements gathering for case-centric process mining, these steps should sound very familiar. The main difference is that you should look at data from an object-centric perspective rather than a case-centric perspective.
+
+Let's see what that means by looking at each of these three steps.
+
+----- Page 2 -----
+
+Gather Requirements
+1. Understand the Problem You Want to Solve
+
+Whether working with case-centric or object-centric process mining, projects start with understanding the business problem. You can either rely on your business domain knowledge or interview business users and experts.
+
+Here is an example of an Order-to-Cash process and its potential business objectives and metrics:
+
+When trying to understand the problem, you should be able to answer the following questions:
+
+What is the target process area we want to improve?
+What are the business objectives?
+What are the key metrics?
+What are the value opportunities?
+
+Once you've understood the problem you want to solve, you can move on to identifying the relevant events and objects.
+
+----- Page 3 -----
+
+Gather Requirements
+2. Identify Events and Objects
+
+As you engage with business users and experts, conduct thorough research in their operations and try to identify barriers preventing them from maximizing value.
+
+You aim to jot down the objects and events related to the target use case. These two question areas can guide you along the way:
+
+What is the ideal process flow (happy path) for the target process?
+For each event, which documents or objects are involved?
+
+You should start having a basic idea of your process definition at this stage and be able to answer the following questions:
+
+What are the relevant object and event types involved?
+What are the high-level attributes you need to represent?
+How are these objects related to each other?
+Can you identify all objects that participate in each event?
+What dimensional/master data do you need to conduct the analysis?
+
+Now, it's time to identify the data sources.
+
+----- Page 4 -----
+
+Gather Requirements
+3. Identify Data Sources
+
+In this step, you rely on functional experts and other resources (e.g. documentation) to gather information about source systems.
+
+You can use the following set of questions to frame your direction on source systems:
+
+How do you manually investigate a single process instance for troubleshooting purposes?
+Which systems do you need to access for relevant data?
+Where in the system(s) can you identify deviations in the process?
+Is there a timestamp associated with each step?
+
+Ideally, a user will walk you through the source systems as you manually investigate one case.
+
+Take this opportunity to drill down and identify the following:
+
+AREA	QUESTIONS
+Objects	
+
+For each object, what are the primary tables that describe them?
+
+What additional tables are needed to populate the attributes?
+
+
+Object Changes	
+
+Is there an audit/change log?
+
+Are there different versions of the object saved in the same table?
+
+
+Events	
+
+How are the individual event types described in the source system tables?
+
+Where can I find the timestamp for the events?
+
+Which object type is most closely associated with the event type?
+
+Who executed the event?
+
+
+Relationships	
+
+Which objects participate in the event? How are the raw tables related to one another?
+
+At this stage of the project, you should be able to:
+
+Identify the required source system tables to model your objects and events
+Know how you can map the relationships between the source system tables
+
+It's time to transform the raw data requirements into objects and events in the Celonis platform.
+
+----- Page 5 -----
+
+Gather Requirements
+Start with the Celonis Catalog Objects and Events
+
+This course teaches you how to build your custom data model. That said, in most cases, you won't start from scratch. The Celonis catalog objects and events expedite your data modeling work. Here are three steps to use them.
+
+1
+Start with our catalog
+
+Celonis provides objects and events that define all the necessary elements for five core processes:
+
+Order Management
+Accounts Payable
+Accounts Receivable
+Procurement
+Inventory Management
+
+You can immediately generate value from this initial model or extend it to suit your needs.
+
+2
+Use our Extractions and Transformations
+
+We offer catalog extractions and transformations for specific source systems, such as SAP ECC and Oracle EBS, to facilitate your implementation. These extract and populate the model with your data, allowing you to analyze your processes and derive insights immediately.
+
+This functionality is covered in our quick start video and in ocpm quickstart documentation.
+
+
+3
+Use your model to feed our Ecosystem
+
+At launch, you can use your Object-Centric Data Model to feed apps like Process Adherence Manager, End-to-End Lead Time app, Starter Kits, and AI assets.
+
+We are committed to continuous development and will continue to create new content for object-centric process mining data models. This ensures you have access to an expanding ecosystem of tools to drive process optimization and business success.
+
+Want to see a quick start guide on steps 1 and 2? Check out this 5 minute quickstart video.
+
+Now let's build our custom use case!
+
+########################################################################
+  LESSON 3 : Connect and Extract
+########################################################################
+
+----- Page 1 -----
+
+Connect and Extract
+The Sample Use Case
+
+It's time to tackle your first process using Object-Centric Process Mining.
+
+You have been invited by the company Rossbauer Inc. to analyze their Expenses Reports process.
+
+In the requirements-gathering phase, you've already identified the main objects and events involved in the process:
+
+Objects
+Expense Report
+Expense Line
+Expense Category
+User
+Events
+Create Report
+Change Report
+Send to Approver
+Send Back to Creator for Correction
+Approve Report
+Reject Report
+Change Expense Amount
+
+Rossbauer Inc. has given you a dataset with a limited amount of data and is eager to see how easily you can model this process using Object-Centric Process Mining.
+
+You can see a sample of the tables and their data in this sample tables Excel file.
+
+To bring this process to life, you'll go through the following hands-on steps:
+
+Connect to the source system and extract data
+Create Objects, including attributes, relationships and transformations
+Create Events, including attributes, relationships and transformations
+Create perspectives
+Load your data model and create event logs
+
+Keep in mind that this is a suggested order. You could of course create your objects and events and then connect to your system and extract the data.
+
+Where you will work
+
+Before jumping into it, you should know where you'll be working. For steps 2-4 (create objects, events, and perspectives), you'll work almost entirely in Objects and Events user interface:
+
+For steps 1 and 5 (connect and load), you will work in Data Integration:
+
+To easily jump between the two services, you can use the following buttons.
+
+This button in Object and Events will take you to your OCPM Data Pool in Data Integration:
+
+This tile in your OCPM Data Pool will take you to Objects and Events:
+
+The Objects and Events User Interface
+
+Here is a quick overview of the objects and events user interface. Click on the buttons and the information icons to learn more.
+
+Navigation Tabs
+The Catalog
+Doc and Academy
+Data Pool button
+The Graph
+Release Management
+
+If you encounter difficulties during the hands-on exercises, don't worry!
+
+We have step-by-step instructions and solutions along the way to ensure you are successful.
+
+If any other issue arises, you can contact our Academy support.
+
+----- Page 2 -----
+
+Connect and Extract
+Connect and Extract
+
+Starting from here, you'll work in your personal Training environment. Make sure to check or create your environment using the button in the introduction of this course if you haven't done so already.
+
+Let's start with these three steps to connect and extract:
+
+Create the OCPM Data Pool
+Connect to the Rossbauer expenses database
+Extract the data you need
+
+Know your way around Data Integration? Follow the quick steps to save time. For more details, follow the detailed steps on the next pages.
+
+Quick Steps (for advanced users)
+
+----- Page 3 -----
+
+Connect and Extract
+Create the OCPM Data Pool
+
+For OCPM, you need an OCPM Data Pool. This pool will store all the elements you need for your object-centric data modeling. To create it, simply go to Data Integration and create a new pool from scratch and name it "OCPM Data Pool."
+
+Then click on "Objects and Events" in the new pool to activate its connection to the objects and events user interface. And that is it! Your OCPM Data Pool is ready.
+
+Note: If you cannot see "Objects and Events", make sure to click on the button in the intro of this course to activate this feature.
+
+Throughout this course, to go to your OCPM Data Pool, either navigate to Data Integration or click on the OCPM Data Pool button in Objects and Events:
+
+On Versioning and Deployment
+
+Deployment replicates what you model in the Objects and Events interface to your connected OCPM Data Pool. By default, all your work is saved as a draft.
+
+Once your changes are ready, you can test your changes in draft mode which quickly runs your data pipeline in development. If the changes are ok, you can create a version to then officially deploy it to development or production. Any deployment requires a version. With versions you can easily track changes and revert to previous versions if necessary.
+
+Deploying to development updates the data job "test:ocpm-data-job" in the OCPM Data Pool. It adds and updates all of your object and event transformations, and your perspectives. More on this later.
+
+Deploying to production updates both the "ocpm-data-job" and also the production version of Object and Events user interface.
+
+In this course, we'll deploy to development. Once you have gone through all the steps and checked your data, we encourage you to test and master the versioning feature and practice deploying to production.
+
+Next up, let's connect to a database.
+
+----- Page 4 -----
+
+Connect and Extract
+Connect to the Database
+
+In this step, you want to connect to your data source, a database. Without this connection, you cannot bring data into the Celonis Platform, and the objects and events you model later on will remain simple placeholders. Need more context on connections? Check out the Connect to Systems course.
+
+Follow the steps below in your environment to connect.
+
+Navigate to Data → Data Integration. Look for and select your OCPM Data Pool.
+
+Alternatively, you can click on the top left button if you are in Objects and Events user interface.
+
+Click on Connect to Data Source (or Data Connections → +Add Data Connection if you already have connections in place).
+
+Select Connect to Data Source → Cloud Database. Select the Cloud Database connector (not the On-Premise Database connector).
+
+Input the following data to connect to the database:
+
+FIELD	VALUE
+Name	Expenses Database
+Type	MySQL
+Host	academymysql.cluster-ro-ckynnbglhixw.eu-central-1.rds.amazonaws.com
+Port	3306
+Database Name	ocpm_expenses
+Username	ocpm_expenses
+Password	Celonis1234!
+
+Now if you click Test Connection and get a successful connection, click Save.
+
+Let's move on to creating the extraction.
+
+----- Page 5 -----
+
+Connect and Extract
+Extract Data
+Is a review necessary?
+
+Suppose the steps below are unfamiliar to you, or you find the concepts of Data Pools, Data Jobs, and extractions confusing. In that case, we recommend you consider going through the first half of the Get Data into Celonis training track to solidify your knowledge. If not, please proceed!
+
+Time to Extract
+
+You should now have your Data Pool and your connection. To extract data, go back to the data flow diagram, click Create Data Job (or Data Jobs → Add Data Job if you already have a Data Job in place).
+
+Name your Data Job and select your Expenses Database as the connection:
+
+Next, you'll select your Data Job and click Add Extraction
+
+Next, do the following:
+
+Select the visual editor, name the extraction and save it,
+click Add Tables / Add Extraction (the button depends of your product version) and add all tables you see in the popup,
+click save,
+click the back arrow.
+
+You can safely ignore the delta extraction warnings if you see any.
+
+Lastly, run your extraction by clicking Execute Data Job, Full Load, and Execute Selection. The extraction should take less than 5 minutes.
+
+Summary
+
+If all went well, you now have the following:
+
+a Data Pool
+a connection to your data source
+a Data Job that runs an extraction for all the tables you need
+the extracted data in your Data Pool.
+
+OCPM works with any data source
+
+If you are wondering, OCPM works with any data source supported today by Celonis. So instead of a database, you could connect with other system extractors or upload files, for example.
+
+If everything is clear, then move on to start modeling!
+
+########################################################################
+  LESSON 4 : Create Objects
+########################################################################
+
+----- Page 1 -----
+
+Create Objects
+Create Objects
+
+In this step, you'll model your objects and their relationships, and then populate the objects with data using transformations.
+
+You have two options when working with objects, you can:
+
+Manually create the objects, relationships, and transformations.
+Import your objects from tables
+
+As you can probably guess, importing is much faster, so we will opt with this option in this course.
+
+The Power of Import Objects from Tables
+
+Before jumping into the action, here is a small word on the import of objects.
+
+Each object has...
+
+a name
+attributes (including an Primary Key / ID)
+relationships
+transformation scripts
+
+By importing from your source system tables, you can quickly create your objects with their name, attributes, relationships, and transformations. That said, some exceptions apply which you will see later on.
+
+To put it simply, the goal of your work with objects is to create their shell (name and attributes), identify how they relate to each other (relationships), and fill the object shells and relationships with data (transformations).
+
+Watch a this quick video to see how the import works. Note a few things changed in the UI since recording but we have precise instructions for you on the next page when it's your turn to try!
+
+----- Page 2 -----
+
+Create Objects
+Import Objects from Tables
+
+Now it's your turn. If you're feeling adventurous, try it on your own based on the objects and relationships below. Otherwise, follow the step by step instructions.
+
+The objects:
+
+Report (expense report)
+Expense (expense line)
+Category
+User
+
+The relationships:
+
+SOURCE OBJECT	TARGET OBJECT	RELATIONSHIP NAME	CARDINALITY
+Expense	Report	default	N:1
+Category	default	N:1
+Report	User	default	N:1
+Step-by-Step Instructions
+Go to Objects and Events, select Objects, click on Create and Import from table.
+Select your expenses database connection, and then the category, expense, report, and user tables. Click import. 
+For each table, select the right Primary Key (e.g., Report ID for the Report object, Expense ID for the Expense object, and so on.). The primary key is then automatically set as your object's ID. Note that you could concatenate or compose a primary key using multiple columns here if needed. Setting the primary key also defines what foreign key will be needed for relationships to your object later on.  
+Click Next and add the following relationships. Here you should see that the foreign keys set correspond to the primary keys you defined on the first screen.
+SOURCE OBJECT	TARGET OBJECT	RELATIONSHIP NAME	CARDINALITY	FOREIGN KEY
+Expense	Report	default	N:1	Report ID
+Category	default	N:1	Category ID
+Report	User	default	N:1	User ID
+
+Note that you can in theory link to the same object more than once but need to rename the relationships to avoid duplicate relationship names, e.g. if you added an approver, the relationship names could be as follows :
+
+Click Next and your summary should look something like this: 
+Click Create and there you go! You've just imported four objects. After the import you can click Check transformations which takes you to the overview of your object transformation. 
+Your transformation overview should look like this when you are done. 
+
+All of them should have passed validation and be enabled.
+
+In some cases, there may be an issue with your transformation in which case you may have to go into it, check it, and "Save with Validation". The purpose of validation is to ensure you've checked and filled out any extra attributes before the transformations are enabled and picked up by publishing. It also checks that the SQL script conforms to ANSI SQL. 
+One important note → if you defined a primary key, the transformation line for your ID will not appear. You can see the ID and primary key distinction when previewing an object transformation. 
+
+Before finalizing the object transformations, let's deepen your knowledge of relationships and transformations.
+
+----- Page 3 -----
+
+Create Objects
+A Deeper Look at Objects
+
+Now that you've created your objects with the import, let's take a closer look at the building blocks of objects:
+
+Attributes
+Relationships
+Transformations
+1
+Attributes
+
+If you modeled your objects from scratch, you would enter all data manually - always use the import if you can! That said, let's look at the manual options briefly.
+
+Here are a few cues on how to work with the popup when you create a custom object type:
+
+Name your custom object type. We suggest using the singular form. Optional color and description.
+Optional process and metadata tags to easily filter your object later on.
+Setting of the primary as a single field or a composite key made of multiple fields.
+Adding of new attributes to your custom object.
+Celonis allows the following data types:
+Boolean for TRUE or FALSE values
+DateTime to store Datetime information such as dates or timestamps
+String to store alphanumeric information
+Long Integer to store integer values
+Floating Point to store floating-point values with up to 15 decimal places
+
+You can always come back to edit any part of your object after creation.
+
+2
+Relationships
+
+The most important aspect of relationships is how they affect your transformations.
+
+Handling N:1 relationships
+
+When dealing with N:1 relationships, a column that stores the relevant foreign key will be part of your object attributes and entered in your attributes transformations. This column is on the N side of the relationship. For example, for the object Report, imagine there are two N:1 relationships to the user object.
+
+These relationships would be mapped in our attributes script. From a table perspective, you can think of them as foreign keys. The name you define for the relationship (see above) is the name of the attribute.
+
+In short, for N:1 relationships, a foreign key is added as an attribute to the object on the N side.
+
+With or Without Primary Keys
+
+If your target object has a primary key defined, then your defined relationship does not need to be mapped in the transformation. The 'N side' object automatically takes the foreign key (or attribute) and maps it to your target object's (1 side) primary key in the background. Since you defined primary keys at import, this is what your transformation will look like:
+
+Celonis draws on the attributes you have on the object and automatically populates the foreign keys. Here the naming convention is 'relationship name' + 'ID'.
+
+In other words, for all your objects, we strongly recommend you always define primary keys. This heavily reduces your manual scripting work in transformations.
+
+Handling N:M relationships
+
+No matter which object is owning an N:M relationship, an extra join table needs to be created to map the relationship. The system will prompt you to create this table in transformations by showing you an extra Relationships folder with the name of your relevant relationship. As an experiment, you can add an N:M relationship from Report to Expense, with Report as the owner / implementer of the relationship:
+
+In this case, it creates a dedicated folder based on the name of the "m:n" relationship:
+
+Here is a visual of scenarios when you don't need relationships scripts:
+
+If your relationship is N:M then you need a relationship script that creates a join or mapping table at the database level:
+
+In our use case, there are no relationships scripts needed since all relationships are m:1 and could be covered by the import.
+
+3
+Transformations
+
+As events typically pull data from objects, it's essential you start with populating your objects first. For the most part, this is done at import with a few exceptions. There are three types of object transformation scripts:
+
+Object attributes: These are covered mostly by your import from tables. You can always adjust the IDs and map custom attributes you may have added.
+Object changes: These are fully optional and not encouraged. These scripts can serve as a staging table for change events. More on this on the next pages. There is a better option for change events.
+Object relationships: As you saw above, this is necessary if you have N:M relationships. You need to add both the N:M relationships and their scripts after import.
+
+You'll find transformations here:
+
+The transformation editor separates the scripts using folders and gives you a variety of options:
+
+The folder area to separate attribute, change and relationship scripts.
+The data source area to change your data source, preview your tables, and insert tables and fields. This is the default data source (data connection) for your transformation. 
+Parameters to help you quickly change recurring values in your script. These can be local parameters, global parameters, or data connection parameters if multiple data sources are needed.
+Under transformation actions you can save a transformation as a template for easy re-use. Save with validation means you save and check that your SQL syntax conforms to CeloSQL standards. Once validated, a transformation is enabled and ready for use in your OCPM Data Pool after publishing. You can save transformations as draft as well.
+The SQL script. Each script will come with a commented out suggestion if not auto-generated via the import.
+Edit your attributes quickly and preview your script's results.
+
+Here are three other aspects to keep in mind when working with transformations:
+
+Unique IDs
+Quotation Marks
+ANSI SQL
+
+For the ID or primary key of each object, a convention you can follow is to concatenate the object's name with the fields for the ID. If more than one field is used, we speak of 'composite keys':
+
+{field name} || '::' || {field name} as ID
+
+Use double colons (::) to separate different parts of your ID.
+|| is the syntax for concatenation (combining).
+
+If you define primary keys directly at creation, then there is no need for you to script for the ID in transformations. More information on primary keys and composite keys in our documentation.
+
+This approach ensures you have unique IDs across objects and events. For example, if a user object and an expense object both have the same ID and are both used to create event instances, then metrics that rely on these IDs (such as an event count) could potentially be inaccurate.
+
+In a nutshell, unique primary keys / IDs are essential for you to have accurate data later on in the Studio.
+
+Thankfully, our sample data already has the object names in the ID:
+
+Next, let's look at the purpose of object change scripts.
+
+----- Page 4 -----
+
+Create Objects
+Populate Object Changes
+
+Since the release of "Import events from tables", we no longer recommend you use object change scripts. There is no to-do for you here.
+
+You can create change scripts if you have identified any audit or change logs in a source system.
+
+What are change scripts?
+
+Change scripts capture modifications and updates to your objects.
+
+For example, if you create sales order A1, the information you capture is the sales order in its most recent form. That said, sales order A1 may previously have gone through informationally relevant changes. For example, a sales order has a status of shipping now, but before, it was pending. To track this change, you capture the following data points:
+
+the identifier of sales order A1
+the affected field: status
+the from and to values: from pending to shipping
+What are change scripts for?
+
+With the change information on objects, we can create change events.
+
+Using a fixed schema
+
+Please be aware that change types have a fixed schema. This means the fields you match with your data are pre-defined, and you cannot change them.
+
+Let's take Expense, for example.
+
+1. If you select the Expense object in your environment, and click on the existing transformation.
+
+2. You can ddd a change script with a name of your choice.
+
+3. You should see a placeholder script at the top and the list of unmatched attributes at the bottom. This is what we mean by a fixed schema. All change scripts have this set of columns to fill.
+
+4. As with attributes scripts, the goal is to match your source data to the target schema using a SELECT statement. You can use the ExpensesChanges table for this. Remember that you can use NULL if some attributes are missing. Here is an example of what it could look like:
+
+
+In this case, the amount changed from 754 to 500. We captured the time, the type of change, and the ID of the expense line changed.
+
+Note: No need to do this in your environment. A more scalable approach is to use the 'import event from table' function directly with your source data change tables. (More on this later). 
+
+
+For now, let's move on to your first test of our creations!
+
+----- Page 5 -----
+
+Create Objects
+Test Changes
+
+Once you finish these importing your objects, click the 'Test changes' button and then 'Deploy'.
+
+Reminder: Test changes pushes your transformations to the OCPM Data Pool in the "test:ocpm-data-job" data job and runs the data job.
+
+From here you can click 'Show logs' to jump straight to the data job logs and ensure all is ok.
+
+If you now go to your OCPM Data Pool and data jobs, you should see new transformations for each of your objects in your test:ocpm-data-job:
+
+Once you "test changes" or deploy to develop, transformations are added that cover:
+
+CREATE statements to create your objects and their attributes
+SELECT scripts from your transformations, extended automatically with INSERT statements and other scripting best practices.
+
+The idea is to save you scripting effort.
+
+Running these transformations through 'Test changes' creates instances of your objects, their changes, and their relationships. The generated information serves as the basis for your event transformations.
+
+Understanding Versioning and Deployment
+
+Here is the full lowdown on how versioning and deployments work in objects and events and in Studio:
+
+Next, let's get to work on events!
+
+----- Page 6 -----
+
+Create Objects
+What is happening in the database?
+
+The object and event types you create are stored in the Celonis Data Storage, a database.
+
+Seeing different numbers in your environment? Not to worry, this screenshot is just to show you the Data Storage. If you have not enabled any processes, you should only see your custom objects and events.
+
+While Celonis strives to minimize your interaction with the database, it's valuable for you to have basic knowledge of the tables that store the objects and events.
+
+The Naming Convention
+
+We follow a consistent naming convention to organize the type tables in your object-centric data model. Let's have a look.
+
+Go to your OCPM Data Pool in Data Integration, and create a global data job along with a transformation. Make sure to disable it (three dots → disable), as the transformation is simply for you to check tables in the database.
+
+If you open the transformation, reload the schemas, and switch the schema to OCPM Schema, you should see the naming convention on your objects. Below is a sample of enabled processes:
+
+All objects that contain _celonis_ are part of the default Celonis objects and events. To look for your custom types (objects, events, relationships, etc.), you can filter for _custom_ in the search bar. In your case, you should only have custom objects at this point in time.
+
+Custom objects and events you create will contain _custom_ in the name.
+
+The tables follow a general format of *_*_*****, where:
+
+The first letter (*) represents the type of the table:
+'o' for Objects
+'c' for Changes
+'e' for Events
+'r' for Relationships
+
+The second part (***) refers to the table's namespace:
+
+celonis for all pre-existing types
+custom for types you create
+
+The last part (*****) is the name of your entity
+
+e.g., Expenses or Report
+
+As for the "t" in front of many tables, this just indicates it belongs to the development environment (data job).
+
+But there is a little more to it than that. Let's look at all the custom tables (these are not yet all visible in your environment):
+
+Here is a brief explanation for each group of tables you see.
+
+"c_o" for change on the object. A change table is automatically created for every object to capture changes with your source data.
+"e" for event. e_custom_ApproveReport is the table to capture Approve Report events.
+"o" for object. o_custom_Category is the table that stores the Category object.
+"r_e" or "r_o" are extra tables to capture one-to-many relationships either for event-to-object ("r_e") or for object-to-object ("r_o"). In other words, these tables are created when you select "has many" as the cardinality.
+
+During our modeling, there was only one "has many" object-to-object relationships, but it was "mapped by" a "has one" relationship, so no extra was created.
+
+But for event-to-object relationships, "has many" applies to most cases for the Expense object.
+
+For example, the event ApproveReport has a one-to-many relationship to Expense, so the r_e_custom_ApproveReport_Expense table is created.
+
+As you may have noticed, only the types with transformations are created. For now, it's only objects. Let's move on to events to also make them appear!
+
+########################################################################
+  LESSON 5 : Create Events
+########################################################################
+
+----- Page 1 -----
+
+Create Events
+Create Events
+
+What you need to know:
+
+The events to model:
+
+Create Report
+Change Report
+Send to Approver
+Send Back to Creator for Correction
+Approve Report
+Reject Report
+Change Expense Amount
+
+Each event has
+
+a name
+attributes
+relationships to objects
+
+The steps to create events are almost identical to the creation of objects. You'll use the 'Import events from table' feature. Check out this video to grasp the basics and on the next page, it's your turn!
+
+----- Page 2 -----
+
+Create Events
+Import Events from Tables
+
+Time to import events. In our case, since the 'Change Report' event incorporates four separate events based its attributes, you can simply create the three bolded events here:
+
+Create Report
+Change Report
+Send to Approver
+Send Back to Creator for Correction
+Approve Report
+Reject Report
+Change Expense Amount
+
+Below are the first creation steps for each event. You'll notice that we'll skip relationships in our import so you experience a bit of the manual creation path as well.
+
+1. Create Report
+Navigate to Events and click 'Create' at the top of the screen and then 'Import from table'. 
+Select the 'report' table from your expenses database and the 'Events from columns' category. Check 'Report Date' as your event type and click 'Next'. 
+Rename the event to 'CreateReport' and check the Report ID and Creator ID as attributes to keep. You will need these for primary and foreign keys. 
+Skip relationships for now 
+Confirm your creation and go back to your event types overview.
+2. Change Report
+Import an event from a table, this time selecting the 'reportchanges' table and the third option 'from rows with old and new value columns'. 
+Rename the event to 'ChangeReport', match the recommended attributes and check the extra columns. 
+Skip relationships and confirm your creation, and go back to the event overview.
+3. Change Expense Amount
+Import another event from the 'expenseschange' table, selecting the third table type again.
+Rename your event to 'ChangeExpenseAmount' and match the attributes where possible, (changedBy is missing in this case), and check the extra attributes. 
+Skip relationships and create. Go back to the events overview.
+Adding Relationships
+
+While you can technically do everything at import. Let's do some 'post-import' tweaks so you are familiar with the manual options.
+
+You should now have three created events.
+
+Each event involves or affects certain objects. For example:
+
+Both the 'Create Report' and 'Change Report' events touch one Report and one or more Expenses.
+And the 'Change Expense Amount' affects one Expense line.
+
+In a manual fashion, you can create event to object relationships either from the objects side or the events side.
+
+From the object side you ask yourself "which events is this object related to?":
+
+From the event side you ask "which objects are affected by this event?":
+
+Wherever you create the relationships, the result is the same. For now let's do it from the event side.
+
+EVENT(S)	OBJECT	RELATIONSHIP TYPE
+ChangeExpenseAmount	Expense	Involves one
+ChangeReport / CreateReport	Expense	Involves many
+ChangeReport / CreateReport	Report	Involves one
+Ownership - Important Note*
+
+Events exclusively own the object relationships. This design choice ensures the independence of objects from events and maintains a clear execution order within the data pipeline.
+
+Relationship Name
+
+The name you enter in the relationship name field determines the name of your foreign key attribute for "involves one" relationships and the name of the relationships folder if it's an "involves many" relationship. For example (do not replicate):
+
+Here is an example of the first relationship in the table above:
+
+Adjusting Primary Keys
+
+An additional aspect not done at import are primary keys. Currently, this option is missing from the import, so let's do it manually.
+
+Defining primary keys saves you work in transformations as Celonis automatic adds them in. Your keys can be a single column or composite keys, i.e. multiple columns.
+
+For the two change events, select the 'change number' as the primary key. Do so by clicking the key icon and entering the attribute:
+
+For the CreateReport event, There is no obvious primary key so let's make a composite key out of report ID and creator ID.
+
+Additional Information
+
+Events with no object relationships
+
+Every event you create should be linked to at least one object in your model. Otherwise, you won't be able to include them in your data model.
+
+Looking at event relations
+
+The circles and numbers next to event relations represent how many objects an event touches:
+
+Quick edits with duplicate / rename / delete options
+
+If ever you need to create similar event fast, you can use the duplicate event function to replicate the event, its attributes, relationships, and transformations.
+
+Let's move on to adjusting the event transformation scripts.
+
+----- Page 3 -----
+
+Create Events
+Validate Event Attribute Transformations
+
+With your events imported and the 'skeleton' information ready (attributes, relationships, primary keys) where possible, it's time for you to finalize the event transformations.
+
+Jump to the 'Change Expense Amount' transformation and click on preview.  
+Notice the commented line for ID in the script? Had you not defined a primary key, you would have had to manually enter it. Perform a small edit in the comment of the editor to activate the 'Save with Validation' button and click the button. 
+Next up is ChangeReport. Since we also defined a primary key here, you can do a minor edit again and save with validation.
+Now for CreateReport, let's do the same and save with validation.
+When done with all three events, click 'Test Changes' at the top to run your data pipeline and ensure everything is ok.
+
+----- Page 4 -----
+
+Create Events
+Finalize Event Relationships
+Join Tables for M:N relationships
+
+In the attribute scripts, you already touched on the "involves one" relationships by mapping extra foreign key attributes.
+
+As for "involves many" event to objects relationships, they are similar to M:N object relationships. They requires an extra join table created using an extra script.
+
+Have a look at the CreateReport event. There is one "involves one" relationships and one "involves many" relationship.
+
+This means we need a relationship script only for the "Report involves many Expense(s)" relationship. As stated above, for events, all "involves many" relationships lead to join tables which you map with relationship scripts.
+
+Your relationship script will create an extra table in the database to map every event instance to every related expense line. A sample table would look like this:
+
+CREATE REPORT EVENT ID	EXPENSE ID
+1	1
+1	2
+1	3
+2	4
+2	5
+
+Make sense? Let's get to it!
+
+Go to the CreateReport's transformation tab and click on your existing transformation: 
+
+Create a new script for relationships under the Expense folder. This appears by default because there is a "involves many" relationship to this object.
+
+The scripting approach is the same as with attributes. You indicate where to grab the data for the displayed columns in the preview area. You will need the e_custom_CreateReport table for the event ID (our composite key out of reportid and creatorid) and the o_custom_Expense table for the expenses ID.
+
+Use a LEFT JOIN to prioritize the event table and to allow for NULL values if some events do not affect expense lines. This could happen, for example, if a report is created without any expenses.
+
+Here is the script:
+
+SELECT
+    "report"."Report ID" AS "ReportId",
+    "report"."Creator ID" AS "CreatorId",
+    "expense"."Expense ID" AS "Expense_ExpenseId"
+FROM "report"
+LEFT JOIN "expense" 
+ON "report"."Report ID" = "expense"."Report ID"
+Save with validation and go back to events. 
+Repeat the steps for the ChangeReport event and save with validation. Here is the script you need:
+SELECT
+    "reportchanges"."ChangeNumber" AS "ChangeNumber",
+    "expense"."Expense ID" AS "Expense_ExpenseId"
+FROM "reportchanges"
+    LEFT JOIN "expense"
+    ON "reportchanges"."Report ID" = "expense"."Report ID"
+
+Once done with adding transformations, click Test changes to push your work to the Data Pool and run the data job.
+
+You are now done your objects and events. It's time to create perspectives and event logs!
+
+########################################################################
+  LESSON 6 : Create Perspectives
+########################################################################
+
+----- Page 1 -----
+
+Create Perspectives
+Create Perspectives
+
+As mentioned earlier, the final goal of modeling objects and events is to build and load data models for analysis and action. In our OCPM workflow, this means:
+
+Create perspectives
+Test or officially deploy
+Load your data models
+
+Before we jump into it, let's briefly clarify the term data model.
+
+What's a data model?
+
+In Celonis, the data model is the basis for any work in the Studio. It's the organized data you use to do anything in other Celonis Services.
+
+When working in the Studio, setting the data model variable is also your first step before creating assets:
+
+Case-Centric vs. Object-Centric Approach
+
+In the case-centric approach, we define data tables, link them and then load them into a data model.
+
+In the object-centric approach, we define objects, events, and their relationships. We then choose which objects to include in a perspective. Each defined perspective becomes a data model we can load and use.
+
+Since many assets in the Studio require event logs, perspectives automatically create event logs for you based on the included objects. Each of these "auto-created" event logs is based on an object and only includes the events to which the object has a direct relationship.
+
+Makes sense? Let's see it in action.
+
+----- Page 2 -----
+
+Create Perspectives
+Create Custom Perspectives and Event Logs
+A Bit of Explaining on Linking Objects
+
+Creating perspectives is all about objects. You can link objects, ignore objects, or embed objects. Here is a an explanation each.
+
+Strategies at your disposal to link objects
+Your Turn to Create a Perspective
+
+Let's bring this to life with some hands-on practice in creating perspectives.
+
+You'll create a perspective that selects the objects you've created for the expense report use case. Selecting the relevant objects helps you focus your work in the Studio. Remember that your custom objects are only a tiny portion of the objects at your disposal if you consider all the objects in the out-of-the-box Celonis objects. Of course, you'll only see these Celonis objects if you enable processes in the catalog.
+
+You can access the editor by locating the Perspectives button in the left navigation pane.
+
+Now let's create a perspective for our custom process.
+
+Click "Create" and enter a name, e.g., ExpenseReport. 
+Select Expense from the displayed objects. As you add object types, the system automatically identifies and displays the adjacent objects on the graph. In this case, Report and Category.  
+To add connected objects, simply hover over and click the + symbol on the target object. This automatically "includes" the object with the default relationship between the objects.
+
+Add Category, Report, and User
+
+Since there is no cyclical relationship, you are done! Save your work.
+Now let's version and deploy and have a look at how event logs fit into the picture.
+
+----- Page 3 -----
+
+Create Perspectives
+Version and Deploy
+
+Historically, you can create event logs in your perspectives. This is changing and you should now create them in the Studio.
+
+Event logs for all objects are automatically created
+
+For each object in your perspective an event log is automatically created when you load your perspective as a data model. These event logs include all events directly connected (with relationships) to their respective lead object.
+
+On top of the automatically created event logs, you may want more customizations. Here are some reasons to do so:
+
+if you want to define a default event log to use in the Studio (e.g., in a Process Explorer). For custom processes, we recommend you define a default event log.
+if you want to create an event log that only includes certain events
+if you want to create an event log on a lead object and include events indirectly connected. E.g., You could add the "Change amount" event to the Report object. This is indirect as the "Change amount" event is only directly related to the Expense object.
+
+Generally, custom event logs help you test, refine, diagnose your use cases. Studio gives you a very malleable tool, the 'event log builder', to build any event log you may need.
+
+In our case, we'll skip the event log creation in perspective and deploy our work.
+
+Create Version and Deploy
+Click on 'create version' instead of 'test changes'. Version creation is prerequisite for deployment. Select all your changes, auto-generate a description and check the 'open deployment after creating the version' box.  
+On the deployment window, select your newly created version and development as the target. Once you've deployed successfully, you can jump to your data pool directly using the linked popup. There you simply need to run your data job to load your data model.  
+
+Next up, let's load your data model!
+
+########################################################################
+  LESSON 7 : Load and Create Event Logs
+########################################################################
+
+[No extractable text - likely an interactive quiz/exercise]
+
+########################################################################
+  LESSON 8 : Collaborating with Branches
+########################################################################
+
+----- Page 1 -----
+
+Collaborating with Branches
+Why Every Branch Deploys Its Own Artifacts
+
+This is the one place OCDM branching differs from Studio branching: deployment. Every branch — main and every feature branch — manages its own data connection, data jobs, schemas and perspectives in the same data pool, for both its Development and Production targets. The main reason is isolation. Branch-scoped artefacts let you change the data model — objects, attributes, perspectives, transformations — and then run, test and inspect the result without touching main's production artefacts.
+
+The naming convention makes the branch and version visible everywhere: a feature branch called feature-v1 produces artifacts like feature-v1_test (Development) and feature-v1 (Production), instead of the standard ocpm_data_job / OCPM Schema you've used so far on main.
+
+That means the number of artifacts in your data pool grows with the number of branches you keep around, and with how many perspectives each branch has.
+
+Plan for capacity: Branch deployments aren't free — every branch you deploy adds a full set of artifacts to the data pool. Treat feature branches as short-lived, merge them back into main once the work is ready, and delete branches you no longer need.
+
+----- Page 2 -----
+
+Collaborating with Branches
+The Branch Lifecycle at a Glance
+
+Here's the shape of a typical branch, end to end — no clicking required, just the flow:
+
+Create a branch from main and switch into it.
+Make changes — add, edit or remove objects, events, perspectives — exactly as you would on main. These changes are isolated from main and from any other branch.
+Create a version of your changes once they're ready to capture.
+Deploy the version to the branch's own Development or Production target.
+
+While your branch is in progress, someone else can keep shipping changes to main without blocking you. The Manage branch indicator tracks how far your branch has drifted from main in both directions — how many assets are "ahead" (changed in your branch, not yet in main) and how many are "behind" (changed in main, not yet in your branch).
+
+Continuing the flow:
+
+ 
+
+Pull from main periodically to bring the latest main changes into your branch.
+Merge into main once your work is ready, so it can be deployed to production through main's standard artifacts.
+
+Best practice: Pull from main at the start of each working session and again before merging. Frequent, small pulls are far easier to work through than one large one at the end.
+
+----- Page 3 -----
+
+Collaborating with Branches
+When Changes Collide: Resolving Conflicts
+
+A conflict happens when the same asset — an object, an attribute, a perspective, or a transformation — has been changed on both main and your branch since they last synced. Branching doesn't prevent this from happening; it just makes it visible and safe to resolve. When you pull from main or merge into main, the platform flags every conflicted asset in a side-by-side comparison.
+
+For each conflicted section, you choose Accept left to keep main's version, or Accept right to keep the branch's version — you can mix and match per section, so the result can combine the best of both sides.
+
+ 
+
+Once every conflict is resolved, you're clear to confirm the pull or merge.
+
+Reduce conflicts before they happen: Pull from main frequently, keep feature branches short-lived, and coordinate with teammates whenever two streams of work are likely to touch the same object, perspective or transformation.
+
+With that, you've seen how a team can build on Objects & Events in parallel — each person isolated in their own branch, artifacts kept separate until the work is ready, and a clear way to catch and resolve conflicts before they reach production.
+
+########################################################################
+  LESSON 9 : Summary
+########################################################################
+
+----- Page 1 -----
+
+Summary
+Comparing Case-Centric and Object-Centric Data Integration
+
+Congratulations on building your first object-centric data model. Let's take a step back and compare what you did with the case-centric approach to data modeling.
+
+The end goal of data modeling remains the same regardless of whether you use a case-centric or object-centric approach. It's all about producing a data model for analysis and action. Let's briefly compare the case-centric and object-centric approaches to data integration by looking at what happens during the Extract, Transform, and Load (ETL) phases:
+
+Extract - There is no difference here for now. Both approaches require a connection to systems and extraction of data.
+Transform - Whereas the case-centric approach requires you to create and populate your tables entirely with SQL, the object-centric approach eases the SQL burden on a few fronts:
+Modeling of objects and events is click-based and automates table creation.
+Populating (matching source data to objects and events) is simplified.
+It only requires simple SELECT statements.
+It is guided either through the import or with sample scripts in the editor.
+Final scripts are automated and remove SQL complexity (temp table creation and deletion, performance pitfalls, syntax issues, etc.)
+Load - The workload here is reduced in the object-centric approach.
+There is no need to link tables in the data model as relationships already exist.
+You can create new data models (perspectives) based on your existing objects and events.
+No need to rework transformations to create new event logs. The system handles this in Studio if you've defined the needed objects and events.
+
+The above points may not make sense without hands-on experience in both case-centric and object-centric data pipelines. If you're interested in the case-centric approach, make sure to complete the Get Data into Celonis Training Track.
+
+----- Page 2 -----
+
+Summary
+
+Here is a small list of frequently asked questions regarding object-centric process mining. Please share your feedback with us at the end of this course if you want to see other topics better addressed.
+
+Can I create more than one OCPM Data Pool?
+How can I delete objects and events?
+Do the Celonis objects and events work for systems other than SAP and Oracle?
+How can OCPM help with system transformation beyond what is done with case-centric process mining?
+How do permissions work with the Object and Events User Interface?
+Can I use more than one system in one transformation script?
+
+If you're jumping into an implementation and have specific questions, chances are you'll find answers in our troubleshooting tips in documentation.

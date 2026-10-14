@@ -1,0 +1,688 @@
+﻿========================================================================
+  CELONIS ACADEMY - INTRODUCTION TO ACTION FLOWS
+  Extracted: 2026-09-09 16:16  |  Personal study use only
+  Source: https://academy.celonis.com/learn/course/introduction-to-action-flows
+  Lessons: 10
+========================================================================
+
+########################################################################
+  LESSON 1 : Let's Roll [06:00]
+########################################################################
+
+----- Page 1 -----
+
+Welcome to Action Flows [22:00]
+Let's Roll [06:00]
+Start your Automation Motor
+
+Before we dive into the technical details, it’s time to prepare for action.
+
+A core part of this course is a hands-on building project. To master Action Flows, you won't just be reading about them; you will be constructing a functional flow that connects to live web services. You will learn to fetch real-time data (such as current weather or currency rates), process that information using AI and logic, and trigger a communication—closing the loop from start to finish.
+
+Access to Central Training Environment Required
+
+This course contains hands-on exercises that require access to this central Celonis training environment.
+
+Not sure if you have access? Click below and we'll either add you to the environment or show you how to access it. Please make sure to disable adblockers on this page if the button is not working for you.
+
+Add me or check my access
+
+
+
+
+Create Your Workspace
+
+We recommend navigating to Studio and creating a dedicated Space and Package specifically for this course. This will keep your training assets organized.
+
+No Knowledge Model Required
+
+Unlike many other assets in Studio, an Action Flow can technically live on its own to complete specific tasks. For this first project, you won't need to worry about complex data modeling—we'll focus entirely on the logic of the flow itself.
+
+----- Page 2 -----
+
+Welcome to Action Flows [22:00]
+Let's Roll [06:00]
+
+No topic content.
+
+########################################################################
+  LESSON 2 : The Role of Action Flows [07:00]
+########################################################################
+
+----- Page 1 -----
+
+Welcome to Action Flows [22:00]
+The Role of Action Flows [07:00]
+Defining Action Flows: The "What" of Automation
+
+Action Flows are the transactional engine of the Celonis Platform.
+
+
+
+
+Architecturally, Action Flows are a specialized iPaaS (Integration Platform as a Service) built directly into Celonis. They provide a secure, high-speed bridge between your process intelligence and your tech stack. By using a low-code interface, they remove the need for complex custom coding, allowing you to turn insights into system-level reality in seconds.
+
+Why "Transactional"?
+
+In the world of automation, "transactional" refers to discrete, short-burst units of work. Action Flows are built for precision and speed, handling tasks such as:
+
+Automatically updating specific records in an ERP.
+Sending a targeted alert to a team member based on a live condition.
+Triggering a bot to download a specific document.
+
+
+
+
+Three Ways to Close the Loop
+
+Action Flows aren't just for "autopilot" automation; they are flexible enough to support various business strategies. Depending on the complexity of the task, you will typically build one of three types of flows:
+
+Full Automation
+Human-in-the-Loop
+Intelligent Reporting
+
+The "Awareness" approach. The flow gathers data from multiple sources to create a specialized report, an email summary, or a Jira ticket to alert a team that action is required.
+
+Whether fully automated or guided, Action Flows are often the hidden logic powering the "Action buttons" your business users interact with in their daily Celonis Views.
+
+----- Page 2 -----
+
+Welcome to Action Flows [22:00]
+The Role of Action Flows [07:00]
+Action Flows vs. Process Orchestrations
+
+As you explore the Celonis Platform, you will encounter two primary ways to drive action: Action Flows and the Orchestration Engine (referred to in Studio as a Process Orchestration asset). While they often work together, they serve different purposes.
+
+The easiest way to understand the difference is through the analogy of an Orchestra 🎷:
+
+CATEGORY	ACTION FLOW	PROCESS ORCHESTRATION
+Analogy	
+
+The Musician
+
+Think of an Action Flow as a specialized musician. A violinist is an expert at one specific task: playing the violin. They are fast, precise, and transactional.
+
+	
+
+The Conductor
+
+The Orchestration Engine (or Process Orchestration asset in Studio) is the Conductor. The Conductor doesn’t play an instrument; instead, they manage the entire performance. They know which musician should play and when.
+
+
+State	
+
+Stateless
+
+When the song ends, the musician doesn't need to "remember" the notes to perform the next task.
+
+	
+
+Stateful
+
+The Conductor must remember the "state" of the entire symphony—where we are in the music and what happens next.
+
+
+Focus	
+
+Action Flows are built for Task Automation. They execute a specific system update or notification in seconds and then finish their job.
+
+	
+
+The Orchestration Engine is built, as the name implies, for Process Orchestration. It manages long-running processes that span days or weeks, coordinating multiple Action Flows and human tasks over time.
+
+While it is important to understand how these two engines complement each other, this course focuses exclusively on Action Flows. If you are completing this as part of the "Build Action Flows" training track, you will find a deeper dive into the relationship between these assets in a later asset.
+
+If you're eager to learn all the details about the "Conductor", you can explore the "Orchestration Engine Fundamentals" course in the Academy at any time.
+
+----- Page 3 -----
+
+Welcome to Action Flows [22:00]
+The Role of Action Flows [07:00]
+Technical Capabilities and Connectivity
+
+Now that you understand what an Action Flow is and how it differs from Process Orchestration, it’s time to look under the hood. Action Flows are built for the modern enterprise, providing high-speed integration across your entire digital ecosystem.
+
+Global Connectivity
+
+Action Flows aren't limited to the Celonis platform; they are your bridge to the rest of the world.
+
+1,000+ System Connectors
+
+Native, "plug-and-play" support for cloud and on-prem giants like SAP, Oracle, and Salesforce.
+
+Universal HTTP
+
+If it has an API, you can connect to it. Use standard calls to trigger custom scripts in ML Workbench or any external web service.
+
+On-Prem Agent
+
+Security is paramount. The On-Prem agent creates a secure "tunnel" to private networks, allowing you to reach systems behind corporate firewalls without compromising safety.
+
+Enterprise Intelligence
+
+A connection is only as good as the logic behind it. Action Flows process data with professional-grade intelligence.
+
+Celonis Native
+
+This isn't just an "add-on." Action Flows can query Data Models, interact with Knowledge Models, or write back to Data Pools in real-time.
+
+Native GenAI
+
+Stop building isolated bots. Embed intelligent reasoning, categorization, and summarization directly into any process step.
+
+IT Governance
+
+Built for scale. Full SSO support, professional-grade monitoring, and comprehensive audit logs ensure every execution is accounted for.
+
+
+
+
+Technical specs like 1,000+ connectors and GenAI logic are impressive on paper, but they exist for one reason: to solve complex business friction. Let’s move from the how to the where and explore how this connectivity creates measurable value in real-life enterprise scenarios.
+
+----- Page 4 -----
+
+Welcome to Action Flows [22:00]
+The Role of Action Flows [07:00]
+
+No topic content.
+
+########################################################################
+  LESSON 3 : Action Flows in Practice [09:00]
+########################################################################
+
+----- Page 1 -----
+
+Welcome to Action Flows [22:00]
+Action Flows in Practice [09:00]
+Automation and Integration
+
+Beyond simple alerts, Action Flows serve as a professional-grade Integration Platform (iPaaS). In this role, they act as the connective tissue between disparate software systems, ensuring that data moves seamlessly across your entire organization.
+
+The Value: Data Integrity and Accuracy
+
+When systems are disconnected, humans are often forced into manual data reconciliation—the tedious task of moving information between windows and systems by hand. This is not only slow but introduces a significant risk of human error. By automating these integrations, you ensure that every system has the same "single source of truth," keeping your process digital twin perfectly in sync.
+
+Key Examples:
+
+System-to-System Synchronization
+Hybrid Connectivity (The On-Prem Agent)
+Sustainability & ESG Enrichment
+
+Pro Tip: Universal Connectivity
+
+While there are thousands of pre-made modules for major platforms, you can connect to any modern software using the HTTP module. If a system has an available API, Action Flows can communicate with it.
+
+Synchronizing systems ensures your data is accurate across the board, but the real magic happens when you apply Process Intelligence to those systems. On the next page, we’ll see how Action Flows move beyond simple data movement to solve high-impact, process-specific challenges like credit blocks and duplicate payments.
+
+----- Page 2 -----
+
+Welcome to Action Flows [22:00]
+Action Flows in Practice [09:00]
+
+No topic content.
+
+########################################################################
+  LESSON 4 : Navigation [09:00]
+########################################################################
+
+----- Page 1 -----
+
+Build your First Action Flow [27:00]
+Navigation [09:00]
+Use Case Introduction
+
+Before we open Celonis Studio and create our first Action Flow, let’s define exactly what you are going to build. For your first Action Flow, we will keep it simple and focused on the core "Trigger and Action" logic.
+
+The Scenario: Your AI Sports Consultant
+
+Throughout this chapter, we will build a single, cohesive Action Flow from scratch. To make this practical, we are going to solve a common dilemma: "Should I exercise outside today?"
+
+The Mission
+
+You are building an AI Sports Consultant. This automation will, in a first step, look up the weather in a dedicated location specified by you. It won't stop there, though; it will analyze the data and give you a personalized recommendation on which sport to pursue based on your own preferences and the current conditions in your city.
+
+How it works
+
+We will build this in four logical stages:
+
+The Trigger: You provide the name of the city you are in.
+The Data: The flow fetches live weather data (e.g., temperature, rain, etc.) for that city.
+The Intelligence: An AI module will process that weather data alongside your personal sports preferences to "think" of the best recommendation.
+The Action: The Action Flow sends you a notification with the final verdict.
+Why this Use Case?
+
+This scenario covers the three pillars of every professional Action Flow: Data Integration, Logic/Reasoning, and Automated Action. Mastering these here will allow you to build much more complex business automations—like AI-driven credit checks or automated procurement agents—later in your career.
+
+----- Page 2 -----
+
+Build your First Action Flow [27:00]
+Navigation [09:00]
+Studio Navigation and Asset Creation
+
+In the Celonis platform, Action Flows are managed within Studio as part of a Package. Think of a Package as a container that holds all the different assets—like Views, Knowledge Models, and Action Flows—needed for a specific project.
+
+Locating your Workspace
+Open Studio: From the Celonis navigation bar, select Studio.
+Enter your Package: You will typically work within a dedicated space for your team or project. If you haven't yet created a dedicated package for this course, please go ahead and do so.
+Create the Asset: To start your weather project, click the + Create Asset button and select Action Flow as the asset to create.
+
+Give the new Action Flow a name of your choice (e.g., My first Weather Flow).
+
+Keep the key as is. The only time when you'll have to touch a key is if you're trying to create an Action Flow (or any other asset in Studio) with the same name as an asset that already exists or has existed.
+
+A description - even though technically optional - should always be provided, especially when multiple people are working in the same package and on the same Action Flows.
+
+Keep the default settings of both the Execution type (Automatic) and the Number of consecutive errors (3). We will touch on what these settings mean later in your learning journey.
+
+Celonis will now generate a new, blank canvas where your Action Flow will live.
+
+----- Page 3 -----
+
+Build your First Action Flow [27:00]
+Navigation [09:00]
+The Action Flow Editor
+
+Now that you have created your asset, you are inside the Action Flow Editor. This is your primary workspace for the rest of this chapter. Watch the video below for an overview of the Action Flow Editor:
+
+Transcript
+
+You've just seen a sneak preview of what you will start to build yourself now: We'll add the Weather module we've just seen in the video to our own Action Flows. Let's go!
+
+----- Page 4 -----
+
+Build your First Action Flow [27:00]
+Navigation [09:00]
+
+No topic content.
+
+########################################################################
+  LESSON 5 : Add and Run the Weather Module [04:00]
+########################################################################
+
+----- Page 1 -----
+
+Build your First Action Flow [27:00]
+Add and Run the Weather Module [04:00]
+Add and Configure "Get current weather"
+
+Now that you are familiar with the interface, it’s time to add your first module. In Action Flows, every automation begins with a module that either starts the process or performs a specific task.
+
+Adding the Module
+Open the Module Library: In your blank Action Flow, click the center "plus" bubble.
+Search for Weather: Type "Weather" into the search bar.
+Select the Action: From the list of available options, select "Get current weather". This module is designed to fetch real-time meteorological data for any location you specify.
+Configuring the Location
+
+Once the module appears on your canvas, the configuration panel will open automatically. For this first version of your flow, we will provide a static location:
+
+Enter location by: Let's stick to the default "cities" for now, but feel free to explore other options available.
+City Field: Click into the "City" or "Location" field and type a city of your choice (e.g., "Munich" or "Edinburgh").
+Save the module configuration.
+
+
+
+
+Hit also the Save button in the top menu bar to ensure your configuration is saved in its entirety. Your first module is now ready to be tested.
+
+----- Page 2 -----
+
+Build your First Action Flow [27:00]
+Add and Run the Weather Module [04:00]
+Run the Weather Module once
+
+With your location configured and saved, it’s time to see the Action Flow in motion. Running the flow manually is the best way to verify that your connection to the weather service is working and that the data being returned is what you expect.
+
+Executing the Flow
+
+To trigger your flow, click the Run once button located in the top-left corner of the editor.
+
+ 
+
+Because this is a simple, single-module flow, the execution will happen almost instantaneously. You will know it was successful when a green checkmark appears below the module.
+
+Inspecting the Output
+
+The most important part of running a flow is seeing the data "payload" that was fetched.
+
+Open the Inspector: Look for the small white bubble (the "execution inspector") that appears above the top-right of the Weather module after it runs. Click it to open the log of that specific run. Note that for a single-module run, it will already have opened automatically once you hit the Run button. [cite: 414, 415, 416]
+Check the Data: You will see two sections: Input (the city you typed in) and Output (the current weather conditions in that city). Click on Output to see the real-time data retrieved, such as:
+Temperature
+Weather description (e.g., "Clear sky" or "Rain")
+Humidity and wind speed
+
+This "Output" is what Celonis calls a Bundle. In the next steps, you will use the information found in this bundle to send a personalized notification.
+
+The Path to Professional Automation
+
+Running the module with a fixed city name was a great "smoke test" to prove whether the connection works. But in a real business environment, you wouldn't want to open the editor and change the city name every time you need a new report. To make this flow truly useful, we need to make it dynamic. By using Inputs, we can transform this from a static script into a flexible tool that can fetch weather data for any location on demand. Let’s look at how to set that up.
+
+----- Page 3 -----
+
+Build your First Action Flow [27:00]
+Add and Run the Weather Module [04:00]
+
+No topic content.
+
+########################################################################
+  LESSON 6 : Dynamic Mapping and Inputs [03:30]
+########################################################################
+
+----- Page 1 -----
+
+Build your First Action Flow [27:00]
+Dynamic Mapping and Inputs [03:30]
+Set up a Location Input
+
+To move from a static test to a dynamic automation, we first need to define an entry point for our data. This is done through the Inputs panel (found in the top menu bar), which creates a dedicated field for a user to provide information — like a city name — before the flow starts.
+
+Creating the Input Parameter
+Open the Inputs Panel: Click the Inputs tab in the top menu bar of the Action Flow editor.
+Add a New Parameter: Click + Add item to create your first input.
+Configure the new input's name: Name it, e.g., City or Location.
+Type: Select Text from the dropdown menu.
+Keep "No" for the "Required" setting - We will see later why. 
+Save: Click the Save button within the panel to finalize the input.
+
+The Bigger Picture: Connecting to the Business
+
+While we are creating this input manually today, think of this as a doorway. In a real business scenario, this input is what allows your Action Flow to communicate with the rest of the Celonis platform.
+
+For example, a business user might click a button in a Celonis View (i.e., their dashboard) to trigger this flow. When they do, the specific data they are looking at—like a vendor's location or a shipping destination—is automatically passed into this input. By setting this up now, you are building an automation that can be triggered directly from the heart of the business process.
+
+The Vending Machine Analogy
+
+Think of an Action Flow like a vending machine. To make it work, the machine needs an Input—the code you type into the keypad (like "A1").
+
+Without a keypad, the machine would be "hard-coded" to only ever give you the same bag of chips. By adding an Input, you are giving your flow a Keypad. This allows the user to tell the flow exactly which "item" (in our case, which City) they want it to process without having to take the machine apart and rewire it every time.
+
+Now that you have your "keypad" (the Input) set up, you need to tell the Weather module to listen to it. Let's do this next.
+
+----- Page 2 -----
+
+Build your First Action Flow [27:00]
+Dynamic Mapping and Inputs [03:30]
+Map the Input
+
+What we are going to do now is replace the so far static location value in the weather module with our new input variable. This process is in the Action Flows world, usually referred to as Mapping. Instead of the module looking at a static word like "Munich," it will now look at whatever value is stored in your City input variable.
+
+How to Map the Input
+Open the Weather Module: Click on your Get current weather module to open its settings.
+Clear the Old Data: Delete the city name you typed in earlier from the City field.
+
+Find your Variable: Click into the now-empty City field. A mapping panel will slide out. Look for the section labeled Action Flow Inputs, which you'll find inside "Custom and system variables".
+
+Insert the Variable: Click on your City variable to map it to the Weather module's city field. It will somewhat look like a "data pill", what you see in the city field now.
+
+What is a data pill?
+
+The "pill" is a visual representation of dynamic data. Whenever you see one, it means the Action Flow will plug in a value at the moment the flow runs. It’s no longer a fixed instruction; it’s a dynamic placeholder.
+
+Save and Re-Run the Flow
+
+Once the pill is in place, click OK to close the module settings and hit the Save button in the top-left menu bar. Your Weather module is now officially "wired" to your input.
+
+Now it’s time to test the "keypad." By running the flow now, you will see how the input you created actually controls the Weather module. Click once again "Run once". Unlike before, the flow won't start immediately. A window will appear asking for your City input.
+
+Enter your desired city and click "OK".
+
+As before, open the output and inspect the results. Everything will still look the same as before, BUT…
+
+Why this is a Milestone
+
+You have just transitioned from a fixed script to a functional app. While it might seem simple for a single module, think about the bigger picture:
+
+Imagine an Action Flow with 10 or 20 different modules—all of which need to know the name of the city to do their jobs. Without an Input, you would have to manually open every single module and type the city name 20 times (and possibly, change it).
+
+By using an Input, you create a single source of truth. You type the city name once at the start, and the data pills automatically distribute that value across every module in your flow. This doesn't just save time; it ensures your automation is consistent, error-proof, and professional.
+
+----- Page 3 -----
+
+Build your First Action Flow [27:00]
+Dynamic Mapping and Inputs [03:30]
+
+No topic content.
+
+########################################################################
+  LESSON 7 : Build a Full Recommendation Flow [11:30]
+########################################################################
+
+----- Page 1 -----
+
+Build your First Action Flow [27:00]
+Build a Full Recommendation Flow [11:30]
+Recap: The Action Flow's Goal
+
+Now that we have our data source (Weather) and our user input (City), it’s time to move into the "Intelligence" phase of our build. We aren't just going to report the temperature; we are going to use Generative AI to act as a personal sports consultant.
+
+The Two-Phase Build
+
+To create a truly smart automation, we are structuring this flow in two distinct phases:
+
+Phase 1: Data Gathering (Complete): We’ve already set up the flow to ask for a city and fetch the local conditions. This provides the "Facts."
+Phase 2: AI Reasoning (Next): We will add a Create AI Prompt module. This module will take the weather and combine it with personal preferences (e.g., I love running, but I don't like the rain) to generate a tailor-made sports recommendation.
+The Goal
+
+Instead of a message saying "It's 15°C and raining," our flow will produce a personal recommendation like: "Since it's raining in London and you prefer indoor activities, why not skip the run and head to the local climbing gym today?"
+
+Why use AI in Action Flows?
+
+In a business context, this is one way of how you can handle "unstructured" decisions. While a standard module can tell you an invoice is late, an AI module can look at the history of that vendor and draft a specific, polite yet firm email based on the severity of the delay. We are using the "Sports Coach" example to master this exact logic.
+
+----- Page 2 -----
+
+Build your First Action Flow [27:00]
+Build a Full Recommendation Flow [11:30]
+Send Recommendation via Email
+
+Now for the final piece of the puzzle. We have gathered the data and processed it with AI; now we need to deliver that insight where you’ll actually see it. By using the Email module, we ensure the recommendation finds you, rather than you having to go looking for it.
+
+Adding the Email Module
+
+Similarly to before, add a "Send an Email" module to your flow. If you get stuck adding the module, expand the solution below.
+
+How to: Add the Email Module
+Mapping the "AI Insight"
+
+In the configuration panel for the Email module, you need to decide what goes where. This is where you combine your own words with the AI's smart output.
+
+Connection: Add e.g. your Gmail account
+To: Type in your own email address. 
+Subject: Type something catchy like: "Your Daily Sports Recommendation for " and map the City Input pill from the very beginning of your flow.
+Content: This is the most important part. Click into the body of the email, find the Create AI Prompt section in the mapping panel, and select the Message pill.
+
+
+
+
+The Final Test
+Save: Click the Save icon in the top-left.
+Run once: Click the Run button and enter your city (e.g., "Munich").
+Check your Inbox: Wait a few moments. You should receive an email that gives you a personalized sports instruction based on the AI's reasoning.
+
+
+
+
+Reflection: The Power of End-to-End Automation
+
+Look at your canvas. You’ve built a bridge between a global weather service, an AI model, and your personal communication tools. In a business setting, replace "Weather" with "Overdue Invoices" and "Email" with "Payment Reminders," and you can see how this logic scales to solve real problems.
+
+Here's a challenge (optional)! 
+
+Right now, your email notification looks rather…. Raw. How could you modify the prompt in the AI module to include - for example… - HTML tags into the response that ensure a nice look and feel of the final email?
+
+We don't provide a solution to this challenge in this course, but we highly encourage you to share your results on our Academy group in the Celonis Community (or just pay it a visit to get a hint on how to solve this…)!
+
+----- Page 3 -----
+
+Build your First Action Flow [27:00]
+Build a Full Recommendation Flow [11:30]
+
+No topic content.
+
+########################################################################
+  LESSON 8 : Let your Notification Go Live [05:00]
+########################################################################
+
+----- Page 1 -----
+
+Wrapping Up Your Automation [16:00]
+Let your Notification Go Live [05:00]
+Version and Deploy your Action Flow
+
+Now that your "AI Sports Consultant" is fully built and tested, you are ready to move it from the "Drafting Table" to the "Real World." In other words, you would like to activate it. Perhaps you remember from the video earlier, when you took a tour around the Action Flow editor, that there's a particular toggle on the Action Flow's monitoring page.
+
+So far, it's still greyed out. What needs to be done before you can activate the Action Flow and receive your daily sports recommendation is to create a new version of your package and deploy it.
+
+We will not go into the details in this course of what versioning and deploying a package entail. For a quick overview on versioning and deploying, check out this video.
+
+Create a version
+
+Click the Create Version button at the top right inside your package. 
+
+As a best practice, only select the current asset, i.e., the Action Flow you've been working on and would like to activate. Otherwise, you may accidentally set something live that a colleague is currently working on, and that is not yet meant to be visible to others.
+
+Confirm your choice by clicking "Create Version" again.
+
+Deploy the version
+
+Even after creating a version, Celonis needs to know which version you want to use for automation. Click the "Deploy" button at the top right inside your package. Most likely, you will want to deploy the "latest" version, which should be selected in the dropdown on the left. Confirm your choice by clicking "Deploy" once more.
+
+You are now ready to finally activate your Action Flow and set up the desired scheduling!
+
+----- Page 2 -----
+
+Wrapping Up Your Automation [16:00]
+Let your Notification Go Live [05:00]
+
+No topic content.
+
+########################################################################
+  LESSON 9 : Basic Error Handling [07:00]
+########################################################################
+
+----- Page 1 -----
+
+Wrapping Up Your Automation [16:00]
+Basic Error Handling [07:00]
+Identify the Error Type
+
+Experiencing your first failing Action Flow is never easy… But: in the world of automation, it's actually a vital point of your journey. An error isn't a broken flow—it's the platform telling you exactly where your logic needs a safety net. Before we fix the flow, we need to understand what went wrong.
+
+The "Bundle Validation Error"
+
+If you click on your failed execution, you will likely see a Bundle Validation Error. This is the platform's way of saying: "I tried to process this step, but a required piece of data was missing or invalid." In our case, because the flow ran on a schedule, the "City" input was empty, and the Weather module didn't know how to proceed.
+
+Remember the Input's "Required" setting from before? If that was set to "Yes", our Action Flow would also have failed, but due to an initialization error.
+
+
+
+
+The Action Flow "Error Gallery"
+
+While Bundle Validation is our current hurdle, here are the other "usual suspects" you’ll meet as an architect:
+
+Connection & Authentication Errors: Your "key" to a service (like an API key or password) has expired or changed.
+Data Type Mismatches: You tried to give a module a word when it specifically asked for a number (e.g., trying to calculate the temperature of "Sunny").
+Rate Limit Errors: You are asking a service for data too quickly, and it has temporarily blocked you to protect its servers.
+
+Now that we’ve unmasked our error, it’s time to move from diagnosis to resolution. While the 'Rescue Path' we are about to build is a powerful fix for this specific hurdle, keep in mind that we are just scratching the surface. In the wider world of Action Flows, error handling is a deep discipline—ranging from complex data filtering to 'self-healing' logic. 
+
+Check out our course "Handle Errors in Action Flows" to dive into the deeper waters of error handling. This course is also part of the "Build Action Flows" training track. 
+
+For now, let's master the foundational skill of building an emergency fallback.
+
+----- Page 2 -----
+
+Wrapping Up Your Automation [16:00]
+Basic Error Handling [07:00]
+Rescuing the Flow with Error Routes
+
+We've successfully identified the cause of our failing Action Flow execution. Rather than letting the flow simply stop, we can build an Error Handling Route that provides the missing data and keeps the Action Flow moving.
+
+What is an Error Handling Route?
+
+An Error Handling Route is a specialized path that only activates if a module fails. It allows the flow to "catch" the error and try a different approach instead of crashing. An error handling route is always specific to a single module in your Action Flow, not the entire thing.
+
+Implementing the Error Handling Route
+
+After consultation with the user of our sports recommendation, we decided that if the input is missing, we go for the hometown of the user as a default. 
+
+🤔 We cannot just add a "default" value to our location input. Even if this may be the first intuition. 
+
+Therefore, we need a second backup "Get current weather" module. This backup module will be the first of the error-handling route; this time with a hard-coded location (just as we had set it up in the beginning).
+
+An Error Handling Route can be added to any module and is triggered if that particular module cannot proceed due to an error. To add and define it:
+
+Add the handler: Start by right-clicking the module that you want to add the error handling route to; in this case, it's our (existing) "Get current weather" module. Select "Add error handler".
+Add backup module: On this new route, add a second Get current weather module. Instead of using a data pill, hardcode your home city (e.g., "Munich").
+Insert the Resume directive: After your backup weather module, add the Resume directive.
+
+The Resume directive is one of many error-handling directives available in Action Flows.
+
+It replaces the module output with a substitute output when an error happens.
+It is the "bridge" that takes you back to the main path.
+In the Resume directive's settings, you must provide the "Expected" data for the next modules: map the Temperature and Condition from your backup weather module here.
+
+If you don't want to wait for the dedicated course, check out the documentation to learn more about the Resume and other error-handling directives. 
+
+👉🏼 Give it a try, adding the error-handling route, including the Resume directive, to your Action Flow. If you get stuck, check out the solution below. 
+
+This is how you could do it...
+
+Here's what a "successful" execution of the error handling route looks like:
+
+----- Page 3 -----
+
+Wrapping Up Your Automation [16:00]
+Basic Error Handling [07:00]
+
+No topic content.
+
+########################################################################
+  LESSON 10 : Knowledge Check and Next Steps [04:00]
+########################################################################
+
+----- Page 1 -----
+
+Wrapping Up Your Automation [16:00]
+Knowledge Check and Next Steps [04:00]
+
+Think you’ve mastered the basics of building and deploying Action Flows? Let's give it a try!
+
+Start
+
+----- Page 2 -----
+
+Wrapping Up Your Automation [16:00]
+Knowledge Check and Next Steps [04:00]
+Wrap Up
+
+Congratulations! You have officially transitioned from a curious observer to an Action Flow builder. You’ve successfully constructed a logic-driven, AI-powered automation that gathers live data and delivers personal insights directly to your inbox.
+
+Learning Recap
+
+During this journey, you have achieved the following:
+
+Mastered the Components: You can now identify and use Triggers, Modules, and Connections.
+Dynamic Design: You learned how to use Inputs and data pills to create flexible automations that work for any use case.
+AI Integration: You successfully pinged an LLM to perform "unstructured" reasoning within an automated process.
+Resilience: You took your first steps into Error Handling, building a "Rescue Path" to ensure your automation survives even when data is missing.
+What’s Next?
+
+This course was just the beginning of your Action Flows journey. To continue growing your skills, we recommend you follow along the upcoming milestones in the "Build Action Flows" Training Track.
+
+Good luck ⭐
+Your Celonis Academy team
+
+----- Page 3 -----
+
+Wrapping Up Your Automation [16:00]
+Knowledge Check and Next Steps [04:00]
+
+Starting the survey…
+
+----- Page 4 -----
+
+Wrapping Up Your Automation [16:00]
+Knowledge Check and Next Steps [04:00]
+
+No topic content.

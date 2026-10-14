@@ -1,0 +1,173 @@
+﻿========================================================================
+  CELONIS ACADEMY - EXTRACTOR BUILDER BASICS
+  Extracted: 2026-09-09 13:49  |  Personal study use only
+  Source: https://academy.celonis.com/learn/course/extractor-builder-basics-q6vs
+  Lessons: 2
+========================================================================
+
+########################################################################
+  LESSON 1 : Basics
+########################################################################
+
+----- Page 1 -----
+
+Extractor Builder Basics
+Basics
+The Basics
+What it is
+
+The Extractor Builder is a tool to set up an extractor from scratch or customize an existing one, using a low-code guided user interface that relies on source system REST APIs (what are REST APIs?).
+
+The prerequisites
+
+Here is a list of criteria needed for you to be able to connect to a source system using the Extractor Builder.
+
+Your system should expose REST APIs that are reachable from the Celonis platform.
+The source API should use GET or POST requests (REST APIs, OData standard (V2 and V4), GraphQL). Note that POST requests are mostly for the GraphQL standard and meant to read data.  
+The API expects basic, bearer, OAuth, or API Key authentication. If necessary, you can also add custom authentication methods. (Check out this resource for a primer on authentication types and their differences.)
+The API response is in JSON or XML format.
+The API is synchronous - meaning it receives a response immediately after sending a request, without needing to perform other tasks in the meantime.
+The API expects pagination as one of the standard methods: Page by Page, Limit and Offset, Next Page URL in Response, Next Page Token in Response, Web Linking, Custom Parameter Incremental, or no Pagination.
+When to use it
+
+There are two general scenarios when you should consider using the Extractor Builder:
+
+No existing extractor: There is no existing extractor for your source system and your source system allows access to source data via REST APIs.
+Customize existing extractor: There is an existing extractor but you would like to customize* it to your needs. You could for example:
+add new endpoints to retrieve additional data
+add columns to existing endpoints
+refine other authentication or endpoint configurations.
+
+*Note this is only possible for extractors built using the Extractor Builder.
+
+Keep in mind the Data Ingestion API as a parallel option when there are no out-of-the-box extractions. It generally is the preferable options for data tools, or data lakes such as Informatica, Talend, Snowflake and so on, where a push of data is preferable over a pull of data as is done with extractors. 
+
+Where to start
+
+The entry point to create an extractor is in the data connection selection under "Create custom REST API Extractor".
+
+On the next screen, you have one of three options:
+
+Create from Template: This is to re-use an existing Celonis Extractor built using the Extractor Builder.
+Import: This is if you exported a custom Extractor from another data pool or Celonis Team and want to re-use it.
+Create from Scratch: This is really if you want to start from scratch and build something new.
+
+----- Page 2 -----
+
+Extractor Builder Basics
+Basics
+The Extractor Builder User Interface
+
+The Extractor Builder's user interface works in a guided fashion from top to bottom to help you build extractors step by step.
+
+Click on the tabs below to get an understanding of each area’s function.
+
+Variables
+
+Define reusable values for your extractor that are configured for every data connection. For example the API URL or other important connection variable.
+
+Authentication
+Data Connection
+Endpoints
+
+Watch the video on the next page for a quick run through of building a simple extractor.
+
+########################################################################
+  LESSON 2 : Advanced Configuration
+########################################################################
+
+----- Page 1 -----
+
+Extractor Builder Basics
+Advanced Configuration
+Advance Configuration Overview
+
+In this lesson, let’s delve into more advanced configurations including:
+
+response management and data structures,
+filters and delta loads,
+dependent endpoints,
+custom authentication and more!
+
+----- Page 2 -----
+
+Extractor Builder Basics
+Advanced Configuration
+Managing Responses
+
+Many API endpoint responses will have a hierarchical structure. For example this domain registry endpoint returns an array (square brackets []) within the collection (curly brackets {})
+
+{
+    "domain_name": "example.com",
+    "registrar": "reserved-internet assigned numbers authority",
+    "whois_server": "whois.iana.org",
+    "updated_date": 1628924504,
+    "creation_date": 808372800,
+    "expiration_date": 1660363200,
+    "name_servers": [
+      "a.iana-servers.net",
+       "b.iana-servers.net"
+     ],
+     "dnssec": "signeddelegation"
+}
+
+The square brackets automatically create a nested table.
+
+To ensure this nested table’s records are connected to the parent table, you need to define a primary key in the parent table. This primary key is then added as a foreign key in the nested table.
+
+
+Should you not need the nested table, you can remove it from the response.
+
+Dealing with data types
+
+Celonis automatically recognizes the data types from sample or generated responses. That said, you may want to change these types to fit your needs. Here is a quick rundown of the available data types:
+
+String
+Integer
+Datetime
+Date
+Float
+Boolean
+Text
+Managing non-200 responses with response rules
+
+For more APIs, the response code is 200. This is the code Celonis accepts by default and means success. For some cases, you will get another code in the 200s, 300s, or 400s. Response rules help handle these exceptions or errors to tell the extractor what to do when these codes surface.
+
+For example if a positive response is 203, then you can add a response rule to simply skip and continue the extraction.
+
+In other cases, the code may be 200 but the error is returned in the http response body or json body. For this, you can tell the extractor to stop the extraction by catching the value.
+
+This overview of responses is a good starting point if you're looking to learn more about the meaning of different http statuses.
+
+----- Page 3 -----
+
+Extractor Builder Basics
+Advanced Configuration
+Filters
+
+Many endpoints allow for basic filtering. For example, the audit log or login history endpoints from Celonis allows you to enter a "from" and  "to" time parameter.
+
+This is a request parameter you can add as either a static value using parameters or as a filter to edit in your extraction. We strongly recommend you use the Filter 
+
+Filtering via Query Parameters
+
+A query parameter filter is fairly straightforward. You select the query parameters filtering method and enter your dynamic parameter's name and format.
+
+This parameter then appears in your extractions and you can easily use it in this case as a generic or delta filter.
+
+Using Filtering instead of Static Parameters
+
+Though you could technically plug some of your filters as static parameters, doing so takes away visibility of the filter on the in the extraction. Therefore only use request parameters when they are permanent and do not need to be visible. Plugging in a date in a static parameter is not recommended.
+
+Filtering Capabilities Depend on your Endpoint
+
+If your endpoint is a POST call or an OData API call, other filtering possibilities automatically open up in the endpoint. Make sure to refer to our API filtering documentation for more information.
+
+
+Use Extraction Parameters with your Filters
+
+Once your filter is setup, you can combine it with extraction parameters to set up e.g. delta extractions. For example you can match a "from" filter with an extraction parameters that picks up the latest value from a table's timestamp.
+
+The extraction parameter then gets set as the filter's value:
+
+Let's move on to dependent endpoints.

@@ -1,0 +1,204 @@
+﻿========================================================================
+  CELONIS ACADEMY - QUALITY ASSURING YOUR DATA PIPELINE
+  Extracted: 2026-09-09 13:50  |  Personal study use only
+  Source: https://academy.celonis.com/learn/course/quality-assuring-your-data-pipeline
+  Lessons: 1
+========================================================================
+
+########################################################################
+  LESSON 1 : Quality Assuring your Data Pipeline
+########################################################################
+
+----- Page 1 -----
+
+Quality Assuring your Data Pipeline
+A Practical Lightweight Checklist
+
+This microcourse provides three assets to support you in checking your ETL pipeline. Use these in their respective order to gradually improve your pipeline:
+
+A lightweight take-away checklist for a quick entry-level check of your pipeline.
+A decision tree to check to improve your pipeline's performance based on key best practices.
+A comprehensive list of all ETL best practices.
+
+First is the **the abbreviated take-away checklist you can use to run a quality assurance check on your Data Pipeline** before it goes live. The checklist is based on project best practices and currently used in implementations.
+
+If you've gone through the "Get Data into Celonis" track, you should be familiar with most these points. For non-self-explanatory points, we also provide a short explanation.
+
+The transform best practices on this list are based on Vertica, Celonis' original data engine. As a new or migrated customer in 2026, your environment may be on the newer ETL engine that relies on Spark SQL.
+
+For more information on Spark SQL and the ETL engine best practices, please refer to our ETL engine documentation.
+
+Make sure to bookmark this course for pipeline checks later on. Let's start with the lightweight checklist:
+
+AREA	CHECK	EXPLANATION
+Data Connection	Connections in place working - No errors/warnings?	
+Extractions	Should we be using Replication Cockpit?	This is a consideration if the existing pipeline is too slow or needs to work for an operational / high speed use case
+Full Extractions Loads run less than 12 hours?	12 hours is a benchmark that typically should not be crossed for extractions. The points below can help reduce this time limit.
+Replication Cockpit not used during extractions?	If you use both Data Jobs and the Replication Cockpit, make sure they do not run at the same time. You can use the Replication Cockpit Calendar function along with Data Job schedules to set this up.
+No "unused" / "disabled" tables present in extractions?	
+Limited the columns extracted to only those necessary?	
+Filters are applied to large tables?	
+All extractions placed in a single data pool, and data connections exported to process-specific data pools.	This is a best practice to avoid extracting the same data more than once.
+Dynamic Parameters utilized in Delta Filter section (Last Loads, Change Number, etc.)?	This applies if you use Delta extractions with Data Jobs
+Transformation scripts	Review each step in each transformation script for :	
+a. Ensure that changes to any Marketplace Connector are commented with Initials, Date and Commentary	Commented changes with dates allow for easier Connector updates in the future.
+b. Ensure each block of code has unambiguous explanation of the purpose of the block of code	
+c. ANALYZE_STATISTICS('XXXX'); used on all temporary tables	
+d. No Select Distincts (unless there is a comment present as to why it is needed)	
+e. Appropriate naming convention utlized
+Cases Table: {Process Name} + _ + {Table Name} (eg. CLAIMS_CASES)
+Activities Table: _CEL_ + {Process Name} + _ACTIVITIES (eg. _CEL_CLAIMS_ACTIVITIES)	
+f. Intuitive Variable naming	
+g. No "unused" transformations (i.e. "Testing", "Sandbox", etc) present in Data Job	
+Transformations - Additional	Temporary Tables utilized?	Use temporary tables if you run similar joins across multiple transformations.
+Ensure that there are no cartesian (many-to-many) joins present	
+Use WHERE EXISTS rather than joins where applicable	
+Can transformation jobs be run in parallel?	If transformations are independent of one another, you can consider splitting them into separate Data Jobs and running them in parallel with a schedule.
+Data Model Loads	No error messages on Data Model upload (including warnings)	
+Using tables instead of views to load to Data Model?	
+Using a Data Model with the minimal number of tables and columns for a high speed use case?	
+Subscribed to all Data Models?	
+Replication Cockpit	Replication Cockpit replicating without errors?	
+Scheduling	Full / Delta Loads scheduled, enabled, and running?	
+Execution History	Processing Time for Delta ETL (Extraction>Transform>Data Model) run time less than 1 hour (unless other circumstances override)	
+Schedules have no errors in recent history?	
+Data Validation	Confirm that process owner has approved the accuracy of the raw data and activity steps	
+
+That is it for this short list. On the next two pages, check out the decision tree and the full list of extraction, transformation, load, and general best practices to take your pipeline to the next level.
+
+----- Page 2 -----
+
+Decision Tree Approach
+Decision Tree Approach
+
+This additional page is an extra visual checklist in the form of a decision tree for you to optimize the speed of your Data Pipeline.
+
+Instructions:
+Follow the steps from left to right.
+Click the "+" icons → links for more information
+Hide the menu bar on the top left and use the fullscreen option.
+
+----- Page 3 -----
+
+All ETL Best Practices
+All ETL Best Practices
+
+Note that not all transformation and data model best practices apply to object-centric data pipelines. We recommend you go through the applicable best practice courses in the Get Data into Celonis track for a better understanding of each listed best practice:
+
+Extraction Performance Best Practices
+Transformation Performance Best Practices
+Data Model Load Performance Best Practices
+General ETL Performance Best Practices
+Search this term in the entire table
+Search this term
+On this column
+ETL Pipeline Phase
+Best Practice Name
+Case or Object-centric
+Prerequisites / Relevant Systems
+Effort to Implement
+Performance Advantage
+Documentation
+
+
+
+
+ETL Pipeline Phase	Best Practice Name	Case or Object-centric	Prerequisites / Relevant Systems	Effort to Implement	Performance Advantage	Documentation
+Extract	Define or create a primary key	Both	All systems	Low	Low-high. Enables data consistency for delta extractions, enables resumable/restartable extractions, increases performance.	Primary Key Documentation
+Extract	Use Celonis Replication Cockpit	Both	SAP ECC or S/4HANA, JDBC: SAP HANA, JDBC: Azure SQL or Azure Synapse, JDBC: Microsoft SQL Server, JDBC: Oracle	Medium	High	Replication Cockpit Documentation
+Extract	Filtering on Records & Columns	Both	All systems	Low	Medium. Depends on the volume. In general the larger the number of records you extract, the higher the savings using a filter or limiting the columns.	Extraction Filtering Documentation
+Extract	Limiting Column Lengths	Both	JDBC / Databases	Low	Medium	Column Length Documentation
+Extract	Delta Extractions	Both	Any source / table that has required timestamps or can work with change logs, Primary keys on tables	Medium	Very high	Delta Extraction Documentation
+Extract	Parallel Extractions	Both	Any system that allows for more than one parallel table or request extraction.	Low	Medium. Depends on the number of tables in an extraction job and size.	Parallel Extraction Documentation
+Extract	Partitioning Strategies	Both	For any system table during full extractions	Low	High	Partitioning Documentation
+Extract	Replacing Cluster Tables	Both	For SAP ECC only	Low-medium	Low	Cluster Table Documentation
+Extract	Optimized execution of data jobs	Both	Multiple extraction tasks	Low	Medium	Data Job Execution Documentation
+Extract	Checking & Updating On-Prem Extractors and RFC module	Both	For SAP on-premise extractor only	Low	High	Update RFC Documentation
+Extract	Load Distribution & Multiple Extraction Servers	Both	On-premise setups	Medium	Low-high, depending on the CPU/memory headroom you have on your source systems and on your extraction server.	Scheduling data jobs Documentation
+Extract	Load balancing for JDBC On-Prem Extraction Server	Both	On-premise JDBC setup	Low	Low-High, depending on the load of the Extractor Server	Get in touch
+Extract	Use the Extraction SQL Editor	Both	Database / JDBC setup	Low-medium	Low-medium	SQL Extractor Documentation
+Transform	Avoid DISTINCT	Both		Medium	Low-high, depending on the number of records	Avoid DISTINCT
+Transform	Use UNION ALL instead of UNION	Both		Medium	Low-medium	Avoid UNION
+Transform	Optimize JOINs	Both		Medium	Low-medium	
+
+Join optimizations
+
+Merge JOINs
+
+More best practices
+
+
+Transform	Use tables, temporary tables, views properly	Case-centric (pre-processing in Object-centric)		Medium	Medium	
+
+Tables vs views
+
+Revise use of tables
+
+Tables vs views 2
+
+Tables vs views 3
+
+Create temporary table
+
+
+Transform	Check field size	Both		Low-Medium	Medium-high	VARCHAR optimization
+Transform	Use BETWEEN instead of AND	Both		Low (low-hanging fruit)	Low	Use BETWEEN instead of AND
+Transform	Put WHERE conditions in JOINs	Both		Medium	Low	WHERE conditions in JOIN
+Transform	Avoid SELECT *	Both		Medium	Low-medium	SELECT best practices
+Transform	Avoid DELETE and UPDATES	Case-centric		Medium	Low-medium	
+Transform	Use projections (advanced)	Case-centric		Medium	Medium-high	
+
+What are projections
+
+Working with projections
+
+
+Transform	Avoid 1=1 in JOINs	Both		Low (low-hanging fruit)	Low-medium	
+Transform	No business logic in transformation phase	Both	None	Low-high, depends on the current code	Low-high, depends on the current code	
+Transform	Use Delta transformation	Case-centric	Delta Extraction Celonis supported Delta Transformation is only possible if Extraction and Transformation are in the same pool. Otherwise you have to do this task manually.	High	High	
+
+Delta transformations in data jobs
+
+Delta transformations with the Replication Cockpit
+
+
+Transform	Split transformation tasks	Case-centric	Multiple steps in a transformation task without dependency	Low (low-hanging fruit)	Low–high, depending on the ability to run tasks in parallel	Split transformations tasks
+Transform	Add STATISTICS	Case-centric	Custom created tables (not extracted using Celonis extractor)	Low (low-hanging fruit)	Medium (up to 50%)	Update statistics
+Transform	Check performance estimation	Case-centric		Low (low-hanging fruit)	Low-high	
+
+Check performance estimation
+
+Check performance estimation 2
+
+
+Transform	Use CTEs in transformations	Object-centric		Low (low-hanging fruit)	Low-high	CTEs
+Data Model Load	Delta Data Model Load	Case-centric	Any system where delta transformations are set up.	Low	Very high	Delta data model loads
+Data Model Load	Partial Data Model Load	Both	Not all tables have changed since the last Data Model load	Low	Medium	
+
+Data Model API
+
+Partial data model loads
+
+
+Data Model Load	Reduce/disable cache preheating	Both	Use cases where frontend performance has a lower priority than a faster Data Model load.	Low	Medium	Get in touch
+Data Model Load	Reduce columns	Both	If your tables have column you do not need in Studio	Low	Medium, depending on number of extra columns	
+Data Model Load	Limit Rows	Both	If tables have more than 800M records in a Data Model	Low	Medium	Standard Engine Limitations
+General	Split ETL Pipeline Based on the Type of Use	Both	Reasonably large data sets in the operational data model.	Medium	Medium-high	
+General	Parallel ETL Based on Target Group	Both	You need a split criteria for the large tables	Medium	Medium-high	
+General	Use Trigger-based Schedules across data pools	Both	Multiple jobs have to be executed sequentially	Low	Low-High, depending on the situation	Configuring trigger-based schedules
+General	Use Schedule Retry	Both	Schedules	Low	Low-medium	
+
+Schedule retries
+
+
+General	Distribute Schedules and Use Custom Cron	Both		Medium	Low-high, depending on number of parallel actions	
+
+Custom cron syntax
+
+
+General	Enable Optimized execution of Schedules	Both	Existing Schedules	Low	Low-high, depending on number of parallel actions	
+
+Optimized schedule execution
+
+
+General	Select Perspectives in Schedules	Object-Centric		Low	Low-high, depending on transformations outside of perspective	Schedule perspectives

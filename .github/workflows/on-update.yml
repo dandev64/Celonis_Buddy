@@ -1,0 +1,47 @@
+name: Docs Updated
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "docs/**"
+      - "CHANGELOG.md"
+
+jobs:
+  summarize:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Summarize changed docs
+        id: diff
+        run: |
+          CHANGED=$(git diff --name-only HEAD~1 HEAD -- docs/ | tr '\n' ', ' | sed 's/,$//')
+          COUNT=$(git diff --name-only HEAD~1 HEAD -- docs/ | wc -l)
+          echo "changed=$CHANGED" >> $GITHUB_OUTPUT
+          echo "count=$COUNT"     >> $GITHUB_OUTPUT
+          echo "### Celonis Buddy - Docs Updated" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**$COUNT file(s) updated:**" >> $GITHUB_STEP_SUMMARY
+          git diff --name-only HEAD~1 HEAD -- docs/ | while read f; do
+            echo "- \`$f\`" >> $GITHUB_STEP_SUMMARY
+          done
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Colleagues using the Claude.ai Project will automatically get the latest docs on their next session." >> $GITHUB_STEP_SUMMARY
+
+      # Optional: post to a Teams webhook. Set TEAMS_WEBHOOK in repo secrets to enable.
+      - name: Notify Teams (optional)
+        if: env.TEAMS_WEBHOOK != ''
+        env:
+          TEAMS_WEBHOOK: ${{ secrets.TEAMS_WEBHOOK }}
+        run: |
+          curl -s -X POST "$TEAMS_WEBHOOK" \
+            -H "Content-Type: application/json" \
+            -d "{
+              \"text\": \"**Celonis Buddy docs updated** (${{ steps.diff.outputs.count }} file(s)): ${{ steps.diff.outputs.changed }}. Open the Claude.ai Project to ask questions against the latest content.\"
+            }"

@@ -1,0 +1,294 @@
+﻿========================================================================
+  CELONIS ACADEMY - DATA INTEGRATION BASICS
+  Extracted: 2026-09-09 13:09  |  Personal study use only
+  Source: https://academy.celonis.com/learn/course/data-integration-basics
+  Lessons: 6
+========================================================================
+
+########################################################################
+  LESSON 1 : Learning Objectives
+########################################################################
+
+Learning Objectives
+Learning Objectives
+
+Welcome! After completing this course, you will be able to:
+
+Understand what Celonis Data Integration is for
+Understand the basic workflow of Data Integration in a case-centric and object-centric approach
+Understand the differences between an operation and analytical data model
+
+This content is available in multiple languages: English, German, French, Japanese, Spanish, and Portuguese. To switch your language, use the selector in the top navigation bar.
+
+In Courses: Switching languages will not affect your progress. If you are multilingual, comparing languages can even help deepen your understanding.
+In Exams: Do not switch the language once you start the exam. If you switch the language when you're already reviewing questions and answers, the page will refresh, causing your exam attempt to end prematurely. (Note: Once inside the exam course, you can switch the language anytime before clicking the Start Exam button.)
+
+
+
+
+If you encounter any technical or access issues during this course, check out our FAQs in the Support area or reach out to us via our Academy contact form.
+
+Accessibility Support
+
+########################################################################
+  LESSON 2 : Identify the Data You Need
+########################################################################
+
+----- Page 1 -----
+
+Identify the Data You Need
+What is Data Integration for?
+
+As a data engineer or analyst working in Data Integration, you’re responsible for bringing in business and process data into Celonis. With it, you build performant data pipelines that result in one or more data models.
+
+These data models represent an enterprise's digital twin and serve as the very foundation for others to analyze and act on. Without data models, no other activities can take place within Celonis and you won’t be able to mine, improve, act on, or automate your processes.
+
+Let's dig into what we mean by "process data".
+
+----- Page 2 -----
+
+Identify the Data You Need
+What is "Process Data"?
+
+At the core, "process data" is a set of connected activities with timestamps following one specific case, or object. Every activity is an "event" and your task is to collect these events and organize them into a data model.
+
+
+Translated into human language, if you think about process data for online shopping, it means tracking steps ordered items go through—e.g. ordering, packing, shipping, payment—and also tracking when each step happens.
+
+How is the Data Prepared?
+
+You can build data models using either a case-centric and an object-centric approach. The object-centric approach is the more modern approach. That said, let's delve in how each approach arrives at usable data models.
+
+########################################################################
+  LESSON 3 : Build your Data Pipeline
+########################################################################
+
+Build your Data Pipeline
+How are Data Models Built?
+
+Process data is the data you’re after, but what does it take to transform it into a data model? The approach differs slightly whether you use a case-centric or object-centric approach.
+
+In general, Data Integration helps you connect to source systems, extract the relevant data, transform it to your needs, and load it into a polished data model. The main differences between the case and object-centric approaches are the transform and data model setup steps. Let's dig into the differences.
+
+
+The Case-Centric Approach
+
+In the case-centric apprach, after connections and extractions, your focus is on: 
+
+Building via SQL transformations (scripts):
+the activity table(s),
+case table(s),
+and masterdata tables.
+Linking the created tables in a data model.
+1a. The Activity Table
+
+Every activity or step happening to an ordered item is recorded in IT systems and leaves behind a digital footprint. Sometimes the activity data comes from one system but in most cases, it’s in multiple systems. Either way, you bring the activities together in an "activity table". This activity table also called an event log, is the centerpiece of your process data and is an essential part of what you build in Data Integration.
+
+1a-b. Additional Tables: The Case Table and Master Data
+
+
+On top of the activity table, you also have additional tables such as the case table which points to all of the ordered items you follow—i.e. all the "cases"—and other master data tables that provide extra context such as seller, product details and so on.
+
+Multiple Processes
+
+In more complex cases, you bring together multiple connected processes where you may have multiple activity and case tables. So part of your online shopping process, say Order Management, could be related to an Accounts Receivable process for example.
+
+2. Linking the Tables
+
+In sum, you create one or more activity tables, case tables, and master data tables. You then connect them to one another in a data model and load your data model.
+
+You now have a case-centric data model ready for action in the Celonis Studio. 
+
+Now on to the object-centric approach.
+
+The Object-Centric Approach
+
+
+In the object-centric approach, your focus is on:
+
+Modeling via a user interface or AI:
+objects,
+events,
+relationships.
+Filling the above components with data using SQL transformations.
+Deciding which objects and events to include in your data models.
+1a-c. Modeling Components
+
+When working on an object-centric data model, you first model everything in Objects and Events, a Celonis service that acts in tandem with Data Integration.
+
+Here you create:
+
+objects - think any business object like order, shipment, invoice,
+events - think the activities that happen to these objects,
+and relationships - think how the objects and events relate to one another. 
+
+Together, these elements come together to build a digital twin of your business' operations.
+
+
+2. Filling the Components with Data
+
+Once you have the components modeled, you tell Celonis how to fill them with data. You do this via SQL statements that point each component to the right data sources.
+
+3. Selecting Objects and Events to include in the Data Model(s)
+
+Use what is known as perspectives, user can choose which objects and their connected events to include in a data model. This scoping of the data model is much faster than its case-centric counterpart.
+
+No Matter the Approach - a Data Model is the Fuel
+
+Regardless of whether your data pipeline is case or object-centric, remember to think of the data model as the fuel to all other work in Celonis. Once it’s ready, your team picks it up and can get started on analyzing it and acting on it.
+
+########################################################################
+  LESSON 4 : Refine your Data Pipeline
+########################################################################
+
+----- Page 1 -----
+
+Refine your Data Pipeline
+Refine your Data Pipeline
+
+So is the job done once data is loaded into a data model? Not quite—when building the Data Model, you're also responsible for validation, scheduling, monitoring,as well as optimizing performance. In other words, you need to iteratively answer these questions:
+
+
+Is the data accurate?
+Is the right data scheduled to refresh at the right intervals?
+Are the extractions, transformations, and Data Model loads as fast and reliable as they can be?
+Is there any other data that can enrich the process?
+
+In other words, in Data Integration, you lay the data pipeline foundation for Celonis implementations and are also responsible for its ongoing optimization and expansion.
+
+
+The more robust and performant your data foundation, the faster and more reliably your team can capitalize on Celonis’ capabilities.
+
+----- Page 2 -----
+
+Refine your Data Pipeline
+Speed up your Work
+
+To speed up your work in Data Integration, Celonis provides case-centric Process Connectors for the most common processes and systems and catalog data models for object-centric data models.
+
+On Process Connectors
+
+Note that these connectors are not available in your training environment. 
+
+Process Connectors contain templates and scripts that support you in the connect, extract, transform, load, and scheduling steps of building your data pipeline. Here is an idea of what to expect for each step:
+
+ETL through Process Connectors
+On Catalog Data Models
+
+Within Objects and Events, users can access and enable a range of prepared processes that include all objects, events, relationships along with the transformations and perspectives. The catalog is the object-centric version of Marketplace process connectors and meant to act as a starting point for any covered process.
+
+----- Page 3 -----
+
+Refine your Data Pipeline
+A Quick Look at the UI
+
+Data Integration's interface is designed to guide you step by step through the process of building your data pipeline. It flows from left to right.
+
+Click on each label to get a basic understanding of each UI area.
+
+
+Navigation
+Connect
+Extract, Transform, Load
+Data Models
+Studio Packages
+Objects and Events
+
+########################################################################
+  LESSON 5 : Real-Time Data Pipelines
+########################################################################
+
+----- Page 1 -----
+
+Real-Time Data Pipelines
+Real-Time - What and Why
+What is Real-Time?
+
+Now that you understand the basics of Data Integration, let's look at what Celonis means by "real-time".
+
+When building a data pipeline, Celonis offers real-time extraction, transformation, and load capabilities. In simple terms, real-time means Celonis can track and frequently replicate incremental changes in data from source systems (e.g. SAP, Salesforce, Databases, Azure Event Hub, Azure Service Bus). This way, new data comes in every few minutes—depending on how often you want Celonis to check for changes. In contrast, non-real-time data pipelines are typically mostly based on scheduled full loads:
+
+
+*Scheduled loads also allow for delta (change) extractions but this relies on Celonis side filters and is in part slower than real-time connections.
+Why Real-Time?
+
+The main objective behind real-time pipelines is for users to operationally act on the data. In other words, it's for day-to-day work with Celonis Apps or other similar assets requiring action. With a close to real-time refresh of data*, users can immediately act and maximize their impact on their businesses. Another benefit of real-time is that it typically puts less of a load burden on your source systems.
+
+*Note - the extent to which real-time refresh is possible depends highly on the source system.
+
+Real-Time and Performance from the Start
+
+We recommend aiming for real-time setups from the start where possible to maximize value from Celonis' capabilities. Even if projects initially do not require real-time data, it's safe to assume that many analytical or process mining projects eventually evolve into operational or execution use cases. Setting up a real-time pipeline from the start saves any migration effort later down the line.
+
+----- Page 2 -----
+
+Real-Time Data Pipelines
+Operational vs Analytical Data Models
+An Operational Data Model
+
+When working with real-time connections, it's highly likely that you'll set up two or more data models based on the same data. This is because you may want an operational data model with a restricted data scope examining only the most recent, prevalent cases. By restricting the data you load and its timeframe, the data model is updated in close to real-time which allows users to act on it. In other words, the operational data model is smaller, loads faster and is the one business users use in day-to-day business.
+
+A simple example of an operational data model could be only loading open orders from the last 6 months that require immediate action.
+
+An Analytical Data Model
+
+In parallel, you may have a full scope analytical data model with regular complete loads of the data. With this model, your analysts can drill down into processes, look for patterns, filter and so on. These "post-hoc" (after-the-fact) analyses do not necessarily require real-time data. You can refresh this data model based on a schedule during off times and pull complete data every time you refresh.
+
+Maximize Real-Time Possibilities
+
+The extent to which you can implement real-time data integration highly depends on your connection possibilites with source systems along with whether your data pipeline is case-centric or object-centric. As this topic continuously evolve, you should always check the latest possibilities for your respective setup and follow performance best practices. 
+
+In general, Celonis recommends creating smaller, operational Data Models that reduce data scopes to:
+
+essential tables & columns (e.g. activity and case tables) or objects  and events in the object-centric data models,
+the necessary time scope,
+the cases/objects needed for operational work.
+
+You can then set this reduced data model to load at the highest frequency possible.
+
+----- Page 3 -----
+
+Real-Time Data Pipelines
+Real-Time Key Benefits
+
+Building real-time pipelines in projects can bring up many questions. Here is a quick overview of the advantages of real-time for the two phases of Data Integration where it applies:
+
+
+Extract
+Transform
+
+Any Drawbacks?
+
+For “greenfield” (new) projects the short answer is no. Real-time brings higher performance, reliability and lowers system load on source systems (more info in the Replication Cockpit documentation). You'll need to invest a little more time in setting up real-time connections, extractions, and transformations but it's worth it long term. As with normal pipelines, Celonis makes it as easy as possible to set up your real-time pipeline using the Process Connectors from the Marketplace.
+
+Note that real-time is not available for all systems—currently only for SAP, JDBC (Databases), Azure Event Hub, Azure Service Bus, and Kafka. Also note that the approach behind real-time for each of these systems differs based on the source system's capabilities.
+
+
+Migrating Existing Pipelines
+
+Migrating from a highly customized pipeline to a real-time one can be a challenge. In migration projects, we recommend a thorough validation of changes along with a separation of staging from production. Here is an overview of the complexity differences between a green field project and a migration one:
+
+ETL PHASE	GREENFIELD	MIGRATION
+Extraction	Easy	Easy to moderate
+Transformation	Moderate	Moderate to complex
+Data Model Load	Moderate to complex	Complex
+
+Keep in mind that a migration does not mean you need to change everything in place. It means you need to set up real-time for the tables your operational data model requires.
+
+
+To best prepare yourself and your team on how to set up real-time extractions and transformations, make sure to have a look at our "Extract Data" and "Transform Data" courses along with our Help Documentation for your specific system(s).
+
+
+Next, let's test what you've learned on Data Integration!
+
+########################################################################
+  LESSON 6 : Knowledge Check & Recap
+########################################################################
+
+Knowledge Check & Recap
+
+Knowledge Check - Data Integration Basics
+
+HIDE ANSWERS UNTIL THE END OF THE QUIZ
+
+Start

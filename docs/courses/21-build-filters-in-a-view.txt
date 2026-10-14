@@ -1,0 +1,569 @@
+﻿========================================================================
+  CELONIS ACADEMY - BUILD FILTERS IN A VIEW
+  Extracted: 2026-09-09 15:49  |  Personal study use only
+  Source: https://academy.celonis.com/learn/course/build-filters-in-a-view
+  Lessons: 1
+========================================================================
+
+########################################################################
+  LESSON 1 : Build Filters in a View
+########################################################################
+
+----- Page 1 -----
+
+Build Filters in a View
+Build Filters in a View
+Welcome to the course “Build Filters in a View”
+
+Filters are used in Views to display data that matches certain criteria. In this course, you’ll gain a deep understanding of the various levels of filtering available - from component to global Knowledge model filters - and learn how to conceptualize and implement predefined filters and component filters to fit the needs of your business users.
+
+
+
+
+This course should take you about an hour to finish.
+
+
+
+
+This course is part of the Build Views Training Track.
+
+As a prerequisite, you should already know how the View asset functions, how to add components, and their respective settings. If you’re unsure, consider going through the Fundamentals of a View course.
+
+Tip: You can Hide the Menu bar (on the top left).
+
+
+
+
+This content is available in multiple languages: English, German, French, Japanese, Spanish, and Portuguese. To switch your language, use the selector in the top navigation bar.
+
+In Courses: Switching languages will not affect your progress. If you are multilingual, comparing languages can even help deepen your understanding.
+In Exams: Do not switch the language once you start the exam. If you switch the language when you're already reviewing questions and answers, the page will refresh, causing your exam attempt to end prematurely. (Note: Once inside the exam course, you can switch the language anytime before clicking the Start Exam button.)
+
+
+
+
+If you encounter any technical or access issues during this course, check out our FAQs in the Support area or reach out to us via our Academy contact form.
+
+----- Page 2 -----
+
+Build Filters in a View
+Build Filters in a View
+Levels of Filters
+
+Filters provide a way to subset data that matches specific criteria you can set using PQL.
+
+
+In the Celonis platform, there are 4 possible levels of filtering available:
+
+
+Component Level
+Tab Level
+View Level
+Package Level
+
+
+
+
+You can configure predefined filters in Studio to ensure that the dashboards you build fit the specific use case of your business users. Generally speaking, predefined filters can’t be seen by business users in Apps. There is one exception to this, which we will go through in this course.
+
+Business users can also filter in Views, but you’ll need to set them up for your business users!
+
+----- Page 3 -----
+
+Build Filters in a View
+Build Filters in a View
+PQL: The FILTER Function
+
+To tailor filters to your specific use cases, you'll need to define them using PQL. Specifically, you’ll have to use the FILTER function, where you simply have to specify the condition you need. The following is an example of how the function can be used:
+
+
+
+
+FILTER "o_celonis_Customer"."Name" = 'Harper Lee';
+
+If this filter query is applied, it will limit the data to include only information associated with the customer "Harper Lee".
+
+
+
+
+There are many ways to use the FILTER function. To learn more about this function (and related topics), consider taking up the Joins & Filters in PQL course or look up the documentation.
+
+
+
+
+Throughout this course, you'll learn where you can implement filters for dashboard building in Views.
+
+----- Page 4 -----
+
+Build Filters in a View
+Build Filters in a View
+Setting up your Training Environment
+
+If you came from the Configure Charts and Tables in a View course, you can skip to Step 4.
+
+
+
+
+Before you move on, you’ll need to set up your training environment for the hands-on exercises throughout the course.
+
+Using a separate tab (in your browser), go through the following steps to set your training team up...
+
+
+Step 1
+Step 2
+Step 3
+Step 4
+Step 5
+Step 6
+
+If you encounter any issues, contact us and we’ll get back to you as soon as we can.
+
+After you’ve completed the last step, you can move on to the next page.
+
+----- Page 5 -----
+
+Build Filters in a View
+Build Filters in a View
+Intro to Use Case
+
+The View you have was designed for a business user, focused on analyzing the net order value of their sales orders.
+
+Click on the options to discover the components of the dashboard.
+
+
+KPI List
+Bar Chart
+Line Chart
+Table
+
+Feel free to interact with the dashboard in your personal training environment!
+
+
+
+
+Besides utilizing the existing components, the business user requires additional customization of the dashboard to meet their latest requirements. Your task is to further adjust the dashboard to align with the specific needs of the business user.
+
+----- Page 6 -----
+
+Build Filters in a View
+Build Filters in a View
+Configuring a Component Filter
+
+You can set predefined filters in individual components within Views. Component filters are typically applied for specific use cases, such as benchmarking using components with different Knowledge Models (so you might have to filter out specific data from the given Knowledge Models) or customizing a component with advanced PQL queries.
+
+
+
+
+Let’s have a look at a demo on how you can configure a component filter.
+
+Keep in mind that you can also reference filters from the Knowledge Model using the knowledge sidebar in the PQL Editor.
+
+
+
+
+Let’s say your business user specifically wants to compare the type of sales, excluding all standard orders. In other words, they don’t want to see the standard order group being visualized in the bar chart, but they’d still like to see its sales orders being accounted for in the other metrics (i.e., in the other components).
+
+Add a component filter to the bar chart using the following information:
+
+PQL Query: FILTER "o_celonis_SalesOrder"."SalesDocumentTypeText" IN ('Direct Sales', 'Distributor Sales', 'Export Sales', 'Dealer Sales')
+
+Hint: Try using structured input to get that PQL query. You should be able to see which attribute and table you need from the query above.
+
+
+This is how you’d do it…
+
+
+
+
+Since component filters are implemented specifically via the PQL Editor, this means that if you can open the PQL Editor in any way, you’ll have the opportunity to also set component filters at the same time.
+
+
+
+
+You created a filter that you’re going to reuse? You can save it in the Knowledge Model as a Knowledge Entity!
+
+
+
+
+Keep in mind that there is no clear indication that components have filters configured in them to business users. If you have made any custom configurations on a component that differentiates it between the other components in the dashboard, you should consider communicating that to the business user in some way in the View (e.g., via the component title or text box component).
+
+----- Page 7 -----
+
+Build Filters in a View
+Build Filters in a View
+Configuring Tab Filters
+
+Tab filters function similarly to component filters, but they influence all components within their respective tabs. If you have multiple tabs in a View, have a look at its menu option. You’ll see the option to set filters.
+
+
+
+
+
+
+
+Select it and you’ll open the Filter Editor.
+
+It is very similar to the PQL Editor, but you can only create PQL queries.
+
+
+
+
+So let’s say your business user requires two versions of the same dashboard: one for 2022 and another for 2023.
+
+To achieve this, duplicate the dashboard into separate tabs and distinguish them using the following information:
+
+Tab 1
+Tab Name: Net Order Value 2022
+Tab Filter: FILTER "o_celonis_SalesOrder"."CreationTime" BETWEEN {d '2022-01-01' } AND {d '2022-12-31' };
+
+Tab 2
+Tab Name: Net Order Value 2023
+Tab Filter: FILTER "o_celonis_SalesOrder"."CreationTime" BETWEEN {d '2023-01-01' } AND {d '2023-12-31' };
+
+Hint: You’ll have to enable tabs (by adding one) in order to gain access to the tab menu option.
+
+
+
+This is how you’d do it…
+
+
+
+
+
+
+Just like component filters, tab filters are predefined filters. With tabs, you typically convey the configuration through the tab name. You could also incorporate contextual components, such as text boxes, to offer additional information on the dashboard.
+
+
+
+
+Next, let’s move on to View filters.
+
+----- Page 8 -----
+
+Build Filters in a View
+Build Filters in a View
+Intro to View Filters
+
+When a user says “apply a filter” in Views, they’re typically referring to View filters. You can easily recognize View filters since they are shown at the top of a View.
+
+
+
+
+View filters affect all tabs and components within the tabs of a View. You can apply View filters in three ways:
+
+Setting up predefined filters in Studio
+
+Filtering using components in Apps
+
+Using advanced filters in Apps
+
+
+
+
+Let’s review them.
+
+----- Page 9 -----
+
+Build Filters in a View
+Build Filters in a View
+View Filters: Setting up Predefined Filters in Studio
+
+Unlike other predefined filters, predefined View filters have additional options to consider when setting them up.
+
+
+
+
+In edit mode, you can set up predefined View filters using the filter icon.
+
+
+Saved filters allow you to reuse filters from the Knowledge Model.
+
+Add Custom filter opens the Filter Editor so that you can create View filters
+
+
+
+
+
+
+
+Let’s jump right into it and create a View filter. Let’s say your business user is based in EMEA and is only concerned about the customers in that region. Using the Filter Editor, create a View filter using the following information:
+
+PQL Query: FILTER "o_celonis_Customer"."Region" = 'EMEA';
+Display Name: EMEA Customers
+Hide from user: Disabled
+Read-only for user: Enabled
+
+
+
+Here’s how you’d do it…
+
+
+
+
+
+
+
+Predefined View filters can be reconfigured via its settings. Unlike other predefined filters, you have the option to reveal predefined View filters so that your business users are aware. Should you choose to hide them, make sure the context of your View is appropriately conveyed.
+
+If you disable the “Read-only for user” option, business users can temporarily disable the filter any time they want. Try it out in Interactive Mode!
+
+
+
+
+Did you notice the eye of Sauron icon beside the View filters? You can show the business users the % of data (i.e., cases or objects) that the View is showing. This number is affected by all applied View filters (predefined or not).
+
+----- Page 10 -----
+
+Build Filters in a View
+Build Filters in a View
+View Filters: Filtering using Components in Apps
+
+Probably the most common way of filtering, components can used independently by business users in Apps to apply View filters. In general, all filters applied using components apply to the entire View.
+
+
+
+
+Filter components are components with the specific function to apply customized View filters. In edit mode, you can easily find them in the “Filter components” category. Each filter component has its specific use and can be configured accordingly. Therefore, it is up to you to build and position the filter components appropriately for the business users.
+
+
+
+
+Similar to other components, you simply have to specify the data you’d want the business users to be able to filter. Let’s look at an example of a configured dropdown filter component.
+
+
+
+
+Filter components can be built in both a View, as well as in a Filterbar, once it has been enabled.
+
+The filterbar is simply an extended layout on the right of a View to insert the relevant filter components to the dashboard. In this extended layout, you can only add filter components, input components, buttons, and other design elements.
+
+
+
+
+Let’s now build a filterbar for your business user. Let’s say they want to be able to filter the order status, sales order, and customer. Build and design a filterbar using the following information:
+
+Order Status
+Quick Filter component
+PQL Query 1: FILTER "o_celonis_SalesOrder"."OverallProcessingStatus" = 'B';
+Display Name 1: Open
+PQL Query 2: FILTER "o_celonis_SalesOrder"."OverallProcessingStatus" = 'A';
+Display Name 2: Closed
+Selection: Single
+
+Sales Order
+Dropdown component 1
+PQL Query: "o_celonis_SalesOrder"."ID"
+Name: Sales Order ID
+
+Date Range component
+PQL Query: "o_celonis_SalesOrder"."CreationTime"
+Show quick date range selections: Enabled
+Calendar Layout: Double
+Placeholder Text: Creation Date
+
+Dropdown component 2
+PQL Query: "o_celonis_SalesOrder"."SalesOfficeText"
+Name: Processing Location
+
+Customer
+Dropdown component 1
+PQL Query: "o_celonis_Customer"."Name"
+Name: Name
+
+Dropdown component 2
+PQL Query: "o_celonis_Customer"."Country"
+Name: Country
+
+Optionally, you could use the text box component to organize the filter components and design the filterbar based on the aforementioned groups. That way, your business user will clearly understand the function of the components.
+
+
+After you’re done, have the apply to all tabs setting enabled so that you can use the filterbar in both tabs.
+
+Here’s how you’d do it…
+
+
+
+
+Filters are very useful but they can also cause trouble, depending on the structure of the Data Model. As a best practice, you should always aim to create dashboards only with the necessary filtering capabilities. Most business users have little to no knowledge of the data structure. As a result, you can’t really predict how the business users will use the filters and interpret the results they get on the dashboard.
+
+
+
+
+Let’s test the dashboard you’ve created so far using Interactive Mode.
+
+
+
+
+How many open sales orders are left from 2022 and 2023?
+A. 0
+B. 1,284
+C. 35,547
+
+
+Let’s say the business user claims that their Munich office made a little less than 60M€ from about 6,000 sales orders in 2023. Is this true or false?
+A. True
+B. False
+
+
+
+
+
+
+Apart from filter components, business users can interact with many other components to apply View filters (e.g., charts, table, process explorer). You can make exceptions for specific components via their respective component settings, under interactions.
+
+Exclude from user filtering excludes the component from being subjected to View filters applied by the business user. Predefined filters will still affect the component.
+
+Can’t be used to set filters stops any filtering possibility from the component. Most of the time, this prevents business user interaction on the component.
+
+----- Page 11 -----
+
+Build Filters in a View
+Build Filters in a View
+Configuring Global Filters
+
+Global filters are predefined “package filters” that you can apply using the Knowledge Model. They are filters that have been applied to all Knowledge Entities in the Knowledge Model. By extension, this means all the assets connected to the Knowledge Model would also be affected by global filters.
+
+
+To create global filters, you first need to create Knowledge Model Filters.
+
+
+
+
+So let’s say you found out your business users are especially concerned with their express shipments. All Apps should center around these sales orders that have express shipments. To that end, let’s create a custom filter in the View and save it to the Knowledge Model. Use the following information:
+
+PQL Query: FILTER "o_celonis_SalesOrder"."ShippingDetailsText" = 'Express Shipping';
+Name: Express Shipments
+ID: express_shipments
+
+Note: Don’t remove the View filter just yet!
+
+
+
+This is how you’d do it…
+
+
+
+
+How many express sales orders are there in the EMEA region in 2022?
+A. 1,292
+B. 10,596
+C. 156,819
+
+
+
+
+Great! You now have a reusable filter in the Knowledge Model.
+
+Remove the Express Shipments View filter, and go to Filters in the Knowledge Model.
+
+Have a look at the Express Shipments filter you’ve just created.
+
+
+
+
+
+Notice the Global Filter toggle at the filter settings. That’s how you can turn Knowledge Model Filters into a “package filter”.
+
+
+
+
+
+Enable the global filter toggle for the Express Shipments filter.
+
+
+
+
+
+In the Knowledge Model, you’ll notice that the filter is now labeled appropriately.
+
+
+
+
+Go back to the View and you’ll notice that the filter has been applied (through the metric numbers).
+
+Keep in mind that Global Filters are only visible in the Knowledge Model. They are not shown in Views or in any of the PQL or Filter Editors. If you look at the top of the Filter Editor, it will only show the following:
+
+
+
+
+
+
+
+Great job! You've successfully configured all the filters available to the View!
+
+In practice, you’d incorporate these filters across different levels while building the dashboard. This process is guided by the insights gained from your interactions with the business user, helping tailor the dashboard to their specific requirements.
+
+----- Page 12 -----
+
+Build Filters in a View
+Build Filters in a View
+Congratulations!
+You have completed the “Build Filters in a View” course!
+
+We tell ourselves we’d “filter” what we eat but here we are…
+
+
+
+
+You should now be able to:
+
+Conceptualize the levels of filtering available to Views
+Conceptualize predefined filters
+Set and configure component, tab, View, and global Knowledge Model filters
+Use the PQL and Filter Editors to set filters in Views
+Enable advanced filters for business users in Views
+Enable the filterbar in Views
+Configure filter components in Views
+Configure the filtering capabilities of components in Views
+Give case count information access to business users in Views
+
+
+
+
+Here are the notable resources linked throughout the course
+
+
+
+
+In practice, be sure to utilize the documentation if you need help navigating Studio while using the Celonis platform. We also invite you to the Process Analysis channel on Celonis Community where you can connect, ask, or answer questions from other users who are also learning to build Apps around the globe.
+
+
+
+
+Lastly, we'd also appreciate it if you could take a moment to fill out the feedback form on the next page. Are there any questions about filters in Views that have been left unanswered? Is there anything that can be done to make the course better for you? It really helps us to know what you find useful, unnecessary, or what the course lacks.
+
+
+
+
+Thank you for taking this course & we hope you have a wonderful week ahead!
+
+
+
+
+Your Celonis Academy
+
+----- Page 13 -----
+
+Build Filters in a View
+Build Filters in a View
+
+How satisfied are you with the course?
+
+	★	★★	★★★	★★★★	★★★★★
+Please select a rating					
+
+What did you like most about this course?
+
+What would you improve about this course?
+
+
+⇨ If you have files or screenshots, please send them to academy@celonis.com.
+
+Complete Survey
+
+----- Page 14 -----
+
+Build Filters in a View
+Build Filters in a View
+
+No topic content.

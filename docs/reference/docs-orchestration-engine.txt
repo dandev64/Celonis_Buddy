@@ -1,0 +1,1891 @@
+﻿=== Celonis Docs: orchestration-engine ===
+
+--- Orchestration Engine ---
+https://docs.celonis.com/en/orchestration-engine.html
+Celonis Product DocumentationAutomationOrchestration Engine
+Orchestration Engine
+
+Orchestration Engine is a process orchestration capability in Celonis Platform designed to create, coordinate, and execute end-to-end business processes. These processes integrate data across systems, applications, AI agents, bots, and human users into a centralized process workflow.
+
+Press O for more options
+	
+	
+	
+4:31
+	
+Popular use cases for Orchestration Engine
+
+Common use cases for Orchestration Engine include:
+
+Missing purchase order confirmation: Issuing a pre-populated Form to a supplier for delivery confirmation and feedback on a purchase order (PO), which Orchestration Engine then writes back to the underlying ERP.
+
+Advertising spend control: Managing marketing spend by automatically suspending or reactivating ad campaigns based on real-time inventory levels and fluctuating demand.
+
+Next best option routing: Recommending alternative products from suppliers or drop-ship vendors with higher on-time delivery (OTD) performance to prevent backorders and optimize fulfillment timelines.
+
+Risk management: Managing fulfillment and credit risk by automatically holding orders from high-risk accounts or notifying operational teams of procurement delays.
+
+How Orchestration Engine works
+
+Orchestration Engine is configured using the Process Orchestration asset within Celonis Platform Studio. You can add the Process Orchestration asset to any Studio package to construct and manage process architecture.
+
+Each Process Orchestration consists of events that specify actions, and process steps that sequence these actions. Execution state data is stored in Process Context, which uses a JSON object to pass data payloads throughout the workflow.
+
+Forms incorporate human interaction into the process by capturing structured user input, feedback, or approvals to determine subsequent automated steps.
+
+Collapse all
+Events
+
+Events define when process steps start or advance. Triggered by specific conditions, manual actions, or schedules, events can originate from native Celonis components or external systems.
+
+Events carry the data payloads required to execute subsequent steps. When a step completes—such as executing an Action Flow—the output data returns to Orchestration Engine to advance the workflow.
+
+Orchestration Engine supports two main event types:
+
+Triggered Events – Start or advance an orchestration based on specific actions (for example, user button clicks, email transmissions, or supplier form submissions).
+
+Timer Events – Start or advance an orchestration based on defined time intervals or schedules (for example, executing daily or resuming after three days without response).
+
+Steps
+
+Steps represent individual tasks or actions organized in a user-defined sequence. Steps act as containers for events and execution actions within an orchestrated workflow.
+
+Process steps serve specific roles within an orchestration:
+
+Start process step – Serves as the initial entry point and trigger event for an orchestration.
+
+Resume process step – Resumes a paused or waiting process flow.
+
+Process step – Executes a specific automated action within the sequence.
+
+Process context
+
+Process context is a JSON object that stores data flowing into or out of an orchestration execution instance.
+
+Process context captures, passes, and retains data payloads across events, forms, and automated steps during execution. For more information, see Adding process context to Process Orchestration.
+
+Forms
+
+Forms are interactive interface elements designed to collect structured user input within a process step. Form submission triggers the orchestration to proceed to the next automated step. For configuration instructions, see Forms in Orchestration Engine.
+
+Related topics
+
+Creating Orchestration Engine overview
+
+Starting Process Orchestration
+
+--- 13. execute_orchestration_engine — OE Execute ---
+https://docs.celonis.com/en/13--execute_orchestration_engine---oe-execute.html
+Celonis Product DocumentationStudioProcess CopilotsConfiguring your Process CopilotsTool ActivationAgent Tools Reference13. execute_orchestration_engine — OE Execute
+13. execute_orchestration_engine — OE Execute
+
+Mode: Custom only · Category: Other
+
+Sends a signal to Orchestration Engine to start a digital process.
+
+- id: execute_orchestration_engine
+  unique_id: start_approval
+  description: Starts the invoice approval process.
+  signal_name: com.celonis.invoice.approval.start
+  inputs: '{"invoice_id": "The invoice ID to approve", "approver": "Name of the approver"}'
+Collapse all
+Config fields
+Filter
+
+Field
+
+	
+
+Type
+
+	
+
+Description
+
+
+
+
+signal_name
+
+	
+
+string
+
+	
+
+Required — event type key to trigger.
+
+
+
+
+inputs
+
+	
+
+string
+
+	
+
+JSON string mapping input names to descriptions. Each key becomes an LLM argument.
+
+Related topics
+
+Tool Activation
+
+Resume Orchestration Engine tool
+
+Process Copilots
+
+Agent Tools (MCP) Asset
+
+--- 14. resume_orchestration_engine_execution — OE Resume ---
+https://docs.celonis.com/en/14--resume_orchestration_engine_execution---oe-resume.html
+Celonis Product DocumentationStudioProcess CopilotsConfiguring your Process CopilotsTool ActivationAgent Tools Reference14. resume_orchestration_engine_execution — OE Resume
+14. resume_orchestration_engine_execution — OE Resume
+
+Mode: Custom only · Category: Other
+
+Resumes a paused Orchestration Engine process instance.
+
+Collapse all
+With fixed instance
+- id: resume_orchestration_engine_execution
+  unique_id: resume_approval
+  description: Resumes a specific paused approval process.
+  event_type: com.celonis.invoice.approval.resume
+  instance_id: my-fixed-instance-id
+LLM determines instance
+- id: resume_orchestration_engine_execution
+  unique_id: resume_approval
+  description: Resumes a paused approval process.
+  event_type: com.celonis.invoice.approval.resume
+Config fields
+Filter
+
+Field
+
+	
+
+Type
+
+	
+
+Description
+
+
+
+
+event_type
+
+	
+
+string
+
+	
+
+Required — event type key to trigger.
+
+
+
+
+instance_id
+
+	
+
+string
+
+	
+
+Pre-set instance ID. If omitted, the LLM must supply it at runtime.
+
+Related topics
+
+Tool Activation
+
+Get Orchestration Engine Process Contexts tool
+
+Process Copilots
+
+Agent Tools (MCP) Asset
+
+--- 15. get_orchestration_engine_process_contexts — OE Get Process Contexts ---
+https://docs.celonis.com/en/15--get_orchestration_engine_process_contexts---oe-get-process-contexts.html
+Celonis Product DocumentationStudioProcess CopilotsConfiguring your Process CopilotsTool ActivationAgent Tools Reference15. get_orchestration_engine_process_contexts — OE Get Process Contexts
+15. get_orchestration_engine_process_contexts — OE Get Process Contexts
+
+Mode: Both · Category: Other
+
+Lists or queries digital process instances from Orchestration Engine.
+
+Collapse all
+Minimal
+- id: get_orchestration_engine_process_contexts
+Pre-filtered
+- id: get_orchestration_engine_process_contexts
+  unique_id: approval_contexts
+  description: Lists approval process instances.
+  digital_process_key: com.celonis.invoice.approval
+Config fields
+Filter
+
+Field
+
+	
+
+Type
+
+	
+
+Description
+
+
+
+
+digital_process_key
+
+	
+
+string
+
+	
+
+Pre-set digital process key filter.
+
+
+
+
+instance_id
+
+	
+
+string
+
+	
+
+Pre-set instance ID filter.
+
+Related topics
+
+Tool Activation
+
+Process Copilots
+
+Agent Tools (MCP) Asset
+
+--- Action Flow modules in Process Orchestration ---
+https://docs.celonis.com/en/action-flows-in-process-orchestration.html
+Celonis Product DocumentationAutomationAction FlowsModulesModules for Celonis applicationsAction Flow modules in Process Orchestration
+Action Flow modules in Process Orchestration
+
+Orchestration Engine Process Steps can reference Action Flow. These perform a variety of actions. The modules are used to link apps and services together.
+
+To learn more about Action Flow, see Action Flows and Modules.
+
+There are several different types of  Action Flow Action Flow modules available for Orchestration Engine, including Forms, and Process Orchestration.
+
+Orchestration Engine has different types of Action Flow modules.
+
+Collapse all
+Orchestration modules
+
+The orchestration modules are responsible for interactions between Orchestration Engine and Action Flows. These modules allow the two applications to communicate. They are used as triggers, mid triggers, updates of process context, or for notifications when an Action Flows's execution is complete.
+
+Completion modules
+
+The completion modules are responsible for sending notifications to Orchestration Engine when an Action Flow is finished. They also send event data that is saved in the process context of the running Process Orchestration instance. For this, they need the instance ID from the starter module and the Event that is an outcome of running the Action Flow step.
+
+Completion Event - the module is used for sending notifications about a completed Action Flows.
+
+Start New Orchestration - the module can be used as a trigger for a new Process Orchestration instance. Using the module, you can connect with any other application. When such a connection is configured, any signals or actions from the connected app work as triggers for the orchestration.
+
+Tip
+
+In the Start New Orchestration module, you can set your custom ID of the Signal Event. You can reference this ID the Get Context module to learn what digital processes were started by what event instance.
+
+Forms modules
+
+Orchestration Engine is integrated with Form.io, which provides a solution for building a variety of forms from a variety of components. Using the pre-built forms Action Flow modules, you can include forms in your automation scenarios.
+
+Submit Form Draft - the module makes it possible to have a draft form version, before the submission. With this module, the form is autosaved as a draft, but it's not submitted yet - no submission event is sent. The recipient can update the form before they decide to submit. However, the module uses a dynamic form definition instead of raw JSON data.
+
+Create a Public Form Link - the module creates a link with a designed form, or multiple forms combined into one. The created magic link can be used to access the form through the web. See Create Public Form Link.
+
+Get a Public Form Link - the module is used to access the data from a form that was submitted, or saved as a draft, along with the specific schema of the submitted form. The module receives data about forms, and it returns this information:
+
+the forms definition (schema) that is linked to the magic link
+
+data that has been saved up to the specific point in time
+
+metadata about the submission
+
+Submit Form - the module is used together with the Create Form Magic Link to generate a pre-populated form, which can be sent to a user. Using the module settings, you can map the fields between a form created in the OE Management Dashboard and the module in your Action Flow scenario. If you choose to map the fields, all the values are automatically added.
+
+Submit form as JSON payload - the module is used with Create Form Magic Link to generate a form. However, unlike the Submit Form module, it uses a raw data payload in a JSON format. You can use the mapping option, but it only maps the form's ID from the Create Form Magic Link module used in the Action Flow. You have to add the JSON payload manually.
+
+Process Context Interaction modules
+
+Process Context is a JSON object that contains information about an overall Orchestration Engine.
+
+In Action Flow, the data for process context is sent from the Resume Event module when a scenario is completed. The data is then passed through the subsequent scenarios/process steps. However, Orchestration Engine can also use process context modules to search for process context and, also, to update the context in the middle of a scenario run.
+
+Search Process Context - the module is used to find process contexts related to a specific tenant. It uses criteria such as Process Orchestrations, event fields, and processing state.
+
+Get Process Context - the module is used to return an process context for the given instance ID. It fetches the current state of the process context.
+
+Resume Event - the module is used as a wake up trigger for a paused Process Orchestration instance.
+
+Set Variable from Process Context - the module is used for mapping process context data. Using the context data gathered throughout a running scenario requires mapping this context data while setting up new scenarios in the same Process Orchestration. You can do the mapping using the Set Variable from Process Context module that works with events fields in a type safe way. The mapping is based on selecting only the whole context object and the fields that you want to assign.
+
+In the module's configuration, you can select an event field that you want to use in the specific Process Orchestration and assign its output to an Action Flow Variable. You can also specify, if the module should throw an error if the event type's value isn't present. Both primitive and complex types can be assigned.
+
+The process context object mapping is supported for the Data object sent through the Trigger Event module, and the Context object from Search Process Contexts or Get Process Context modules.
+
+Note
+
+To make the Set Variable from Process Context module work, you need to select the Process Orchestration and an example of the Orchestration Engine instance that had run in the past. Orchestration Engine and instance ID allow to select the Event Type field that you want to extract.
+
+Related topics
+
+Adding Action Flows to Process Orchestration
+
+Troubleshooting Action Flows in Orchestration Engine
+
+Action Flows
+
+--- Creating Orchestration Engine overview ---
+https://docs.celonis.com/en/creating-orchestration-engine-overview.html
+Celonis Product DocumentationAutomationOrchestration EngineCreating Orchestration Engine overview
+Creating Orchestration Engine overview
+
+Celonis Orchestration Engine is a process orchestration capability in Celonis Platform that allows you to design and manage end-to-end sequence of your business process. Within the platform itself, Orchestration Engine has a corresponding asset called Process Orchestration. Process Orchestration is where you build and manage your process. This asset can be added to any of your Studio packages.
+
+Collapse all
+1. Configure authentication
+
+Create an OAuth client with the necessary scopes. For step-by-step instructions on how to add a new OAuth client to Celonis Platform, see Registering your OAuth client. The minimum required scopes for the Orchestration Engine are:
+
+orchestration-engine
+
+studio (knowledge-models:query, knowledge-models.augmented-attributes:update, studio, triggers:manage).
+
+Give your new client package permissions. In Studio, find the listing for the relevant package within the relevant space and click the associated three dots on the far right to open up the Permissions associated with the package.
+
+Search for the name of your OAuth client as a user, and in the Template column, select "All Permissions" and save.
+
+2. Create Studio asset
+
+In your Studio package, select New asset > Process Orchestration.
+
+Give your Process Orchestration a name and click Create.
+
+Process Orchestration opens in edit mode. It already has the Process Start step created for you.
+
+3. Define triggers and process steps
+
+Edit the Process Start step by adding an event. This will be a trigger for your orchestration.
+
+From the side panel, click Add event.
+
+Select from already available events or create a new one. For more information, see Starting Process Orchestration.
+
+Add Process steps (using the "+" icon), where you can add an Action, like an Action Flow or an AI Agent, and define conditions.
+
+Below the Process start, click the “+” icon, and select Process step.
+
+From the side panel, select Add Action.
+
+Define conditions for the step activation. Click Create conditions. See Adding conditions to Process Orchestration steps.
+
+Select a type of action you want to be taken in this step. Click one of the available tabs: Action Flow, Cloud function, or AI Agents. For more information, see Editing process steps.
+
+Click Next.
+
+You can add as many steps as needed for your business scenario.
+
+You can also add a Process resume step with an event to unpause a process:
+
+Below the previous process step, click the “+” icon, and select Process resume.
+
+From the side panel, select Add event.
+
+When your process is set up, click Deploy to activate it.
+
+We recommend testing Process Orchestration before deployment. See Testing Process Orchestration.
+
+Your Process Orchestration is now operational.
+
+4. Publish and test
+
+Once your flow is visually mapped out, save and deploy the process orchestration asset. You can then use the built-in Test button to supply a sample JSON data payload and verify that your end-to-end process runs correctly. See Testing Process Orchestration.
+
+Example
+
+Now, let's apply this knowledge to a real-life example to illustrate how Orchestration Engine strings together automated system checks, external human interactions, and ERP write-backs. Here is how you would apply the setup steps to a case like Missing Vendor Purchase Order (PO) Confirmations:
+
+Configure authentication: First, you set up an OAuth Client in your environment so your underlying Action Flows have the necessary permissions to securely query your Celonis data model for unconfirmed POs and eventually write data back to your ERP.
+
+Create the Asset: In your Studio package, you create a new Process Orchestration asset and name it "PO Confirmation Triage":
+
+In a Start Step,you add a Start Event (webhook) that triggers when Celonis intelligence detects a PO is unconfirmed 7 days before delivery
+
+You add a Process Step linked to an Action Flow that generates a pre-populated Form and emails it to the supplier.
+
+You add a Resume Event that pauses the workflow until the "Supplier Form Submitted" signal is received.
+
+You add a final Process Step linked to another Action Flow that extracts the supplier's confirmed delivery date from the Process Context and automatically updates SAP
+
+Publish and test: You save, and deploy the orchestration, then run a test using a test PO payload to ensure the email sends, the form captures the data, and the SAP write-back succeeds
+
+Related topics
+
+Starting Process Orchestration
+
+Editing process steps
+
+Testing Process Orchestration
+
+--- Starting Process Orchestration ---
+https://docs.celonis.com/en/starting-process-orchestration.html
+Celonis Product DocumentationAutomationOrchestration EngineStarting Process Orchestration
+Starting Process Orchestration
+
+A Process Orchestration sequence begins with Start process step. These steps are activated by a defined event, which acts as the trigger for the subsequent steps. You can initiate a Process Orchestration in Celonis through several distinct methods, depending on whether you need a manual, automated, or time-based trigger.
+
+Collapse all
+Starting Orchestration Engine using Action Flow
+
+To start a Process Orchestration using an Action Flow, you must use the Start New Orchestration module. This module generates a unique instance ID that can be used to initialize the Start a Process event in your Process Orchestration.
+
+Once created, you can use this Action Flow as a bridge between a manual action in a Celonis View and the Process Orchestration asset. For instance, you can create an Action button in your View, which will trigger a new Process Orchestration through a dedicated Action Flow.
+
+Note
+
+The Start New Orchestration module must be set up in a separate Action Flow, not as an embedded process step within the Process Orchestration itself.
+
+Before you begin
+
+To start the orchestration, the Start New Orchestration module needs a Process Orchestration event that it can reference. If you don't have a Process Orchestration event yet, create one. See Adding events to Process Orchestration.
+
+Building your Start New Orchestration Action Flow
+
+In Studio, go to your package and either start editing an existing Action Flow or start a new one by clicking New asset > Action Flow.
+
+Give your Action Flow a name and set its scheduling.
+
+In the Action Flow editor, click Add module and from the list select Start New Orchestration.
+
+Configure the module:
+
+Select your pre-configured Orchestration Engine OAuth connection.
+
+If there are no existing OAuth connections:
+
+Create an OAuth client with the necessary scopes. For step-by-step instructions on how to add a new OAuth client to Celonis Platform, see Registering your OAuth client. The minimum required scopes for the Orchestration Engine are:
+
+orchestration-engine
+
+studio (knowledge-models:query, knowledge-models.augmented-attributes:update, studio, triggers:manage).
+
+Give your new client package permissions. In Studio, find the listing for the relevant package within the relevant space and click the associated three dots on the far right to open up the Permissions associated with the package.
+
+Search for the name of your OAuth client as a user, and in the Template column, select "All Permissions" and save.
+
+Select the Start a Process event that will serve as the designated trigger for your orchestration.
+
+If there are no events available, create one. See Adding events to Process Orchestration.
+
+In the Start New Orchestration module editor, define a subject to easily identify the specific event instance in the user interface.
+
+(optional) Select Map as JSON String and input a structured JSON payload to pass the necessary data variables into the Orchestration Engine.
+
+Save your Action Flow.
+
+Version and deploy the package with the Action Flow. See Versioning and deploying packages.
+
+Switch the Action Flow to active.
+
+Your Start New Orchestration Action Flow is set up and ready to use. Now you must decide how you want the Action Flow to be triggered. We recommend doing one of the two:
+
+Manually trigger the Process Orchestration from a frontend dashboard, for example, through an Action Button in a table. See Adding Actions to Studio components.
+
+Automatically start the Process Orchestration based on a schedule or trigger (e.g. through a webhook trigger based on a record being updated in your data)
+
+Starting Orchestration Engine using Annotation Builder
+
+In Studio, go to your package and select your Process Orchestration.
+
+Select the Start process step and from the side panel, click Add event.
+
+Select an event in one of the following ways:
+
+Select an event from the list.
+
+Add a new event. Click Create event.
+
+Give your event a name (key) and a description (label) for easy identification in the event list.
+
+Toggle Link asset to add extra assets that will be used as triggers for Process Orchestration.
+
+These assets can only be used to start Process Orchestration. Each asset type can be linked to the event you're creating right now but also to already existing events on the list.
+
+From the dropdown list, select your asset. You can select from the following asset types:
+
+Annotation Builder - this AI-enhanced Studio asset processes your data and generates informed guidelines based on your specific instructions. You can use the Annotation Builder logic as a starting point for your new automations. This can be helpful with, for example, dynamically routing workflows and automatically triggering correct further actions.
+
+(optional) Add a schedule based on which this step is going to be run. See Adding timer events to Process Orchestration.
+
+Click Create.
+
+Your event is created and available in all Process Orchestrations in the package. Once you're satisfied with your Process Orchestration setup, you can test it to see its outcome and logs. To do so, in the edit mode for your Process Orchestration, select Test at the top.
+
+Related topics
+
+Creating Orchestration Engine overview
+
+Starting Process Orchestration
+
+Connecting Action Flows and Process Orchestration
+
+--- Editing process steps ---
+https://docs.celonis.com/en/editing-start-process-step-in-process-orchestration.html
+Celonis Product DocumentationAutomationOrchestration EngineEditing process steps
+Editing process steps in Process Orchestration
+
+Process steps in Process Orchestration are actual actions performed in the orchestration workflow. Your Process Orchestration can consist of multiple steps, and each step can be built of multiple Action Flows.
+
+Collapse all
+Editing process steps in Process Orchestration
+
+In Studio, go to your package and select your Process Orchestration.
+
+Under a start/resume process or another step, click the plus icon and select Process step.
+
+From the right-hand side panel, select Add action.
+
+(optional) Define specific conditions that must be met for this step to run. Click Create conditions. See Adding conditions to steps.
+
+From the step editor, select the action type that will be performed in this step. Select one of the following:
+
+Action Flow
+
+Cloud function
+
+AI Agents
+
+Related topics
+
+Creating Orchestration Engine overview
+
+Actions
+
+Connecting Action Flows and Process Orchestration
+
+--- Adding Action Flows to Process Orchestration ---
+https://docs.celonis.com/en/adding-action-flows-to-process-orchestration.html
+Celonis Product DocumentationAutomationOrchestration EngineEditing process stepsAdding Action Flows to Process Orchestration
+Adding Action Flows to Process Orchestration
+
+Action Flows in Celonis Platform are automated workflows built from a series of modules that define how data should be transferred and transformed between apps and services. You can use Action Flows as building blocks for Process Orchestration steps.
+
+Adding Action Flows to Process Orchestration
+
+In Studio, go to your Process Orchestration and click Edit.
+
+If you haven’t created one yet, see Creating Orchestration Engine overview.
+
+In your Process Orchestration, click the plus icon and select Process step.
+
+From the process step panel on the right, select Add Action.
+
+The edit process step screen opens. Here’s where you can view all Action Flows compatible with your Process Orchestration. You can directly access the individual Action Flows to make changes, activate them, or check their status.
+
+Select from existing Action Flows, or create a new one:
+
+To create a new Action Flow:
+
+Select Create Action Flow.
+
+Give the Action Flow a name and description.
+
+Select Create.
+
+Your Action Flow is created with the following predefined settings to make it immediately available for use in Process Orchestration:
+
+set to on-demand
+
+contains the dpInstanceId input
+
+contains the Completion Event module
+
+has a custom OAuth 2.0 client created that the Action Flow can use for connection
+
+Go to your Action Flow - publish it and make it active.
+
+Go back to your Process Orchestration and from the list of available Action Flows, select the one you've just created.
+
+Tip
+
+If you can't see your Action Flow on the list, refresh the edit process step view.
+
+Select Next.
+
+To add an existing Action Flow:
+
+From the list of available Action Flows, select the one you want to use as a process step.
+
+When adding or editing a step, you can see a list of all Action Flows available for a given Process Orchestration. You can directly access the individual Action Flows to make changes, activate them, or check their status.
+
+Click Next.
+
+Action Flows created this way are immediately available for use within Process Orchestration. We advise to test your setup before deploying it. See Testing Process Orchestration.
+
+Related topics
+
+Action Flow modules in Process Orchestration
+
+Connecting Action Flows and Process Orchestration
+
+Troubleshooting Action Flows in Orchestration Engine
+
+--- Action Flow modules in Process Orchestration ---
+https://docs.celonis.com/en/action-flows-in-process-orchestration-3255387.html
+Celonis Product DocumentationAutomationOrchestration EngineEditing process stepsAdding Action Flows to Process OrchestrationAction Flow modules in Process Orchestration
+Action Flow modules in Process Orchestration
+
+Orchestration Engine Process Steps can reference Action Flow. These perform a variety of actions. The modules are used to link apps and services together.
+
+To learn more about Action Flow, see Action Flows and Modules.
+
+There are several different types of  Action Flow Action Flow modules available for Orchestration Engine, including Forms, and Process Orchestration.
+
+Orchestration Engine has different types of Action Flow modules.
+
+Collapse all
+Orchestration modules
+
+The orchestration modules are responsible for interactions between Orchestration Engine and Action Flows. These modules allow the two applications to communicate. They are used as triggers, mid triggers, updates of process context, or for notifications when an Action Flows's execution is complete.
+
+Completion modules
+
+The completion modules are responsible for sending notifications to Orchestration Engine when an Action Flow is finished. They also send event data that is saved in the process context of the running Process Orchestration instance. For this, they need the instance ID from the starter module and the Event that is an outcome of running the Action Flow step.
+
+Completion Event - the module is used for sending notifications about a completed Action Flows.
+
+Start New Orchestration - the module can be used as a trigger for a new Process Orchestration instance. Using the module, you can connect with any other application. When such a connection is configured, any signals or actions from the connected app work as triggers for the orchestration.
+
+Tip
+
+In the Start New Orchestration module, you can set your custom ID of the Signal Event. You can reference this ID the Get Context module to learn what digital processes were started by what event instance.
+
+Forms modules
+
+Orchestration Engine is integrated with Form.io, which provides a solution for building a variety of forms from a variety of components. Using the pre-built forms Action Flow modules, you can include forms in your automation scenarios.
+
+Submit Form Draft - the module makes it possible to have a draft form version, before the submission. With this module, the form is autosaved as a draft, but it's not submitted yet - no submission event is sent. The recipient can update the form before they decide to submit. However, the module uses a dynamic form definition instead of raw JSON data.
+
+Create a Public Form Link - the module creates a link with a designed form, or multiple forms combined into one. The created magic link can be used to access the form through the web. See Create Public Form Link.
+
+Get a Public Form Link - the module is used to access the data from a form that was submitted, or saved as a draft, along with the specific schema of the submitted form. The module receives data about forms, and it returns this information:
+
+the forms definition (schema) that is linked to the magic link
+
+data that has been saved up to the specific point in time
+
+metadata about the submission
+
+Submit Form - the module is used together with the Create Form Magic Link to generate a pre-populated form, which can be sent to a user. Using the module settings, you can map the fields between a form created in the OE Management Dashboard and the module in your Action Flow scenario. If you choose to map the fields, all the values are automatically added.
+
+Submit form as JSON payload - the module is used with Create Form Magic Link to generate a form. However, unlike the Submit Form module, it uses a raw data payload in a JSON format. You can use the mapping option, but it only maps the form's ID from the Create Form Magic Link module used in the Action Flow. You have to add the JSON payload manually.
+
+Process Context Interaction modules
+
+Process Context is a JSON object that contains information about an overall Orchestration Engine.
+
+In Action Flow, the data for process context is sent from the Resume Event module when a scenario is completed. The data is then passed through the subsequent scenarios/process steps. However, Orchestration Engine can also use process context modules to search for process context and, also, to update the context in the middle of a scenario run.
+
+Search Process Context - the module is used to find process contexts related to a specific tenant. It uses criteria such as Process Orchestrations, event fields, and processing state.
+
+Get Process Context - the module is used to return an process context for the given instance ID. It fetches the current state of the process context.
+
+Resume Event - the module is used as a wake up trigger for a paused Process Orchestration instance.
+
+Set Variable from Process Context - the module is used for mapping process context data. Using the context data gathered throughout a running scenario requires mapping this context data while setting up new scenarios in the same Process Orchestration. You can do the mapping using the Set Variable from Process Context module that works with events fields in a type safe way. The mapping is based on selecting only the whole context object and the fields that you want to assign.
+
+In the module's configuration, you can select an event field that you want to use in the specific Process Orchestration and assign its output to an Action Flow Variable. You can also specify, if the module should throw an error if the event type's value isn't present. Both primitive and complex types can be assigned.
+
+The process context object mapping is supported for the Data object sent through the Trigger Event module, and the Context object from Search Process Contexts or Get Process Context modules.
+
+Note
+
+To make the Set Variable from Process Context module work, you need to select the Process Orchestration and an example of the Orchestration Engine instance that had run in the past. Orchestration Engine and instance ID allow to select the Event Type field that you want to extract.
+
+Related topics
+
+Adding Action Flows to Process Orchestration
+
+Troubleshooting Action Flows in Orchestration Engine
+
+Action Flows
+
+--- Troubleshooting Action Flows in Orchestration Engine ---
+https://docs.celonis.com/en/troubleshooting-action-flows-in-orchestration-engine.html
+Celonis Product DocumentationAutomationOrchestration EngineEditing process stepsAdding Action Flows to Process OrchestrationTroubleshooting Action Flows in Orchestration Engine
+Troubleshooting Action Flows in Orchestration Engine
+
+A common issue you can observe when using Action Flows in Process Orchestration is when an Action Flow fails midway while the Process Orchestration is still running. This page will help you investigate this cause of the failure, apply the necessary fix to the Action Flow, and successfully resume the Process Orchestration to ensure normal operation.
+
+Identify the Process Orchestration step that's stuck: In the Process Orchestration, locate the specific Action Flow where the process is stuck in a running state. Review the flow to determine which step is not running properly.
+
+Review and correct the Action Flow: Open the identified Action Flow and pinpoint the exact step where the failure occurred. Investigate the cause of the error within that step. For example, an incorrect URL or a missing configuration. See Error handling.
+
+Save, test, and publish the changes: After implementing the necessary corrections, validate the fix by running tests to ensure the Action Flow executes successfully. Once the results are satisfactory, proceed to save and deploy your changes.
+
+Retrieve Action Flow details from history: Go to the Action Flow history for the failed instance. Open the Get Process Context module and copy the following key details:
+
+Digital Process Instance ID
+
+Action Flow Execution ID
+
+These details will be used to resume the failed Process Orchestration.
+
+Update the Action Flow execution ID: Open the Action Flow in Edit Mode, then select the Get Process Context module. Expand the Advanced Settings section and update the Action Flow Execution ID with the value from the failed execution.
+
+Apply changes to Other Orchestration Engine modules: Repeat the same procedure for other relevant modules of Orchestration Engine, such as Completion Event modules. Open each module, enable Advanced Settings, and update the Action Flow Execution ID with the value from the failed execution.
+
+Manually Run the Action Flow: Execute the action flow manually by providing the Digital Process Instance ID (dpInstanceId). You can find it in the input of your Action Flow.
+
+Verify that the Action Flow runs successfully and that all previously failed steps complete as expected.
+
+Verify completion in Process Orchestration logs: After successfully running the Action Flow, open the Process Orchestration log to confirm that the previously failed process step has completed. This ensures that the orchestration has resumed and is functioning as expected.
+
+Once all steps have been completed and the issue has been resolved, no further action is required. The process orchestration should now be running as expected, and the action flow has successfully resumed.
+
+Related topics
+
+Connecting Action Flows and Process Orchestration
+
+Action Flow modules in Process Orchestration
+
+Testing Process Orchestration
+
+--- Adding events to Process Orchestration ---
+https://docs.celonis.com/en/adding-events-to-process-orchestration.html
+Celonis Product DocumentationAutomationOrchestration EngineEditing process stepsAdding events to Process Orchestration
+Adding events to Process Orchestration
+
+Events in Process Orchestration specify when something happens in your process; they act as signals for when a process should start or advance to the next stage; they’re triggered by specific activities or conditions, for example, missing purchase order confirmation, or a predefined schedule. They can come from Celonis or from outside.
+
+Events carry the essential process context data needed to execute subsequent steps. When a given action for a step is finished, for instance, an Action Flow is executed, information from that execution is fed back to the Process Orchestration to push the process forward.
+
+There are two main subtypes of events:
+
+Triggered Events – start or progress an orchestration when something happens. For example, a user clicks a button, email is sent, or vendor feedback is received.
+
+Timer Events – Start or progress an orchestration based on time. For example, run daily, or resume process after three days with no response.
+
+Collapse all
+Adding triggered events to Process Orchestration
+
+Trigger events act as the starting point for executing an orchestration. They're typically fed by insight from an Action Flow or sent through authenticated webhooks from external systems when a specific action occurs, such as a missing PO confirmation
+
+Adding triggered events
+
+In Studio, go to your package and select your Process Orchestration. 
+
+Select the Start process step and from the side panel, click Add event.
+
+In the Start Step editor, click Add event.
+
+Give your event a name (key) and a description (label) for easy identification in the event list.
+
+(optional) Toggle Link asset to add extra assets that will be used as triggers for Process Orchestration.
+
+These assets can only be used to start Process Orchestration. Each asset type can be linked to the event you're creating right now but also to already existing events on the list. See also, Starting Orchestration Engine using Annotation Builder.
+
+Click Save.
+
+The event is created and added to the process step.
+
+Adding timer events to Process Orchestration
+
+Timer events serve as a flexible mechanism to schedule and control executions of Process Orchestration. They support a variety of trigger configurations to manage diverse timing and scheduling requirements. Timer events can work both as starting triggers, when they initialize a Process Orchestration, and as the wake-up triggers placed between process steps.
+
+In Studio, go to your package and select Process Orchestration. If you haven't created any Process Orchestration yet, see Creating Process Orchestration.
+
+Under a process step, click the plus icon and select Resume process.
+
+(optional) Define specific conditions for running this step. Click Create conditions. For more information, see Conditional Process Orchestration run.
+
+Go to the Timer event tab.
+
+Select how you want the process to be resumed:
+
+Using context variable
+
+Use the variable stored in the Action Flow Process Context as information about when your Process Orchestration should be resumed.
+
+The variable must be configured in the following format:
+
+.sleeping_until.until
+
+where the wake-up trigger is the until property in the .sleeping_until event.
+
+One time only
+
+Select the date and time when the event should be resumed.
+
+On a repeating schedule
+
+Define recurring schedules using precise timing rules, such as every Tuesday, every 30 minutes or every month at a specified time.
+
+Related topics
+
+Creating Orchestration Engine overview
+
+Starting Process Orchestration
+
+Connecting Action Flows and Process Orchestration
+
+--- Adding cloud functions to Process Orchestration steps ---
+https://docs.celonis.com/en/adding-cloud-functions-to-process-orchestration-steps.html
+Celonis Product DocumentationAutomationOrchestration EngineEditing process stepsAdding cloud functions to Process Orchestration steps
+Adding cloud functions to Process Orchestration steps
+
+Cloud functions enable you to define and execute authenticated API calls to any external web services directly from Process Orchestrationsteps. This allows you to collect relevant data from external services and inject it back into your orchestration.
+
+Collapse all
+Before you begin
+
+To use cloud functions in Process Orchestration, you will have to establish a connection between your Process Orchestration step and a dedicated cloud server. Make sure you have your connection details handy, or check with your system admin for them. For the list of required settings, see the detailed steps below.
+
+Create a Process Orchestration step. See Editing process steps.
+
+Adding cloud functions to process steps
+
+In the process step editor, select the Cloud function tab.
+
+Click Configure cloud function.
+
+Give the cloud function a name.
+
+To provide the connection details, from the dropdown menu, select the cloud provider. Select from the following connection types:
+
+Note
+
+If you want to connect to an API or external web service that is publicly accessible or does not require authentication to be called, skip this step and go straight to Step 5: Execution settings.
+
+Amazon Connect - this is a preconfigured integration for which you only need to provide your connection information. You should be able to find the following information in your AWS Management Console:
+
+Filter
+
+Setting
+
+	
+
+Description
+
+	
+
+Example
+
+
+
+
+Connection name
+
+	
+
+Label for the connection.
+
+	
+
+Amazon CNT
+
+
+
+
+Default region
+
+	
+
+Geographic area AWS tools and services will use by default when you don't explicitly specify one.
+
+	
+
+eu-central-1
+
+
+
+
+Access key ID
+
+	
+
+System user's ID in AWS.
+
+	
+
+AKIAIOSFODNN7EXAMPLE
+
+
+
+
+Secret access key
+
+	
+
+Password associated with the Access Key ID.
+
+	
+
+Custom - connect to a cloud provider of your choice. Provide the following information:
+
+Filter
+
+Setting
+
+	
+
+Descritpion
+
+	
+
+Example
+
+
+
+
+Connection name
+
+	
+
+Label for the connection.
+
+	
+
+My custom connection
+
+
+
+
+Base URL
+
+	
+
+Address of the cloud server you want to reach.
+
+Required format: https://<your-domain>
+
+	
+
+https://api.example.com
+
+
+
+
+Authentication type
+
+	
+
+API key
+
+
+
+
+Location - location where to attach the API key in the outgoing request. Possible values: Header, Query.
+
+	
+
+Header
+
+
+
+
+Name - label that your cloud server will be looking for.
+
+	
+
+x-api-key
+
+
+
+
+Value - unique password or token.
+
+	
+
+79402633-8f0a-4c8d-b3e1-72f88b532f1b
+
+
+
+
+OAuth 2.0
+
+
+
+
+Client ID - unique public identifier for your client.
+
+	
+
+f9b8c2d-1a2b-4c3d-9e8f-7g6h5i4j3k2l
+
+
+
+
+Client secret - authorization password or token.
+
+	
+
+
+
+
+Scopes - specific permissions you want your application to have when connecting to the cloud server. Check your server provider’s documentation for the exact list of scopes and their format.
+
+If you use OAuth Client created in Celonis Platforms, go to Admin & Settings and check the scopes set for the OAuth Client you want to use. Copy these scopes here using their names as listed in OAuth scopes.
+
+If you use OAuth Clients created outside Celonis Platform, check your server provider’s documentation for the exact list of scopes and their format.
+
+	
+
+intelligence.conversations:write
+
+
+
+
+Token URL - web address of the Authorization Server where your application sends the Client ID and Secret to exchange them for an Access Token.
+
+	
+
+https://team-name.celonis.cloud/api/external/oauth2/token
+
+
+
+
+Refresh URL  - web address of the Authorization Server where your application sends requests for a new Access Token without needing to re-authenticate with the Client Secret.
+
+	
+
+https://team-name.celonis.cloud/api/external/oauth2/refresh
+
+Define Execution settings using the HTTPS request builder. Enter the following values:
+
+Filter
+
+Setting
+
+	
+
+Description
+
+	
+
+Example
+
+
+
+
+Method
+
+	
+
+Action to perform on a specific resource identified by a URL. The most commonly used HTTP request methods are: GET, POST, PUT, DELETE.
+
+Cloud Functions execute synchronously
+
+When a Process Orchestration step triggers a Cloud Function, Orchestration Engine sends the HTTP request and waits for the response before proceeding to the next step. The response body is available to subsequent steps in the orchestration.
+
+	
+
+POST
+
+
+
+
+URI
+
+	
+
+Path of the API endpoint you’re calling. URI is relative to the base URL defined earlier.
+
+This field only accepts CEL expressions. Required format: "/your-endpoint" (including quotation marks). See CEL expressions.
+
+You use context variables from other steps in this field. To see values available for mapping, you must run the Process Orchestration test first.
+
+Note
+
+If you're connecting to an API or a publicly available service without a preconfigured connection, make sure the URI field contains the full URL. For example: "https://api.example.com/v1/charges"
+
+	
+
+"/v1/charges"
+
+
+
+
+Query parameters
+
+	
+
+Key-value pairs that allow you to filter or sort data.
+
+This field only accepts CEL expressions. Required format is: "key" "value" (including quotation marks). See CEL expressions.
+
+You use context variables from other steps in this field. To see values available for mapping, you must run the Process Orchestration test first.
+
+	
+
+Key: "environment"
+
+Value: "production"
+
+
+
+
+Body
+
+	
+
+Data payload sent with the request in JSON format.
+
+	
+{
+  "customer_name": "John Doe",
+  "priority": "High",
+  "is_active": true
+}
+
+
+
+Headers
+
+	
+
+Metadata sent along with the request.
+
+This field only accepts CEL expressions. Required format is: "key" "value" (including quotation marks). See CEL expressions.
+
+You use context variables from other steps in this field. To see values available for mapping, you must run the Process Orchestration test first.
+
+	
+
+Key: "Content-Type"
+
+Value: "application/json"
+
+Select a completion event. Select an existing event or create a new one.
+
+Completion events log details about the current step to provide content to the next steps in orchestration. Subsequent steps use this data to determine when the previous step has completed so they can begin execution.
+
+Your step is created. Continue building your process. We advise testing it before deployment. See Testing Process Orchestration.
+
+Related topics
+
+Adding Action Flows to Process Orchestration
+
+Adding cloud functions to Process Orchestration steps
+
+--- Adding Process Copilot to Process Orchestration steps ---
+https://docs.celonis.com/en/adding-process-copilot-to-process-orchestration-steps.html
+Celonis Product DocumentationAutomationOrchestration EngineEditing process stepsAdding Process Copilot to Process Orchestration steps
+Adding Process Copilot to Process Orchestration steps
+
+You can use Process Copilot capabilities directly in Process Orchestration steps. Process Copilot is a Studio asset that allows you to interact conversationally with your Celonis data: asking questions, building graphs, looking for insights, or viewing process flows. You can analyze your data by asking natural language questions or using the predefined prompts to get your response in a variety of formats.
+
+For more information, see Process Copilots.
+
+Collapse all
+Before you begin
+
+Add and publish a Process Copilot in your Studio package. See Tool ActivationTool Activation.
+
+Create a Process Orchestration step. See Editing process steps.
+
+Adding Process Copilot to a process step
+
+In the process step editor, select the AI Agent tab.
+
+From the list of available agents, select your Process Copilot instance.
+
+Click Next.
+
+Give your Process Copilot step a name.
+
+In the Message field, enter the text of the message you want to send to Process Copilot you previously selected.
+
+The text in the message field needs to be enclosed in double quotes.
+
+You can use variables in the message. Use the ‘+’ symbol to connect the variable to the string text.
+
+If you’ve never tested this Process Orchestration instance, you may not see variables yet. Variables appear after the first test run.
+
+Select a completion event. Select an existing event or create a new one.
+
+Completion events log details about the current step to provide content to next steps. Subsequent steps use this data to determine when the previous step has completed so they can begin execution.
+
+Click Save.
+
+You’ve added a Process Copilot to your Process Orchestration step. We recommend testing your Process Orchestration after this change. See Testing Process Orchestration.
+
+Related topics
+
+Adding Action Flows to Process Orchestration
+
+Adding cloud functions to Process Orchestration steps
+
+--- Adding conditions to steps ---
+https://docs.celonis.com/en/adding-conditions-to-process-orchestration-steps.html
+Celonis Product DocumentationAutomationOrchestration EngineEditing process stepsAdding conditions to steps
+Adding conditions to Process Orchestration steps
+
+For every step of your digital process, you can add a condition that would be used by the process context to decide whether the particular step should be processed or not. You can use existing events or custom JSON logic to determine if a step should be run or skipped.
+
+Collapse all
+Adding conditions to Process Orchestration steps
+
+In your Process Orchestration, edit one of the existing steps or add a new one.
+
+Select Create conditions.
+
+Select the condition you want to set for your step:
+
+Event filter -select one or more events that will start your process step. If none occur, the step is skipped.
+
+Rule - create a condition using a JSON logic expression. See Rules for step conditions.
+
+Click Submit.
+
+The condition is added to the process step.
+
+Rules for step conditions
+
+To create step conditions rules, use the JSON logic expression language and extend it with custom operators. The JSON logic expressions are a direct expression placed in the field.
+
+Customer operators:
+
+context - this is used to access a dynamic value inside the process context in a way similar to the var operator. If access to a dotted key is needed, the dotted key should be quoted with backquotes ( ` ).
+
+Logic
+
+{"context": "`key.with.dots`.boolean"}
+
+Process Context
+
+{"key.with.dots": {"boolean": true}}
+
+Results
+
+true
+
+Extended behavior:
+
+var - Inside a digital process, the data means the context with the parent key. For example, if the process context is:
+
+{"event": {"key": "value"}}
+
+Then, the data for the JSON logic expression would be:
+
+{"context": {"event": {"key": "value"}}}
+
+Dotted keys must be backquoted to work.
+
+Logic
+
+{"var": "context.`key.with.dots`.boolean"}
+
+Process Context
+
+{"key.with.dots": {"boolean": true}}
+
+Result
+
+true
+
+Related topics
+
+Creating Orchestration Engine overview
+
+Starting Process Orchestration
+
+Connecting Action Flows and Process Orchestration
+
+--- Testing Process Orchestration ---
+https://docs.celonis.com/en/testing-process-orchestration.html
+Celonis Product DocumentationAutomationOrchestration EngineTesting Process Orchestration
+Testing Process Orchestration
+
+Testing your Process Orchestration allows you to simulate the end-to-end orchestration workflow before deploying it to production. You can run a test orchestration directly from the Process Orchestration builder by providing a test JSON payload to it.
+
+Collapse all
+Testing Process Orchestration
+
+In your Process Orchestration builder, toggle the Test button at the top.
+
+Click Start a new test.
+
+In the Test process screen, supply a sample JSON payload, like a dummy purchase order number or instance data, to simulate the data coming from the trigger event.
+
+Click Run.
+
+Once the JSON payload enters the orchestration, it sequentially executes all defined steps, including triggering any associated Action Flows. Check the test panel for the outcome of your testing and the status of your orchestration. Here, you can review the event logs to examine the executed action. For subsequent process steps, you can inspect the detailed input, output, and completion event logs.
+
+Testing gateways
+
+This feature is currently available as a Private Preview only
+
+During a Private Preview, only customers who have agreed to our Private Preview usage agreements can access this feature. Additionally, the features documented here are subject to change and / or cancellation, so they may not be available to all users in future.
+
+For more information about our Private Preview releases, including the level of Support offered with them, see: Feature release types.
+
+To verify that every branch in your gateway works correctly, configure a test payload that meets the conditions of each branch, then run the process for each branch separately.
+
+Example
+
+In this scenario, Process Orchestration has two branches. Each branch has the region attribute set with distinct values of APAC in one, and EMA in the other.
+
+To test this setup:
+
+In the test tab, we define the payload that meets the condition of the first branch and we run the test.
+
+{
+    "region": "EMEA"
+}
+
+Once we've verified that the first branch works as expected, we define a new test payload that meets the requirements of the second branch and run the test again:
+
+{
+    "region": "APAC"
+}
+Related topics
+
+Starting Process Orchestration
+
+Troubleshooting Action Flows in Orchestration Engine
+
+--- Conditional branching ---
+https://docs.celonis.com/en/conditional-branching-in-orchestration-engine.html
+Celonis Product DocumentationAutomationOrchestration EngineConditional branching
+Conditional branching in Orchestration Engine
+
+This feature is currently available as a Private Preview only
+
+During a Private Preview, only customers who have agreed to our Private Preview usage agreements can access this feature. Additionally, the features documented here are subject to change and / or cancellation, so they may not be available to all users in future.
+
+For more information about our Private Preview releases, including the level of Support offered with them, see: Feature release types.
+
+Conditional branching expands your orchestration capabilities by allowing you to build parallel process flows in a single Process Orchestration. By creating branches with custom conditional logic, you can build more complex and scalable orchestrations and reduce the number of orchestrations for a single business scenario. This way, you can reduce manual interventions and limit troubleshooting of your processes.
+
+Collapse all
+Adding conditional branches in Process Orchestration steps
+
+You can add branches to the steps of your Process Orchestration. For more complex use cases, you can also create branches within existing orchestration branches.
+
+In your Process Orchestration, select the + icon > Flow control.
+
+Right now, this area only allows you to add Gateway as the only flow control mechanism. However, other flow control mechanisms are coming soon.
+
+From the side panel, select Gateway.
+
+Gateways allow you to define conditions that will guide your process through specific flows depending on the criteria you set. For example, you want to set a purchase order request to different approvers depending on their value; orders below 100USD should go to person A and orders above 100USD to person B. By default, two branches are created for you. You can add more if needed.
+
+From the Flow control panel, select the first branch to define conditions for routing the orchestration through it:
+
+Give your branch a distinct name.
+
+(optional) Decide if you want to make this a fallback branch. A fallback branch is the default branch to use when conditions specified in other branches can’t be met. For example, in the purchase order flow, this could be a branch where invoices with errors, like missing PO numbers, go to.
+
+Note
+
+You can only have one fallback branch in your Process Orchestration.
+
+Define conditions for this branch.
+
+There are a few things to consider before you start creating conditions:
+
+Condition rules for Process Orchestration branches only accept Common Expression Language (CEL) format. Here are some basic rules for creating expressions in CEL. For Celonis-specific examples, see CEL expressions. For more information on CEL, see cel.dev.
+
+Static text must be wrapped in double quotation marks (“ “). For example:
+
+request.payload.status == 'APPROVED'
+
+Values not wrapped in double quotation marks (“ “) are treated as variables.
+
+You use context variables from other steps in this field. When you start defining your condition for the first time, there is no output you can reference. You must start a test run to see the values available for mapping. Alternatively, you can map these values manually using the following:
+
+ contextEventPath("event-name:property") 
+
+You can use nested conditions.
+
+Configure all remaining branches.
+
+Your conditional branches are configured. You can continue building your orchestration. Depending on your scenario, you can continue building your orchestration with separate branches OR you can decide to merge branches into single flows. To do that, see Merging conditional branches. When you’re done, we recommend testing your setup.
+
+Merging conditional branches
+
+Merging conditional branches allows you to combine two or more flows in your orchestration into a single branch.
+
+Note
+
+You can only merge sibling branches. You can’t merge branches coming from different gateways.
+
+Select the first branch you want to merge. Click the + icon > Flow control.
+
+From the side panel, select Merge.
+
+From the Flow control panel, select Edit merge.
+
+Select the branches you want to merge and click Merge.
+
+Your conditional branches are now merged. You can continue building orchestration. When you’re done, we recommend testing your setup.
+
+Running parallel branches
+
+Parallel branching allows multiple process paths to execute simultaneously when their branching conditions are met.
+
+Parallel branches can be forced to run by setting branching conditions on each path that evaluate to true. When a process context splits into parallel paths, each path receives an identical copy of the process context from the output of the previous step.
+
+If parallel branches are listening for the same resume event (such as a form submission), only one branch will receive the event and proceed. The branch that reaches its waiting point first is the one that proceeds. The other branch will remain at its waiting node until a second instance of that event is emitted.
+
+Resolving conflicts when merging
+
+In Process Orchestration, when branches merge, the process context is combined. This might occasionally lead to conflicts. Merge conflicts happen if two events from different branches share the same event key.
+
+In the event of a conflict, the system resolves it by replacing the data with the event key from the rightmost branch. The output of the merge is a single large process context where all events are "stacked" on top of each other.
+
+Related topics
+
+Adding events to Process Orchestration
+
+Starting Process Orchestration
+
+--- Connecting Action Flows and Process Orchestration ---
+https://docs.celonis.com/en/connecting-action-flows-and-process-orchestration.html
+Celonis Product DocumentationAutomationOrchestration EngineConnecting Action Flows and Process Orchestration
+Connecting Action Flows and Process Orchestration
+
+You can use Action Flows as building blocks for Process Orchestration. Action Flows in Celonis Platform are automated workflows built from a series of modules that indicate how data should be transferred and transformed between apps and services.
+
+Once you add Process Orchestration to your Studio package, it will be immediately available for use in dedicated Action Flow modules. However, in some cases, you might need to establish a connection between the Orchestration Engine and Action Flows manually. This is necessary when you create an Action Flow first and then decide to add it to Process Orchestration.
+
+Collapse all
+Connecting Action Flow with Process Orchestration manually
+
+Adding Process Orchestration to your Studio package makes it instantly available for use in Action Flows. If, however, you create Action Flow first and then decide to connect it to Process Orchestration, you must manually establish the connection between the two.
+
+Create an OAuth client with the necessary scopes. For step-by-step instructions on how to add a new OAuth client to Celonis Platform, see Registering your OAuth client. The minimum required scopes for the Orchestration Engine are:
+
+orchestration-engine
+
+studio (knowledge-models:query, knowledge-models.augmented-attributes:update, studio, triggers:manage).
+
+Give your new client package permissions. In Studio, find the listing for the relevant package within the relevant space and click the associated three dots on the far right to open up the Permissions associated with the package.
+
+Search for the name of your OAuth client as a user, and in the Template column, select "All Permissions" and save.
+
+Add a Process Orchestration module, for example, a Completion Event, to Action Flow.
+
+In your module, open the connection configuration. Select Add in the connections section. You'll see the Create a connection window.
+
+Enter the Client ID and the related Client Secret.
+
+You can copy and paste the ID and the secret created in Step 1.
+
+Choose the environment with which you want to establish the connection.
+
+Select Save to create the connection.
+
+You've connected Action Flow with your Orchestration Engine.
+
+Related topics
+
+Action Flow modules in Process Orchestration
+
+Adding Action Flows to Process Orchestration
+
+Troubleshooting Action Flows in Orchestration Engine
+
+--- Forms in Orchestration Engine ---
+https://docs.celonis.com/en/forms-in-orchestration-engine.html
+Celonis Product DocumentationAutomationOrchestration EngineForms in Orchestration Engine
+Forms in Orchestration Engine
+
+Orchestration Engine allows you to build highly customizable digital forms that render in the browser. Forms are available as an Asset type in Studio. Currently, in Orchestration Engine, you can:
+
+see all the forms that were created in your team
+
+create a new form
+
+duplicate a form
+
+remove a form.
+
+Forms in Orchestration Engine are built using third-party technology from form.io. For detailed information about forms, we recommend visiting form.io’s documentation. To get started, see Component settings and Logic & conditions.
+
+Collapse all
+Before you begin
+
+To start working with the forms builder, you should get familiar with the basic features and the components that are used there. To learn about the solution, see the Form Building documentation.
+
+Forms are built using a dedicated Studio component. Sharing, grouping, importing submission data, and other operations on Forms require dedicated Action Flow modules. For a list of dedicated modules, see Modules for Forms.
+
+Creating forms in Orchestration Engine
+
+To create a new form:
+
+In Studio, go to your package.
+
+Click Create Asset and select Form.
+
+Give your form a name.
+
+Choose the components that you want to have in the form. You can select from the basic, advanced, layout, and data components. Add the components by using the drag and drop feature, which allows for putting the components at any place, before or after other components.
+
+For every component that you add, there's a detailed view with the configuration settings for this specific field in the form. You can customize your component with different values, data or conditions.
+
+For more details, see the Component Settings documentation.
+
+To preview the form after you've added all the components, exit the edit mode
+
+Click Save Form.
+
+Tip
+
+The submit button is added to your forms automatically.
+
+Editing forms
+
+To edit an existing form, click on it in the forms list. The edit mode is opened straight away and you can apply your changes.
+
+If you want to reorder or edit the selected components, you use the inline components settings and adjust the component to your needs.
+
+Duplicating forms
+
+To duplicate an existing form, click the three dots next to the Form in the package asset list and click Duplicate.
+
+Duplicated forms are added to the package asset list and displayed with the suffix "copy" in the form's name. You can then rename them.
+
+Deleting forms
+
+To delete a form, click on the three dots in the package asset list and click Delete. The asset will remain in the “recently deleted” section of the package settings for a period of seven days.
+
+Related topics
+
+Sharing forms
+
+Starting Process Orchestration
+
+Localizing forms
+
+--- Sharing forms ---
+https://docs.celonis.com/en/sharing-forms-in-orchestration-engine.html
+Celonis Product DocumentationAutomationOrchestration EngineForms in Orchestration EngineSharing forms
+Sharing forms in Orchestration Engine
+
+Easily share your Orchestration Engine forms with external users using a magic link.
+
+To share forms , you must generate a shareable link using a dedicated Action Flow module called Create Public Form Link.
+
+This module lets you create either a public link accessible to anyone or a restricted link for specific users. Once you run the Create Public Form Link module, your new link will be available in the output. For detailed information on how to configure this module, see Create Public Form Link.
+
+If you defined assignees when creating the link, they must use the email address provided in the Action Flow module to access the form. Once they log in, they will receive an official message containing a direct link to the form.
+
+Related topics
+
+Forms in Orchestration Engine
+
+Localizing forms
+
+--- CEL expressions ---
+https://docs.celonis.com/en/using-cel-expressions-in-orchestration-engine.html
+Celonis Product DocumentationAutomationOrchestration EngineCEL expressions
+Using CEL expressions in Orchestration Engine
+
+Orchestration Engine uses Common Expression Language (CEL) whenever your configuration involves data mapping. CEL is an expression language that offers a safe and highly customizable way to map your incoming data.
+
+Here are some rules for creating the most common expressions in CEL to get you started. For more information on CEL syntax, see cel.dev.
+
+Static text must be wrapped in double quotation marks (“ “).
+
+request.payload.status = “APPROVED”  
+
+Context variables and system properties must NOT be wrapped in double quotation marks (“ “).
+
+If you wrap a variable in quotation marks, the system will identify it as standard text.
+
+settings.target_vendor = request.payload.vendor_name
+
+Numerical values must NOT be wrapped in double quotation marks (“ “).
+
+double(json.invoice_amount) > 50000.0
+
+When branching in Process Orchestration, the condition builder allows you to reference values from the output of a Process Orchestration run and combine them with CEL expressions. When combining CEL expressions and context variables, you must use the plus sign (+).
+
+context.source_system +request.payload.invoice_num
+
+Note
+
+When you start defining your condition for the first time, there's no output data to reference yet. Run a test to orchestration generate it, or map values manually using the following expression:
+
+ contextEventPath("event-name:property") 
+
+Use the plus sign (+) to combine mapped data with static values:
+
+NAME1 + "VIP customer"  
+
+Use the standard arithmetic operators (+, -, *, /, %) for any sort of calculations:
+
+"Sales_Order_Items"."Price" * "Sales_Order_Items"."Quantity" 
+
+To enter special characters, you must use a backlash (\) to escape them:
+
+resource.path.startsWith("C:\\Users\\Admin")
+
+--- Connecting Orchestration Engine with MLWB ---
+https://docs.celonis.com/en/connecting-orchestration-engine-with-machine-learning-workbench.html
+Celonis Product DocumentationAutomationOrchestration EngineConnecting Orchestration Engine with MLWB
+Connecting Orchestration Engine with Machine Learning Workbench
+
+This guide details how to establish a secure connection to the Celonis Machine Learning Workbench (MLWB) and configure execution settings to trigger Jupyter Notebook runs from a Cloud Function process step in Orchestration Engine.
+
+This integration allows your processes to instantly trigger advanced machine learning models to resolve complex business challenges—such as predicting supply chain delays or assessing credit risks—in real time.
+
+Collapse all
+Before you begin
+
+Make sure you have the following prepared:
+
+The OAuth application with the following settings:
+
+Requirement type
+
+	
+
+Required value
+
+
+
+
+OAuth scope
+
+	
+
+machine-learning
+
+
+
+
+OAuth permission
+
+	
+
+Use permission for the specified Machine Learning Workbench app.
+
+For more information, see Registering your OAuth client and Available permissions.
+
+The OAuth application must have the Use permission for the specific Machine Learning Workbench app that contains the target notebook.
+
+Notice
+
+The exact permission label for execute rights differs slightly across tenant configurations and platform versions. Confirm the labels in your own tenant rather than assuming - the requirement (execute access to the specific MLWB app) is what matters, not a fixed wording.
+
+Connecting Orchestration Engine with MLWB
+
+In the Process Orchestration step, add a cloud function. See Adding cloud functions to Process Orchestration steps.
+
+Use the following setting for your connection configuration:
+
+Setting
+
+	
+
+Value
+
+
+
+
+Connection name
+
+	
+
+MLWB Connection
+
+
+
+
+Base URL
+
+	
+
+https://<your-team>.<cluster>.celonis.cloud
+
+
+
+
+Authentication type
+
+	
+
+OAuth2 Client Credentials
+
+
+
+
+Client ID
+
+	
+
+<your-oauth-client-id>
+
+
+
+
+Client secret
+
+	
+
+<your-oauth-client-secret>
+
+
+
+
+Scopes
+
+	
+
+machine-learning
+
+
+
+
+Token URL
+
+	
+
+https://<your-team>.<cluster>.celonis.cloud/oauth2/token
+
+
+
+
+Refresh URL
+
+	
+
+https://<your-team>.<cluster>.celonis.cloud/oauth2/token
+
+Important
+
+The Refresh URL must be populated with the token endpoint to pass the Cloud Function form validation, even if client credentials use a direct token exchange.
+
+Configure the execution details using the following settings:
+
+Setting
+
+	
+
+Value
+
+
+
+
+Method
+
+	
+
+POST
+
+
+
+
+URI
+
+	
+
+/machine-learning/api/executions
+
+
+
+
+Body (JSON Format)
+
+	
+
+The JSON body specifies exactly which notebook to run in your workspace, along with any parameters your notebook expects to receive when executed.
+
+Use the following JSON payload:
+
+{  "notebookId": "<your-notebook-id>",  "executionFileName": "<workspace>/<folder>/<your_notebook>.ipynb",  "params": {    "PARAM_1": "<value>",    "PARAM_2": "<value>"  }}
+
+where
+
+notebookId - the unique identifier of your MLWB notebook workspace.
+
+executionFileName - the exact file path of the .ipynb notebook you want to run.
+
+params - any custom variable parameters your notebook script reads dynamically during runtime.
+
+
+
+
+Headers
+
+	
+
+Key: Content-Type
+
+Value: application/json
+
+Select a completion event. Select an existing event or create a new one.
+
+Completion events log details about the current step to provide content to the next steps in orchestration. Subsequent steps use this data to determine when the previous step has completed so they can begin execution.
+
+Click Save.
+
+Your Process Orchestration cloud function is configured and ready to trigger the Machine Learning Workbench notebook. We recommend testing your Process Orchestration after this change. See Testing Process Orchestration.
+
+Related topics
+
+Creating Orchestration Engine overview
+
+Creating and managing applications
+
+--- Orchestration Engine known issues ---
+https://docs.celonis.com/en/orchestration-engine-known-issues.html
+Celonis Product DocumentationAutomationOrchestration EngineOrchestration Engine known issues
+Orchestration Engine known issues
+
+We've gathered resources and troubleshooting tips to help you resolve problems you might encounter when working with Orchestration Engine.
+
+Collapse all
+I'm seeing a sudden spike in my Orchestration Engine instances
+
+One of the main sources of a sudden spike in Orchestration Engine instances is an existing process loop created in your Process Orchestration. A loop typically occurs when an Action Flow that contains the Start New Orchestration module is used to initiate a process and is then subsequently referenced as a step within that same process, creating a recursive execution cycle.
+
+Solution
+
+To resolve a looped setup, you must break the Action Flow into separate automations: one that contains the Start New Orchestration module and another one that contains modules relevant to a given Process Orchestration Step. Make sure that the Action Flow that contains the Start Orchestration module is not used in the Process Orchestration step.
+
+Process with an empty branch stalls or gets blocked at Gateway
+
+A Process Orchestration instance that has no steps in a branch may fail to continue when reaching the gateway.
+
+Cause
+
+Empty gateway branches that are not marked as fallback branches can cause the process to stall or misfire. When a branch has no intermediate steps before the merge, the gateway does not handle the flow correctly, leading to unexpected process behavior.
+
+Solution
+
+Use one of the following workarounds for any gateway branch that has no intermediate steps before a merge:
+
+Mark the branch as a fallback branch - select the empty branch as the fallback to ensure the gateway handles it correctly.
+
+Add an empty Action Flow - insert a placeholder Action Flow on the empty branch to give it at least one intermediate step before the merge point.
+
+My Process Orchestration stops after completing a step and continues only upon manual re-run
+
+The situation in which your Process Orchestration stops after completing a step and continues only when you click re-run might occur when a process step and a resume step are put one after another in your orchestration and they both are configured to monitor the same event. In this setup, both steps wait to consume the same signal from the orchestration. Once it's received by the process step, the resume step doesn't have anything to consume, which pauses the process.
+
+Solution
+
+To resolve this setup, remove the resume step from your Process Orchestration and run the process again. We recommend testing your setup after making any changes. See Testing Process Orchestration.
+
+

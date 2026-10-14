@@ -1,0 +1,552 @@
+﻿========================================================================
+  CELONIS ACADEMY - HANDLE ERRORS IN ACTION FLOWS
+  Extracted: 2026-09-09 17:15  |  Personal study use only
+  Source: https://academy.celonis.com/learn/course/handle-errors-in-action-flows
+  Lessons: 5
+========================================================================
+
+########################################################################
+  LESSON 1 : Welcome to the Fail Zone [08:00]
+########################################################################
+
+----- Page 1 -----
+
+The Error Recap
+Welcome to the Fail Zone [08:00]
+Welcome!
+
+Welcome to Error Handling Strategies in Action Flows!
+
+This course is a key milestone within the Build Action Flows training track. While we recommend following the track in order, you are more than welcome to tackle this course as a standalone asset. However, a warning for the bold: to get the most out of these lessons, you should already have a substantial foundational understanding of Action Flows — including how to map variables, work with HTTP modules, and navigate the Celonis Studio environment.
+
+The Action Flow Builder's Dream Nightmare
+
+Imagine this: You’ve spent hours building a sophisticated automation for your global sales team. It works perfectly in your tests. You deploy it. Two hours later, you get a frantic message: "The tool is broken. It just says 'Internal Server Error' and told me to contact Support."
+
+You open your execution logs to inspect the crime scene…
+
+We are here today to not let this "dream" become reality. Instead, we want to actually focus on shifting our mindset towards being even more welcoming to errors occurring in our Action Flows! After all, failing Action Flows are part of the process, and they need to happen (to a certain extent) to make your Action Flow even more robust.
+
+The core skill we are focusing on in this course is:
+
+Resilient Action Flows by Design
+
+In the world of automation, success isn't defined by the absence of errors. Systems go down. Users enter "junk" data. APIs change.
+
+Success is defined by Resilient Design - the ability of your Action Flow to handle the unexpected gracefully. Error handling is not something you "tack on" at the end of a project; it is a fundamental part of the design process.
+
+We are going to shift your mindset from a "Happy Path" builder (designing for when everything goes right) to a Resilient Architect (designing for when things go wrong).
+
+Course Outlook: Your Learning Journey
+
+By the end of this course, you will be able to:
+
+Architect resilient flows that handle "Empty" or "Null" responses without crashing.
+Diagnose failures like a pro by inspecting faulty bundles in the execution history.
+Construct error-handling routes that divert "bad" data while keeping the rest of the batch moving.
+Master the Directives: Know exactly when to use Ignore, Break, Resume, Commit, or Rollback.
+Balance Strategies: Evaluate when to be proactive (cleaning data) vs. reactive (handling the error).
+
+Ready to begin? On the next page, we’ll get your environment ready so we can start breaking things on purpose.
+
+----- Page 2 -----
+
+The Error Recap
+Welcome to the Fail Zone [08:00]
+Prepare to Fail
+
+To learn how to handle errors, we first need some errors to handle! We will reuse our somewhat still fragile Currency Conversion tool for this course, which we had built in the "Advanced Data Wrangling" case study. It works perfectly for standard requests, but it has zero protection against bad data or system hiccups.
+
+Don't worry if you didn't complete the case study or if you no longer have access to the assets you built - we included instructions on how to (re)create your starting point below.
+
+Instead of the View, you can also leverage a new browser tab, but our instructions will be tailored to the View version.
+
+Step-by-Step Training Team Preparation
+
+Now that the "Fragile Flow" is ready, let's learn how to read the language of failure. On the next page, we’ll dive into the Anatomy of an Error.
+
+----- Page 3 -----
+
+The Error Recap
+Welcome to the Fail Zone [08:00]
+
+No topic content.
+
+########################################################################
+  LESSON 2 : The Error Spectrum [10:00]
+########################################################################
+
+----- Page 1 -----
+
+The Error Recap
+The Error Spectrum [10:00]
+Anatomy of an Error
+
+It’s time to break our tool. As a "Happy Path" builder, you’ve likely only tested valid currency pairs (like EUR to GBP). But as someone architecting resilient systems, we know that users don't always follow the rules…
+
+The Chaos Test
+Open your View.
+In the dropdowns, select the same currency for both the original and the target currency (e.g., EUR to EUR).
+Enter an amount to trigger the action.
+Observe the View: You’ll likely see a generic, cryptic error message in the interface saying "Something went wrong" and "Please contact customer support". Hint: we will not contact support! We are strong, independent Action Flow builders, so let's…
+Investigate the Backend! Navigate to your Action Flow and open the Execution History. Click on the latest execution (the one with the red warning).
+🔍 Code Red! What Happened?
+
+Inspect the HTTP Module that attempted to call the API. Look at the "Output" bundle and the status code. What error did you encounter?
+
+Option A: Status Code 200
+Option B: Status Code 422
+Option C: Status Code 500
+Recap: Decoding the Error Language
+
+When an Action Flow hits a snag, it provides a "Status Code." Think of these as the API's way of texting you its current mood:
+
+4xx Errors (The Client's Fault): These usually mean the request was wrong.
+400 (Bad Request): "I don't understand the format."
+422 (Unprocessable Content): "I understand the format, but the data is logically wrong".
+5xx Errors (The Server's Fault):
+500 (Server Error): "Something broke on my end, I'm not sure what."
+
+
+
+
+Why did the flow stop?
+
+By default, an Action Flow is designed to halt immediately when it encounters an error. It assumes that if one step fails, the subsequent steps (like sending an email or updating a record) shouldn't happen because they might rely on faulty data.
+
+Next Step: The errors where you get a clear status code, which you might be able to act on is not yet where it ends. On the next page, we’ll distinguish between Expected and Unexpected errors so you can decide which ones deserve a "Safety Net."
+
+----- Page 2 -----
+
+The Error Recap
+The Error Spectrum [10:00]
+Expected vs. Unexpected Errors
+
+As an architect, you need to decide which errors are "part of the job" and which ones are "emergencies." We categorize these into two main buckets to determine our response strategy.
+
+1. Expected Errors (The "Logical" Fails)
+
+These are errors you know might happen because of user behavior or specific business rules.
+
+The 422 Scenario: As you just saw, you can predict that a user might select the same currency twice. The API is even kind enough to tell us exactly what happened with the bad currency pair message.
+The 404 Scenario: You look for a Customer ID in a system that doesn't exist yet.
+The Strategy: As a pro, you handle these proactively. Ideally, you use filters or AI to "clean" data before it reaches a sensitive module. However, you also build Reactive "Safety Nets" (Error Handling routes) for those rare cases that slip through the cracks.
+2. Unexpected Errors (The "Technical" Fails)
+
+These are the surprises - the "breaks in the wire" that you cannot predict or prevent through data cleaning.
+
+Connection Errors: The API is down, the internet "blinked," or the server timed out.
+The Strategy: Since you can't "proactively" prevent an external server from crashing, your strategy here is Stability - using tools like "Automatic Retries" to wait out the storm.
+Internal vs. External: Who is at fault?
+
+To diagnose a crash quickly, always ask: Where did it break?
+
+Internal Errors: These are inside your Action Flow. If you see a Validation Error before the flow even runs, or a Syntax Error during execution, it’s an internal logic, mapping, or formula issue.
+External Errors: These come from the outside world (like our 422 error from the Frankfurter API). You send a request, and the external system reacts like Carol Beer: "Computer says no."
+
+
+
+
+ERROR TYPE	SOURCE	EXAMPLE	FOCUS
+Data Error	External	422: Bad currency pair	Resilience (Handling the input)
+Connection	External	Timeout / 503 Service Unavailable	Stability (Retrying)
+Syntax	Internal	Invalid Formula	Quality (Fixing the code)
+
+
+
+
+The Goal: From Red to Green
+
+Our mission in the "Chaos Lab" coming up isn't just to stop the errors, but to decide which ones we should "embrace" to make the tool more user-friendly.
+
+Next Step: Before we start fixing things, there is one more category of errors we need to watch out for: the ones that stay "Green" but are actually failing.
+
+----- Page 3 -----
+
+The Error Recap
+The Error Spectrum [10:00]
+"Silent" Errors
+
+If a 422 error is a fire alarm, a Silent Error is like a carbon monoxide leak (which wouldn't be detected by most photoelectric fire detectors). There is no loud noise, no red bubbles, and the "Execution History" shows a successful status. However, the intended automated process has not actually been completed, or at least not as planned.
+
+Why are some Action Flow executions still "green" even though they fail?
+
+An Action Flow execution is "Successful" as long as all its modules can somehow work with the inputs they receive. If some combination of inputs and their processing accidentally tells the flow to do nothing, it will do "nothing" perfectly.
+
+Common Scenarios:
+The "Phantom" Filter: You add a filter with a tiny typo (e.g., Status = ' Open' with an extra space). The filter drops 100% of your data. The Action Flow finishes successfully because it technically fulfilled the logic, but no actual work was done.
+Empty API Responses: You ask a system for "Order Details." The system finds nothing and returns an empty list []. Since an empty list is a valid data type, the flow doesn't crash - it simply stops processing the subsequent modules because there are no "bundles" to work with.
+The "Ignore" Trap: If you apply an Ignore directive (which we will cover later) to a critical module, you are telling the flow to "hide" the error. The bubble stays green, but the data that should have been written to your system is missing.
+
+
+
+
+How to make the silence heard
+
+To identify silent errors, you have to look past the green checkmark:
+
+Check Bundle Counts: Always look at the small numbers above the connection lines in your execution history. If 10 bundles went into a filter and 0 came out, you’ve found your leak.
+Audit Logs: For mission-critical Action Flows, it may be an option to add a module that logs the result or sends a notification once complete. If you don't receive such notifications or the variables inside the notification are empty, you immediately know something is off.
+Validation Inputs: Use the "Required" toggle on your Action Flow inputs to ensure the Action Flow doesn't even start if essential data is missing.
+The Human Touch: We are training to not let it get that far, but in the end, you can be sure someone reaches out (or doesn't), sends a ticket, or makes you otherwise aware that something seems to be broken in your Action Flow.
+
+You now know the full spectrum:
+
+The Loud (4xx/5xx): They turn the flow red and demand attention.
+The Unexpected (Connection/Syntax): Technical breaks that stop the flow cold.
+The Silent (Filters/Logic): The trickiest to catch because they hide behind a green status.
+
+Pro Tip: Enable Action Flow Notifications
+
+You can (and should) enable email notifications for your flows at the Package level. This ensures that if an Action Flow moves from "Silent" to "Loud" and fails repeatedly, you are alerted immediately.
+
+How to enable: Navigate to your Package Settings → Action Flow Notifications.
+What to monitor: You can choose to be notified about Errors, Warnings, and - most importantly - Deactivations (when Celonis automatically deactivates an Action Flow due to excessive failures).
+
+Next Step: The Chaos Lab. 
+
+It’s time to move from theory to action. We are going back to our Currency Tool to turn that cryptic "Bad Currency Pair" error into a professional, user-friendly experience.
+
+----- Page 4 -----
+
+The Error Recap
+The Error Spectrum [10:00]
+
+No topic content.
+
+########################################################################
+  LESSON 3 : Handling Errors Like a Pro [17:00]
+########################################################################
+
+----- Page 1 -----
+
+The Chaos Lab
+Handling Errors Like a Pro [17:00]
+Turn Red Into Green
+
+The "Bad Currency Pair" error we encountered in our Currency Conversion tool is comparable to the following situation:
+
+💡 You'd like to create a new account, but you didn't add a special character to your password - the interface is blocking you from proceeding with the account creation until you have "cleared this validation error".
+
+How would you describe the error-handling technique that has been applied here? How could you translate this into the situation we have at hand with the "same currency error"?
+
+(One) Solution | Theory
+
+Did you come to a similar conclusion as outlined above? If yes, either try giving it a shot to implement this technique yourself or expand the section below for direct step-by-step guidance.
+
+(One) Solution | Practice
+Observation
+
+You should no longer see the cryptic error message in the View. However, take a close look at the Action Flow execution history. What do you notice?
+
+Even though we handled our error for "bad currency pairs", the Action Flow may still be trying to process remaining modules or bundles of "good currency pairs". Think of error-handling routes like a Router - other routes are still considered as long as nothing tells the flow explicitly to stop.
+
+The "good currency pairs" may even be processed correctly, but they never reach the surface of our View component… How could we resolve this with a different error handling strategy and design?
+
+Rethink the current structure, then expand the hint and solution below.
+
+(Another) Solution | Theory
+
+Think about this alternative approach described above, then check out our step-by-step guidance below on how to implement it.
+
+(Another) Solution | Practice
+
+On the following pages, we'll dive deeper into other Error Handling Directives (such as the 'Resume' directive) and their different implications on the Action Flow run and on the user experience of the "frontend" (our View).
+
+----- Page 2 -----
+
+The Chaos Lab
+Handling Errors Like a Pro [17:00]
+Many Roads Lead to Rome
+
+On the previous page, our goal was Data Continuity: we used the Resume directive to ensure every requested conversion reached the final list, even if we had to use fallback text. But as the saying goes, "Many roads lead to Rome" - there are several different ways to achieve a successful execution status, depending on your business requirements.
+
+We will now look at two alternative "roads" that prioritize different outcomes.
+
+Road A: Prioritizing Flow (Ignore)
+Road B: Prioritizing Efficiency (Commit)
+
+In other use cases, "partial success" may not be an acceptable option. If one thing is wrong, you want to stop the work immediately to save time and API costs.
+
+The Logic: You send a custom error message to the View and then immediately follow it with a Commit directive.
+The Result: The flow stops instantly. It does not attempt to process any other bundles.
+The Use Case: Use this when a user's input error makes the rest of the automation pointless (e.g., an invalid account number).
+
+👀 Note that this setup is, from a frontend perspective, very similar to the setup we had initially implemented. The difference lies in the improved efficiency on the backend, with fewer API calls being used. This is definitely the preferred version over the standalone webhook response module. 
+
+
+
+
+Strategy Comparison
+BUSINESS GOAL	STRATEGY	STATUS	RESULT
+Data Continuity	Resume	Success	Complete list; errors are labeled.
+Flow Continuity	Ignore	Success	Partial list; errors are hidden.
+Immediate Exit	Commit	Success	Only the error message is shown.
+
+
+
+
+Experiment with the Roads. Try swapping your Resume directive for Ignore. Run a conversion for a mix of valid and invalid pairs. Notice how the bad pair just "disappears." Then, try the Commit approach to see how it halts the entire flow. Try duplicating the Action Flow first, to retain a copy of every version that you implement.
+
+----- Page 3 -----
+
+The Chaos Lab
+Handling Errors Like a Pro [17:00]
+Time for Heavy(ier) Machinery
+
+We are now stepping away from our Currency Conversion tool to look at the more "Heavy-Duty" side of error handling: Break and Rollback directives. These are used when you aren't just managing user messages, but protecting system performance and data integrity.
+
+The Break Directive: Handling the "Wait and See"
+
+Sometimes, an error isn't anyone's fault - it’s just bad timing. This usually happens with Rate Limits (429 errors) or Temporary Server Outages (503 errors).
+
+The Logic: Instead of failing or skipping, the Break directive pauses the execution and stores it as an Incomplete Execution.
+The Use Case: You are syncing 500 invoices to an ERP system. The ERP gets overwhelmed and blocks you temporarily. Break stops the flow and tells Celonis to try again automatically in 15 minutes.
+The Execution Status: Because the flow hasn't finished (it's waiting to retry), it is marked with a Warning (Orange) status. This alerts you that a process is "on hold" and requires monitoring.
+
+Once the Break directive triggers, it removes the bundle causing the error from the Action Flow execution and stores the error message, mappings, and remaining execution as an incomplete execution. This is why the setting "Allow storing of Incomplete Executions" must be enabled in your Action Flow settings to use this directive.
+
+
+
+
+The Rollback Directive: The Director's "Cut! Back to ones!" call
+
+This is the most "serious" directive in your toolkit. It is used when a partial success is actually a failure.
+
+The Logic: If an error occurs, the Rollback directive attempts to "undo" the actions performed by previous modules in that specific bundle.
+The Execution Status: Because a rollback signifies that a transaction could not be completed as intended, Celonis marks the execution with an Error (Red) status.
+The "ACID" Standard: Rollback is designed for systems that are ACID compliant (Atomicity, Consistency, Isolation, Durability). This is a set of properties that guarantee database transactions are processed reliably.
+
+Think of a haircut. Once the hair is cut, you cannot "undo" it - the action is permanent. Similarly, you cannot "rollback" a sent email, a Slack message, or a standard HTTP post. Once that data hits the outside world, the "cut" is made. Only use Rollback for system transactions that specifically support it.
+
+Error Handling Directives at a Glance
+SCENARIO	DIRECTIVE	EXECUTION STATUS	GOAL
+API Rate Limit	Break	⚠️ Warning	Wait and try again later.
+ACID Transaction	Rollback	🔴 Error	Undo everything if it fails.
+User Input Error	Resume	✅ Success	Provide a fallback value.
+Non-essential Task	Ignore	✅ Success	Skip it and keep moving.
+Invalid Request	Commit	✅ Success	Stop immediately as a "Success."
+
+----- Page 4 -----
+
+The Chaos Lab
+Handling Errors Like a Pro [17:00]
+
+No topic content.
+
+########################################################################
+  LESSON 4 : Resilient by Design [13:00]
+########################################################################
+
+----- Page 1 -----
+
+The Chaos Lab
+Resilient by Design [13:00]
+Resilient Action Flow Design Principles
+
+Until now, we have been building "Safety Nets" - tools that catch us when we fall. But the most robust Action Flows are designed so that the risk of falling is at a minimum level. There are various "Design Principles" you may want to apply to put "Resilient by Design" into practice:
+
+Design Principle #1 | Shift Left
+
+In engineering, "Shift Left" means moving your checks as early in the process as possible.
+
+The "Reactive" Way: Send data to the API -> API crashes -> Catch the 422 error -> Tell the user.
+The "Proactive" Way: Check the data -> See that it's invalid -> Tell the user before ever calling the API.
+
+
+
+
+Design Principle #2 | Garbage In, Garbage Out
+
+Before data even reaches a critical module (like an HTTP request or a Database update), you should apply measures to ensure the data is as clean as possible. A sensible filter logic can help as well as data transformations such as whitespace removal, type casting, numerical data scaling, or proactive handling of missing values. The better your data cleaning procedure, the better the outputs of your Action Flows.
+
+
+
+
+Design Principle #3 | The Berghain Bouncer
+
+What does Berlin's perhaps most famous techno club have to do with Action Flows?
+
+Think of the starting point of your Action Flows as the door to the club. If the collection of data sent to the Action Flow is missing a particular value - one you’ve explicitly toggled as "Required" in the input settings - the Bouncer simply won't let that data through the door.
+
+By enforcing these rules at the entry point, you prevent "empty" data from causing downstream crashes in your HTTP or Database modules. The good news? The conditions for who can pass through an Action Flow's door are a lot more transparent than making it through the world's toughest door.
+
+
+
+
+Design Principle #4 | Self-Documenting Action Flows
+
+A resilient flow is a readable flow. If you return to an Action Flow six months later and see Module 1, Module 2, and Module 20, you (or a colleague taking over the Action Flow's ownership) are likely to be confused and even make a configuration error during maintenance. Therefore:
+
+Give every module a suitable name to reflect its business purpose (e.g., "Fetch Exchange Rate" instead of "HTTP Request").
+Label your Filters so anyone can see the logic at a glance without clicking (e.g., "Block Same-Currency Pairs").
+
+Besides following a certain naming convention, we also heard multiple times by now about Variables which can also contribute to making the design and logic of an Action Flow more obvious and easier to comprehend (while again properly naming variables and the modules that create them).
+
+Applying these Design Principles will ensure your Action Flow is 'by design' less prone to errors already. Adding suitable error handling directives on top is like the icing on the cake, which sometimes is as easy as adding a single module, but can also become a little more "decorative" depending on the situation at hand. We will look into some advanced structures of error-handling routes next.
+
+----- Page 2 -----
+
+The Chaos Lab
+Resilient by Design [13:00]
+The Advanced Error Handling Junction
+
+In our Currency Conversion Tool, we focused on a single error, the 422 Data Error. In a production environment, an HTTP module (and other modules, too) could fail for many reasons:
+
+User-induced: Bad currency pair (422).
+API-induced: Rate limit reached (429).
+System-induced: Unauthorized/Expired credentials (401).
+
+To handle multiple errors for a single module, you can leverage a smart combination of Routers and Filters on the error-handling path to create a "Decision Tree" for how to handle which error. This way, 422s get a nice message, while 429s trigger a Break directive to try again later, and so on.
+
+
+
+
+The Meta Error
+
+Your error-handling route isn't just for directives - you can use "regular" modules, like the second Webhook response module we saw earlier. Keep in mind, though: a module doesn't become invincible just because it’s on an error route; it can still crash.
+
+While you can "glue a patch onto a patch" with nested error handling, don't ignore Design Principle #4. If your flow becomes a complex labyrinth, it might be better to split it into multiple, simpler Action Flows.
+
+
+
+
+
+The "Fallback Route": No Error Left Behind
+
+We do our best to anticipate potential errors, but let’s be realistic: there is always a chance an error occurs that we haven't considered, or one that is so rare it isn’t worth its own specific handling route. In these cases, we typically add a "Miscellaneous" or "Else" route to catch the leftovers. However, there is a technical catch you need to know about how Routers behave:
+
+If you simply add a new path (let's call it Path C) and leave it without a filter, you might expect it to act as a catch-all for the "leftovers." But Action Flows see an unfiltered path as "I shall always pass." If a bundle successfully passes through Filter A, the Router doesn't stop there - it keeps checking the other paths. Because Path C has no filter, it is also "True," and the Router will send a copy of the bundle down that path as well. You would end up "double-handling" the same error, perhaps sending two different Slack alerts or creating duplicate logs for a single event.
+
+
+The Solution: The "Fallback" Toggle
+
+To create a true "Else" statement that only triggers when everything else fails, you must explicitly right-click the route and select "Set as fallback route."
+
+The Logic: This tells the Router: "Check Path A and Path B first. If - and only if - the bundle is rejected by all other filtered paths, then (and only then) send it to me."
+The Result: Your error handling stays mutually exclusive. A bundle goes to one path and one path only, ensuring your "Miscellaneous" route stays empty unless it's actually needed.
+
+Important: This behaviour of routers and different paths is also true for "regular" branching, not just when routers are part of an error handling route!
+
+Your "Safety Valves" and "Junctions" are now built. But how do you know if they are actually working? In our final page of this lesson, we’ll look at the Execution History and Log Monitoring to keep your architecture healthy over the long term.
+
+----- Page 3 -----
+
+The Chaos Lab
+Resilient by Design [13:00]
+Checking your Action Flows' Vitals
+
+Even the most resilient design needs a human eye to ensure the safety valves are working. For Action Flows, this means we install sensors to monitor the stress and strain on our flows. These "sensors" are primarily the Execution History, Action Flow Execution Logs, and automated alerts.
+
+All of these we have briefly touched upon before, so rather see this as a reminder of your available tools to monitor your Action Flows' health.
+
+The Execution History… you should know inside out by now. Remember, there's a difference between the simple and advanced log.
+Action Flow Execution Logs… can be retrieved by Admins of a Celonis team under "Audit Logs". An Action Flow Execution Log shows the exact details of what has been changed, when, and by whom. 
+Automated Alerts… Don't wait for a crash! Neither manually check the history every hour. Integrate an alert notification system directly into your Action Flow by, for example, sending an email or a Slack alert the moment an execution fails.
+
+Your strategy may also be to link your Fallback Route to a specific "High Priority" notification. Since that route is only for "Unknown Errors," it should be treated as an immediate signal that your current design has a blind spot.
+
+Modernize your Action Flow Design
+
+Action Flows are living things. As APIs update and business requirements change, your error handling needs a "tune-up."
+
+Review your Filters: Are they still accurate?
+Update your Credentials: Ensure your connections aren't about to expire.
+Audit your Nesting: If a flow has become a "spaghetti" of error handlers, use this time to simplify or split it into sub-flows.
+
+Congratulations! You’ve Completed the Chaos Lab.
+
+You have officially moved from "fixing errors" to "designing resilience." You know how to turn red into green, how to build advanced junctions, and how to maintain a healthy automation ecosystem.
+
+The remaining chapter is going to be all about testing the knowledge you have gained and wrapping things up.
+
+----- Page 4 -----
+
+The Chaos Lab
+Resilient by Design [13:00]
+
+No topic content.
+
+Previous Lesson
+
+########################################################################
+  LESSON 5 : Error Handling - Wrapped [07:00]
+########################################################################
+
+----- Page 1 -----
+
+The Resilience Check
+Error Handling - Wrapped [07:00]
+
+You are moving 50,000 EUR between two accounting systems. If the "Deposit" step fails, the "Withdrawal" step must be undone to keep the books balanced. Which directive is your non-negotiable insurance policy?
+
+A.
+Ignore
+B.
+Resume
+C.
+Rollback
+D.
+Break
+Submit
+1
+2
+3
+4
+5
+
+----- Page 2 -----
+
+The Resilience Check
+Error Handling - Wrapped [07:00]
+Resilience: Mastered.
+
+Congratulations on mastering this very critical milestone on your journey to becoming an "error-proof" Action Flow designer and architect!
+
+Course Recap: From Chaos to Control
+
+Throughout this course, you have mastered the strategies and tools required to build robust automations that can dynamically handle the struggles of the real world. Let’s look at the skills you've gained in detail:
+
+You learned to decode the "Error Language" of API status codes (like the 422 DataError) and use the Execution History and Advanced Logs to backtrack through a "crime scene" and find the exact bundle that failed.
+You mastered the art of identifying "Silent Errors" - those tricky successful (green) runs where no work was actually done. You now know how to use bundle counts and audit logs to ensure your data pipeline never leaks.
+You have a full "Safety Valve" toolkit and know exactly when to use each directive:
+Resume: For data continuity with fallback values.
+Ignore: For skipping non-essential tasks (with caution!).
+Commit: For efficient, planned exits.
+Break: For handling temporary API storms and Rate Limits.
+Rollback: For protecting high-stakes ACID transactions.
+You built the "Advanced Junction," using Routers and Filters to create sophisticated decision trees that treat different error types with different logic, including the crucial Fallback Route for miscellaneous leftovers.
+You adopted the "Shift Left" mindset. By applying principles like the Berghain Bouncer (Required fields), Data Cleaning and Self-Documenting naming conventions, you now stop errors at the front door before they ever hit your modules.
+What's Next?
+
+The most successful Action Flow builders share one trait: Curiosity. Don't be afraid to take templates apart or "break" things in the training environment to find their limits. Remember, success isn't the absence of errors - it's how gracefully you handle them.
+
+Your journey in the Build Action Flows training track doesn't end here! We'll see you in the next milestone soon!
+
+Your Celonis Academy team
+
+----- Page 3 -----
+
+The Resilience Check
+Error Handling - Wrapped [07:00]
+
+How satisfied are you with the course?
+
+	★	★★	★★★	★★★★	★★★★★
+Please select a rating					
+
+What did you like most about this course?
+
+What would you improve about this course?
+
+
+⇨ If you have files or screenshots, please send them to academy@celonis.com.
+
+Complete Survey
+
+----- Page 4 -----
+
+The Resilience Check
+Error Handling - Wrapped [07:00]
+
+No topic content.

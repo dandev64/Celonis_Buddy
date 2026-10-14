@@ -1,0 +1,587 @@
+﻿========================================================================
+  CELONIS ACADEMY - VISUALIZE PROCESSES IN A VIEW
+  Extracted: 2026-09-09 15:47  |  Personal study use only
+  Source: https://academy.celonis.com/learn/course/visualize-processes-in-a-view
+  Lessons: 1
+========================================================================
+
+########################################################################
+  LESSON 1 : Visualize Processes in a View
+########################################################################
+
+----- Page 1 -----
+
+Visualize Processes in a View
+Visualize Processes in a View
+Welcome to the course “Visualize Processes in a View”
+
+The Process Explorer, Variant Explorer, and Case Explorer are the primary components used for process discovery in the Celonis platform. They’re the heart of the process mining technology in Views. You will learn how to configure these components so that your business users can discover, explore, and analyze their business processes.
+
+
+
+
+This course should take you about an hour to finish.
+
+
+This course is part of the Build Views training track and presumes you’re following the training track. As prerequisites, you should already understand how the View asset functions (including its layout and settings), how to add components, and their general settings. For more details, check out the Fundamentals of a View course.
+
+
+
+
+Tip: You can Hide the Menu bar (on the top left)
+
+----- Page 2 -----
+
+Visualize Processes in a View
+Visualize Processes in a View
+Setting up your Training Environment
+
+If you came from the Configure Charts and Tables in a View course, you can skip to Step 4.
+
+
+
+
+Before you move on, you’ll need to set up your training environment for the hands-on exercises throughout the course.
+
+Using a separate tab (in your browser), go through the following steps to set your training team up...
+
+
+Step 1
+Step 2
+Step 3
+Step 4
+
+If you encounter any issues, contact us and we’ll get back to you as soon as we can.
+
+After you’ve completed the last step, you can move on to the next page.
+
+----- Page 3 -----
+
+Visualize Processes in a View
+Visualize Processes in a View
+Use Case Briefing
+
+In process mining, you analyze business processes using data that has been transformed into event logs. The event logs are used by the Process Explorer, Variant Explorer, and Case Explorer components in Views to visualize your business processes and their details.
+
+
+
+
+If you have a look at the Knowledge Model, you can see all the event logs and their metadata.
+
+
+
+
+Take note that this training is based on an Object-Centric Data Model (OCDM). For more information about this, check out the Object-Centric Process Mining: Foundations course.
+
+
+
+
+
+
+
+The Process Explorer, Variant Explorer, and Case Explorer components can also consume event logs from case-centric Data Models.
+
+
+
+
+
+
+
+Let’s see how the event logs are used to configure the components through an example use case.
+
+
+
+
+Imagine you are working with a business user, who is the new delivery process lead of a wholesale company. The business user has received feedback that the customers are dissatisfied with the order processing, partly due to the “poor delivery” of the orders. The business user would like to explore the delivery process end to end - from the orders being made all the way up to the items being delivered to the customers. They already have an idea of what it's like but they are open to seeing what kind of insights they can get from Celonis!
+
+
+
+
+For the delivery process, the business user has identified 4 key objects from the Order Management process data: Sales Order, Sales Order Item, Delivery, and Delivery Item. If you are not familiar with these objects, check out their descriptions below.
+
+
+Sales Order
+Sales Order Item
+Delivery
+Delivery Item
+
+
+
+
+When a customer places an order, a sales order is created that lists all the sales order items the customer has ordered. Once the order has been processed and confirmed, a delivery document is produced that has all information surrounding how and when the order will be shipped to the customer - including the delivery items that correspond to the sales order items. The delivery order is tracked until the customer receives the order. The customer is then given a feedback survey to rate how satisfied they are with their order experience.
+
+
+
+Since the business user wants to have a clear understanding of the delivery process, you’ve been asked to create a dashboard in a View that visualizes the process. So let’s start by setting up the View itself. After speaking with the business user, you’ve identified a few key metrics that are important to them.
+
+
+
+
+Using the View you’ve just created, add a KPI List component to it and fill it up with the following information…
+
+
+KPI 1
+
+
+PQL Query: COUNT(DISTINCT "o_celonis_SalesOrder"."ID")
+
+Name: # Sales Orders
+
+Format: Rounded Number (#,###)
+
+
+
+
+KPI 2
+
+PQL Query: COUNT(DISTINCT "o_celonis_SalesOrderItem"."ID")
+
+Name: # Sales Order Items
+
+Format: Rounded Number (#,###)
+
+
+
+
+KPI 3
+
+PQL Query: COUNT(DISTINCT "o_celonis_Delivery"."ID")
+
+Name: # Deliveries
+
+Format: Rounded Number (#,###)
+
+
+
+
+KPI 4
+
+PQL Query: COUNT(DISTINCT "o_celonis_DeliveryItem"."ID")
+
+Name: # Delivery Items
+
+Format: Rounded Number (#,###)
+
+Widen the KPI List component and place it at the top of the View.
+
+
+
+
+Add a Line Chart component and fill it up using the following information…
+
+Dimension
+
+
+PQL Query: ROUND_MONTH("o_celonis_SalesOrder"."CreationTime")
+
+Name: Date
+
+Format: Date: Year-Month (Y-M)
+
+
+
+
+Metric
+
+PQL Query: AVG("o_celonis_SalesOrder"."custom_SatisfactionRating")
+
+Name: Avg Satisfaction Rating
+
+Format: Decimal Number (#.##)
+
+Column Settings - Data Labels: Enabled, matching mark color
+
+
+
+
+Axis settings - Y Axis Range
+
+Min: 1
+
+Max: 5
+
+
+Widen the Line Chart component and place it below the KPI List component.
+
+Here’s how you’d do it…
+
+
+
+
+In practice, business users would be concerned about more KPIs and you’d want to consider different ways of visualizing these KPIs based on your business users’ needs. For example, your business user might also need the net order value of their sales orders categorized by their customer groups, which could be visualized using a bar chart.
+
+
+
+
+
+But for this exercise, let’s just say the business user is happy enough with these numbers.
+
+----- Page 4 -----
+
+Visualize Processes in a View
+Visualize Processes in a View
+Configuring the Process Explorer
+
+The Process Explorer is a component in Views that uses event logs to visualize business processes. Multiple Event Logs (i.e., objects) and their relationships can be visualized in the Process Explorer natively if you’re building on an Object-Centric Data Model.
+
+
+
+
+Using the Process Explorer, business users can add the most frequent events and connections to explore how their processes function. They can do this in either one of two ways via the graph control (in the component setting):
+
+The differences between the panel and slider graph controls go beyond UI and interactivity. The connections (i.e., edge KPIs) of the process graph are calculated differently for the different graph controls.
+
+
+
+
+To illustrate the differences, let’s now have a look at an example Purchase Order Item process.
+
+
+
+
+When events and connections are “removed” from the process graph, the connections are calculated differently depending on the type of graph control (slider vs. panel) you have selected. Here is how the calculation of the connections differ:
+
+Prev
+Slide 1 of 2
+Next Slide
+
+Slider
+
+If you look to the right of the component, you can see the slider.
+
+In slider mode, only direct connections between events are considered.
+
+
+In this example, you can see that from the Create Purchase Order Schedule Line event, only 642K purchase order items moved on directly to the Create Vendor Invoice event.
+
+1
+2
+
+For reference, here is the expanded process graph of the example Purchase Order Item process:
+
+
+
+
+The difference in the calculation (i.e., slider vs panel graph control) applies to all connections. The connections you see in the process graph are affected by the selected KPI Group. A KPI Group is a set of metrics your business users can focus on that changes the connections of the process graph.
+
+
+
+
+The following are the standard KPI Groups available out of the box...
+
+Object and Event counts: Providing an overview of the number of objects and events within a process, highlighting their relationships and occurrences. It helps in understanding the fundamental structure and flow of the process.
+
+Throughput Time (Average): Calculating the average time taken between events. It helps in identifying general efficiency and areas where time can be optimized.
+
+Throughput Time (Median): Measuring the median time taken between events, which is the middle value of all affected objects. It helps in understanding typical process duration, minimizing the impact of outliers on the analysis.
+
+Throughput Time (Trimmed Mean): Calculating the mean throughput time after removing a specified percentage of the shortest and longest times from the dataset. It provides a more robust average by reducing the influence of extreme values, giving a clearer picture of process performance.
+
+
+
+
+Custom KPI Groups can be created adhoc when necessary. Check out this video demo to learn more about it.
+
+Let’s now visualize what your business user wants - i.e., the delivery process of their company!
+
+Before you add a Process Explorer component, you’d need to make your View bigger so you can add more to it! For that, you first need to go to the View settings and change its layout to a custom height of 1380 px.
+
+
+After that, create a Process Explorer using the following information…
+
+
+Event Logs:
+
+
+SalesOrder Activity
+
+SalesOrderItem Activity
+
+Delivery Activity
+
+DeliveryItem Activity
+
+
+Default KPI Group: Object and Event counts
+
+Keep in mind that your business user is still new to the company’s delivery process. As such, they’d just like to explore the delivery process with no clear questions in mind. Take a guess and select the graph control you’d think is the most appropriate for them at the moment!
+
+
+
+
+Place the Process Explorer on the left of the View, below the line graph, without changing its size.
+
+This is how you'd do it...
+
+
+
+
+In practice, it's best to review the Process Explorer with your business users to ensure their interpretation of what the process graph displays (i.e., connections) is accurate.
+
+
+
+Take note that the default process graph (upon creation of the Process Explorer) is the most common variant of the process that starts with the most common start event and ends with the most common end event. After that, your business users can only discover their processes through the addition of the most frequent events or connections individually.
+
+
+
+
+If they'd like to see the variants of their business processes, then they'll have to use another component!
+
+----- Page 5 -----
+
+Visualize Processes in a View
+Visualize Processes in a View
+Configuring the Variant Explorer
+
+In a business process, there are different ways the steps of a process can happen - even though the end goal is the same. For example, one customer might place an order online while another might do it over the phone. Both methods achieve the same goal of placing an order, but they follow different steps to get there. Each of these different ways is called a variant of the process.
+
+
+
+
+To visualize all the different ways the process flows in your business (i.e., variants), you can use the Variant Explorer component in the View. A variant represents one or more objects that have taken that exact set and sequence of events.
+
+The Variant Explorer allows your business users to inspect the variants of the individual processes and how each variant impacts the process flow. Additionally, it shows how frequently each variant occurred (count), the percentage of objects impacted (coverage), and the average throughput time of the process variant.
+
+
+
+
+Let’s say that after examining the business processes, the business user wants to understand the most common ways the processes have been executed in the field.
+
+
+
+For that, you’d want to add a Variant Explorer for the business user, using the following information…
+
+
+Event Logs:
+
+
+SalesOrder Activity
+
+SalesOrderItem Activity
+
+Delivery Activity
+
+DeliveryItem Activity
+
+
+Default KPI View: Object and Event counts
+
+Place the Variant Explorer on the right of the Process Explorer, below the line graph.
+
+
+This is how you'd do it...
+
+
+
+
+Did you notice the “Show KPI switcher” option under the Interactions settings?
+
+Enabled by default, this option allows your business users to switch between the KPI Views using the KPI Switcher.
+
+You should disable it if you want the Process Explorer or Variant Explorer components to only show a specific KPI View to your business users, based on the dashboard you’re building.
+
+----- Page 6 -----
+
+Visualize Processes in a View
+Visualize Processes in a View
+Configuring the Case Explorer
+
+By using the Process Explorer, business users can gain insights into the overall structure and functionality of their business process.
+By using the Variant Explorer, they can gain insights into all the different ways an individual process has been executed in the field.
+
+
+
+Once they've narrowed down the analysis to a few cases that they want to investigate further, they can use the Case Explorer component in the View to display detailed information about the process cases (i.e., objects).
+
+The Case Explorer is essentially a pre-made table with default columns and a case detail panel (on the right). You can view specific case details such as number of activities, throughput time, timestamps of activities, and other information related to the case.
+
+
+
+
+When configuring the Case Explorer, you’d need to keep in mind that the main event log should be the main object that your business user would want to deep dive into.
+
+
+
+
+Let’s have a better understanding of this with our example use case.
+
+
+We are aware that the business user is concerned about the delivery process of their company. Even though the delivery process begins with the sales order (as clearly shown in the Process Explorer), the details of the sales order would not directly inform your business user of the actual delivery process itself. The most straightforward answer would’ve been to just use the delivery event log. But if you have a look at the Process Explorer - more specifically, at the Create Delivery Header and Create Delivery Item events - you would see that not all sales order items result in the triggering of a delivery.
+
+
+Prev
+Slide 1 of 2
+Next Slide
+1
+2
+
+Only 84% of all sales order items resulted in the delivery process being triggered. This means that there are many cases of sales order items that didn’t result in the delivery process - these cases would definitely be of interest to the business user.
+
+
+
+
+Since you know which object the business user would like to focus on, configure a Case Explorer in the View using the following information...
+
+Main event log: SalesOrderItem Activity
+
+
+
+
+
+(Other) Event logs:
+
+Delivery Activity
+
+Delivery Item Activity
+
+Place the component at the bottom of the View!
+
+
+There's currently a bug preventing you from setting the SalesOrderItem Activity as the main event log. The product team is aware and actively working on a fix. For now, please try the activity, then continue with the training.
+
+
+
+
+This is how you'd do it...
+
+
+
+
+If you look into the case details of the Case Explorer, you can see that it shows all (other) event logs based on the main event log. This is why you need to take into account the granularity of the event logs.
+
+
+
+
+For example, if you were to add the SalesOrder Activity event log as one of the (other) event logs, interpretation of the case details would be challenging as it takes into account other cases of the main event log.
+
+
+
+
+
+
+
+The main event log should be of the highest granularity so your business users wouldn’t wrongly interpret the case details. As a best practice, you should always validate this with the help of the Process Explorer.
+
+
+
+
+Apart from process exploration, note that the Case Explorer is also helpful to deep dive into the specific cases involved in or to validate particular process flows.
+
+----- Page 7 -----
+
+Visualize Processes in a View
+Visualize Processes in a View
+Customizing Event Logs in Studio
+
+Great job! You have successfully configured a process discovery dashboard for your business user. Now your business user can explore the delivery process of their company end-to-end and drill down on specific cases that caused the low satisfaction rates.
+
+In practice, process exploration would probably involve many more processes and take into account many other KPIs, defined by the business user. You’d probably need to use your professional judgment, and utilize the various View features and settings (e.g., tabs and layouts) to figure out the best way to set the components up.
+
+Keep in mind that process exploration is also already possible with a single process. Sometimes simplicity is key and exploring a single process for unexpected flows can already uncover many hidden use cases and build the foundation for new findings!
+
+Transition: Building Event Logs
+
+We are currently transitioning how event logs are built, where the responsibility for creating event logs is shifting from data engineers to data analysts in Studio.
+
+Detailed guidance on this new process is available in the Create Event Logs in Studio course. We highly recommend completing that training only once you are proficient with Views, Knowledge Models, and PQL.
+
+If you'd like to take that course at a later time, feel free to skip to the next page.
+
+Before we end the training, let’s quickly go back to the heart of the components you’ve just configured: The Event Logs, which are are primarily configured in Data by data engineers.
+
+In OCPM, one object could have multiple event logs. Let’s see how you can recognize the different event logs in the Studio.
+
+Additionally, you can also edit event logs in the Knowledge Model. You can change their display names, as well as the event names so that other analysts using the Knowledge Model aren’t subjected to the technical nomenclature.
+
+
+Let’s try it out! Go to the Knowledge Model.
+
+In Event Logs, change SalesOrder Activity event log using the following information…
+
+Display Name: Sales Order
+
+
+
+
+
+PQL Formula:
+
+REMAP_VALUES (
+
+"el_celonis_SalesOrder"."ACTIVITY" ,
+
+[ 'e_celonis_CreateSalesOrderHeader' , 'Create Sales Order Header' ] ,
+
+[ 'e_celonis_SetDeliveryBlock' , 'Set Delivery Block' ] ,
+
+[ 'e_celonis_SetCreditBlock' , 'Set Credit Block' ] ,
+
+[ 'e_celonis_SetBillingBlock' , 'Set Billing Block' ] ,
+
+[ 'e_celonis_CreateSalesOrderItem' , 'Create Sales Order Item' ] ,
+
+[ 'e_celonis_ApproveSalesOrder' , 'Approve Sales Order' ] ,
+
+[ 'e_celonis_ReleaseCreditBlock' , 'Release Credit Block' ]
+
+)
+
+
+
+Here's how you'd do it...
+
+Using PQL, you could even modify the stream of events in the process flow in the Knowledge Model! Check out the Process-Related Functions in PQL course to learn more about this.
+
+----- Page 8 -----
+
+Visualize Processes in a View
+Visualize Processes in a View
+Congratulations!
+You have completed the “Visualize Processes in a View” course!
+
+This is you - ready and pumped to visualize any process that has been requested in Studio!
+
+
+
+
+You should now be able to:
+
+Configure the Process Explorer, Variant Explorer, and Case Explorer components in the View so that business users can discover their business processes
+
+Modify event logs in the Knowledge Model so that they are more interpretable by business users in the process visualization components in the View
+
+
+
+
+Here are the notable resources linked throughout the course
+
+
+
+
+In practice, be sure to utilize the documentation if you need help navigating Studio while using Celonis. We also invite you to the Studio channel on Celopeers where you can connect, ask, or answer questions from other users who are also learning to build Apps around the globe.
+
+
+
+
+Lastly, we'd also appreciate it if you could take a moment to fill out the feedback form on the next page. Are there any questions about that have been left unanswered? Is there anything that can be done to make the course better for you? It really helps us to know what you find useful, unnecessary, or what the course lacks.
+
+
+
+
+Thank you for taking this course & we hope you have a wonderful week ahead!
+
+Your Celonis Academy
+
+----- Page 9 -----
+
+Visualize Processes in a View
+Visualize Processes in a View
+
+Starting the survey…
+
+----- Page 10 -----
+
+Visualize Processes in a View
+Visualize Processes in a View
+
+No topic content.

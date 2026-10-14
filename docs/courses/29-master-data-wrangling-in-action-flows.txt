@@ -1,0 +1,367 @@
+﻿========================================================================
+  CELONIS ACADEMY - MASTER DATA WRANGLING IN ACTION FLOWS
+  Extracted: 2026-09-09 17:08  |  Personal study use only
+  Source: https://academy.celonis.com/learn/course/master-data-wrangling-in-action-flows
+  Lessons: 3
+========================================================================
+
+########################################################################
+  LESSON 1 : Introduction
+########################################################################
+
+----- Page 1 -----
+
+Master Data Wrangling Challenge
+Introduction
+Welcome to the Challenge!
+
+Hi there! Welcome to the Advanced Data Wrangling case study. This is where you move from following instructions to architecting solutions.
+
+Be ready for an eventful ride through all the concepts you've mastered so far about Action Flows, while picking up new methods to handle "real-world" data complexity. By the end of this challenge, you will be better prepared for the unpredictable data structures you’ll encounter "in the wild".
+
+Is this for you?
+
+This challenge is the capstone of the "Build Action Flows" Training Track. While you are welcome to jump straight in, we highly recommend you have already mastered the skills taught in:
+
+Introduction to Celonis Studio
+Introduction to Studio Assets
+Introduction to Action Flows
+Configure Action Flows
+Architect Custom Integrations in Action Flows
+Fundamentals of a View*
+
+*this course is not part of the "Build Action Flows" Training Track.
+
+Since this is a case study and not a regular online course, expect a scenario-based challenge. You are expected to work with a minimum of hand-holding.
+
+Remember: There is no single "right" answer. Multiple approaches can lead to great results. We will provide hints along the way, and one suggested end-to-end sample solution to help you if you get stuck. Also, there is no one solution, but multiple solution approaches can lead to great results. There will, of course, be hints and explanations along the way, as well as one suggested end-to-end sample solution.
+
+👉 Share your solution!
+
+We are more than curious to see what you come up with in this case study! Don't hesitate to show your solution to your fellow peers and us in our dedicated group on Celonis Community!
+
+----- Page 2 -----
+
+Master Data Wrangling Challenge
+Introduction
+Technical Setup and Environment
+
+As with our hands-on courses, you will access to a central Celonis Training Team to complete this case study. If you haven't joined it or need to verify your access, please use the button below:
+
+Add me or check my access
+
+
+
+
+If you are on your personal training team rather than the central team (linked above) and plan to leverage AI-based features during your build (though not strictly required for the core solution), ensure you have accepted the AI Addendum in your team's settings:
+
+Required Assets
+
+Before we dive into the mission details, please set up the following two assets in your Studio package:
+
+Celonis Knowledge Model & View
+
+Go to your training team and access Celonis Studio. Create a new package and choose a View as the initial content, based on the data model ocpm-ordermanagement.
+
+Access the empty View's YAML editor (via View Settings) and copy/paste the downloaded Case Study YAML script, which you'll find in the course resources.
+
+Your View and package now should look like this:
+
+
+
+
+Celonis Action Flow
+
+The next step of your training team preparation is importing an Action Flow blueprint into another Action Flow in the same package. The Action Flow blueprint reflects the final status of the Action Flow we had built in the course "Architect Custom Integrations in Action Flows".
+
+Go ahead, create a new Action Flow, and download and import the Action Flow blueprint (you'll find it again in the course resources). We recommend a fresh package and Action Flow to keep your training environment organized.
+
+Hint: You will need to create a new Webhook to be able to save this Action Flow.
+
+Your Action Flow and package now should look like this:
+
+So far, so good!
+
+We trust that by now you're eager to understand what exactly the challenge is… Proceed to the next page to learn more!
+
+----- Page 3 -----
+
+Master Data Wrangling Challenge
+Introduction
+The Challenge
+
+In this case study, we are building upon the foundation laid in the Advanced Connectivity in Action Flows course. We will once again leverage the Frankfurter API to retrieve live currency conversion rates.
+
+The Objective: An Interactive Modal
+
+Your goal is to create an interactive modal within a Celonis View. This interface should allow a user to select one base currency from a preconfigured list and one or multiple target currencies to convert to.
+
+The logic, that is, the HTTP calls and the processing of the results happen in the Action Flow. The user interaction and final data display happen in the View.
+
+Hint: We previously mentioned that you usually don't require a Webhook module for Celonis-to-Celonis integrations. While true, we are going to use an iframe component to display our results in the Celonis View. Since an iframe requires a URL to load its contents, the Webhook serves as our bridge.
+
+Your Resources
+
+When architecting Action Flows, you aren't expected to have every formula memorized - you are expected to know how to find the answer. You have the following at your disposal, besides the knowledge and skills you've already gained about Action Flows:
+
+The Internet: Documentation, forums, and API references.
+Celonis Docs: For specific Studio and Action Flow syntax.
+AI Collaborators: If you have access, tools like Gemini or ChatGPT can be useful for debugging complex logic.
+
+
+
+
+Off you go then! Remember to take it step by step, starting with leveraging the View template to build an interface that lets a user select one base and one target currency to convert.
+
+Be "careful" proceeding through the next pages since every page will reveal another piece of the puzzle… We deliberately kept the page names mysterious ("Step 1", "Step 2", "Step X", etc.) to avoid spoilers. It is entirely up to you how much you want to challenge yourself before looking for the next clue.
+
+Good luck! 🍀
+
+----- Page 4 -----
+
+Master Data Wrangling Challenge
+Introduction
+
+No topic content.
+
+########################################################################
+  LESSON 2 : Challenge Steps
+########################################################################
+
+----- Page 1 -----
+
+Master Data Wrangling Challenge
+Challenge Steps
+Reanimate the Blueprint
+
+The Action Flow you imported is currently still in a blueprint condition. It contains the logic from our previous course, but its external connections and the Webhook URL need to be reinitialized.
+
+Your first task is to get this flow back to a functional state where it can receive a single request and return a single rate.
+
+The Objective
+
+Successfully trigger the imported Action Flow and receive a valid, "beautified" response in your browser.
+
+Details & Step-by-Step Solution
+The Custom Webhook
+The HTTP Module
+The Webhook Response
+Testing the Full Flow
+
+⚠️ Warning! Moving to the next page reveals another set of hints.. 
+
+Keep in mind you are supposed to struggle a bit and ideally use the upcoming pages to compare and validate your solutions only.
+
+----- Page 2 -----
+
+Master Data Wrangling Challenge
+Challenge Steps
+Step 2
+Connect the iframe component with the Action Flow
+
+Now that your Action Flow is live, we need to bring its output into the Celonis Studio View. Instead of manually typing parameters into a browser address bar, we will configure the View to "talk" to the Webhook automatically using dynamic variables.
+
+The Objective
+
+Configure the iframe component within the Studio View to use dynamic View Variables instead of static, hardcoded values.
+
+Details & Step-by-Step Solution
+Configure the iframe Component
+Create the View Variables
+Implement the Dynamic URL
+
+----- Page 3 -----
+
+Master Data Wrangling Challenge
+Challenge Steps
+Interactive Inputs & Variable Mapping
+
+Your View already contains two Input Dropdowns and one Input Box, but they are currently empty shells. In this step, you will bring them to life by populating the currency list and connecting them to your View Variables.
+
+The Objective
+
+Populate the existing components with manual currency options and ensure that every user interaction is saved directly to your variables.
+
+Details & Step-by-Step Solution
+Wire the Variables (The "Save To" Setting)
+Populate the Dropdown Items
+Understanding the Mapping
+Add a Placeholder
+Success Criteria
+
+You have completed this step when:
+
+Both dropdowns show a list of currency names.
+Selecting a currency or typing an amount causes the iframe to reload with the corresponding data.
+
+Note that you will receive an ugly error or warning when attempting to select the same original and target currency. We will take care of this at a later stage.
+
+Your next step will now likely be to allow for multiple target currencies... Let's go!
+
+----- Page 4 -----
+
+Master Data Wrangling Challenge
+Challenge Steps
+Going Multi-Select
+
+Now that our single conversion is working, it’s time to scale up. Our goal is to allow the user to select multiple target currencies at once and see all the results in a single view.
+
+The Objective
+
+Enable multi-selection in the Studio View and diagnose why this change causes the integration to break.
+
+Details & Step-by-Step Solution
+Update the View Configuration
+Trigger the Error
+Investigation: The Action Flow History
+The Crime Scene
+
+The bridge is built, but the data is "dirty." The single quotation marks are a byproduct of how Celonis handles multi-select arrays when passing them into a URL string (it's now also wrapping single values into those quotation marks). 
+
+ 👉🏼 It's on you to figure out how to deal with this now.
+
+----- Page 5 -----
+
+Master Data Wrangling Challenge
+Challenge Steps
+The Loop & Substring Solutions
+
+Now that the View is sending multiple currencies, we need to adapt our Action Flow to process them. To ensure we can clean the data precisely, we will break the comma-separated string from the Webhook into individual bundles.
+
+The Objective
+
+Break the incoming string into individual currency bundles and use the Substring function to "trim" away the quotation marks.
+
+Details & Step-by-Step Solution
+Add the Iterator Module
+Precise Trimming in the HTTP Module
+Save and Deploy
+The New Challenge: The Consolidation Gap
+
+If you look at your Action Flow’s Execution History, you will see that if you requested two currencies, the HTTP module ran twice. You are successfully getting data for each currency!
+
+However, the View still shows a "weird" or incomplete result. This is because the flow is currently firing multiple independent responses instead of one unified package.
+
+Critique: Architectural Efficiency
+
+Stop and Think: In this step, we chose to implement separate HTTP calls for every target currency. While this allowed us to easily "trim" the quotation marks using the Substring function, it isn't the most efficient way to talk to an API.
+
+In a real-world scenario, sending one request for all currencies is usually better for performance and reducing API "traffic." However, mastering the Iterator is a vital skill for Action Flows, where an API actually restricts you to one parameter at a time!
+
+----- Page 6 -----
+
+Master Data Wrangling Challenge
+Challenge Steps
+The Aggregation Phase
+
+Currently, your flow is firing multiple independent "shots." If a user requests three currencies, the HTTP module runs three times, and the data is scattered. To fix this, we need to perform two specific architectural moves:
+
+Extract the Data: Identify the currency and value from a dynamic API response.
+Bundle the Results: Collect all those individual results into one single block of text.
+
+
+
+
+The Objective
+
+Use the Set Multiple Variables tool to capture dynamic data, and the Text Aggregator to combine those values into a single output.
+
+Details & Step-by-Step Solution
+The "Set Multiple Variables" Tool
+The Text Aggregator
+Success Criteria
+
+You have completed this step when your Execution History shows the Text Aggregator successfully "bundling" all your results. Even though the modules before it ran multiple times, the Aggregator should only output one single bundle containing the full list.
+
+Next Step: Your data is gathered, but the user is still seeing an old response in the View. In Step 7, we will update the Webhook Response to send this new, aggregated list back to the View! 
+
+Ready to cross the finish line?
+
+----- Page 7 -----
+
+Master Data Wrangling Challenge
+Challenge Steps
+The Final Handshake
+
+If you test your View now, it probably looks "broken." You might see your raw currency list with quotation marks and no conversion values in sight. This is because your Webhook Response is still mapped to the "old" modules. We need to point it to our new Text Aggregator and give it a bit of HTML polish.
+
+The Objective
+
+Update the Webhook Response to return the aggregated list and use a simple HTML "translator" to ensure the results appear on separate lines.
+
+Details & Step-by-Step Solution
+Stabilize the Original Data
+Mapping the Aggregated Results
+The "Newline" vs. "HTML" Fix
+Deploy and Final Test
+
+The "Same Currency" Bug: You will notice that if you try to convert "Euro to Euro," the flow still fails. In the real world, we would build "Error Handling" or "Filters" to stop this. For now, we will leave this as a known limitation—handling these "edge cases" is a journey for our Error Handling course!
+
+----- Page 8 -----
+
+Master Data Wrangling Challenge
+Challenge Steps
+
+No topic content.
+
+########################################################################
+  LESSON 3 : Wrap-up
+########################################################################
+
+----- Page 1 -----
+
+Master Data Wrangling Challenge
+Wrap-up
+Wrap Up 🎉
+
+Congratulations! You have successfully navigated the complexities of integrating Action Flows with View components and external APIs. You didn't just build a dynamic data pipeline capable of handling unpredictable user inputs.
+
+Architectural Milestones
+
+Before you close your tabs, let’s recap the major architectural hurdles you cleared:
+
+The Bridge: You connected a live UI to an automation using View Variables and a Webhook URL.
+The Multiplier: You used an Iterator and the split() function to transform a single string into multiple actionable bundles.
+The Data Surgeon: You used Substring logic to clean "dirty" data (single quotes) that occurs during multi-select transfers.
+Key-Agnostic Mapping: You used keys() and get() to extract data from an API response without needing to know the currency codes in advance.
+The Translator: You used a replace() function to turn Action Flow newlines into HTML tags for a professional display.
+The next (optional) mission: Can you make it better?
+
+As we discussed in Step 5, our current solution is functional but "expensive." It fires an individual HTTP request for every single currency selected. While this made our data cleaning easy, it isn't the most efficient way to use an API.
+
+Can you build a Version 2.0 of this flow that:
+
+Cleans the entire string of target currencies before the HTTP module?
+Sends one single HTTP request containing all target currencies at once?
+Still displays the results in a clean, vertical list?
+Join the Conversation
+
+Architects thrive on peer review. While no solution to the above is present in this case study, we encourage you to share your optimized solution - or any questions you had along the way - with your fellow learners on the Celonis Academy Community Group! 
+
+Post a screenshot of your optimized logic, and let’s discuss the different ways to handle the "Quote Problem" without multiple API calls!
+
+Level Up: From "Hacked" to Native
+
+While the solution you built today is a powerful demonstration of API connectivity and data manipulation, you might have noticed that using an iframe feels a bit like a "workaround." It works as one way of connecting Action Flows with Views but it doesn't yet leverage the full integrative power that Celonis has to offer.
+
+In our next course in the "Build Action Flows" Training Track, we will shift away from the iframe-style and focus on native View Actions. We will simplify the UI, leverage Action Flow inputs, and focus on a streamlined "Table-to-Email" workflow.
+
+We're looking forward to seeing you there!
+
+Your Celonis Academy team
+
+----- Page 2 -----
+
+Master Data Wrangling Challenge
+Wrap-up
+
+How satisfied are you with the course?
+
+	★	★★	★★★	★★★★	★★★★★
+Please select a rating					
+
+What did you like the most about the course?
+
+What would you improve about this course?
+
+Complete Survey

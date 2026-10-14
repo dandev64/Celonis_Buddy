@@ -1,0 +1,1105 @@
+﻿=== Lesson 1: Demystifying AI Agents in the Enterprise [15:00] ===
+--- Page 1 ---
+Foundations of Agentic AI and MCP
+Demystifying AI Agents in the Enterprise [15:00]
+Welcome!
+
+Most AI tools can hold a conversation. Far fewer can actually reason about how your business runs, because they have never been given the operational context to do it. That gap is exactly what this course addresses.
+
+Over the next ~60 - 90 minutes, you will learn how to connect external AI agents to Celonis using Agent Tools, so a third-party model can tap into trusted process context and turn raw backend data into answers and actions you can rely on.
+
+Learning Objectives
+
+By the end of this course, you will be able to:
+
+Define AI agents and explain the value of the Model Context Protocol (MCP) within the Celonis ecosystem.
+Differentiate between the native Process Copilot, the ChatAPI, and the Agent Tools gateway.
+Explain how to securely configure, version, and deploy an Agent Tools asset within Celonis Studio.
+Recognize enterprise integration patterns to safely ground external third-party agents in trusted Celonis process context.
+Course Prerequisites
+
+To complete the practical portions of this course successfully, you should have the following foundational setup ready:
+
+Celonis Familiarity: A solid understanding of navigating standard Celonis Studio environments and using core assets like Knowledge Models. 👉 Enroll in our course "Introduction to Celonis Studio" if you need a jumpstart or refresher.
+Technical Basics: A general understanding of web connectivity and APIs to ease the learning curve.
+Postman Account (Optional): Existing access to a free web-version Postman account to simulate manual agent communication protocols.
+AI Agent Platform (Optional): Existing access to Microsoft Copilot Studio or an equivalent platform to follow along with our live deployment examples.
+
+⚠️ While this course features hands-on examples leveraging 3rd-party platforms (Postman, Microsoft Copilot Studio), note that following along in those external platforms is optional! 
+
+Celonis Academy cannot support in case you run into issues while setting up the external agents! You will still receive full credit for this course by working through the theoretical parts of this course.
+--- Page 2 ---
+Foundations of Agentic AI and MCP
+Demystifying AI Agents in the Enterprise [15:00]
+A Glimpse at our Use Case
+
+We just made a promise: to turn raw backend data into answers you can rely on. To see what that means in practice, we'll keep returning to one example from procurement and sustainability - a space where trusted, governed context clearly pays off.
+
+Here is the problem:
+
+A company wants to measure the carbon footprint of everything it buys - its "Purchased Goods and Services" emissions. Every purchase sits in a table in the company's ERP system. The emission factors needed to calculate that footprint sit in another table - the Material Table.
+
+Optional deep dive: Carbon Accounting 101
+
+
+
+
+For a purchase to count toward total emissions, it has to be connected to the Material Table record that carries its emission factor. When that link exists, the calculation happens automatically. When it doesn't, the purchase carries no emissions - and barely anyone notices.
+
+Matching is easy when a purchase carries a material number, a code that points straight to the Material Table. Most catalogue orders work this way.
+
+It breaks with off-catalogue orders. Instead of a material number, someone types a short free-text description - a few words, in their own style. It gets approved and bought; the business gets what it needs. But free text has no material number, so it never gets matched. When the report is pulled, that line has nothing to calculate from. The spend is real and the emissions are real, but the report can't see them. Multiply that across thousands of purchases, and the report has a gap in it.
+
+How an AI agent can help
+
+In theory, a human could do it by hand. Someone...
+
+reads each free-text line,
+works out what was actually bought,
+finds the closest material in the Material Table, and
+applies its emission factor.
+
+Right kind of thinking - but across thousands of lines it's slow, repetitive, and easy to get wrong halfway down the list. So in practice it rarely gets done, and the hole in the report stays.
+
+An AI agent can do the same reasoning, just faster and more consistently.
+
+It reads those free-text lines, matches each one to the most likely material, and applies that material's emission factor - producing an educated estimate of the emissions that were missing. It won't claim to have measured them; it's a best guess, grounded in real material and emission data. And where it can't find enough to go on, it doesn't force a match - it flags that line for a human to verify or complete, so judgement is spent only where it's actually needed.
+
+Prepping your Training Environment
+
+Before we spend a bit of time on theory, let's already get our training environment set up so we can jump into creating an Agent Tools assets later without further ado. 
+
+Access to Central Training Environment Required
+
+This course contains hands-on exercises that require access to this central Celonis training environment.
+
+Not sure if you have access? Click below and we'll either add you to the environment or show you how to access it. Please make sure to disable adblockers on this page if the button is not working for you.
+
+Add me or check my access
+
+
+
+
+Once you're in your training team (the data-engineer-analyst... one), select your existing space or create a new one. Then create a new package for this course and add the data model ocpm-procurement to it. 
+
+Inside your package, create a Knowledge Model (on ocpm-procurement variable). You'll need to add one calculated attribute to the Purchase Requisition Item table as well as two KPIs:
+
+The calculated attribute "IsFreeText"
+The KPI "Cost of Carbon"
+The KPI "Share of Free Text Purchase Requisition Items"
+
+👀 If you want to save yourself a bit of copy-paste, you can find the KPI YAML in the course resources. 
+
+With the package, Knowledge Model, KPIs, and attributes in place, your foundation is ready. Later in the course, the Agent Tools asset will link to this.
+--- Page 3 ---
+Foundations of Agentic AI and MCP
+Demystifying AI Agents in the Enterprise [15:00]
+What is an AI Agent?
+
+We are going to talk about AI agents a lot in this course - actually, we've already started - so let's make sure we're on the same page about what they are. And especially distinguish them from AI Chatbots.
+
+A chatbot answers a question and stops. An AI agent goes further: it pursues a goal. The simplest working definition:
+
+An AI agent is a software system that perceives its context, reasons over it, and can take actions on its own to achieve a goal.
+
+Three characteristics are what turn a plain language model into an agent:
+
+Goal-oriented autonomy - it works toward an objective and can decide its own next steps, rather than waiting for instructions at every turn.
+Reasoning capability - it interprets the situation and chooses what to do, instead of following a fixed script.
+Tool-enabled action - it can use tools to reach beyond conversation: query data, call a system, or trigger a process.
+
+
+
+
+An important rationale in that definition: an agent is only as good as the context it perceives. Reasoning over thin or messy information produces confident but wrong decisions. Give an agent rich, structured, trustworthy context about how your business actually runs, and its reasoning improves dramatically. That single idea - agents need good context - is the thread running through this entire course, and it is exactly what the Celonis platform is built to provide.
+
+What this could look like in practice
+
+Think back to that free-text requisition. An AI agent picks up a vague line - say, "Apple Blend 1L" typed straight into the box - and goes to work. It perceives the request, reasons about which catalog material it actually refers to, looks up that material's details, and surfaces something nobody could see before: the carbon footprint behind the purchase. Perceive, reason, act - all in service of one goal: turn an invisible, free-text request into a measured one. That is an agent, and it is very close to the one you will build in this course.
+
+💭 Notice the shift from the chatbot: the agent did not just answer a question, it pursued an outcome across several steps - interpret, look up, calculate, explain. 
+
+Where in your own work do you make a "figure out what they meant, then dig up the answer" call that an agent could take on?
+
+Now that we share a definition, the natural next question is: how much freedom should an agent have to act? That is where autonomy comes in.
+--- Page 4 ---
+Foundations of Agentic AI and MCP
+Demystifying AI Agents in the Enterprise [15:00]
+Modes of AI Agent Autonomy
+
+Before you let an agent loose on your operations, you have one big decision to make: how much freedom does it get? It is not all-or-nothing. Agent autonomy sits on a spectrum, and where you land shapes how you design, secure, and govern the agent. Here are the three modes you will hear about most.
+
+Human-in-the-Loop (HITL)
+Human-on-the-Loop (HOTL)
+Human-out-of-the-Loop (HOOTL)
+
+The agent acts purely as an analytical assistant, surfacing insights or recommendations. It cannot execute decisions or write back to any system without direct, manual human approval for every step.
+
+
+
+
+Keep this spectrum in mind. When you design your own agent, choosing its autonomy level will be one of the fundamental decisions you make - and the level you choose isn't permanent. Different agents will sit at different points on the spectrum, and a single agent's level often shifts over time. In practice, many teams start an agent with tight human oversight and grant it more autonomy as it earns trust. Advances in technology and changes in business rules push in the same direction, making this an iterative design process - just like anything in the software world.
+
+💭 Quick gut check: for a use case you have in mind, which mode feels right today, and what would have to be true before you would trust the next level up?
+--- Page 5 ---
+Foundations of Agentic AI and MCP
+Demystifying AI Agents in the Enterprise [15:00]
+Where Agentic AI fits at Celonis
+
+Autonomy tells you how much freedom an agent has. This next lens tells you something different: where agentic AI actually plugs into Celonis, and what kind of value each connection creates. There are three dimensions.
+
+Agentic AI for Process
+Agentic AI for Implementation
+Agentic AI for Driving Value
+
+Where this course focuses: We are zooming in on the Process dimension: grounding external AI agents in trusted Celonis context so that they can investigate and answer process questions. 
+
+Before you build an agent, it helps to see where it actually lives in the Celonis platform. This blueprint shows the whole picture - and agents sit right at the top.
+
+
+
+What's in this picture
+
+
+
+
+Notice that AI agents share that top layer with humans and automations - they don't replace the stack beneath them, they draw on it. An agent is only as reliable as the context it can reach, and everything below the top layer exists to give it that context. That's exactly the gap Agent Tools closes: it's the bridge that lets an external agent tap into the Context Model instead of guessing.
+
+=== Lesson 2: Welcome! [02:00] ===
+--- Page 2 ---
+Foundations of Agentic AI and MCP
+Demystifying AI Agents in the Enterprise [15:00]
+A Glimpse at our Use Case
+
+We just made a promise: to turn raw backend data into answers you can rely on. To see what that means in practice, we'll keep returning to one example from procurement and sustainability - a space where trusted, governed context clearly pays off.
+
+Here is the problem:
+
+A company wants to measure the carbon footprint of everything it buys - its "Purchased Goods and Services" emissions. Every purchase sits in a table in the company's ERP system. The emission factors needed to calculate that footprint sit in another table - the Material Table.
+
+Optional deep dive: Carbon Accounting 101
+
+
+
+
+For a purchase to count toward total emissions, it has to be connected to the Material Table record that carries its emission factor. When that link exists, the calculation happens automatically. When it doesn't, the purchase carries no emissions - and barely anyone notices.
+
+Matching is easy when a purchase carries a material number, a code that points straight to the Material Table. Most catalogue orders work this way.
+
+It breaks with off-catalogue orders. Instead of a material number, someone types a short free-text description - a few words, in their own style. It gets approved and bought; the business gets what it needs. But free text has no material number, so it never gets matched. When the report is pulled, that line has nothing to calculate from. The spend is real and the emissions are real, but the report can't see them. Multiply that across thousands of purchases, and the report has a gap in it.
+
+How an AI agent can help
+
+In theory, a human could do it by hand. Someone...
+
+reads each free-text line,
+works out what was actually bought,
+finds the closest material in the Material Table, and
+applies its emission factor.
+
+Right kind of thinking - but across thousands of lines it's slow, repetitive, and easy to get wrong halfway down the list. So in practice it rarely gets done, and the hole in the report stays.
+
+An AI agent can do the same reasoning, just faster and more consistently.
+
+It reads those free-text lines, matches each one to the most likely material, and applies that material's emission factor - producing an educated estimate of the emissions that were missing. It won't claim to have measured them; it's a best guess, grounded in real material and emission data. And where it can't find enough to go on, it doesn't force a match - it flags that line for a human to verify or complete, so judgement is spent only where it's actually needed.
+
+Prepping your Training Environment
+
+Before we spend a bit of time on theory, let's already get our training environment set up so we can jump into creating an Agent Tools assets later without further ado. 
+
+Access to Central Training Environment Required
+
+This course contains hands-on exercises that require access to this central Celonis training environment.
+
+Not sure if you have access? Click below and we'll either add you to the environment or show you how to access it. Please make sure to disable adblockers on this page if the button is not working for you.
+
+Add me or check my access
+
+
+
+
+Once you're in your training team (the data-engineer-analyst... one), select your existing space or create a new one. Then create a new package for this course and add the data model ocpm-procurement to it. 
+
+Inside your package, create a Knowledge Model (on ocpm-procurement variable). You'll need to add one calculated attribute to the Purchase Requisition Item table as well as two KPIs:
+
+The calculated attribute "IsFreeText"
+The KPI "Cost of Carbon"
+The KPI "Share of Free Text Purchase Requisition Items"
+
+👀 If you want to save yourself a bit of copy-paste, you can find the KPI YAML in the course resources. 
+
+With the package, Knowledge Model, KPIs, and attributes in place, your foundation is ready. Later in the course, the Agent Tools asset will link to this.
+--- Page 3 ---
+Foundations of Agentic AI and MCP
+Demystifying AI Agents in the Enterprise [15:00]
+What is an AI Agent?
+
+We are going to talk about AI agents a lot in this course - actually, we've already started - so let's make sure we're on the same page about what they are. And especially distinguish them from AI Chatbots.
+
+A chatbot answers a question and stops. An AI agent goes further: it pursues a goal. The simplest working definition:
+
+An AI agent is a software system that perceives its context, reasons over it, and can take actions on its own to achieve a goal.
+
+Three characteristics are what turn a plain language model into an agent:
+
+Goal-oriented autonomy - it works toward an objective and can decide its own next steps, rather than waiting for instructions at every turn.
+Reasoning capability - it interprets the situation and chooses what to do, instead of following a fixed script.
+Tool-enabled action - it can use tools to reach beyond conversation: query data, call a system, or trigger a process.
+
+
+
+
+An important rationale in that definition: an agent is only as good as the context it perceives. Reasoning over thin or messy information produces confident but wrong decisions. Give an agent rich, structured, trustworthy context about how your business actually runs, and its reasoning improves dramatically. That single idea - agents need good context - is the thread running through this entire course, and it is exactly what the Celonis platform is built to provide.
+
+What this could look like in practice
+
+Think back to that free-text requisition. An AI agent picks up a vague line - say, "Apple Blend 1L" typed straight into the box - and goes to work. It perceives the request, reasons about which catalog material it actually refers to, looks up that material's details, and surfaces something nobody could see before: the carbon footprint behind the purchase. Perceive, reason, act - all in service of one goal: turn an invisible, free-text request into a measured one. That is an agent, and it is very close to the one you will build in this course.
+
+💭 Notice the shift from the chatbot: the agent did not just answer a question, it pursued an outcome across several steps - interpret, look up, calculate, explain. 
+
+Where in your own work do you make a "figure out what they meant, then dig up the answer" call that an agent could take on?
+
+Now that we share a definition, the natural next question is: how much freedom should an agent have to act? That is where autonomy comes in.
+--- Page 4 ---
+Foundations of Agentic AI and MCP
+Demystifying AI Agents in the Enterprise [15:00]
+Modes of AI Agent Autonomy
+
+Before you let an agent loose on your operations, you have one big decision to make: how much freedom does it get? It is not all-or-nothing. Agent autonomy sits on a spectrum, and where you land shapes how you design, secure, and govern the agent. Here are the three modes you will hear about most.
+
+Human-in-the-Loop (HITL)
+Human-on-the-Loop (HOTL)
+Human-out-of-the-Loop (HOOTL)
+
+The agent acts purely as an analytical assistant, surfacing insights or recommendations. It cannot execute decisions or write back to any system without direct, manual human approval for every step.
+
+
+
+
+Keep this spectrum in mind. When you design your own agent, choosing its autonomy level will be one of the fundamental decisions you make - and the level you choose isn't permanent. Different agents will sit at different points on the spectrum, and a single agent's level often shifts over time. In practice, many teams start an agent with tight human oversight and grant it more autonomy as it earns trust. Advances in technology and changes in business rules push in the same direction, making this an iterative design process - just like anything in the software world.
+
+💭 Quick gut check: for a use case you have in mind, which mode feels right today, and what would have to be true before you would trust the next level up?
+--- Page 5 ---
+Foundations of Agentic AI and MCP
+Demystifying AI Agents in the Enterprise [15:00]
+Where Agentic AI fits at Celonis
+
+Autonomy tells you how much freedom an agent has. This next lens tells you something different: where agentic AI actually plugs into Celonis, and what kind of value each connection creates. There are three dimensions.
+
+Agentic AI for Process
+Agentic AI for Implementation
+Agentic AI for Driving Value
+
+Where this course focuses: We are zooming in on the Process dimension: grounding external AI agents in trusted Celonis context so that they can investigate and answer process questions. 
+
+Before you build an agent, it helps to see where it actually lives in the Celonis platform. This blueprint shows the whole picture - and agents sit right at the top.
+
+
+
+What's in this picture
+
+
+
+
+Notice that AI agents share that top layer with humans and automations - they don't replace the stack beneath them, they draw on it. An agent is only as reliable as the context it can reach, and everything below the top layer exists to give it that context. That's exactly the gap Agent Tools closes: it's the bridge that lets an external agent tap into the Context Model instead of guessing.
+
+=== Module 3: --- Page 1 --- ===
+Lessons in this module: A Glimpse at our Use Case [05:00] | What is an AI Agent? [03:00] | Modes of AI Agent Autonomy [03:00] | Where Agentic AI fits at Celonis [03:00]
+--- Page 1 ---
+Foundations of Agentic AI and MCP
+Demystifying AI Agents in the Enterprise [15:00]
+Welcome!
+
+Most AI tools can hold a conversation. Far fewer can actually reason about how your business runs, because they have never been given the operational context to do it. That gap is exactly what this course addresses.
+
+Over the next ~60 - 90 minutes, you will learn how to connect external AI agents to Celonis using Agent Tools, so a third-party model can tap into trusted process context and turn raw backend data into answers and actions you can rely on.
+
+Learning Objectives
+
+By the end of this course, you will be able to:
+
+Define AI agents and explain the value of the Model Context Protocol (MCP) within the Celonis ecosystem.
+Differentiate between the native Process Copilot, the ChatAPI, and the Agent Tools gateway.
+Explain how to securely configure, version, and deploy an Agent Tools asset within Celonis Studio.
+Recognize enterprise integration patterns to safely ground external third-party agents in trusted Celonis process context.
+Course Prerequisites
+
+To complete the practical portions of this course successfully, you should have the following foundational setup ready:
+
+Celonis Familiarity: A solid understanding of navigating standard Celonis Studio environments and using core assets like Knowledge Models. 👉 Enroll in our course "Introduction to Celonis Studio" if you need a jumpstart or refresher.
+Technical Basics: A general understanding of web connectivity and APIs to ease the learning curve.
+Postman Account (Optional): Existing access to a free web-version Postman account to simulate manual agent communication protocols.
+AI Agent Platform (Optional): Existing access to Microsoft Copilot Studio or an equivalent platform to follow along with our live deployment examples.
+
+⚠️ While this course features hands-on examples leveraging 3rd-party platforms (Postman, Microsoft Copilot Studio), note that following along in those external platforms is optional! 
+
+Celonis Academy cannot support in case you run into issues while setting up the external agents! You will still receive full credit for this course by working through the theoretical parts of this course.
+--- Page 2 ---
+Foundations of Agentic AI and MCP
+Demystifying AI Agents in the Enterprise [15:00]
+A Glimpse at our Use Case
+
+We just made a promise: to turn raw backend data into answers you can rely on. To see what that means in practice, we'll keep returning to one example from procurement and sustainability - a space where trusted, governed context clearly pays off.
+
+Here is the problem:
+
+A company wants to measure the carbon footprint of everything it buys - its "Purchased Goods and Services" emissions. Every purchase sits in a table in the company's ERP system. The emission factors needed to calculate that footprint sit in another table - the Material Table.
+
+Optional deep dive: Carbon Accounting 101
+
+
+
+
+For a purchase to count toward total emissions, it has to be connected to the Material Table record that carries its emission factor. When that link exists, the calculation happens automatically. When it doesn't, the purchase carries no emissions - and barely anyone notices.
+
+Matching is easy when a purchase carries a material number, a code that points straight to the Material Table. Most catalogue orders work this way.
+
+It breaks with off-catalogue orders. Instead of a material number, someone types a short free-text description - a few words, in their own style. It gets approved and bought; the business gets what it needs. But free text has no material number, so it never gets matched. When the report is pulled, that line has nothing to calculate from. The spend is real and the emissions are real, but the report can't see them. Multiply that across thousands of purchases, and the report has a gap in it.
+
+How an AI agent can help
+
+In theory, a human could do it by hand. Someone...
+
+reads each free-text line,
+works out what was actually bought,
+finds the closest material in the Material Table, and
+applies its emission factor.
+
+Right kind of thinking - but across thousands of lines it's slow, repetitive, and easy to get wrong halfway down the list. So in practice it rarely gets done, and the hole in the report stays.
+
+An AI agent can do the same reasoning, just faster and more consistently.
+
+It reads those free-text lines, matches each one to the most likely material, and applies that material's emission factor - producing an educated estimate of the emissions that were missing. It won't claim to have measured them; it's a best guess, grounded in real material and emission data. And where it can't find enough to go on, it doesn't force a match - it flags that line for a human to verify or complete, so judgement is spent only where it's actually needed.
+
+Prepping your Training Environment
+
+Before we spend a bit of time on theory, let's already get our training environment set up so we can jump into creating an Agent Tools assets later without further ado. 
+
+Access to Central Training Environment Required
+
+This course contains hands-on exercises that require access to this central Celonis training environment.
+
+Not sure if you have access? Click below and we'll either add you to the environment or show you how to access it. Please make sure to disable adblockers on this page if the button is not working for you.
+
+Add me or check my access
+
+
+
+
+Once you're in your training team (the data-engineer-analyst... one), select your existing space or create a new one. Then create a new package for this course and add the data model ocpm-procurement to it. 
+
+Inside your package, create a Knowledge Model (on ocpm-procurement variable). You'll need to add one calculated attribute to the Purchase Requisition Item table as well as two KPIs:
+
+The calculated attribute "IsFreeText"
+The KPI "Cost of Carbon"
+The KPI "Share of Free Text Purchase Requisition Items"
+
+👀 If you want to save yourself a bit of copy-paste, you can find the KPI YAML in the course resources. 
+
+With the package, Knowledge Model, KPIs, and attributes in place, your foundation is ready. Later in the course, the Agent Tools asset will link to this.
+--- Page 3 ---
+Foundations of Agentic AI and MCP
+Demystifying AI Agents in the Enterprise [15:00]
+What is an AI Agent?
+
+We are going to talk about AI agents a lot in this course - actually, we've already started - so let's make sure we're on the same page about what they are. And especially distinguish them from AI Chatbots.
+
+A chatbot answers a question and stops. An AI agent goes further: it pursues a goal. The simplest working definition:
+
+An AI agent is a software system that perceives its context, reasons over it, and can take actions on its own to achieve a goal.
+
+Three characteristics are what turn a plain language model into an agent:
+
+Goal-oriented autonomy - it works toward an objective and can decide its own next steps, rather than waiting for instructions at every turn.
+Reasoning capability - it interprets the situation and chooses what to do, instead of following a fixed script.
+Tool-enabled action - it can use tools to reach beyond conversation: query data, call a system, or trigger a process.
+
+
+
+
+An important rationale in that definition: an agent is only as good as the context it perceives. Reasoning over thin or messy information produces confident but wrong decisions. Give an agent rich, structured, trustworthy context about how your business actually runs, and its reasoning improves dramatically. That single idea - agents need good context - is the thread running through this entire course, and it is exactly what the Celonis platform is built to provide.
+
+What this could look like in practice
+
+Think back to that free-text requisition. An AI agent picks up a vague line - say, "Apple Blend 1L" typed straight into the box - and goes to work. It perceives the request, reasons about which catalog material it actually refers to, looks up that material's details, and surfaces something nobody could see before: the carbon footprint behind the purchase. Perceive, reason, act - all in service of one goal: turn an invisible, free-text request into a measured one. That is an agent, and it is very close to the one you will build in this course.
+
+💭 Notice the shift from the chatbot: the agent did not just answer a question, it pursued an outcome across several steps - interpret, look up, calculate, explain. 
+
+Where in your own work do you make a "figure out what they meant, then dig up the answer" call that an agent could take on?
+
+Now that we share a definition, the natural next question is: how much freedom should an agent have to act? That is where autonomy comes in.
+--- Page 4 ---
+Foundations of Agentic AI and MCP
+Demystifying AI Agents in the Enterprise [15:00]
+Modes of AI Agent Autonomy
+
+Before you let an agent loose on your operations, you have one big decision to make: how much freedom does it get? It is not all-or-nothing. Agent autonomy sits on a spectrum, and where you land shapes how you design, secure, and govern the agent. Here are the three modes you will hear about most.
+
+Human-in-the-Loop (HITL)
+Human-on-the-Loop (HOTL)
+Human-out-of-the-Loop (HOOTL)
+
+The agent acts purely as an analytical assistant, surfacing insights or recommendations. It cannot execute decisions or write back to any system without direct, manual human approval for every step.
+
+
+
+
+Keep this spectrum in mind. When you design your own agent, choosing its autonomy level will be one of the fundamental decisions you make - and the level you choose isn't permanent. Different agents will sit at different points on the spectrum, and a single agent's level often shifts over time. In practice, many teams start an agent with tight human oversight and grant it more autonomy as it earns trust. Advances in technology and changes in business rules push in the same direction, making this an iterative design process - just like anything in the software world.
+
+💭 Quick gut check: for a use case you have in mind, which mode feels right today, and what would have to be true before you would trust the next level up?
+--- Page 5 ---
+Foundations of Agentic AI and MCP
+Demystifying AI Agents in the Enterprise [15:00]
+Where Agentic AI fits at Celonis
+
+Autonomy tells you how much freedom an agent has. This next lens tells you something different: where agentic AI actually plugs into Celonis, and what kind of value each connection creates. There are three dimensions.
+
+Agentic AI for Process
+Agentic AI for Implementation
+Agentic AI for Driving Value
+
+Where this course focuses: We are zooming in on the Process dimension: grounding external AI agents in trusted Celonis context so that they can investigate and answer process questions. 
+
+Before you build an agent, it helps to see where it actually lives in the Celonis platform. This blueprint shows the whole picture - and agents sit right at the top.
+
+
+
+What's in this picture
+
+
+
+
+Notice that AI agents share that top layer with humans and automations - they don't replace the stack beneath them, they draw on it. An agent is only as reliable as the context it can reach, and everything below the top layer exists to give it that context. That's exactly the gap Agent Tools closes: it's the bridge that lets an external agent tap into the Context Model instead of guessing.
+
+=== Module 4: --- Page 1 --- ===
+Lessons in this module: Introduction to the Model Context Protocol [10:00] | The Anthropic Standard & Core Primitives [03:00] | Comparing MCP to traditional APIs [03:00] | Meet Celonis Agent Tools [04:00]
+--- Page 1 ---
+Foundations of Agentic AI and MCP
+Introduction to the Model Context Protocol [10:00]
+The Anthropic Standard & Core Primitives
+
+Before you connect an AI agent to Celonis, it helps to understand the shared language they use to talk to each other. That language is the Model Context Protocol, or MCP.
+
+MCP is an open standard, originally introduced and open-sourced by Anthropic. Its job is simple but powerful: give any AI application a single, consistent way to connect to external data and tools. Before MCP, every connection between a model and a piece of software had to be custom-built. MCP replaces that tangle of one-off integrations with one shared standard.
+
+💡 Quick analogy. If APIs are like dozens of differently shaped power sockets, MCP is the single universal plug that fits them all. Build to the standard once, and your agent can connect to anything that speaks MCP.
+
+The three building blocks of MCP
+
+The protocol defines three core primitives. Each answers a different question about how an agent works with an external system.
+
+Tools - The Agent's Toolkit 🔧
+Resources - The Agent's Library 📖
+Prompts - The Agent's Blueprint 💬
+
+For now, the key takeaway: Celonis builds on this open standard, and it focuses deliberately on Tools. We will unpack exactly why later in the course.
+--- Page 2 ---
+Foundations of Agentic AI and MCP
+Introduction to the Model Context Protocol [10:00]
+Comparing MCP to traditional APIs
+
+APIs have connected software to software for decades, and they are not going away. But reasoning models work differently from traditional programs, and that changes what a good connection looks like.
+
+A classic API expects rigid, exact inputs. Send the wrong parameter type or miss a required field, and the call simply fails. That is fine for deterministic systems. But an AI agent reasons in natural language and decides what to do on the fly, so it needs an interface it can read, understand, and adapt to.
+
+This is where MCP shines. Instead of hard-coded calls, MCP exposes tools with self-describing schemas. The agent reads what each tool does and figures out how to call it. 
+
+One way to put it: a traditional API connects software to software; MCP connects AI to software.
+
+FEATURE	TRADITIONAL APIS (REST / SOAP)	MODEL CONTEXT PROTOCOL (MCP)
+Designed for	Deterministic software systems with fixed logic.	Reasoning LLMs that interpret context and decide.
+Input style	Rigid parameters (exact string, int, or an explicit JSON payload).	Contextual instructions; the model infers variables from natural text.
+Integration	Custom, hand-written glue code for every application you connect.	Standardized; any MCP-compliant client can plug into any MCP server.
+Flexibility	Breaks instantly if an endpoint path changes or an argument is missing.	Adaptable; the model reads tool schemas and structures the call dynamically.
+
+Keep this in mind: an AI is only as smart as the data it can read. A flexible interface is only half the story. Connecting MCP to trusted Celonis context is what turns it into a reliable one, and that is exactly where we are headed.
+--- Page 3 ---
+Foundations of Agentic AI and MCP
+Introduction to the Model Context Protocol [10:00]
+Meet Celonis Agent Tools
+
+This is the moment the course has been building toward 🥁: meet Celonis Agent Tools, the feature at the heart of everything you will do from here.
+
+What is Agent Tools? 
+
+
+Celonis Agent Tools is a Studio asset that hands an external AI agent a curated set of tools - securely, over the open Model Context Protocol (MCP) - so the agent can tap into your Celonis process context: search your Knowledge Models, pull real-time process metrics, and even trigger actions.
+
+The agent supplies the reasoning; Celonis supplies the trusted ground truth.
+
+
+
+
+The key idea: Agent Tools does not bring its own AI brain. It is the gateway that lets any MCP-compatible agent - one you build in Microsoft Copilot Studio, AWS Bedrock, Claude, and others - reason over Celonis data it can trust. You bring the reasoning; Celonis grounds it.
+
+
+If you have worked with Celonis AI before, you have likely met two other options, namely Process Copilots and ChatAPI, and it is easy to mix them up. The cleanest way to tell all three apart is to ask one question: where does the language model actually sit?
+
+Process Copilot
+ChatAPI
+Agent Tools (MCP)
+
+Process Copilot is the conversational assistant built into the Celonis Platform. You chat about your processes directly in the Celonis UI. The Large Language Model (LLM) is integrated and connected inside Celonis. Celonis manages the LLM on your behalf so you don't need to configure it yourself. 
+
+
+
+
+A simple way to remember it: with Process Copilot and ChatAPI, Celonis brings the brain. With Agent Tools, you bring your own brain and Celonis grounds it in operational truth.
+
+💡 Quick gut check.
+
+An Accounts Payable bot in Microsoft Teams that answers vendor questions with text:
+
+
+Agent Tools or ChatAPI?
+
+An AWS Bedrock agent doing root-cause analysis across your supply chain:
+
+Agent Tools or Process Copilot?
+
+In one sentence, how would you now explain Agent Tools to a colleague who only knows the Process Copilot?
+
+=== Module 5: --- Page 1 --- ===
+Lessons in this module: Design the Agent Tools Architecture [15:00] | Our Mission: the Procurement Agent [03:00] | Designing your AI Agent with Intention [04:00] | Opening the Tool Box [05:00] | From Question to Toolset [03:00]
+--- Page 1 ---
+Agent Tools in Action
+Design the Agent Tools Architecture [15:00]
+Our Mission: the Procurement Agent
+
+We have the concepts and the gateway. Now let's point them at the problem we opened with: the carbon emissions hiding in free-text purchases.
+
+A free-text line like "Apple Juice 1000ml" never links to your material data, so it never reaches your carbon report - real spend, real emissions, invisible. For the rest of this course we're building one agent with one job: take the free-text purchase requisitions that slip past your catalog and reveal the emissions they've been hiding. Connected through Celonis Agent Tools, it switches the lights on, then connects the dots to estimate the true carbon bill.
+
+🎯 The question we are building toward.
+
+By the end, you'll point your agent at a set of free-text requisitions and ask it, in plain language, to do what your carbon report could not: for a product you name, reveal the confirmed emissions, estimate the ones hidden in those free-text lines, and give you the true total. The agent matches each loose request to its catalogued material, recovers that material's emission factor, and adds the estimate to the confirmed figure.
+
+And notice what makes that answer trustworthy. The agent can't invent your emission factors or your material catalog - it has no way to know any of that on its own. Every figure is grounded in governed Celonis data. Unplug Celonis and the agent is just guessing. That's the whole point of what we're building.
+
+A quick word on scope, so the hands-on stays achievable. Our agent will read and reveal: interpret the requests, recover the footprints, and show you the total. Acting on that insight - rerouting spend, switching packaging, writing a correction back - is the natural next step, but it belongs to a more advanced build we'll point to at the end. "Read and reveal" is plenty to show the whole pattern.
+
+💭 One last thing before we build...
+
+The hardest part of a good agent isn't the configuration, it's deciding exactly what it should and shouldn't do - and, with that settled, what tools it actually needs. So on the next page, we'll scope this agent properly before we open Studio.
+--- Page 2 ---
+Agent Tools in Action
+Design the Agent Tools Architecture [15:00]
+Designing your AI Agent with Intention
+
+Once you know you want to build an AI Agent, it is tempting to jump straight into configuration. Resist that urge for a moment. The hardest part of building a useful agent is often not only technical; it is design.
+
+We could just give you a step-by-step configuration list for both the platform where you set up the agent, as well as the steps to take in Celonis where you set up the Agent Tools. That would be relatively easy. But in the end, you would not be able to tell why we chose a certain set of tools. And that's the real trick. 
+
+You need to actively decide what your agent is for, to know which tools to give it or where to draw its boundaries. This way, you make sure to come up with a well-scoped agent, which is predictable and reliable.
+
+Good agent design is its own soft skill.
+
+To get started with your Agent Design process, here are a couple of reflective questions that can help you to get the ball rolling: 
+
+Purpose: What single job should this agent do well - in one sentence?
+Scope: What is explicitly out of scope? Narrow beats broad, especially when it comes to AI.
+Tools: Which - in this case, Celonis - tools are strictly necessary for that job?
+Guardrails: Should the agent only read and recommend, or also act and write back? (Remember the autonomy spectrum from earlier.)
+
+And yes, actually writing down your answers, discussing them with your team, and iterating on them is all part of a good practice to come up with an Agent Design that is purposeful, targeted and will yield the desired outcomes. Maybe you even come up with some sort of "Agent Model Canvas"?
+
+💡 Fewer tools, sharper agent. 
+
+Later, in the Celonis configuration screen of Agent Tools, you will even be warned when you select more than three tools. Every extra tool adds ambiguity to the agent's decision-making.
+
+Don't worry; we won't make you go through this exercise of answering the questions for our training use case. Here is how we answered those four questions for you:
+
+Purpose: reveal the carbon footprint hiding in free-text purchase requisitions.
+Scope: read and reveal only - match the requests, recover the factors, surface the hotspots. No rerouting spend, no writing anything back.
+Tools: just the couple of read tools it needs to find a material and its emission factor - nothing more.
+Guardrails: strictly read-only. The agent informs; a human decides.
+
+Notice how tight that is. We are keeping the build deliberately simple - the cleverness lives in how the agent reasons over a few good tools, not in piling on more.
+
+Bonus Exercise (optional)
+
+Now try the mini framework from above on an agent of your own. Picture one you would actually want in your work. Can you describe its job in a single sentence - and say what it should not do? If that is harder than it sounds, you have just found the first thing to refine. And you do not have to do it alone: hand the prompt below to your AI assistant and let it interview you through all four questions - Purpose, Scope, Tools, and Guardrails. 
+
+A fitting first step, really: using AI to scope your AI agent...
+
+You are an AI agent design partner helping me scope a single, well-defined AI agent that will use Celonis Agent Tools to work with my process data. Interview me and pressure-test my thinking - don't just agree with everything I say.
+
+Work through these four areas one at a time, asking focused questions and challenging anything vague or too broad:
+
+1. Purpose - the single job this agent should do well. Push me to state it in one sentence.
+2. Scope - what's explicitly in scope, and just as important, what's out of scope. Tell me if my scope is too broad.
+3. Tools - which kinds of Celonis tools it needs: find-and-read / insight tools (to answer questions), action tools (to trigger automations), or both. Steer me toward the smallest set of tools that does the job.
+4. Guardrails - how much autonomy it should have (only read and recommend, or also act and write back?), and any limits on what it may touch.
+
+When we've covered all four, summarise my answers as a clean one-page "Agent Design Canvas" I can keep, and call out the single biggest risk in my design. Start by asking me what problem I'm trying to solve.
+--- Page 3 ---
+Agent Tools in Action
+Design the Agent Tools Architecture [15:00]
+Opening the Tool Box
+
+On the next pages, you will create your own Agent Tools asset in Celonis Studio and select its tools. Let's open the toolbox, so you know what you are choosing from.
+
+Agent Tools may be grouped into two clusters (theoretical; nothing you would find in the UI like that), based on what you let the agent do:
+
+Find and read (the usual starting point)
+
+These are tools that let the agent search and retrieve trusted context. Many "chat with your process" agents run on a small, deliberate set of read tools: Load Data (pull the specific data to reason over), Search Data (find relevant items in your Knowledge Models from a search term), and Get Knowledge Model (retrieve the Knowledge Model itself as grounding). A fourth, Search Metadata, plays a supporting role - helping the agent discover what is available. Together, these cover the large majority of analytical use cases.
+
+While these tools sound similar - and to a certain extent are similar - this may also be the point where it gets tricky to choose which one you actually need. While we put all of them into the "Find and read" bucket, let's still look at them separately:
+
+Load Data - you know what you want
+Search Data - describe what you want
+Search Metadata - discover what exists
+Get Knowledge Model - as the name suggests
+
+A classic pattern is search, then load: use Search Data to find the right record from a vague description, then Load Data to pull its full details.
+
+💡 A note on Semantic search.
+
+Semantic search matches on meaning and is powered by a vector store, which is still being rolled out and requires an extra setup. You will therefore not be able to test it in the training environment.
+
+Act and automate
+
+Tools that let the agent do something in your operations rather than just report on them - for example, Trigger Action Flow to kick off an existing Action Flow, or the Orchestration Engine tools to start and resume a long-running process. These move the agent up the autonomy spectrum, from advising to acting, which is also why this is where you will want tighter guardrails and, often, a human in the loop.
+
+This is also how an agent writes back into Celonis and closes the loop. There is no separate write-back tool: instead, the Action Flow the agent triggers can include a Celonis module that writes its decision or outcome back to the source, so the next analysis reflects what the agent just did.
+
+
+
+
+Whichever tools you choose, most of them can be set up in one of two ways: in an intelligent or custom configuration, depending on your needs:
+
+Intelligent Configuration
+Custom configuration
+
+The tool comes ready to use: you add it and go, no bespoke setup required. It is the fastest path and the right default for standard find-and-read needs - for example, letting the agent load data on demand. Not every tool offers this, but "Load Data" is one of them.
+
+Worth noting: it might be a design choice of yours to mix the two configuration types, i.e. set up two tools of the same kind; one in intelligent configuration, one in custom configuration for a specific job.
+
+💡 Less is more. Add a fourth tool and Studio warns you directly: "Selecting too many tools can negatively impact your accuracy." There is good reason for that - every extra tool gives the agent one more thing to second-guess. A focused toolset makes for a sharper, more predictable agent. This is where the scoping from "Designing your AI Agent with Intention" pays off. (That said, sometimes a fourth tool really is the right call - we will come back to exactly that when we build.)
+
+In this course, we will stick to the find-and-read tools, which are all an agent needs to answer questions about your process emissions.
+--- Page 4 ---
+Agent Tools in Action
+Design the Agent Tools Architecture [15:00]
+From Question to Toolset
+
+You have scoped the agent: its purpose, its boundaries, its read-only guardrails. Now let's turn that scope into an actual set of Agent Tools. As a starting point, it is often helpful to think through how you would do the agent's job yourself - by hand, step by step, the way you might in a spreadsheet.
+
+Picture working through it manually. Every time you stop to look something up - the confirmed figures, the free-text lines, a matching material, its emission factor - that is a moment the agent will need a tool. Every time it is just arithmetic or judgement, the agent needs no tool at all. Keep that split in mind.
+
+In a nutshell, you take the agent's future work, break it into steps, and ask the following for each step:
+
+a) does this step need trusted data from Celonis? That is a tool.
+
+b) or is it reasoning the model can do on its own? That is no tool.
+
+Let's apply this to our use case:
+
+"What's the carbon footprint of our cheese-related purchases, accounting for both confirmed and hidden emissions?"
+
+STEP THE AGENT TAKES	NEEDS TRUSTED CELONIS DATA?	TOOL?
+Get the confirmed emissions for the catalogue-matched cheese lines - a governed KPI the agent asks Celonis for rather than working out.	Yes	get_emissions
+Get the free-text cheese lines and their total spend - the lines the KPI cannot see.	Yes	get_free_text_spend
+Match each free-text description to the most likely catalogued material - a fuzzy lookup, not an exact one.	Yes	search_emission_factor
+Recover that material's emission factor.	Yes	get_emission_factor
+Estimate the hidden emissions and add them to the confirmed figure - one multiplication (spend × factor), one addition.	No - pure arithmetic on what the tools returned	No tool
+Explain the result - confirmed, estimated, total, and the caveat that the hidden part is a best guess.	No - reasoning	No tool
+
+Four steps need data; two are pure reasoning. So our toolset is four tools: get_emissions, get_free_text_spend, search_emission_factor, and get_emission_factor. Notice we did not choose them - the question did.
+
+Remember Studio warns you add more than three tools? We land on four on purpose. "Why" is something we will answer throughout the course. For now keep in mind: There is no single right answer; tool count is a design choice you make against your question.
+
+=== Module 6: --- Page 1 --- ===
+Lessons in this module: Configure the Agent Tools Asset [13:00] | Create the Agent Tools Asset [10:00] | Authentication & Permission [03:00]
+--- Page 1 ---
+Agent Tools in Action
+Configure the Agent Tools Asset [13:00]
+Create the Agent Tools Asset
+
+You have your toolset design. Time to build it. The Agent Tools asset lives in Celonis Studio, right alongside the other assets you already know. Here's what to do, step by step:
+
+Open your package in Studio and create a new asset of type Agent Tools.
+Give it a clear name, for example Agent Tools for Carbon Insights.
+Link your Knowledge Model - the one that holds your material data, the emission factors, and the Cost of Carbon KPI. This is what grounds the agent in trusted, governed context. The confirmed figure is computed by Celonis logic, not improvised by the language model - and even the hidden estimate multiplies a real spend by a real factor, both pulled from here. 
+Add your four tools. You configure each one yourself (custom configuration), because every one needs specific, predictable behaviour rather than a general-purpose setup:
+
+TOOL ID	TOOL TYPE	DATA TO ADD	WHAT IT RETURNS (DESCRIPTION)
+get_emissions	Load Data	
+Name (from PurchaseRequisitionItem Material table)
+KPI Cost of Carbon
+Filter on non-free-text purchase requisitions (IsFreeText IS NULL)
+	Confirmed cost of carbon (kg CO2e) per material for catalogue-matched requisition items. Use for the confirmed portion.
+get_free_text_spend	Load Data	
+ShortText (from PurchaseRequisitionItem table)
+Total free-text spend (metric; not yet in the Knowledge Model). You'll need to sum the products of Quantities and Net Unit Prices (both from PurchaseRequisitionItem table)
+Filter on free-text lines only (IsFreeText IS NOT NULL).
+	Total free-text spend (Quantity × NetUnitPrice) per free-text item description, for items not matched to a material. Use for the estimated portion.
+search_emission_factor	Search Data (Keyword mode)	
+Search type: Keyword search - Selected Knowledge only
+Name (from PurchaseRequisitionItem Material table)
+	Given a product description keyword, finds the matching catalogue material by name. Use to identify which material a free-text item corresponds to.
+get_emission_factor	Load Data	
+Name (from PurchaseRequisitionItem Material table)
+Average emission factor (ClimatiqEFkgCO2eeur) for given material.
+Filter on non-free-text purchase requisitions (IsFreeText IS NULL)
+	Emission factor (kg CO2e per EUR) per catalogue material name. Use after search_emission_factor to fetch the factor for the matched material.
+
+Granted, setting up the tools with the information in the table above is quite a heavy lift and requires you to put in a lot of thinking yourself, especially when it comes to configuring the required data per tool... Do it if you're in for the challenge. If you want the faster route, watch the full end-to-end recording below (or take the ultimate shortcut by copy/pasting the YAML configuration from the course resources...):
+
+Video Step-by-Step description
+
+
+
+
+Version and deploy
+
+Like other Studio assets, your Agent Tools asset follows the publish lifecycle. Create a version and deploy it as you saw it in the video walkthrough. Publishing is what generates your unique Server URL.
+
+💡 Your Server URL is the endpoint every external client connects to. Its format looks like: https://[team].[realm].celonis.cloud/studio-copilot/api/v1/mcp-servers/mcp/[mcp-server-id]. After deploying, return to the asset, confirm that the URL has been generated, then copy and save it. You will need it shortly.
+
+Notice what we just did: we did not write a single line of integration code. We pointed an asset at a Knowledge Model and published it. That is the standardization advantage of MCP in action.
+
+Why did we not set up a tool in "Intelligent Configuration"? It's by design. We reach for custom every time, on purpose: a governed KPI, a filtered spend total, a keyword match, a single-factor lookup - each is a specific job we want behaving the same way on every run. That predictability is worth the extra setup.
+--- Page 2 ---
+Agent Tools in Action
+Configure the Agent Tools Asset [13:00]
+Authentication & Permission
+
+A published Agent Tools asset is not reachable until something is allowed to reach it. Two things make that happen: credentials, so a client can prove who it is, and permission, so it is actually allowed to use the asset.
+
+💡 For this course, this is already done for you. In our training environment, the OAuth connection and all required permissions have been set up in the background. You do not need to create or grant anything on this page - just read it to understand the concept for when you set things up in your own productive environment, then move straight on to the hands-on exercise. 
+
+One detail worth knowing: the client we set up for you uses the Authorization Code grant type, because that is what is required to connect an Agent Tools asset to Microsoft Copilot Studio - the platform you will (optionally) use later in this course.
+
+Also, don't forget you can find all the info about OAuth 2.0 setup on Celonis Developer Docs!
+
+Credentials: OAuth 2.0
+
+Agent Tools uses OAuth 2.0 to authenticate clients - the secure, standard way to connect an external agent. In your own environment, you would create an OAuth client in the Admin Settings and note its Client ID and Client Secret. OAuth offers two grant types, depending on how the agent acts:
+
+Client Credentials - best for server-to-server connections and automated workflows, where the agent acts as itself.
+Authorization Code - best when the agent acts on behalf of a person. This is the important one for governance: it carries each user's own Celonis permissions through to the agent, so a user only ever sees data they are already allowed to see. It is also the grant type required to connect to Microsoft Copilot Studio.
+
+Either way, the client is given the scope mcp-asset.tools:execute, which is what lets it call the asset's tools.
+
+💡 Planning to wire an Agent Tools asset up to Microsoft Copilot Studio in your own environment? Celonis has a step-by-step developer guide for exactly that: the Microsoft connector integration guide, including the Authorization Code setup it needs.
+
+Permission: the step everyone forgets
+
+Credentials alone are not enough. The OAuth client must also be granted the use permission on your Agent Tools asset, plus access to the Studio Space where it lives. Miss this, and every connection attempt fails - even with perfect credentials. In real projects, this is the single most common reason a connection will not authenticate.
+
+Notice the two-part logic: who are you (credentials), and are you allowed (permission)? When a connection refuses to authenticate, the answer is almost always one of those two - usually the missing use permission.
+
+=== Module 7: --- Page 1 --- ===
+Lessons in this module: (Optional) Simulate the Agent Flow with Postman [09:00] | List Available Tools [05:00] | Execute a Tool Call [04:00]
+--- Page 1 ---
+Agent Tools in Action
+(Optional) Simulate the Agent Flow with Postman [09:00]
+List Available Tools
+
+We keep talking about connecting to an external AI Agent platform, but... Here is a mindset shift that makes everything click: for the next two pages, you are going to play the role of the AI agent. We will use Postman to do, by hand, exactly what an agent does automatically.
+
+Remember our goal: an agent that reveals the carbon hidden in free-text requisitions. But right now, there is no agent in sight, just you, Postman, and the tools you built. That is the point. Walking the steps yourself is the clearest way to understand what your agent will do the moment it connects.
+
+💡 Important realisation: raw MCP has no AI in it. The protocol is just a structured way to discover and call tools. The intelligence lives in whatever model is driving, and right now, that is you.
+
+
+
+
+Reminder
+
+This is where the optional hands-on begins. 
+
+Do not create tickets with Celonis Academy in case you encounter issues inside Postman. Feel free to follow the steps below and consult official Postman documentation in case you require additional guidance. 
+
+Step 1: Connect
+In the web version of Postman (you'll need a free account), create a new MCP Request.
+Select HTTP as the protocol (STDIO is used for local development).
+Paste your Server URL from your versioned and deployed Agent Tools asset, then on the Authorization tab, enter the OAuth 2.0 details.
+Grant type: Client Credentials
+Access Token URL: https://data-engineer-analyst-training.training.celonis.cloud/oauth2/token
+Here are the creds you'll need: 
+Client ID: 03cc2565-b642-451b-a318-0f5a76dd160e 
+Client Secret: NfpNARhcDHZW8hmlB2bhDvLISLG99IyPqbOzX60eEoJG0N5ZiOJ3IixPAMlUgWJC 
+Scope: mcp-asset.tools:execute
+Scroll down and click "Get new access token"
+Once you have an access token, click Connect.
+Step 2: See what it can do
+
+The first thing any agent does is discover its tools. In MCP, this is the tools/list method - and the beauty of Postman's MCP Request is that it sends this for you the moment you connect. No need to type anything: your four tools simply appear in the Tools tab, each with its name, description, and input schema. That is the exact same information an AI agent reads to decide what to call.
+
+In "Messages" -> "Tools," you should now see your four tools listed:
+
+💡 Notice the names carry a prefix: load_data_..., and search_data_.... Celonis prepends each tool's base type to the name you gave it - a small reminder that every custom tool is a named configuration of one of the base types you met in the tool box.
+
+Read the descriptions that came back. If you were the agent, could you tell what each tool does and when to reach for which tool? That clarity is not luck - it is something you control when you name and describe each tool in the Agent Tools asset.
+--- Page 2 ---
+Agent Tools in Action
+(Optional) Simulate the Agent Flow with Postman [09:00]
+Execute a Tool Call
+
+You have discovered the tools. Now let's actually use one, still wearing your AI agent hat.
+
+
+Reminder
+
+We are still in the optional hands-on exercise. 
+
+Do not create tickets with Celonis Academy in case you encounter issues inside Postman.
+
+Step 3: Call a tool
+
+Where tools/list asks "what can you do?", tools/call says "do this specific thing with these inputs." In Postman's MCP Request, you don't type any of this by hand - you click a tool in the Tools tab, and Postman builds a small form from that tool's input schema for you to fill in.
+
+Let's run the heart of our use case: take a free-text request and find the material behind it. Click search_data_search_emission_factor. It asks for two inputs:
+
+query - the natural-language description you are searching for, for example Cheese Block.
+keywords - specific terms pulled from that query for exact matching, for example Cheese Block.
+
+Fill those in and click Run.
+
+Under the hood, Postman is sending the JSON RPC below - the form just spares you writing it:
+
+{ "jsonrpc": "2.0", "id": 2, "method": "tools/call",
+"params": { "name": "search_data_search_emission_factor",
+  "arguments": { "query": "Cheese Block", "keywords": ["Cheese Block"] } } }
+
+Check the Response panel at the bottom. Celonis matches your free text to the most likely catalogued material and returns it - the material and its identifier - not the entire catalogue.
+
+The tools fetch real numbers from Celonis. Nothing is invented.
+
+You just completed a full agent loop by hand: discover, then execute. And this match-then-retrieve step is the building block of the whole job. 
+
+💡 Connection dropped with a "Runtime-RPC disconnected" message? That is just the idle timeout. Click Connect again to get a fresh session, then Run your tool - no need to reconfigure anything.
+
+=== Module 8: --- Page 1 --- ===
+Lessons in this module: (Optional) Integration Example: Microsoft Copilot Studio [08:00] | Set Up the External Agent [05:00] | Trace the Agent Reasoning [03:00]
+--- Page 1 ---
+Agent Tools in Action
+(Optional) Integration Example: Microsoft Copilot Studio [08:00]
+Set Up the External Agent
+
+So far, you have been the agent. Now, let's hand that role to a real AI Agent. We will use Microsoft Copilot Studio as our example, but keep one thing in mind from the start.
+
+💡 This is one example, not the only way. The exact same open architecture connects to AWS Bedrock, IBM Watsonx Orchestrate, Oracle, Anthropic's Claude, and others. We show Copilot Studio to make it concrete; we are not teaching Microsoft's platform in depth. 
+
+For advanced Copilot Studio configuration, always consult Microsoft's official documentation.
+
+If you have configured a Process Copilot in Celonis, this will feel familiar. You give an agent a name, a description, and instructions, and crucially, access to a set of tools. The difference is that the tools now come from Celonis over MCP.
+
+
+
+
+Reminder
+
+We are again in an optional hands-on exercise. You will need your own, already set up Microsoft Copilot Studio account and access (incl. potential credits) to follow along. 
+
+Do not create tickets with Celonis Academy in case you encounter issues inside Microsoft Copilot Studio. Consult official Microsoft documentation in case you require additional guidance. 
+
+If you don't have access to Microsoft Copilot Studio and/or have no credits available, it is sufficient to read and watch the sections below to complete this course!
+
+In your AI platform, create a new, blank agent (starting blank is more reliable than auto-generating from a description).
+Add a tool of type Model Context Protocol, search specifically for Celonis MCP.
+Paste your Celonis Server URL, then configure authentication with OAuth 2.0 using the Authorization Code grant - the same connection type from the Authentication page, and the one Copilot Studio needs so each user's own Celonis permissions carry through. 
+Setting this up in your own environment? Celonis has a step-by-step Microsoft connector guide.
+Once connected, the same tools you saw in Postman appear in the agent, ready for the model to use.
+
+Watch the full setup procedure: 
+
+Disclaimer: By the time you watch this video, the Microsoft UI may look different or something may have changed in the setup procedure. This video is not maintained since it's for illustrative purposes of connecting an external AI agent only.
+
+For your reference
+
+
+
+
+Pause on what is happening here: you are plugging a third-party AI into Celonis with no custom code, just a URL and a credential. That is the open standard paying off.
+--- Page 2 ---
+Agent Tools in Action
+(Optional) Integration Example: Microsoft Copilot Studio [08:00]
+Trace the Agent Reasoning
+One last reminder
+
+You are still in the optional hands-on exercise. Do not create tickets with Celonis Academy in case you encounter issues inside Microsoft Copilot Studio. 
+
+Now for the payoff. Earlier, you matched a single free-text line by hand in Postman. Let's hand the whole job to the external agent and ask it, in plain words, the question this course has been building toward:
+
+Type a natural-language prompt, for example: "What's the total cost of carbon of our cheese purchases - both the confirmed part and the hidden free-text part?"
+Open the agent's test panel to watch it think.
+
+Here's what it could look like
+
+The key architectural point: all of that reasoning happened in the external LLM (Microsoft's model, in this case), not inside Celonis. 
+
+Celonis did not decide anything - it provided trusted tools, governed data, and a KPI that defines the calculation. And that is precisely why the answer holds up: the agent could never have known your emission factors on its own, and it did not invent the totals; it asked Celonis for them, or built them from numbers Celonis returned. This is what "bring your own brain, grounded in Celonis" really means.
+
+What a ride! Congratulations on connecting your first (external) AI Agent to Celonis Agent Tools!  🎉
+
+On the next pages, we'll take an outlook on what other use cases and architectures typically look like, and also take a reflective step back on the architectural design choices we made for our particular Agent Tools set.
+
+=== Module 9: --- Page 1 --- ===
+Lessons in this module: Agent Tools - Continued [10:00] | Choosing the Tool Set [05:00] | Closing the Loop: From Reveal to Action [02:00] | Why Tools, not Resources [03:00]
+--- Page 1 ---
+From Lab to the Bigger Picture
+Agent Tools - Continued [10:00]
+Choosing the Tool Set
+
+Remember what we said before about curating the right tools for your use case: the real skill is picking a small, deliberate combination that matches what your agent needs to do - and resisting the urge to grab everything. 
+
+While "it always depends" on your use case, here are four common blueprints to aid your thinking and decision-making process:
+
+BLUEPRINT	WHAT?	SCOPE	TOOLSET	WHY IT WORKS
+The Analytical Agent	Answers questions, finds bottlenecks, and explains what is driving them.	Read-only - it cannot change anything.	Search Data, Load Data, and Get Knowledge Model, optionally Get Insights - all on intelligent configuration.	These let the agent find the right data, ground itself in your Knowledge Model, and reason over it. The field-proven starting recipe - it covers the large majority of "chat with your process" use cases.
+The Action-taking Agent	Does not just surface a problem - it does something about it.	Reads and acts - moves you up the autonomy spectrum, so scope it tightly.	A read tool (Search Data or Load Data) plus Trigger Action Flow. 	The read tool lets the agent understand the situation; the Action Flow lets it take a concrete step, such as sending a notification or updating a record.
+The Process Agent (advanced)	Participates in long-running, multi-step Celonis processes rather than answering one-off questions.	Acts over time on stateful processes - the most powerful, so reserve it deliberately.	Get Process Contexts, Execute Orchestration, and Resume Orchestration Execution, plus a read tool for context. 	These let the agent start and continue stateful processes.
+The Reuse-your-Copilot Agent	Leans on a Process Copilot you have already built and tuned.	Inherits the behaviour of the Copilot you expose.	Call Process Copilot, often alongside a read tool. 	Instead of rebuilding curated prompts and filters in your AI platform, you expose your existing Copilot as a single tool - a real time-saver when the tuned logic already exists.
+
+💡 Four rules of thumb for any toolset
+
+Start with the smallest read set that answers the question; add tools only as the job demands.
+Read and insight tools handle "tell me"; action tools handle "do it." 
+Pair every action tool with the read tool(s) it needs to make a good decision.
+Keep it tight: Studio warns past three tools, and more tools mean more ambiguity for the agent.
+
+While we're on the three-tool-rule...
+
+Look back at the agent you built in this course. We landed on four tools. Was that the only option? Not at all. We could have folded the emission-factor lookup into the tool that returns the confirmed data, for a leaner three-tool design. We didn't, on purpose: that shortcut quietly assumes every free-text line already has a catalogued counterpart - which is exactly the gap our agent exists to expose. So we spent one extra tool to find each factor the honest way, and keep the hidden-emissions estimate trustworthy.
+
+That is the real lesson. The "right" number of tools is not a rule you follow; it is a judgment call you make against your question - and sometimes a fourth tool genuinely earns its place.
+--- Page 2 ---
+From Lab to the Bigger Picture
+Agent Tools - Continued [10:00]
+Closing the Loop: From Reveal to Action
+
+Our agent stops at "read and reveal" on purpose - that was plenty to learn the connection pattern. But it's worth seeing the whole loop, including the agent taking action - because in production, this is where the real value lands.
+
+Picture the same agent with two more abilities, e.g.:
+
+It writes the estimate back
+
+Today, the agent surfaces the missing emissions on screen and stops. The natural next step is to write that estimate back into the data where the gap was, tagged clearly as "estimated" rather than measured. Now the hole in the report is filled, and the next analysis starts from a more complete picture. 
+
+It takes an action
+
+Revealing the gap is useful; doing something about it is better. With an action tool - for example, Trigger Action Flow - the agent could...
+
+flag a high-estimate free-text line to a buyer, 
+open a task to get it catalogued correctly, or 
+suggest a catalogued alternative. 
+
+For longer, multi-step work, the Orchestration Engine tools let it run a stateful process over time rather than a single step.
+
+💡 Notice what just happens on the autonomy spectrum. 
+
+The moment the agent writes back or acts, you've moved from Human-in-the-Loop toward Human-on-the-Loop. That's exactly why you scope action tightly and pair every action tool with the read tools behind a good decision.
+
+This is the full loop: observe the gap, reason over trusted context, act, and feed the result back so the next cycle is smarter.
+
+
+
+
+For your own first agent: once it can reliably reveal the answer, what is the single smallest action you would trust it to take as a next step?
+--- Page 3 ---
+From Lab to the Bigger Picture
+Agent Tools - Continued [10:00]
+Why Tools, not Resources
+
+Remember the three MCP primitives: Tools, Resources, and Prompts? You may have noticed that Celonis Agent Tools focuses almost entirely on one of them: Tools. That is a deliberate design choice. Here is the logic.
+
+Why not Resources?
+
+A Resource hands raw data to the model so it can read it directly. That works for a document or a small record. But think about the data behind our agent: hundreds of thousands of purchase-requisition lines, plus the full material catalog. Try to pass that as a Resource, and two things happen: you blow straight past the model's context window, and your token costs skyrocket. Worse, the model drowns in detail that it cannot reason over reliably.
+
+Why Tools win
+
+Tools flip the model. Instead of shipping raw data to the agent, the heavy computation stays on Celonis. The matching and the lookup run where the data lives, and only a clean, condensed answer travels back. 
+
+
+
+
+💡 In one line: Resources would force the agent to swallow the haystack. Tools let Celonis hand it the needle.
+
+This reframes "partial" as "purposeful." Knowing what Celonis deliberately left out, does the tools-only approach make sense to you now?
+
+=== Lesson 10: Wrap Up [06:00] ===
+--- Page 1 ---
+From Lab to the Bigger Picture
+Wrap Up [06:00]
+
+Before we wrap up, let's see what you've learned... no AI allowed here! 
+
+Start
+--- Page 3 ---
+From Lab to the Bigger Picture
+Wrap Up [06:00]
+
+How satisfied are you with the course?
+
+	★	★★	★★★	★★★★	★★★★★
+Please select a rating					
+
+What did you like most about this course?
+
+What would you improve about this course?
+
+
+⇨ If you have files or screenshots, please send them to academy@celonis.com.
+
+Complete Survey
+
+=== Module 11: --- Page 2 --- ===
+Lessons in this module: Ready to Release the Agent? [05:00] | Recap and Next Steps [01:00]
+--- Page 2 ---
+From Lab to the Bigger Picture
+Wrap Up [06:00]
+Recap and Next Steps
+
+You made it, and you covered a lot of ground. Let's land the plane. 🚀
+
+What you accomplished:
+
+You defined AI agents and the role of the open Model Context Protocol in the Celonis ecosystem.
+You differentiated Process Copilot, ChatAPI, and Agent Tools, and can say where the LLM sits in each.
+You configured and deployed an Agent Tools asset in Studio, grounded in a Knowledge Model.
+You walked the agent's path by hand in Postman, then handed it to an external AI Agent and traced its reasoning.
+You understood why Celonis focuses on Tools rather than Resources.
+
+💡 The one idea to keep: MCP connects AI to software, but an AI is only as smart as the data it reads. By grounding external agents in Celonis, you make them act rationally, safely, and accurately.
+
+Where to go next
+Explore the Agent Tools documentation on the Celonis Developer Portal for deeper technical guides.
+Revisit the autonomy spectrum and decide how much you would let your agent act.
+Which of your own processes would you trust an agent to reason over first? That is your next step.
+
+Thanks for spending this time with us. Now go ground some agents in operational truth.
+
+Thank you for taking this course, we hope you enjoyed it!
+
+Your feedback matters
+
+Remember to stop at our feedback page to help us improve our content
+
+- Your Celonis Academy
+
+
+
+--- Page 3 ---
+From Lab to the Bigger Picture
+Wrap Up [06:00]
+
+How satisfied are you with the course?
+
+	★	★★	★★★	★★★★	★★★★★
+Please select a rating					
+
+What did you like most about this course?
+
+What would you improve about this course?
+
+
+⇨ If you have files or screenshots, please send them to academy@celonis.com.
+
+Complete Survey
+
+

@@ -1,0 +1,744 @@
+﻿========================================================================
+  CELONIS ACADEMY - EXTRACT
+  Extracted: 2026-09-09 13:17  |  Personal study use only
+  Source: https://academy.celonis.com/learn/course/extract
+  Lessons: 13
+========================================================================
+
+########################################################################
+  LESSON 1 : Learning Objectives
+########################################################################
+
+Intro
+Learning Objectives
+Learning Objectives
+
+Welcome! After completing this course, you will be able to:
+
+Set up extractions with Data Jobs and the Replication Cockpit
+Differentiate when to use Data Jobs or the Replication Cockpit for extractions
+Accelerate your work with parameters
+Use both full and delta extractions
+
+We recommend you first complete the "Connect to Systems" course to be able to follow along in the hands-on sections of this course. 
+
+Note: If you are looking for more information on the Extractor Builder, please refer to this section of the Connect to Systems course.
+
+Personal Training Environment Required
+
+This course contains hands-on exercises that require a personal Celonis Training Environment, also called a "Celonis Team".
+
+Not sure if you have one? Click below and we'll either create one for you or show you how to access your existing Team if you have one. Please make sure to disable adblockers on this page if the button is not working for you.
+
+Check / Create my training environment
+
+This content is available in multiple languages: English, German, French, Japanese, Spanish, and Portuguese. To switch your language, use the selector in the top navigation bar.
+
+In Courses: Switching languages will not affect your progress. If you are multilingual, comparing languages can even help deepen your understanding.
+In Exams: Do not switch the language once you start the exam. If you switch the language when you're already reviewing questions and answers, the page will refresh, causing your exam attempt to end prematurely. (Note: Once inside the exam course, you can switch the language anytime before clicking the Start Exam button.)
+
+
+
+
+If you encounter any technical or access issues during this course, check out our FAQs in the Support area or reach out to us via our Academy contact form.
+
+########################################################################
+  LESSON 2 : The Extraction Tools
+########################################################################
+
+----- Page 1 -----
+
+Extraction Approaches
+The Extraction Tools
+Choosing the Right Tool
+
+Once you’ve established a connection, the extraction comes next. You can configure extractions using one or more of these tools:
+
+Data Jobs
+Replication Cockpit
+
+You can ask yourself these two questions to decide which tool to use:
+
+Is the Process Connector / Extractor real-time?
+Is the data needed for operational use cases (day-to-day actions)?
+
+Let’s look at the use cases for each tool.
+
+----- Page 2 -----
+
+Extraction Approaches
+The Extraction Tools
+Data Jobs
+
+Data jobs are schedule-based and can handle both delta and full extractions. If the connection is real-time, you can still use data job extractions for more static tables that do not require real-time extraction, e.g. metadata / master data tables. Data Jobs work best for regular extractions of data for analytical Data Models. In other words, if there is no rush to always have the freshest data, then data jobs are sufficient.
+
+Wondering what the difference between a full and delta extraction is?
+
+A full extraction is when you load entire source system tables into Celonis. It draws a fresh snapshot of source system tables and completely overwrites data you previously extracted.
+
+A delta extraction is when you do a partial load of the new or updated data from your source system. Note that delta extractions with Data Jobs rely on filters rather than change logs.
+
+Full extractions are larger by default and take longer than delta extractions.
+
+----- Page 3 -----
+
+Extraction Approaches
+The Extraction Tools
+The Replication Cockpit
+
+With the Replication Cockpit you can perform full and delta extractions for real-time connections. For any table used in operational use cases—e.g. where users act on the data such as with Business Apps—we recommend extractions with the Replication Cockpit. Delta extractions with Replication Cockpit make use of change logs. When you add a real-time connection to Data Pool, it immediately appears in the UI:
+
+The Replication Cockpit serves primarily SAP systems along with ServiceNow and databases such as Oracle DB, HANA DB, MSSQL DB.
+
+----- Page 4 -----
+
+Extraction Approaches
+The Extraction Tools
+The Main Differences
+
+Here is a visual recap of Data Job vs Replication Cockpit extractions :
+
+What is real-time again?
+Identifying Real-Time Connectors
+
+When selecting Connectors in the Marketplace, you can see which ones are real-time:
+
+
+If you need a quick review on the setup of real-time connections for Replication Cockpit, have a look at the real-time connection page in the "Connect to Systems" course.
+
+In the next lessons let’s go through extractions with each tool and let you practice where possible. First up, Data Jobs!
+
+----- Page 5 -----
+
+Extraction Approaches
+The Extraction Tools
+
+No topic content.
+
+########################################################################
+  LESSON 3 : Extract the appropriate data
+########################################################################
+
+----- Page 1 -----
+
+Data Jobs - Extract Data
+Extract the appropriate data
+Extract What You Need
+
+No matter which system you’re working with when extracting data, it’s a good idea to first understand the business process to know exactly which tables you need.
+
+
+Why don’t we extract entire databases and make our lives simple?
+
+For simple reasons—entire database extractions would:
+
+take too long,
+be taxing on source systems,
+take up unnecessary cloud storage,
+and be expensive!
+Questions to ask to narrow it down
+
+In most cases, if you’re working with Process Connectors, you’ll work with an extraction template. That said, in order to adjust an existing extraction or streamline your work when creating a new one, here are a few questions to ask yourself:
+
+
+Which process steps do you need and where are the timestamps for each of these steps?
+What represents a case in the process and what will be the ID of each case?
+What additional dimensions/filters do you need to analyze the process
+
+These questions help you determine which source system tables and columns are relevant for your process. Next, you can check whether certain filters apply during the extraction to reduce the amount of data extracted and improve performance. Filters can be for example a date and time limit, document types, or language keys.
+
+Similarly, you may need to join tables in your extraction to ensure you only extract the right data, or to avoid redundant joins in your transformations later on.
+
+In short, you need the right data and that means identifying the right tables, filters, and joins in your extraction.
+
+----- Page 2 -----
+
+Data Jobs - Extract Data
+Extract the appropriate data
+A Sample Process and its Tables
+
+For the sample Data Job extraction in this course, you’ll work with SAP Purchase-to-Pay (P2P) tables.
+
+Purchase-to-Pay (P2P) combines Procurement (purchase) and Accounts Payable (Pay). It refers to the process of managing and handling vendor purchase orders.
+
+
+Here’s a simplified "exemplary" version of the Purchase-to-Pay process:
+
+
+Now let’s look at the relevant SAP tables for this process. Each table contains a portion of the information you need and you will need to extract all of them to map your process.
+
+There are three general categories of tables coming from SAP in this case:
+
+The core tables
+The change tables
+The name mapping tables.
+
+Let's go through these individually for you to get an impression.
+
+----- Page 3 -----
+
+Data Jobs - Extract Data
+Extract the appropriate data
+P2P Core Process Tables
+
+Core process tables are where you’ll find the essential information for your process such as cases and case IDs, master data related to your cases, and timestamps, especially for creation events. For the P2P Process, there is EBAN, EKKO, EKPO and LFA1. These are technical names that most likely mean nothing to you so here is a brief explanation of each table.
+
+This is a lot to take so feel free to browse through quickly and come back later if needed.
+
+EBAN - Purchase Requisition Items
+EKPO - Purchase Document Item
+EKKO - Purchase Order Header
+LFA1 - Vendor Master
+
+----- Page 4 -----
+
+Data Jobs - Extract Data
+Extract the appropriate data
+P2P Change Tables
+
+Now let’s look at change tables : CDHDR and CDPOS.
+
+These tables capture changes across many SAP tables. They store information about any changes made in other tables including the user who conducted the change, the time, the changed fields, and the values changed. As you can imagine, you’ll find a lot of information on “change” process steps in these tables.
+
+CDHDR - Change Document Header
+CDPOS - Change Document Items
+
+Summing up, these two tables are very important for analyzing the process flow, because all changes are stored here.
+
+As you might have realized, the tables CDHDR and CDPOS have a very similar relationship as the tables EKPO and EKKO. There is always a header table—in our case CDHDR and EKKO—and an item table—in our case EKPO and CDPOS. One entry in the header table can always be connected to one or multiple entries in the item table.
+
+Header-Item-Relationships like this can be observed in various source systems and it helps a lot if you understand how they work in general.
+
+----- Page 5 -----
+
+Data Jobs - Extract Data
+Extract the appropriate data
+P2P Name Tables
+
+If you’ve already worked with Analyses in Celonis, you’ve most likely only worked with self-explanatory names.
+
+So how we go from technical names from system databases in Data Integration to more user-friendly names in Analyses? In the SAP P2P case, the name tables DD02T and DD03M come into play. They store “table text information” and help you perform a “name mapping” later on. Those two tables contain precise translations for the SAP tables and columns.
+
+DD02T - Table name mapping
+DD03M - Column name mapping
+In summary, you can use these two tables to display self-explanatory names to analysts, as they might not be familiar with the technical table and column names.
+
+----- Page 6 -----
+
+Data Jobs - Extract Data
+Extract the appropriate data
+Checking Tables
+
+If you haven’t worked with SAP Purchase-to-Pay tables before, the table abbreviations and column names might be difficult for you to understand and remember.
+
+As you saw in the previous pages, the tables contain column names like “EBELN” for Purchase Order Number in table “EKPO” or “MANDT” for the Client.
+
+It’s important for you to be able to look up the technical field names when necessary—as those are the ones you’ll be referencing later when creating the transformations. One very good tool to get detailed information and translations on SAP tables is the website "LeanX".
+
+
+If you have a look at table "EKKO", for example. This is the table for the purchase orders we previously dealt with. By clicking on the table, you get a description as well as a full overview of all the columns in the table with the respective translations of the technical names.
+
+For some of the columns, like “Purchase Document Category” you can look at the possible values of the field.
+
+If you click on possible values, you see that there are different letters representing different kinds of objects, such as Request for Quotation, Purchase Orders, Contracts, or Scheduling Agreements.
+
+Focus on extractions, not table names
+
+Simply keep this reference in mind for your work later on. For this course, we do not want you to learn SAP fields and tables by heart but rather focus on the essentials of extractions.
+
+----- Page 7 -----
+
+Data Jobs - Extract Data
+Extract the appropriate data
+
+No topic content.
+
+########################################################################
+  LESSON 4 : Set up a new extraction
+########################################################################
+
+Data Jobs - Extract Data
+Set up a new extraction
+Using Vertica SQL
+
+Before starting your work with Celonis extractions, note that Celonis Data Integration uses Vertica SQL and Spark SQL.
+
+
+Vertica is Celonis' original engine and as a new or migrated customer in 2026, your environment may be on the newer ETL engine that relies on Spark SQL.
+
+This course takes you through a workflow based on Vertica. For more information on Spark SQL and the newer ETL engine, please refer to our ETL engine documentation.
+
+For extractions, make sure you’re familiar with:
+
+SQL table joins,
+the “WHERE” clause,
+and data types.
+
+Need a review? Check out the Vertica Reference manual and simply search for what you need.
+
+We recognize that this resource is a little hard to navigate. As an alternative, you can also refer to PostgreSQL resources such as this postgres documentation page. PostgreSQL has the closest syntax to Vertica SQL with very few differences.
+
+Worry not, you can of course simply learn as you go by continuing this course.
+
+########################################################################
+  LESSON 5 : Parameters
+########################################################################
+
+----- Page 1 -----
+
+Data Jobs - Extract Data
+Parameters
+Using Parameters
+
+Hopefully, by now you understand the basics of extraction filters. But what happens if you want to filter for a value over and over again across tables or even across different extractions?
+
+
+You can enter it manually every time but what if it needs an update? Forgetting to update the value in one place can have a serious impact on your extraction or even stop the data load. To speed up your work and avoid the risk of missing the update of a repeated value, you’ll typically use parameters.
+
+
+Task vs Data Pool Parameters
+
+There are two different levels of parameters: "Task parameters" and "Data Pool parameters". As you can imagine, you can only use a task parameter within a specific task, whereas a Data Pool parameter has a global scope and you can use it across your entire Data Pool.
+
+You can create task parameters under the Parameters tab within Data Job tasks (extractions or transformations).
+
+To create Data Pool parameters, go to the cog icon in the top right of a Data Pool and select Data Pool Parameters:
+
+----- Page 2 -----
+
+Data Jobs - Extract Data
+Parameters
+Creating a New Parameter: Part 1
+
+Let’s look at some examples. Say you want to filter for a certain creation date across multiple tables. Instead of doing this manually every time, you can create a “StartDate” parameter.
+(NOTE: You do not need to perform these steps in your personal environment)
+
+To create the parameter, you navigate to your Data Job → Your Extraction task (e.g. P2P Raw Data) → the Parameters tab → New parameter. 
+
+The Placeholder name is how you refer to the parameter. It has to be unique among the parameters of the task and cannot contain any spaces or special characters.
+
+You can also define a “pretty” name and a short description of what the parameter is all about.
+
+
+Next you select a parameter type. There are three different types: Private, Public and Dynamic.
+
+
+A private parameter is only visible and editable for admins of the data pool, whereas a public parameter is visible to everyone who can access the task. Both are static, which means that their value doesn’t change until you enter a new one.
+
+A “Dynamic” parameter is dynamically generated from existing data and only visible for admins. If you choose this type of parameter, you have to fill out two additional fields: table and column. The parameter will then be dynamically set to the value logic you define for the specified column. This logic can be the:
+
+maximum value,
+minimum value,
+or be part of a list.
+
+Dynamic parameters are a great help for defining delta loads as shown later in this training.
+
+Dynamic parameter options:
+
+
+If needed, you can set default values if your extraction has not run yet and there is no data to pull from.
+
+----- Page 3 -----
+
+Data Jobs - Extract Data
+Parameters
+Creating a New Parameter: Part 2
+
+As an example, let's define a parameter to be Public, choose the data type “date”, and add the relevant date in the value field. Here you could re-use the value from a Data Pool parameter or have a value specifically for this task.
+
+After saving, you can now jump back to the table configuration and exchange a hard-coded date in table “EKKO” with the parameter just defined. As a side note, the syntax for referencing a parameter is the very same as for variables inside a Celonis Analysis.
+
+
+Using the date parameter on EKKO under Additional Filters:
+
+
+As the start date is also used in the filter statements of the tables “EKPO”, “CDHDR” and “CDPOS”, we could also insert the parameter there.
+
+Using the date parameter on EKPO in the join filter:
+
+
+Using Data Pool Parameters
+
+If you have different Data Jobs using the same value, consider Data Pool parameters. As opposed to Task Parameters, you can use Data Pool parameters across an entire Data Pool.
+
+To reference a Data Pool parameter within a task, you have to define a local Task Parameter first, and link it to the respective Data Pool parameter as highlighted above.
+
+Otherwise, Data Pool Parameters function in the exact same way as task parameters and have the same types : private, public, and dynamic.
+
+########################################################################
+  LESSON 6 : Delta Extractions
+########################################################################
+
+----- Page 1 -----
+
+Data Jobs - Extract Data
+Delta Extractions
+Delta Extraction Overview
+What a Delta Load does
+
+Do you recall seeing the "Delta Filter" and "Delta Load" options when setting up your extractions? Let's discuss Delta Loads in more detail here.
+
+
+In general, two types of data are of interest when you perform a delta load: new, and updated table rows. In other words, anything that has changed.
+
+
+
+Thinking about the central purchasing table “EKPO”:
+
+new table rows refer to new purchase orders items which have been created after the last extraction job
+updated table rows refer to purchase order items you already extracted but have been updated since the last extraction. For example, the price or the quantity of a purchase order item could have been updated due to miscommunication with the vendor.
+Where are Delta filters configured in the UI?
+
+In the user interface of an extraction task, you setup delta filters using either the change date Time filter or the Delta Filter under Additional Filters.
+
+UI Option 1 - Change date filter:
+
+
+
+UI Option 2 - Delta Filter Statement
+
+
+Next let's look at the three main ways to configure Delta Loads:
+
+
+Change Date
+Consecutive numbers
+Creation Date (less common)
+
+----- Page 2 -----
+
+Data Jobs - Extract Data
+Delta Extractions
+Using Change Date
+
+To configure a “Delta Load”, it is important to know the tables of your source system. More precisely, you need to know which columns can be used to set up a “Delta Load”. But before digging into the columns, let's briefly look at the user interface.
+
+The first and easiest way to implement a Delta Load is if the table you are extracting contains a “Change Date" column. Most tables have such a column that gets updated with the current time whenever a row of the table is newly created or changed. The table EKPO is a perfect example of that. EKPO contains a column called AEDAT which is a “Change Date column”.
+
+
+Please don’t be confused by the column AEDAT! The table EKKO also has a column called AEDAT, but in the EKKO case, AEDAT is actually the creation date.
+
+So, for EKPO you would simply extract all the rows with the “Change Date" and compare it to the latest change date already loaded.
+
+If using the change date filter, you would simply select the column in the filter and the extraction would use it when running a delta load:
+
+The alternative is to do it using a dynamic parameter and adding it to the Delta Filter:
+
+
+For updated rows, Celonis automatically identifies duplicates based on the primary key and inserts the new rows, overwriting the old existing rows where applicable.
+
+For most source systems, Celonis automatically identifies the primary key of a table. If not, you can manually define the primary key of every table in the respective extraction task.
+
+----- Page 3 -----
+
+Data Jobs - Extract Data
+Delta Extractions
+Using Consecutive Numbers
+
+The second way to implement a “Delta Load” is by using a consecutive number. A great example of this method is the table “CDPOS”, which stores all the changes made in an SAP system. In CDPOS, rows are never updated but whenever a change occurs, a new row is created in the table. Every row has a consecutive number called “change number” (CHANGENR). With this number, you would only extract the rows with a change number higher than the maximum change number of your last load.
+
+To set this up, you could create a dynamic parameter that checks the highest loaded change number and compares it to the source system change number.
+
+
+Setting up the Dynamic Parameter:
+
+Setting the Delta Filter with the Parameter:
+
+----- Page 4 -----
+
+Data Jobs - Extract Data
+Delta Extractions
+Using the Creation Date
+
+
+If a table doesn’t contain a “Change date” or a “Change number”, there’s one more less common option you can use to implement a Delta Load—you can use the “Creation Date” of a table. This you can set up under change date Time Filter:
+
+Thinking about the two types of data we want to extract with a Delta load—new and updated table rows—the new rows can easily be extracted by using the “creation date”.
+
+In contrast, updated rows can’t be extracted by means of the “Creation Date”.
+
+“EKKO” is a good example. “EKKO” contains the timestamp “AEDAT” which is the creation date of the Purchase Order but doesn’t contain a “Change Date”.
+
+But how can updated table rows be extracted using the creation date?
+
+The Need for an Offset
+
+To do so, you need to extract the data with an “offset”. This means that instead of extracting all the data which was created after the last Purchase Order you already extracted, you would also extract all the Purchase Orders which were created 3 months earlier. The three months is just an example and represents the offset in this case.
+
+Extracting data this way, of course, produces a lot of duplicate rows. Keep in mind that Celonis takes care of that and automatically deletes all duplicates in the existing table using the primary keys.
+
+The offset entirely depends on the business and its specific requirements. Sometimes it makes sense to only have a week as offset while other businesses require an offset of up to half a year. In general, you want to set the offset in a way that most of the updates are included in your data extractions. Typically, a full load is set up in addition, which is executed at larger time intervals, mostly on weekends, to capture potentially missing updates.
+
+
+Setting the Offset
+
+
+For the table “EKKO”, we assume that an offset of 3 months gets us 99% of all updates. We can use the drop-down to select the creation date and to specify the offset of 3 months.
+
+----- Page 5 -----
+
+Data Jobs - Extract Data
+Delta Extractions
+Recap on Delta Extractions
+
+Summing up, most of the configuration of full and delta loads is done within the extraction itself. To set up a delta load, you can use:
+
+a change date,
+a consecutive change number, or
+a creation date with a certain offset.
+
+Here is an overview of each approach:
+
+	CHANGE DATA COLUMN	CONSECUTIVE NUMBER	CREATION DATE
+Description	Column is updated with current time, whenever a row of the table is created or changes.	Table rows aren't updated. Every new row in the table has a unique ID number.	Define an offset, how many weeks/months earlier the data should take into account
+Example	Change date in table EKPO (EKPO.AEDAT)	Change number in table CDPOS (CDPOS.CHANGENR)	Creation date in table EKKO (EKKO.AEDAT)
+Extraction of updated rows	YES	NO	NO
+Extraction of new rows	YES	YES	YES
+Extraction Filter	Change date
+>=
+Latest Change date	Change Number
+>
+Maximum Change Number of last load	Offset
+
+Keep in mind that the difference between Full Loads and Delta Loads is that the two filters—"Delta Filter" and the "Enable change date Time filter" are considered.
+
+----- Page 6 -----
+
+Data Jobs - Extract Data
+Delta Extractions
+
+No topic content.
+
+########################################################################
+  LESSON 7 : Metadata changes
+########################################################################
+
+[No extractable text - likely an interactive quiz/exercise]
+
+########################################################################
+  LESSON 8 : Troubleshooting
+########################################################################
+
+Data Jobs - Extract Data
+Troubleshooting
+Dealing with Errors in Extractions
+
+If ever you encounter errors in executing your extraction and it fails, start by checking the logs with all four levels of information activated.
+
+Go to the Logs tab and select your execution:
+
+
+In the logs, make sure to activate all four levels of logs and drill down to the tasks and steps (tables) you want to check:
+
+
+Common Errors
+
+Some common mistakes include:
+
+A syntax error in your filters
+A query in the wrong filter box
+An erroneous join statement
+The Time Filter
+
+One point to keep in mind is the UI-based time filter. The format of the date displayed is dependent on your browser and its language. Make sure to pay attention to this when entering the desired date.
+
+Of course, if you add a time filter on a joined table or in the additional filter section, then the format is the standard Vertica syntax as there is no calendar widget, e.g.:
+
+The Extraction Preview
+
+Make sure to use the Extraction Preview when testing your joins or other filters and enlarge the view to fullscreen to see the logs. This saves you from coming back after a failed extraction later on.
+
+
+Debug Mode
+
+If you have no luck with the default logs, you can activate "Debug Mode". This will populate Debug information in your logs and stay on for 3 days:
+
+
+Use the Help
+
+Run a search in the help documentation for your issue. Many recurring issues are documented and you can resolve your issue directly.
+
+Contact Support
+
+If you cannot resolve the issue after checking all of the above, then contact support and make sure to share your entire URL. By default, the URL contains all of the IDs pointing to your Instance, Data Pool, Data Job, and Task(s).
+
+########################################################################
+  LESSON 9 : Performance Basics
+########################################################################
+
+----- Page 1 -----
+
+Data Jobs - Extract Data
+Performance Basics
+The Basics of a more Performant Extraction
+
+Whenever you are working in Data Integration, establishing a performant extraction is a top priority. Setting things up correctly will reduce your loading times, reduce the load on your source systems and cause less delay in downstream activities.
+
+
+With extractions, you should follow these best practices.
+
+Deselect irrelevant columns
+Apply filters to extract only the data you need
+Adjust the "Maximum number of parallel extractions" on your system connection as per the source system's capacity. You’ll find this under the Advanced Settings when creating a Data Connection:
+
+----- Page 2 -----
+
+Data Jobs - Extract Data
+Performance Basics
+
+No topic content.
+
+########################################################################
+  LESSON 10 : Recap on Data Job Extractions
+########################################################################
+
+Data Jobs - Extract Data
+Recap on Data Job Extractions
+Recap on Data Job Extractions
+
+Summing up the configuration of Data Jobs extractions, you learned:
+
+how to configure table columns. Your options include restricting your column selection, changing data types, pseudonymizing data, and assigning primary keys.
+how to add filters to reduce the data volume. One important filter type is the time filter.
+how to join tables in the extraction and apply filters on these joined tables.
+how to use parameters to speed up your work and avoid mistakes when the same values are used across one or multiple tasks.
+how to set up Delta Loads using either a change date, consecutive numbers, or a creation date with an offset
+how and when to use the metadata changes option to keep your delta extractions running when data structures change
+how to troubleshoot your extraction with logs and apply basic performance checks.
+
+This first section was all about Data Jobs extractions:
+
+
+Next, let's move on to a close neighbor, extractions with the Replication Cockpit.
+
+########################################################################
+  LESSON 11 : When to use the Replication Cockpit
+########################################################################
+
+----- Page 1 -----
+
+Replication Cockpit - Extract Data
+When to use the Replication Cockpit
+Extractions with Replication Cockpit
+
+Another way to extract data from source systems is with the Replication Cockpit. The Replication Cockpit is a data pipeline orchestration tool that allows you to replicate data from source systems to Celonis in real-time.
+
+It can complement existing Data Jobs and is tailored specifically for real-time connectivity use cases such as when you use Celonis operational Apps.  Some of its key benefits include:
+
+Real-time connectivity: Extractions are orchestrated automatically without user-defined schedules.
+Automatic self-recovery: Extractions will correct and re-execute in case of temporary failures.
+
+Speed & stability: Extractions run faster and are less error-prone because they are separated from transformations.
+
+This diagram in the Data Integration UI shows you your end-to-end data pipeline with the Replication Cockpit:
+
+The Replication Cockpit handles real-time delta and full extractions and transformations where it makes sense. For the rest, Data Jobs support. Note that transformations are covered in the "Transform Data" course.
+
+Let's zoom in on extractions.
+
+Please note that the Replication Cockpit is not available in your training environment as it requires a real-time system connection.
+
+----- Page 2 -----
+
+Replication Cockpit - Extract Data
+When to use the Replication Cockpit
+Designing your Data Pipeline
+
+The Replication Cockpit (RC) and Data Jobs (DJ) are 2 different tools that serve the same purpose—define and orchestrate how the data is extracted from source systems and pushed to Celonis. While the Replication Cockpit is designed and recommended for real-time extraction use cases, Data Jobs are intended for analytical use cases that require scheduled but not real-time table refreshes.
+
+The matrix below summarizes for which table types we recommend (in bold) the Replication Cockpit. For operational use cases (e.g. Apps), we recommend you extract Transactional tables in a real-time mode and extract Metadata tables on a nightly or weekly basis via Data Jobs.
+
+TABLE TYPE	FULL	DELTA
+Transactional Tables	DJ or RC	DJ or RC
+Metadata Tables	DJ or RC	DJ or RC
+
+In the Replication Cockpit there is no concept delta filters anymore. Preparing a system for real-time extraction—i.e. setting up Change Log Tables and Triggers in your source system—ensures that replications capture the delta automatically.
+
+----- Page 3 -----
+
+Replication Cockpit - Extract Data
+When to use the Replication Cockpit
+What's the difference between a Transactional and Metadata table?
+
+While there is no exact formula to distinguish between Transactional vs Metadata tables, the general approach is as follows:
+
+TABLE TYPE	DESCRIPTION
+Transactional	If a table includes a Case or Activity, then it is transactional and should be extracted in real-time. Examples are EKKO, EKPO, CDPOS, CDHDR, BKPF, etc. Transactional tables typically change very frequently.
+Metadata	Metadata tables include relatively static information that is not updated very frequently and/or is not very important from an operational perspective.
+
+These tables can be extracted either the Replication Cockpit or Data Jobs. In the SAP world, all of the T.... and D.... tables fall in this category, and sometimes the master data tables—for example, KNB1, LFA1, MARA, and MARC if their data is not important for operational use cases.
+
+Ultimately, the Replication Cockpit can run a continuous data replication from source systems, covering transactional and if necessary also metadata tables.
+
+########################################################################
+  LESSON 12 : Set up an Extraction
+########################################################################
+
+Replication Cockpit - Extract Data
+Set up an Extraction
+Configuring Replications
+
+After adding a table to the Replication Cockpit, you can configure the replication—the equivalent of the delta extraction in Data Jobs—and configure the initialization—the equivalent of full extractions. The options here partly similar to what you have in Data Job extractions. Have a quick browse, no need to learn this by heart!
+
+General
+Extraction Parameters
+Filter Statement
+Initialization Join Configuration
+Debug Options
+
+########################################################################
+  LESSON 13 : Course Recap
+########################################################################
+
+----- Page 1 -----
+
+Replication Cockpit - Extract Data
+Course Recap
+Course Recap
+
+This course was all about configuring Extractions after connecting to systems. You do so with either Data Jobs or the Replication Cockpit:
+
+Summing up extractions with Replication Cockpit, you looked at:
+
+when to use the Replication Cockpit - i.e. operational use cases and for transactional tables
+transactional vs metadata tables and how to differentiate the two
+how to add tables, initialize and start replications in the Replication Cockpit
+which extraction options (replication and initialization) you can configure in the Replication Cockpit:
+column selection and pseudonymization
+handling of deleted delta records
+extraction filters (no Delta filters!)
+initialization joins
+detailed logging
+how to set up alerts and failure thresholds
+how to set up a Replication Calendar
+
+Not sure what you learned earlier in Data Job extractions? Here is the last section recap if you need it:
+
+Recap on Data Jobs
+
+Well done on completing this course! You are now ready to move on to Transformations!
+
+Remember to visit the Feedback page. Your feedback is optional but greatly appreciated. 
+
+Want to dig deeper into the topic of this course? Join the Celonis Community to ask your product questions, hear about the latest product releases, and remain up-to-date by subscribing.
+
+We invite you to join our Celonis Academy Group to engage with your peers, get exclusive updates and answers directly from Academy experts, and stay connected!
+
+----- Page 2 -----
+
+Replication Cockpit - Extract Data
+Course Recap
+
+How satisfied are you with the course?
+
+	★	★★	★★★	★★★★	★★★★★
+Please select a rating					
+
+What did you like most about this course?
+
+What would you improve about this course?
+
+
+⇨ If you have files or screenshots, please send them to academy@celonis.com.
+
+Complete Survey

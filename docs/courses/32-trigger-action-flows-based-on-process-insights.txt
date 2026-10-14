@@ -1,0 +1,281 @@
+﻿========================================================================
+  CELONIS ACADEMY - TRIGGER ACTION FLOWS BASED ON PROCESS INSIGHTS
+  Extracted: 2026-09-09 17:26  |  Personal study use only
+  Source: https://academy.celonis.com/learn/course/trigger-action-flows-based-on-process-insights
+  Lessons: 1
+========================================================================
+
+########################################################################
+  LESSON 1 : Ready to Close the Loop [02:00]
+########################################################################
+
+----- Page 1 -----
+
+Ready to Close the Loop [02:00]
+Ready to Close the Loop
+
+Welcome to the next phase of your Action Flow journey. Up to this point, you have focused on building resilient Action Flows that function as standalone logic - triggered by a timer or an external event.
+
+In this course, we shift our focus to "Celonis-internal" triggers. Since the Celonis platform is designed to identify process inefficiencies, the most intuitive way to drive value is by triggering an Action Flow the moment a process insight is generated. By the end of this course, you will be able to close the gap between finding a problem in your data and fixing it in your systems.
+
+Process insight
+
+To avoid any ambiguity, we're leveraging the term "process insight" in this course without any direct relation to Celonis' Insight Explorer.
+
+By completing this course, you will be able to:
+
+Explain the role of Action Flows within the broader Celonis architecture, distinguishing between standalone and integrated automations.
+Configure a Data Model Trigger to initiate an Action Flow based on data model changes.
+Differentiate and implement Celonis-specific Action Flow modules.
+
+
+
+
+Course Prerequisites
+
+To get the most out of this lesson, we recommend you have successfully completed:
+
+Action Flow Basics: Understanding modules, connections, and basic logic.
+Knowledge Model Fundamentals: Familiarity with how Celonis defines objects and attributes.
+
+Next Step: Use Cases & Examples
+
+Before we look at the configuration, let’s explore how these integrated flows look in action - from stopping duplicate payments to protecting working capital.
+
+----- Page 2 -----
+
+Celonis Triggered Use Cases in Action [05:00]
+Celonis Triggered Use Cases in Action
+
+Let's look at how native integration transforms process insights into immediate business value. These examples move from foundational automation to sophisticated, cross-process synchronization.
+
+Stop Duplicate Invoices in Accounts Payable
+
+There is a broad spectrum of use cases in the Accounts Payable process where automation with Action Flows adds substantial value. Action Flows, for example, help to increase on-time payment by addressing inefficiencies like late vendor invoices or payment blocks. Or they maximize gains through cash discounts by acting on lacks of invoice prioritization. 
+
+What we are going to take a closer look at is how Action Flows serve as the "Automated Responder" in the Duplicate Invoice Checker App. While other components "think" and "detect," the Action Flow is the only part that "acts" by reaching into your ERP system to prevent a financial loss. 
+
+It is critical to distinguish between the Detection Logic that identifies a potential duplicate and the Operational Response that follows.
+
+The Logic & Intelligence
+The Action Flow Response
+How is a duplicate identified?
+
+In the object-centric version, the "brain" uses an AI Annotation service to process your data in two layers:
+
+The Algorithm Layer: Using predefined search patterns (like Similar Reference or Vendor Fuzzy), Celonis groups invoices that look like duplicates.
+The Intelligence Layer: A built-in Machine Learning model assigns a Confidence Score to each group, predicting how likely it is to be a true duplicate.
+
+These signals are attached to your Invoice objects as Augmented Attributes.
+
+For additional information on the Duplicate Invoice Checker app, feel free to check out our course on Celonis Academy!
+
+
+
+
+Optimizing Master Data Lead Times in Procurement
+
+While the Duplicate Invoice Checker is about financial precision, Action Flows can also be used to improve Supply Chain Reliability. Supply planning relies heavily on master data assumptions - specifically, the "Planned Lead Time" or how long it takes to receive a product. When these assumptions don't match reality, it causes stockouts and production delays.
+
+Analyzing Performance
+Syncing the System
+
+The "intelligence" here is driven by Object-Centric Logic that automatically tracks a supplier’s actual delivery performance over time. By comparing the "Planned Lead Time" in the ERP to the actual "Goods Receipt" dates, the system detects when a vendor repeatedly misses expectations.
+
+Instead of a manual audit, Celonis can calculate a new, accurate lead time based on historical data and required safety buffers, annotating the vendor record with a suggested update.
+
+
+
+
+
+
+
+AI Credit Blocks Manager & Order Management
+
+While updating lead times ensures that your internal planning is reliable, Action Flows are equally vital for customer-facing acceleration. In Order Management, the goal shifts from maintaining data integrity to removing friction to speed up the flow of goods.
+
+A perfect illustration of this is the AI Credit Blocks Manager. Here, instead of updating a date or stopping a payment, we are focused on releasing a Sales Order that has been held at the credit check stage.
+
+Evaluating the Risk
+Executing the Release
+
+The "logic" in this app analyzes the credit risk of a customer in real-time. It looks at the Accounts Receivable data - such as recent payments or credit limit utilization - to determine if a block is still justified.
+
+The AI Recommendation engine then flags orders that are safe to proceed. It provides the "Go/No-Go" decision based on the most up-to-date financial data, ensuring that credit managers only spend time on truly high-risk cases.
+
+----- Page 3 -----
+
+The Brain: Implementing the Intelligence [04:00]
+The Brain: Implementing the Intelligence
+
+You didn't click on this course by accident; your brain signaled your hand to move. In Celonis, Action Flows are the muscles: they handle the heavy lifting and execution, but they don't decide when to act. They require a "brain" to analyze the data and send a trigger signal. Let’s look at the technical components that make this brain-muscle connection possible.
+
+If you want the muscle comparison even further: Action Flows are like our "type II", fast-twitching muscles, which are specialized for short, high-intensity, and explosive movements like sprinting or jumping.
+
+The counterpart, "type I", slow-twitching muscles specialized for long-duration activities, would in the Celonis universe be Process Orchestrations powered by the Orchestration Engine.
+
+The Modes of Logical Processing
+
+Depending on the complexity of your process, the "Brain" uses different levels of logic to reach a conclusion:
+
+The Reflexive Brain
+i.e., Filtered Data Model
+
+This is the most straightforward form of "thought." It uses standard PQL filters to identify specific data states.
+
+How it works: The system identifies rows that meet a basic criterion - for example, "An invoice where the Net Payment Date is in the past and the status is still 'Open'."
+The Conclusion: It concludes: "This record is overdue and requires an immediate follow-up."
+1
+2
+3
+
+Next slide
+
+keyboard_arrow_right
+
+Beyond Augmented Attributes
+
+Above, we're referring to the MLWB writing back to Augmented Attributes since this is a common pattern for integrated apps. It is important to recognize that, depending on data volume, performance requirements, and the actual use case, the MLWB could, for example, also send an HTTP request directly to an Action Flow's webhook URL, triggering it immediately with a specific payload. In this scenario, any information sent exists only for the duration of the Action Flow's execution and is not persisted in the Data Model.
+
+💡 Why separate the "Brain" from the "Muscle"?
+
+Efficiency: Your Action Flow muscle only consumes energy once a conclusion is already reached and a contraction is necessary.
+Consistency: Multiple Action Flows can listen to the same "Conclusion." One flow might block a payment, while another sends a Slack alert - both reacting to the same signal.
+Auditability: You can look at your Data Model and see exactly why a muscle contracted by reviewing, e.g., the assigned confidence score or an annotation flag.
+
+
+
+
+Up Next: The Receptor
+
+Now that the Brain has concluded, we need to configure the "Receptor" that feels that change and carries the impulse forward.
+
+----- Page 4 -----
+
+The Receptor: Defining the Trigger [03:00]
+The Receptor: Defining the Trigger
+
+If the brain is where the conclusion is reached, the Trigger defined in the Knowledge Model is the receptor. It is a specialized sensor sitting directly on top of your Data Model, waiting to "feel" the specific signal - the surgical instruction - that the brain just wrote.
+
+We define the Trigger in the Knowledge Model to ensure that the logic for when to act is governed in the same place as your KPIs and other business rules.
+
+To create new Triggers, simply navigate to the respective section in the Knowledge Model:
+
+
+You will find an option to create two different types of triggers: Data Model- and Record-based triggers. Whenever possible, go for Data Model Triggers as Record-based Triggers are only maintained to support legacy functionality.
+
+When configuring a Trigger, you establish the bridge to the brain by selecting, for example, the specific augmented attributes or a "log" table that your logic (like a MLWB script) generates. For simpler use cases, you might just select a regular table from the Data Model.
+
+Whether or not you add a filter to your Trigger depends, as always, on your use case as well as the logic built, for example, in the MLWB script and its resulting table(s) or attribute(s).
+
+Once a new trigger is created, versioned, and deployed, it can already be connected in an Action Flow!
+
+The Anatomy Recap
+The Brain: Decides a lead time should be 14 days and writes it to an attribute.
+The Receptor: Feels the value "14" appear in that attribute and sends an electrical impulse forward.
+
+
+
+
+Next Step: Move the Muscle
+
+Now that the receptor is tuned and deployed, we move into the Action Flow editor to set up the "muscle" that will receive this impulse and execute the work.
+
+----- Page 5 -----
+
+The Muscle: Executing the Action Flow [05:00]
+The Muscle: Executing the Action Flow
+
+Now that the signal has been sensed and passed through the nervous system, it reaches the Action Flow. In our anatomy, the Action Flow is the Muscle. It doesn’t "think" about whether to act - it simply receives the impulse and executes the physical work.
+
+Step 1: The 'Watch Trigger' module
+
+This module is the connection point where the Action Flow connects to the Knowledge Model.
+
+The Impulse: The moment the Receptor fires, this module wakes up the Action Flow.
+The Payload: It receives a small packet of data, usually containing the Unique ID (e.g., Invoice Number) of the object that needs attention.
+
+Based on your experience with building Action Flows, you already know that you usually want to "Run a module once" to be able to map its outputs in succeeding modules. To do this for the "Watch Trigger" module, follow the steps showcased in the video below.
+
+This video has no sound.
+
+Step-by-Step: Initializing the "Watch Trigger" module
+
+
+
+
+Step 2: The 'Get Rows' module
+
+At this point, the muscle knows which data to act on, but it doesn't necessarily always have all the data it needs from the Data Model - this directly depends on how you've configured the trigger and whether it sends only a table record's ID or additional data.
+
+For the most common case that the trigger only receives a partial payload (like just the ID), we use a Get Rows module to pull the specific attributes we need for our Action Flow to fulfill its purpose.
+
+
+
+
+
+
+
+
+Step 3: Running the remaining Action Flow
+
+This is the physical work. With correct data in hand, the Action Flow executes whatever has been defined for it, like pushing the update to the ERP system or blocking a payment. The cycle is complete: an analytical conclusion has become a real-world result.
+
+
+
+
+
+
+
+The Anatomy Recap
+The Brain (MLWB/Annotation): Decides the lead time should be 14 days and writes it down.
+The Receptor (Trigger): "Feels" the update and fires an impulse.
+The Muscle (Action Flow): Receives the impulse, grabs the "14 days" instruction, and updates the ERP.
+
+----- Page 6 -----
+
+Closing the Loop [02:00]
+Closing the Loop
+
+Congratulations! You have successfully mapped the journey from a raw data point to a real-world execution. By separating the Brain, the Receptor, and the Muscle, you have moved away from "Standalone Automations" toward Integrated Process Intelligence.
+
+The Integrated Architecture at a Glance
+COMPONENT	RESPONSIBILITY	TECHNICAL LOCATION
+The Brain	Analyze data and reach a conclusion.	MLWB / Annotation Builder
+The Synapse	Store the "Surgical Instructions."	Augmented Attributes / Signal Tables
+The Receptor	Sense the conclusion and fire an impulse.	Knowledge Model Trigger
+The Muscle	Receive the impulse and execute the action.	Action Flow
+
+
+
+
+You are no longer just "building Action Flows." You are designing an integrated, intelligent system. By keeping the Logic in the Brain (KM/MLWB) and the Action in the Muscle (Action Flow), you create a system that is:
+
+Transparent: Everyone can see why an action happened.
+Scalable: One Brain can feed multiple Muscles.
+Resilient: If one part of the system is paused, the data remains safely stored in the Synapse.
+What's Next?
+
+Now that you've mastered Autonomous Intelligence, it is time to keep exploring with Action Flows for your own business use cases! Make sure you've completed all materials from the "Build Action Flows" Training Track to make sure you're equipped with all the skills and tools you need to get started in the real world.
+
+See you soon!
+
+Your Celonis Academy team
+
+----- Page 7 -----
+
+Feedback
+
+How satisfied are you with the course?
+
+	★	★★	★★★	★★★★	★★★★★
+Please select a rating					
+
+What did you like most about this course?
+
+What would you improve about this course?
+
+
+⇨ If you have files or screenshots, please send them to academy@celonis.com.
+
+Complete Survey

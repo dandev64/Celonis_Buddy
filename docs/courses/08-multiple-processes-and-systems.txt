@@ -1,0 +1,350 @@
+﻿========================================================================
+  CELONIS ACADEMY - MULTIPLE PROCESSES AND SYSTEMS
+  Extracted: 2026-09-09 13:40  |  Personal study use only
+  Source: https://academy.celonis.com/learn/course/multiple-processes-and-systems
+  Lessons: 6
+========================================================================
+
+########################################################################
+  LESSON 1 : Learning Objectives
+########################################################################
+
+Intro
+Learning Objectives
+Welcome!
+
+After completing this course, you will be able to:
+
+Set up a Data Model with multiple Data Connections
+Set up a Data Model with multiple processes
+Merge your Event Logs in your Data Model
+Effectively work with Data Pool options to scale and secure your work
+
+At the end of this course, please share your feedback via the Feedback page.
+
+This content is available in multiple languages: English, German, French, Japanese, Spanish, and Portuguese. To switch your language, use the selector in the top navigation bar.
+
+In Courses: Switching languages will not affect your progress. If you are multilingual, comparing languages can even help deepen your understanding.
+In Exams: Do not switch the language once you start the exam. If you switch the language when you're already reviewing questions and answers, the page will refresh, causing your exam attempt to end prematurely. (Note: Once inside the exam course, you can switch the language anytime before clicking the Start Exam button.)
+
+
+
+
+If you encounter any technical or access issues during this course, check out our FAQs in the Support area or reach out to us via our Academy contact form.
+
+########################################################################
+  LESSON 2 : Multiple Systems for one Process
+########################################################################
+
+Connect Multiple Systems
+Multiple Systems for one Process
+Parallel vs Sequential Scenarios
+
+When you’re building a Data Model for an end-to-end process, you’ll often have to pull data from multiple systems.
+
+You’ll encounter two main scenarios here:
+
+First, there’s the parallel or horizontal scenario. In this scenario, the same exact process is executed in parallel in different systems. Companies with branches in different countries are a perfect example of this since they often have dedicated source systems per each country they operate in.
+
+
+Then there is the sequential or vertical scenario. “Sequential” refers to the fact that different steps of a process are tracked in different source systems. For example, information on “Activity A” is stored in “Source system 1” and information on “Activity D” in “Source System 3”.
+
+A mix of both scenarios is possible and common. But for now, let’s look at how to deal with each scenario separately.
+
+########################################################################
+  LESSON 3 : Unrelated Processes from One System
+########################################################################
+
+Connect Multiple Processes
+Unrelated Processes from One System
+
+No topic content.
+
+########################################################################
+  LESSON 4 : Related Processes from One or More Systems
+########################################################################
+
+----- Page 1 -----
+
+Connect Multiple Processes
+Related Processes from One or More Systems
+Multiple Related Processes
+
+What happens when you'd like to analyze multiple different processes in parallel or would like to apply a filter across multiple processes? In Data Integration, attempting to map everything to a single case key—i.e. from one process perspective—can lead to complex table joins and not give you the desired transparency in downstream Analyses.
+
+To reduce complexity in bringing related processes together or analyzing multiple semi-independent processes in parallel, you can actually have multiple Activity and Case Tables in one Data Pool.
+
+This is what we call the Multi-Event Log or in other words Multiple Activity Tables. It’s when you will have more than one process in your Data Model.
+
+For example, you could create an Activity table for your Order-to-Cash process and another for your P2P process. Instead of joining everything in one Activity table, you can simply connect the separate Activity tables in your Data Model using the appropriate foreign keys.
+
+In other words, another way beyond Global Data Jobs of bringing your Activity tables together—in this case for different processes—is to use the Data Model Load step.
+
+Multi-Event Log is especially relevant if you are working on different but related processes.
+
+Here is what Multi-Event Log can look like in an Analysis:
+
+The Use Cases
+
+Here are four use cases for Multi-Event Log:
+
+To put independent processes into context (filter across processes).
+To analyze parallel processes by linking multiple hierarchical Event Logs.
+To reduce transformation script efforts (no joins) by merging Event Logs.
+To visualize end-to-end processes by linking multiple Event Logs.
+Merging if necessary
+
+You can load your Activity tables separately or you can merge them. The "Eventlog automerge" toggle in your Data Model is what triggers a merge of your Activity tables.
+
+----- Page 2 -----
+
+Connect Multiple Processes
+Related Processes from One or More Systems
+Defining Multiple Activity and Case Tables
+
+Let’s have a look at a simple example in Data Integration.
+
+In transformations, the assumption is that we’ve defined multiple Activity Tables and filled them with their relevant activities. To keep it manageable and considering schedules, it's best practice to create separate Data Jobs per process area where possible.
+
+Exactly how you set up your Data Connections, Data Jobs and Tasks simply depends on your system architecture, where the data resides, and how you can best bring it together. The end result is simply for you to have multiple Activity and Case tables in one Data Pool.
+
+In Process Data Models, we’ve added all relevant tables in one Data Model. Here you can see that multiple Activity and Case Tables were defined and connected to one other with foreign keys. The As and Cs in the image indicate whether a table is an Activity or Case Table:
+
+By default, the first Activity Table you define is the Default Activity Table. This is the table that will automatically appear first in components when you build Analyses or Views. To set a table as an Activity Table or a Default Activity Table, or define an Activity Table's Case Table, you use the vertical ellipsis (three dots) options on the Activity Table:
+
+----- Page 3 -----
+
+Connect Multiple Processes
+Related Processes from One or More Systems
+To Merge or not to Merge
+
+Once you’ve defined your Activity and Case tables and linked all tables with their respective foreign keys, you need to consider how to load the Data Model.
+
+For Multi-Event Log, you can choose use the Eventlog automerge function when building your Data Model load.
+
+What it does
+
+This merge takes all Activity tables and brings them into one according to the case IDs from your Default Activity table, sorting by the respective Timestamps.
+
+Take these three sets of tables for example where Table2 is the Default Activity Table:
+
+Merging them would result in the following Event Log:
+
+Here the Case IDs were all brought under Table2's Case IDs using the join path. The Activities with their respective Timestamps were merged. Additional columns from each table were added and left with null where no value was available.
+
+
+When you use the Eventlog automerge, you'll have the merged eventlog table named _CEL_MERGED_ACTIVITIES available after your Data Model is loaded. You can use this table as any other eventlog(Activity) table in your analyses.
+
+
+Going back to our question, when should you merge? Merging your activity tables makes sense if you want to work with one sequential activity table. If you don't, then keeping separate Activity tables in your Data Model makes more sense.
+
+Merging in PQL
+
+Note that Eventlog automerge is just a shortcut for using the MERGE_EVENTLOG PQL operator in your analyses. You can still merge Activity tables (Eventlogs) on the go using the PQL operator in your analyses if you choose not to do it in Data Integration. Using PQL gives you greater flexibility on the merge as you can choose which columns to keep.
+
+Note that some merges result in duplicate results. In those cases, you should use the “merge event log distinct” option.
+
+If you need a deeper read into how merging works, refer to the automerge documentation for the Data Integration perspective and PQL automerge documentation for the PQL perspective.
+
+########################################################################
+  LESSON 5 : Working with Data Pools
+########################################################################
+
+----- Page 1 -----
+
+Working with Data Pools
+Working with Data Pools
+Data Pool Options
+
+In Data Integration, you'll encounter scenarios where one more Data Pools need to be partially or fully reworked. Let's look at four options that will help you along the way:
+
+Sharing Data Connections
+Versioning Data Pools
+Copying Data Pools
+
+Copying Data Jobs
+
+Before jumping into each option, let's do a quick recap on terminology in and around Data Pools.
+
+----- Page 2 -----
+
+Working with Data Pools
+Working with Data Pools
+Data Integration Terminology Recap
+
+Here we need to clarify two additional high-level terms you may already have come across: Cluster and Team:
+
+Cluster - Also called Realm, this typically reflects a hosting location e.g. eu-1 or us-1. It can also reflect a specific purpose as with our training cluster. You can see the cluster / realm of your Celonis environments in the URL: "https://data-testing.training.celonis.cloud/"
+
+Team - At Celonis, "Team" is synonymous with environment. When completing trainings in the Celonis Academy, you received your own personal training Team which was created on the training cluster.
+
+If you need a review on the terms in the Data Integration Service, make sure review the data integration structure overview.
+
+----- Page 3 -----
+
+Working with Data Pools
+Working with Data Pools
+Sharing a Data Connection
+
+In some cases, you need to re-use some of the same data across Data Pools or restrict access to part of the data in a Data Pool. If the same data should be available across multiple data pools, you can use the data transfer option. With it, you can share a data connection with one or more Data Pools in the same Team.
+
+When sharing, Celonis creates views on the shared Data Connection’s tables. A view is simply a virtual table that references and queries your existing tables. With this approach, no data is replicated across Data Pools. You can share a Data Pool's normal connections as well as its "Global scope"—i.e. the global schema not related to a connection where data from e.g. where File Uploads go by default.
+
+In Data Integration, you'll find the share option by clicking the three dots on a Data Connection:
+
+You then decide with which Pool to share. In the target Data Pool, you can then set up a new connection and select "Import Data from another Data Pool".
+
+Note that this feature is not available by default in productive or training Celonis Teams. To enable it, please reach out our support portal.
+
+You'll find more information on the sharing between data pools page.
+
+----- Page 4 -----
+
+Working with Data Pools
+Working with Data Pools
+Versioning a Data Pool
+
+Data Pool Versioning allows you to:
+
+trace changes in your Data Pools
+revert to previous versions if certain changes cause issues
+separate development and productive environments through the easy copying of Data Pool Versions to other Data Pools
+What is versioned?
+
+Data Pool versions include:
+
+Data Jobs,
+Process Data Models,
+Data Parameters,
+Task Templates,
+and Schedules.
+
+And they exclude;
+
+Data permissions,
+Data Connection details,
+and actual data
+Where is it and what can I do?
+
+In Data Integration, you can see the versions of a Data Pool in the top right corner under “Versions" (the label icon).
+
+Here you can:
+
+Save a new version
+Load another version as the active one
+Delete a version
+Compare two versions
+and copy a version to another data pool in the same team or a different team. Note that the team needs to be in the same cluster.
+
+Versioning is not automatic
+
+To create a draft, you need to proactively save a draft, write a short note on the changes and indicate what kind of upgrade it is. The saving menu shows you the differences between your the current and new draft.
+
+Copying a Version to another Data Pool
+
+When you copy a version, you will need to:
+
+map existing Connections to make sure the Data Jobs work on appropriate connections.
+match Data Jobs to ensure Data Job alerts are kept in the target Data Pool.
+match your Data Models in the target Data Pool. This is relevant if you are overwriting existing Data Models connected to Celonis objects in the target Data Pool.
+decide if the version should be loaded directly or simply added as a version but not loaded.
+
+Thankfully, the copy wizard takes you through these steps one by one:
+
+You can copy versions to other teams you have access to on the same cluster.
+
+----- Page 5 -----
+
+Working with Data Pools
+Working with Data Pools
+Copying a Data Pool
+
+In some cases you may just want to duplicate an entire Data Pool to the same Team or another Team. To do so, simply go to your Data Pool and select the "Copy-to" option and select the Team to copy it to.
+
+This replicates all of the Data Pools' Connections, Jobs, Tasks, and Data Models. You can copy a Data Pool to any Team you have access to on the same cluster.
+
+----- Page 6 -----
+
+Working with Data Pools
+Working with Data Pools
+Copying a Data Job
+
+In some cases, you may simply want to copy a Data Job from one Pool to another to re-use all of your scripts. For this you can use the "copy to" function at the Data Job level:
+
+You can copy to any team you have access to on the same cluster. The function copies:
+
+Extractions
+Transformations
+Local parameters
+Templates
+
+It excludes:
+
+Data Pool parameters
+Data Model Load tasks
+Job alerts
+The tables and data
+
+If you copy a job including extractions to a Global scope, the extractions are removed as Global Data Jobs cannot contain extractions.
+
+----- Page 7 -----
+
+Working with Data Pools
+Working with Data Pools
+Other Possibilities to Push and Pull Data Assets
+
+If you are not afraid of code and need to perform operations beyond what Data Integration's UI possibilities afford, you can have a look at pycelonis documentation.
+
+Pycelonis is a Python package you can use within the Machine Learning Workbench to interact with Celonis objects such Data Pools, Data Models, Data Jobs so on.
+
+Another tool you can use in the Machine Learning Workbench is the Content-CLI (Command Line Interface) tool. Similar to pycelonis, you can use it to move data and data assets from one Team to another.
+
+In this python github repository you can find pycelonis and Content CLI sample snippets that address a number of use cases.
+
+Recently, Celonis also introduced the Team-to-Team functionality which allows you to copy Data Pools and Packages from one Team to another.
+
+########################################################################
+  LESSON 6 : Course Recap
+########################################################################
+
+----- Page 1 -----
+
+Course Recap
+Course Recap
+
+Knowledge Check - Multiple Processes and Systems
+
+HIDE ANSWERS UNTIL THE END OF THE QUIZ
+
+Start
+
+----- Page 2 -----
+
+Course Recap
+Course Recap
+Recap on Multiple Systems and Processes
+
+In this course, you learned:
+
+how to handle both the parallel and sequential scenarios using Global Data Jobs.
+how you can create a Data Model with multiple Activity and Case tables for different but related processes.
+about the use cases for Multi-Event Log:
+To put independent processes into context (filter across processes).
+To analyze parallel processes by linking multiple hierarchical Event Logs.
+To reduce transformation script efforts (no joins) by merging Event Logs.
+To visualize end-to-end processes by linking multiple Event Logs.
+how Eventlog automerge works and merges multiple Activity tables.
+how to troubleshoot two common issues when loading a Data Model with Eventlog automerge.
+how to manage your work with Data Pools by:
+Sharing Data Connections,
+Versioning and copying Data Pool,
+Copying Data Jobs,
+and using other code-based tools for more advanced operations
+
+Good job on completing this course!
+
+Remember to visit the Feedback page. Your feedback is optional but greatly appreciated. 
+
+Want to dig deeper into the topic of this course? Join the Celonis Community to ask your product questions, hear about the latest product releases, and remain up-to-date by subscribing.
+
+We invite you to join our Celonis Academy Group to engage with your peers, get exclusive updates and answers directly from Academy experts, and stay connected!

@@ -1,0 +1,446 @@
+﻿========================================================================
+  CELONIS ACADEMY - CONFIGURE CHARTS AND TABLES IN A VIEW
+  Extracted: 2026-09-09 15:42  |  Personal study use only
+  Source: https://academy.celonis.com/learn/course/configure-charts-and-tables-in-a-view
+  Lessons: 1
+========================================================================
+
+########################################################################
+  LESSON 1 : Configure Charts and Tables in a View
+########################################################################
+
+----- Page 1 -----
+
+Configure Charts and Tables in a View
+Configure Charts and Tables in a View
+Welcome to the course “Configure Charts and Tables in a View”
+
+Charts and tables are one of the primary components that would populate your dashboards. In this course, you will explore the fundamentals of dimensions and metrics, and discover how to create various chart and table components in Views. Dive into the PQL Editor to build and leverage reusable knowledge. By the end of this course, you'll be equipped with the knowledge and skills to create dynamic and insightful visualizations in Views.
+
+This course should take you about 50 minutes to finish.
+
+
+
+
+This course is part of the Build Views Training Track.
+
+As a prerequisite, you should already know how the View asset functions, how to add components, and their respective settings. If you’re unsure, consider going through the Fundamentals of a View course
+
+Tip: You can Hide the Menu bar (on the top left).
+
+This content is available in multiple languages: English, German, French, Japanese, Spanish, and Portuguese. To switch your language, use the selector in the top navigation bar.
+
+In Courses: Switching languages will not affect your progress. If you are multilingual, comparing languages can even help deepen your understanding.
+In Exams: Do not switch the language once you start the exam. If you switch the language when you're already reviewing questions and answers, the page will refresh, causing your exam attempt to end prematurely. (Note: Once inside the exam course, you can switch the language anytime before clicking the Start Exam button.)
+
+
+
+
+If you encounter any technical or access issues during this course, check out our FAQs in the Support area or reach out to us via our Academy contact form.
+
+----- Page 2 -----
+
+Configure Charts and Tables in a View
+Configure Charts and Tables in a View
+Dimensions and Metrics
+
+Whenever you add a Chart or a Table component to a View, you’d need to determine which data you want to show. Conceptually speaking, most charts and tables have 2 types of data: Dimensions and metrics.
+
+What are dimensions?
+What are metrics?
+
+
+
+
+Let’s see if you can differentiate between the 2 data types: Which of these items (in blue) are dimensions and which are metrics?
+
+Click on the cards to be shown the answer.
+
+
+
+
+Sales Revenue
+
+
+
+
+Metric
+
+
+
+
+Geographic Regions
+
+
+
+
+Dimension
+
+
+
+
+Customer Satisfaction Score
+
+
+
+
+Metric
+
+
+
+
+Inventory Levels
+
+
+
+
+Metric
+
+
+
+
+Customer Segments
+
+
+
+
+Dimension
+
+
+
+
+Fiscal Years
+
+
+
+
+Dimension
+
+
+
+
+How do dimensions and metrics apply to the chart and table components?
+
+Just like most other components, really. You just need to add the data to the component. But to do that, you’d need to familiarize yourself with the data itself.
+
+----- Page 3 -----
+
+Configure Charts and Tables in a View
+Configure Charts and Tables in a View
+Get to Know: The Order Management Demo Data Model
+
+Before you move on to configuring chart and table components, you’d first need to become familiar with the data you’re working with. This holds true whenever you want to start building a dashboard in general.
+
+You'll be working with an out-of-the-box Object-Centric Data Model (OCDM), reflecting a fictitious Order Management process. In this Data Model, you’ll see many tables - but you will only be using the 3 tables: Customer, sales order, and sales order item tables.
+
+To understand how they’re related, you’ll have to imagine a general purchasing scenario:
+
+When a customer orders from a company, a sales order is generated. In each sales order, you’d see a list of the sales order items that the customer needs.
+
+Each of these entities is classified as an “Object Table” in OCDMs. The following is a visualization of how the tables in the Data Model look like...
+Click on the '+' icons on the image.
+
+
+
+
+Imagine you’re now going to create a series of visualizations for a business user who wants to understand their sales orders better. After speaking to them, you noticed that they’re quite concerned about their net order values and number of sales order items.
+
+
+
+
+Let’s address their concerns one at a time.
+
+----- Page 4 -----
+
+Configure Charts and Tables in a View
+Configure Charts and Tables in a View
+Category Charts: Bar Chart
+
+One of the most common types of charts you can build is the classic bar chart! It is one of the many types of graphs that is commonly used to compare and display discrete categories of data.
+
+
+In the View, charts of this nature are grouped together as Category charts.
+
+Category charts encompass various types of charts used to represent categorical data. They are designed to visualize relationships between different categories of data - making it easier to interpret and analyze large datasets. They are particularly useful for:
+
+Comparing multiple categories of data within a dataset.
+Tracking performance metrics across different groups.
+Identifying patterns and outliers within categorical data.
+Communicating insights and findings to stakeholders in a clear and concise manner.
+
+
+
+
+Let’s say your business user first wants to find out which type of sales makes them the most money 💰. Since you know they’re very concerned with this, you should also save the metric in the Knowledge Model so that it becomes reusable knowledge!
+
+To that end, create a bar chart using the following information:
+
+Dimension
+
+PQL Query: "o_celonis_SalesOrder"."SalesDocumentTypeText"
+
+Name: Type of Sales
+
+Format: Standard (no format)
+
+
+
+
+Metric - Save to Knowledge Model
+
+PQL Query: SUM ( "o_celonis_SalesOrder"."NetAmount" )
+
+Name: Net Order Value
+
+Format: Abbreviated (##.#k)
+
+Unit: €
+
+Just place the chart at the top left corner of the View.
+
+This is how you'd do it...
+
+Alternatively, you could also edit the metric itself - but remember that this will impact all other assets using that Knowledge Entity.
+
+
+ 
+
+All Knowledge Entities will show up in the knowledge sidebar. Hover over the info icon to look at the details of the knowledge entity.
+
+
+
+
+Now back to your bar chart - it seems that direct sales bring in the most revenue for your business user!
+
+
+
+
+While that’s very clear, the other three types of sales can hardly be differentiated - you can’t tell which type of sales is better than the other apart from direct sales being the highest. Suppose your business user returns after seeing the bar chart, expressing the additional interest of pinpointing the type of sales requiring reassessment - with 60 million € being their cut-off point as the minimum amount each type of sale should be making overall.
+
+
+
+
+To that end, you can either add an annotation line or conditionally color the bars.
+
+Generally speaking, an annotation line is a fantastic tool to add a threshold to the chart, but its visibility would be poor in this instance since the max scale (in the y-axis) is huge and the differences between the other three types of sales are hardly visible. Coloring the bars that don’t meet the threshold would be a better idea since visually, the different colored bars would stand out.
+
+In technical terms, thresholds are singular values indicating particular contexts. They can be static numbers or dynamically generated as an aggregated value.
+
+
+
+
+So let’s fix the bar chart by doing these 2 things:
+
+Sort the bars based on their net order value - in descending order (from highest to lowest)
+
+Color map the bars based on the net order value - with any type of sales below 60M having the color shade of Context 40 (“mid” grey). The type of sales above 60M should remain Primary 20 (blue). Name it 60M Threshold.
+
+Hint : In Coloring, under bar coloring, go to color mapping. You’d want to add a custom visual mapping, based on thresholds!
+
+
+
+
+Take your time and explore the chart Settings. If you need guidance, just have a look at the solution below.
+
+This is how you'd do it...
+
+Look at that beauty.
+
+Your business user can now immediately compare the performance of each type of sales based on their net order value and which type of sales requires reassessment at just a glance. That’s proper data visualization!
+
+
+
+
+You configure most category charts similarly - adding a dimension, metrics, and then configuring the component settings so that it visualizes the data based on the requirements of your business users.
+
+In Celonis, categorical bar charts are horizontal so that they can accommodate longer category labels without overcrowding. Generally, we tend to read from left to right, which makes charts such as line and column (i.e., vertical bar) charts more suited for time-based visualization. These charts are known as Time Series Charts.
+
+----- Page 5 -----
+
+Configure Charts and Tables in a View
+Configure Charts and Tables in a View
+Time Series Charts: Line Chart
+
+Time series charts are used to visualize data points collected at different time intervals. They typically display time on the horizontal axis (x-axis) and the corresponding data values on the vertical axis (y-axis). They are commonly used to illustrate trends, patterns, and fluctuations in data over time. Time series charts are valuable for analyzing and understanding how data changes over time. They are particularly useful for:
+
+Detecting trends and seasonality in time-based data.
+Identifying patterns, cycles, and anomalies.
+Making forecasts and predictions based on historical data.
+Analyzing the impact of interventions or changes over time.
+Communicating temporal trends and insights to stakeholders effectively.
+
+
+
+
+Let’s say your business user wants to know if their orders have trended over time. They hinted that they would also like to know the number of sales order items with it. Further questioning revealed that they’d like to know this number “just because” and most of their customers order more or less the same items every time - nothing wrong with that!
+
+
+
+
+Instead of creating a dual axes chart, which can be easily misconstrued, tooltips are a great way to add additional context without altering the interpretation of the chart. They are simply additional information as you hover over a data point.
+
+Technically, tooltips should simply be aggregated values like metrics.
+
+
+
+
+So let’s create a line chart using the following information:
+
+Dimension
+
+PQL Query: ROUND_MONTH ( "o_celonis_SalesOrder"."CreationTime" )
+
+Name: Month
+
+Format: Date: Year-Month (Y-M)
+
+
+
+
+Metric
+
+PQL Query: COUNT(DISTINCT "o_celonis_SalesOrder"."ID")
+
+Name: # Sales Orders
+
+Format: Round Number (#,###)
+
+
+
+
+Tooltip - Save to Knowledge Model
+
+PQL Query: COUNT(DISTINCT "o_celonis_SalesOrderItem"."ID")
+
+Name: # Sales Order Items
+
+Format: Round Number (#,###)
+
+Place the chart at the top right corner of the View.
+
+This is how you’d do it…
+
+
+
+
+Great job! Now your business user has both the data they need and the context they want.
+
+In case you'd like to expand on the chart context without bloating the dashboard, you can add additional dimensions and enable dimension switching.
+
+You can read more about this in the documentation.
+
+Feel free to try it out using the chart you've already created by adding an additional dimension, "Year":
+
+ROUND_YEAR ( "o_celonis_SalesOrder"."CreationTime" )
+
+
+
+
+In this case, let's just say that your business user couldn’t really find any trends in their data - but hey, you win some, you lose some. Similar to category charts, configuring the other types of time series charts is more or less similar.
+
+Now, let's provide your business user with all the additional information they require, consolidated into a table.
+
+----- Page 6 -----
+
+Configure Charts and Tables in a View
+Configure Charts and Tables in a View
+Table
+
+Tables are visual representations of data organized into rows and columns. Each row typically represents a case, record, or observation; whereas each column represents a different attribute or metric. Tables are commonly used to display detailed data, allowing users to easily scan, filter, and analyze information. Tables are versatile and serve various purposes in dashboards. They are particularly useful for:
+
+Presenting detailed data with multiple attributes in an organized manner.
+Facilitating comparison of values across different categories or dimensions.
+Allowing users to search, sort, and filter data to find specific information.
+Supporting data exploration and analysis by providing an overview of dataset contents.
+Providing a structured layout for displaying data that complements other visualizations on the dashboard.
+
+
+
+
+Technically, the table component treats attributes and metrics equally - consolidating all data columns without distinction.
+
+As a final request, your business user would like to see information regarding sales order items, net order values, and automation rates for both the sales orders and customers. They also want to be able to export this information for reference.
+
+In scenarios like this where the leftmost column of the table requires differentiation, you'd usually need to create two separate tables. Otherwise, adding more attributes or dimensions to the table component would break down the information into finer detail.
+
+Here's where the breakdown selector can help - allowing you to switch between various attributes in the leftmost column of the table! You can easily configure it in the Breakdown by section in the component setting.
+
+
+
+
+Let’s bring it all together by creating a table component using the following information:
+
+Breakdown by
+
+1. Name: Customer
+
+PQL Query: "o_celonis_Customer"."Name"
+
+2. Name: Sales Order ID
+
+PQL Query: "o_celonis_SalesOrder"."ID"
+
+
+
+
+Columns
+
+1. [From Knowledge Model] Metric - # Sales Order Items
+
+2. [From Knowledge Model] Metric - Net Order Value
+
+3. Name: Automation Rate
+
+PQL Query: AVG (CASE WHEN "o_celonis_SalesOrderItem"."CreationExecutionType" = 'Automatic' THEN 1 ELSE 0 END)
+
+Format: Decimal Number (#.##)
+
+Additionally:
+
+Place the table component at the bottom of the View, below the two charts. Resize it so that it takes up the rest of the space.
+
+Sort the table according to the (1) Net Order Value in descending order and (2) # Sales Order Items in descending order, since these metrics are important to your business user
+
+Don’t forget to allow your business user to be able to interact with the table by exporting information from it!
+
+Since there isn’t a lot of space left in the View itself, let’s style the table so that the spaces between the cells are more compact. That way, your business user has access to more information at a glance.
+
+Hint: Instead of adding a new component, you could simply duplicate the line chart and turn it into a table!
+
+Take your time and get the tasks done one at a time. Slowly explore the table component's settings so that you can complete the tasks. If you need guidance, just have a look at the solution below.
+
+This is how you’d do it…
+
+
+
+
+Well, give yourself a pat on the back! You've taken a big step in the direction of creating custom analyses with charts and tables. In practice, you'd work quite similarly:
+
+Understand the business users' needs
+Determine the necessary components
+Add data to the components
+Slowly configure the component settings to meet your business user's requirements
+
+
+
+
+With these visualizations, your business user can now analyze their sales orders in a clear and concise way!
+
+----- Page 7 -----
+
+Configure Charts and Tables in a View
+Configure Charts and Tables in a View
+
+----- Page 8 -----
+
+Configure Charts and Tables in a View
+Configure Charts and Tables in a View
+
+Starting the survey…
+
+----- Page 9 -----
+
+Configure Charts and Tables in a View
+Configure Charts and Tables in a View
+
+No topic content.

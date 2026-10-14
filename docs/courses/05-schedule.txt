@@ -1,0 +1,307 @@
+﻿========================================================================
+  CELONIS ACADEMY - SCHEDULE
+  Extracted: 2026-09-09 13:32  |  Personal study use only
+  Source: https://academy.celonis.com/learn/course/schedule
+  Lessons: 5
+========================================================================
+
+########################################################################
+  LESSON 1 : Learning Objectives
+########################################################################
+
+Intro
+Learning Objectives
+Welcome!
+
+This course is all about schedules and assumes you understand Data Jobs and their tasks: Extractions, Transformations, and Data Model Loads. In the Data Flow diagram, creating schedules is the next step after you create a Data Model:
+
+After completing this course, you will be able to:
+
+
+Set up schedules for your Data Jobs
+Understand when to use delta vs. full loads
+Apply and mix the right schedule frequency for different types of data
+Use both scheduled Data Jobs and the Replication Cockpit
+
+At the end of this course, feel free to share your feedback via the "Your Feedback" page.
+
+This content is available in multiple languages: English, German, French, Japanese, Spanish, and Portuguese. To switch your language, use the selector in the top navigation bar.
+
+In Courses: Switching languages will not affect your progress. If you are multilingual, comparing languages can even help deepen your understanding.
+In Exams: Do not switch the language once you start the exam. If you switch the language when you're already reviewing questions and answers, the page will refresh, causing your exam attempt to end prematurely. (Note: Once inside the exam course, you can switch the language anytime before clicking the Start Exam button.)
+
+
+
+
+If you encounter any technical or access issues during this course, check out our FAQs in the Support area or reach out to us via our Academy contact form.
+
+########################################################################
+  LESSON 2 : Scheduling Basics
+########################################################################
+
+----- Page 1 -----
+
+Schedule your Data Jobs appropriately
+Scheduling Basics
+One Time vs Continuous Executions
+
+If you set up Celonis in a productive environment, your source systems constantly produce new data.
+
+To always stay up to date, you need to run your Extractions and Transformations and Data Model Loads in a continuous manner. To do so, you could execute the respective Data Jobs manually every now and then, but naturally, we instead want to automate that process.
+
+For a continuous and automated data load you can use the scheduling functionality. Schedules allow you to sequentially execute Data Jobs on a regular basis.
+
+----- Page 2 -----
+
+Schedule your Data Jobs appropriately
+Scheduling Basics
+Schedules run entire Data Jobs
+
+Note that schedules can’t be applied to single tasks—whether Extraction, Transformation, or Data Model Load—they only apply to entire Data Jobs. This means, if you want specific tasks to run on a different schedule, you should set them up in different Data Jobs.
+
+----- Page 3 -----
+
+Schedule your Data Jobs appropriately
+Scheduling Basics
+Adding Data Model Loads Tasks
+
+A small reminder—if a Data Job runs Extractions and Transformations, consider adding the applicable Data Model Load task(s) within the same Data Job. As soon as the Data Model is reloaded, your Analyses, Apps and other objects based on the Data Model are automatically refreshed with the new data. Without a Data Model Load, your Data Job will have no effect on your Data Model.
+
+With Data Jobs using separate Data Model Loads, you can easily manage multiple processes in one Data Pool by defining which Data Model is loaded in which Data Job.
+
+Also, the Data Model tasks you set up can be partial. This means if a schedule only extracts and transforms certain tables, you can choose to only update the affected tables in your Data Model Load task.
+
+----- Page 4 -----
+
+Schedule your Data Jobs appropriately
+Scheduling Basics
+Schedules are not for Replication Cockpit
+
+Note that outside of schedules, you can configure Delta loads using the Replication Cockpit if you have set up a real-time connection. With the Replication Cockpit, your loads are trigger-based and not schedule-based. A mix of both approaches is necessary if you are using the Replication Cockpit.
+
+For example, if you use the Replication Cockpit for certain transactional tables (both full and delta extractions and transformations), you will still need scheduled Data Jobs for:
+
+Data Model Loads,
+the Delta and Full loads of tables you choose not to include in your Replication setup.
+
+The Real Time Process Connectors you download from the Celonis Marketplace use a preset mix of the Replication Cockpit and Data Jobs:
+
+
+
+For a review of the Replication Cockpit setup, review the Connect to Systems, Extract Data, and Transform Data courses in the Get Data into Celonis track.
+
+
+The rest of this section will zoom in on the Data Job scheduling functionality.
+
+----- Page 5 -----
+
+Schedule your Data Jobs appropriately
+Scheduling Basics
+
+No topic content.
+
+########################################################################
+  LESSON 3 : Set up a Schedule
+########################################################################
+
+----- Page 1 -----
+
+Schedule your Data Jobs appropriately
+Set up a Schedule
+
+We kindly ask you not to set up a regular schedule in your personal Training Environment to avoid unnecessary load on Training servers.
+
+We kindly ask you not to set up a regular schedule in your personal Training Environment to avoid unnecessary load on Training servers.
+
+----- Page 2 -----
+
+Schedule your Data Jobs appropriately
+Set up a Schedule
+Trigger-based Schedules
+
+To optimize your schedules, you can use trigger-based schedules. Here you simply select "Trigger-based schedule" and decide which schedule acts as a trigger.
+
+With trigger-based schedules, schedules no longer run based on a predefined frequency but start once the triggering schedule has completed successfully. This means you can execute schedules one after the other with no time loss in between:
+
+A schedule could also trigger itself in an endless loop—this would work well for example when you need a constant reload of a Data Model with the Replication Cockpit
+
+----- Page 3 -----
+
+Schedule your Data Jobs appropriately
+Set up a Schedule
+When Full? When Delta? How Often?
+
+How you set up your schedules and Data Jobs really depends on these three questions:
+
+How often should this data be refreshed?
+What is the effect on the source system of loading this data?
+Is the Replication Cockpit in use?
+
+In answering these questions, you can derive a few basic principles.
+
+RECOMMENDATION	DESCRIPTION
+Prioritize Delta Loads for Transactional Data	In general, it makes sense to use Delta Loads whenever possible for transactional data. Chiefly because you want to reduce your load times and the load on source systems. In terms of frequency, Delta loads for transactional tables will typically run hourly or daily. By transactional, we mean any data directly affecting your Activity and Case tables.
+On some occasions, frequently changing master data such as Exchange Rates, customer or material data can also warrant a daily delta load.
+Use Full loads infrequently and only during off times	Use Full loads to refresh all data and run them in off times—e.g. at night, at a daily or weekly frequency—to reduce the load on source systems during peak times. Ultimately, full loads need to run for all tables at some point but some may be at a higher frequency if there is no delta load possible or metadata changes frequently occur.
+If Replication Cockpit, use mostly Full loads and Data Model loads	In case the Replication Cockpit handles extractions and transformations for transactional data, you may just schedule an hourly or self-triggered reload of the Data Model and rely on regular full loads (daily or weekly) to handle all tables not covered by the Replication Cockpit and refresh the ones that are. Also, make sure to avoid a conflict between your RC and DJ extractions and transformations.
+For the Data Model you can also consider a trigger-based schedule. (more on this on next page)
+Consider granular Data Jobs with different tasks	Large data jobs with all extractions and transformations are only appropriate for infrequent full loads. Make sure to consider splitting your extractions, transformations, and Data Model loads across multiple Data Jobs to have more flexibility with schedules.
+
+----- Page 4 -----
+
+Schedule your Data Jobs appropriately
+Set up a Schedule
+Learning from Process Connectors
+
+Every Marketplace Process Connector comes with a suggested combination of Scheduled Data Jobs based on best practices for the system and process at hand. A great way to get familiar with scheduling best practices is to have a close look at the suggested schedules, Data Jobs, and their tasks when you download a Process Connector.
+
+----- Page 5 -----
+
+Schedule your Data Jobs appropriately
+Set up a Schedule
+Checking Execution
+
+To see if your schedules were executed successfully, you can always navigate to the Execution History (in the top right corner) to check the status, execution times, and logs of your schedules and jobs.
+
+Schedule Logs are Data Job Logs
+
+When you click on a Schedule Log, you will see that it simply takes you to a similar Log screen as when you click on Data Job Logs. The only difference is that one extra level is added to your logs—Data Jobs.
+Logs when clicking on Schedule Logs:
+
+Logs when looking at Data Job Logs:
+
+----- Page 6 -----
+
+Schedule your Data Jobs appropriately
+Set up a Schedule
+
+No topic content.
+
+########################################################################
+  LESSON 4 : Smart ETL
+########################################################################
+
+----- Page 1 -----
+
+Schedule your Data Jobs appropriately
+Smart ETL
+The Order of Tasks within a Data Job
+
+You can determine the order of schedules, but how do you determine the order of tasks within Data Jobs?
+
+When you run a Data Job, you would assume its extractions and transformations run sequentially as they appear in the Data Job:
+
+The more tasks you have, the greater the chances this leads to lost efficiency, especially if many of these extractions and transformations don't depend on one another and could run in parallel.
+
+Historically, transformations ran sequentially but in 2022, Celonis introduced a new important feature that significantly accelerates Data Job load times: Smart ETL.
+
+----- Page 2 -----
+
+Schedule your Data Jobs appropriately
+Smart ETL
+Smart ETL within a Data Job
+
+Instead of having to re-order your extraction and transformation tasks manually, Celonis runs your extractions and transformations in Data Jobs in the optimal way by doing the following:
+
+Calculates the optimal extraction and transformation order: Before each Data Job execution, Celonis calculates the optimal execution order of table extractions and transformations based on the dependencies in a Data Job. For extractions, it takes into account the allowed parallel extractions on a connection, i.e. how many tables Celonis can extract in parallel from a source system. 
+
+Creates a DAG (Directed Acyclic Graph) representing the most efficient execution order to optimize for parallelism.
+
+
+Uses DAG to trigger all extraction and transformation tasks based on the optimal calculated execution order. For example, once a table is extracted, the related transformations start automatically (while independent tables might still be in extraction).
+
+This graphic captures the difference between a sequential execution, a Smart ETL transformation-optimized execution, and a Smart ETL execution optimized for both extractions and transformations. The third approach is the fastest:
+
+Smart ETL for extractions and transformations are turned on by default in your environment. You can toggle them on or off under Execution Settings at the Data Job level. Smart ETL applies to both manual and scheduled Data Job executions.
+
+----- Page 3 -----
+
+Schedule your Data Jobs appropriately
+Smart ETL
+Smart ETL at the Schedule Level
+
+You've seen how Smart ETL optimizes a single data job's extractions and transformations but what if you run multiple data jobs in one schedule? For this, you can activate Smart ETL at the schedule level.
+
+With this active, Smart ETL identifies the dependencies across all tasks in your schedule's data jobs and runs them in an optimized sequence. If a task is dependent on another, you will see this in the execution logs.
+
+Note that Smart ETL for schedules works with frequency-based schedules but not with trigger-based schedules.
+
+To summarize, for the fastest data pipeline execution time, Celonis highly recommends you ensure Smart ETL is active at both the data job and schedule levels.
+
+
+In your training environment, only data job level Smart ETL is availlable by default.
+
+----- Page 4 -----
+
+Schedule your Data Jobs appropriately
+Smart ETL
+
+No topic content.
+
+########################################################################
+  LESSON 5 : Recap on Schedules
+########################################################################
+
+----- Page 1 -----
+
+Schedule your Data Jobs appropriately
+Recap on Schedules
+
+Knowledge Check - Schedule Data Jobs
+
+Start
+
+----- Page 2 -----
+
+Schedule your Data Jobs appropriately
+Recap on Schedules
+Recap on Schedules
+
+This course was all about Schedules:
+
+You looked at:
+
+how schedules allow for continuous executions
+how schedules run entire Data Jobs
+the importance of Data Model Load tasks in Data Jobs
+how scheduled Data Jobs can complement the Replication Cockpit extractions and transformations
+how to set up a schedule, either frequency-based or trigger-based
+basic principles on when to use Delta loads, Full loads and at what frequency
+the best practices on scheduling visible in Marketplace Process Connectors.
+the Smart ETL feature which calculates for you the optimal execution order of transformations within Data Jobs
+
+Well done on completing this course!
+
+In case you activated a schedule as a practice exercise, please make sure to deactivate it in your training environment to avoid unnecessary continuous load on our training servers. Thank you!
+
+Remember to visit the Feedback page. Your feedback is optional but greatly appreciated. 
+
+Want to dig deeper into the topic of this course? Join the Celonis Community to ask your product questions, hear about the latest product releases, and remain up-to-date by subscribing.
+
+We invite you to join our Celonis Academy Group to engage with your peers, get exclusive updates and answers directly from Academy experts, and stay connected!
+
+----- Page 3 -----
+
+Schedule your Data Jobs appropriately
+Recap on Schedules
+
+How satisfied are you with the course?
+
+	★	★★	★★★	★★★★	★★★★★
+Please select a rating					
+
+What did you like most about this course?
+
+What would you improve about this course?
+
+
+⇨ If you have files or screenshots, please send them to academy@celonis.com.
+
+Complete Survey
+
+----- Page 4 -----
+
+Schedule your Data Jobs appropriately
+Recap on Schedules
+
+No topic content.

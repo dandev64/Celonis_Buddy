@@ -1,0 +1,348 @@
+﻿========================================================================
+  CELONIS ACADEMY - OBJECT-CENTRIC PROCESS MINING FOUNDATIONS
+  Extracted: 2026-09-09 13:34  |  Personal study use only
+  Source: https://academy.celonis.com/learn/course/object-centric-process-mining-foundations-1
+  Lessons: 3
+========================================================================
+
+########################################################################
+  LESSON 1 : Introduction
+########################################################################
+
+Introduction
+Welcome!
+
+In this course, get ready to learn about:
+
+core difference between object-centric and case-centric process mining
+advantages of object-centric process mining
+concept of a digital twin made of objects and events
+basic steps to build a digital twin of your business with the Celonis platform
+
+It should take you about 30 minutes to complete this course.
+
+Let's get started by looking at case-centric process mining!
+
+This content is available in multiple languages: English, German, French, Japanese, Spanish, and Portuguese. To switch your language, use the selector in the top navigation bar.
+
+In Courses: Switching languages will not affect your progress. If you are multilingual, comparing languages can even help deepen your understanding.
+In Exams: Do not switch the language once you start the exam. If you switch the language when you're already reviewing questions and answers, the page will refresh, causing your exam attempt to end prematurely. (Note: Once inside the exam course, you can switch the language anytime before clicking the Start Exam button.)
+
+
+
+
+If you encounter any technical or access issues during this course, check out our FAQs in the Support area or reach out to us via our Academy contact form.
+
+
+
+
+Accessibility Support
+
+########################################################################
+  LESSON 2 : Case-Centric Process Mining
+########################################################################
+
+----- Page 1 -----
+
+Case-Centric Process Mining
+What is Case-Centric Process Mining?
+
+
+Case-centric process mining is the most common approach to process mining and has a few defining qualities on the data modeling side:
+
+One case (object) per process
+
+Each process follows ONE object. 
+
+For example, in an Order Management process, a case is typically a Sales Order Item.
+
+In a Procurement process, it is a Purchase Document Item. 
+
+Process events follow the object
+
+All the events that take place in the process are mapped to their single chosen object. The events are inserted into event logs.
+
+Event logs represent processes
+
+Event logs, also known as "Activity Tables", are the centerpiece of process mining. They mainly comprise case IDs, activity names, and corresponding event timestamps.
+
+One or more event log(s)
+
+A simple Data Model for one process has one event log. For more comprehensive views, multi-event logs are needed.
+
+In a nutshell, this approach tracks one object (case) per process and maps all process events into a sequential event log. Here is a simple video that explains in more detail the heart of case-centric process mining—event logs:
+
+Case-Centric = Event Logs for Downstream Activities in the Studio
+
+Using a Data Model based on one or more event logs and other related metadata, process mining activities such as discovery, conformance checking, predictions, and automations can take place. In Celonis, most of these activities are done in the Studio.
+
+
+
+
+Need more information to understand the full picture of case-centricity? Make sure to check our Celonis Kickstarter course.
+
+----- Page 2 -----
+
+Case-Centric Process Mining
+The Value of Case-Centric Process Mining
+
+Case-centric process mining is the main process mining approach in the market. It has added and continues to add value to businesses by:
+
+providing insight into processes based on the chosen case perspective.
+allowing businesses to uncover and fix process inefficiencies.
+helping businesses to track process performance against specific KPIs.
+allowing businesses to fully or partially automate actions based on process data.
+
+And much more. For more specifics on the benefits of case-centric process mining, by process, industry, or by role, make sure to visit the Celonis solutions page.
+
+If the benefits are so great, why is there a need for another approach to process mining?
+
+----- Page 3 -----
+
+Case-Centric Process Mining
+The Limitations of Case-Centric Process Mining
+
+There are certain factors in the case-centric approach that prevent process mining from reaching its full potential. Here is a non-exhaustive list of some of the limitations:
+
+
+Restricted perspective
+Incomplete Information
+Effort to start
+Effort to update
+System dependence
+
+Now let's see how object-centricity can address these issues.
+
+########################################################################
+  LESSON 3 : Object-Centric Process Mining
+########################################################################
+
+----- Page 1 -----
+
+Object-Centric Process Mining
+What is Object-Centric Process Mining?
+
+Here is a short introductory video from Professor Wil van der Aalst explaining the basics:
+
+Transcript
+
+Professor Wil van der Aalst introduces two major aspects of Object-Centric Process Mining:
+
+The ability to capture multiple objects, events, and their relationships.
+The ability to dynamically choose the right perspectives to look at your business from any angle.
+
+Next, let's have a closer look at many of the other potential advantages of object-centric process mining.
+
+----- Page 2 -----
+
+Object-Centric Process Mining
+What are Objects, Events, and Relationships?
+Objects
+Events
+Relationships
+
+In the context of process mining, objects are the physical, tangible parts of your processes. They are the elements affected by events.
+
+In a pit stop scenario, examples of objects are tires, car, driver, and pit crew.
+
+In an order management scenario, the objects are purchase order, sales order, production order, shipment, invoice, goods receipt, and so on.
+
+Together, objects, events, and relationships help you build a realistic model of your business.
+
+----- Page 3 -----
+
+Object-Centric Process Mining
+Building a Digital Twin of your Business
+
+Building a digital twin of your business is the foundation of object-centric process mining. It means using objects, events, and relationships to model the reality of your business.
+
+As you saw, the reality is that objects exist outside of linear, sequential processes, and events can apply to many objects. Instead of forcing your processes into event logs following singular objects, you can more naturally model your business based on its objects and events.
+
+
+A single source of truth with many advantages
+
+This single source of truth, or digital twin, is the new data foundation that can power process mining and insights across Celonis applications.
+
+A digital twin based on objects aims to go beyond the limitations of case-centric data models:
+
+CASE-CENTRICITY LIMITATION	DIGITAL TWIN ADVANTAGE
+Restricted perspective
+A limited, fragmented, and fixed perspective	Flexible multiple perspectives based on a single standardized model
+Incomplete information
+Missing information and context based on selected case in event logs	More accuracy thanks to object modeling
+High Effort
+Higher start and update effort due to SQL-based event logs	Lower start and update effort thanks to UI-based modeling
+System dependence
+Low scaling due to source system dependent scripts	Better scaling thanks to standardized and system-agnostic objects
+
+
+
+
+The advantages summarized in one graphic:
+
+Next, let's zoom in on how Celonis brings object-centricity to life and realizes these advantages.
+
+----- Page 4 -----
+
+Object-Centric Process Mining
+Object-Centric Process Mining: Celonis-Style
+
+Strap on your seat belt—this is where we show you a side-to-side architecture diagram of case-centric process mining compared to object-centric process mining. Make sure to read through the numbered items—they show the steps and tools used to prepare source system data for process mining.
+
+Case-centric process mining:
+
+Import a Connector
+Import a Process Connector template from the Celonis Marketplace.
+
+
+Connect and extract
+Connect to the source system and extract source data.
+
+
+Build a data model
+Build a process data model in tables in the data store (Vertica) by modifying the underlying database structures through SQL. Today we do both with SQL scripts:
+Define and manage the data model on the database.
+Transform the source system data into that data model.
+
+
+Load a data model
+Load the data model with case tables, event logs and metadata to the query engine (Saola) to use it in the Business Miner and in Studio assets.
+Object-centric process mining:
+
+Start with the Celonis Objects and Events
+The object-centric data model is the digital twin that describes a business in objects and events. It comes out-of-the-box with predefined object and event types (i.e. invoices, sales order, etc.) for core use cases of your choice. (More on this on the next page).
+
+
+Customize the model
+You can create custom objects, events, properties and their relationships to meet your specific needs. You can extend the predefined types to model unique elements of your business. Unlike in the case-centric world, the digital twin can easily be reused across different analyses and use cases.
+
+
+Connect and extract
+Connect to the source system and extract source data.
+
+
+Transform
+Transformations are now focused on translating source system structures into the objects and events. You can deploy out-of-the-box transformations for specific systems (SAP, Oracle) or script your own based on your system.
+
+The complexity driver to merge process data into an event log is removed. We simplify the transformations to create single object tables and single event tables.
+
+
+Load a perspective
+A slice of the object-centric data model (digital twin) is loaded to the query engine as a perspective for one use case.A perspective is a subset of all the objects and events we load to the query engine for fast querying with PQL. Perspectives are the interface for Process Adherence Manager, and Process Explorer. For compatibility with case-centric Studio assets, event logs are created.
+
+Next, let's zoom in on the advantages of the object-centric data model.
+
+----- Page 5 -----
+
+Object-Centric Process Mining
+Object-Centric Data Model
+
+The heart of object-centric process mining is the object-centric data model. It acts as a starting point for you to model your business.
+
+
+What is it?
+
+A model with predefined object types, event types, and their relationships for the most common objects across all businesses. You can easily map your business data to the object-centric data model using the supplied connectors for SAP and Oracle. Objects and events are provided for 5 core processes: Order Management, Accounts Payable, Accounts Receivable, Procurement, and Inventory Management.
+
+Extend it
+
+Extend the object-centric data model to build your digital twin by modeling your own reusable object types and event types specific to your unique business requirements.
+
+Dynamic analyses
+
+
+With one standard data representation for all capabilities, you can easily switch your analysis perspective for a deeper and wider view. Existing Celonis assets are not disrupted when you extend the model thanks to the modularity of objects.
+
+Let's sum it up
+
+With the object-centric data model:
+
+
+You don't start from scratch
+You can easily extend the data model
+Modeling is more flexible and modular
+
+Modeling objects and events using the object-centric data model as the foundation is done using an intuitive UI. More on this on the next page.
+
+----- Page 6 -----
+
+Object-Centric Process Mining
+Working with Objects and Events
+
+Here is what you need to know about the advantages of working with the objects and events environment:
+
+Intuitive business language modeling
+
+You work with the human readable names of objects and events (rather than database table names) in a single, reusable and extensible source of truth.
+
+System agnostic
+
+Take advantage of a standardized view of object and event data regardless of source systems used. In the Studio, these object and events are what users see instead of source table names.
+
+Data Modeling is no longer only for Data Engineers
+
+Together, the object-centric data model and the objects and events environment allow the modeling of your business to be visual and driven by your business rather than script-based and driven by a data approach. This reduces the effort of building your data pipeline and renders modeling accessible to less technical users.
+
+----- Page 7 -----
+
+Object-Centric Process Mining
+Clarifying Key Terminology
+
+In learning about object-centric process mining at Celonis, you've now come across a few new specific terms. Here is a list of these terms with their definitions. Feel free to skip, this is simply for you to review and solidify your understanding.
+
+TERM	DEFINITION
+Objects	
+
+Object - A digital representation of something connected to your business that exists in the real world. For example, a customer, a company, an order, or an invoice. Each object represents a single instance of the thing that is defined by an object type.
+
+Object type - A standardized picture of an object in a business (such as an invoice), and what properties it has (such as a currency).
+
+
+Events	
+
+Event - A digital representation of a real-world occurrence that happened, at a single moment in time, to one or more objects connected to your business. For example, an invoice was paid, a user created a purchase order for a vendor's product, a customer placed an order, or an order was shipped. Every event created or added something to an object, or altered one or more properties of the objects involved in the event. We can therefore identify and create events by looking at the timestamps of objects and the change meta-objects that are linked to them.
+
+Event type - A standardized picture of what happens to the properties of objects when an event takes place (such as shipping an order).
+
+
+Relationships	
+
+Object to object relationship - A definition of the expected relationship of one object to another object in a business process. For example, an invoice and a customer are related to each other.
+
+Event to object relationship - A definition of the expected relationship of one event to one object in a business process. An event can have multiple event to object relationships with multiple objects. For example, when a customer places an order, the event of placing the order relates to the order, and also to the customer.
+
+
+Object-centric data model	A set of standardized, system-agnostic objects, events, and relationships designed by Celonis along with pre-built transformations from common source systems.
+Perspective	A Data Model that includes a subset of the object-centric data model and custom-defined object types, event types, and relationships to represent a particular business process or grouping for analysis.
+Event log	An event log built from an object-centric representation of a case, using a perspective. Event logs created from object-centric data models are compatible with apps and views that require case-centric representations.
+
+Looking a definition of other terms? Here is a full glossary of Celonis terms.
+
+----- Page 8 -----
+
+Object-Centric Process Mining
+Recap: Object-Centric Process Mining
+
+Here is a mini-summary of what you learned:
+
+The core difference between object-centric process mining and case-centric process mining
+Modeling with objects and events instead of building event logs based on single cases
+The advantages of object-centric process mining powered by a data model made of objects and events
+Easier modeling and analysis work thanks to human readable business language
+System agnosticity thanks to the object-centric data model and a loading of objects instead of event logs
+Lower start and update efforts in modeling your business
+More accuracy and flexibility in analyses
+The basic steps of building a digital twin of your business with Celonis
+Start with the out-of-the-box object-centric data model that includes 5 core processes
+Extend the object-centric data model with your custom objects and events
+Choose the right perspective for your assets in the Business Miner, Process Adherence Manager, and the Studio
+
+We hope this course was helpful in kickstarting your journey into object-centric process mining. 
+
+If you want to learn more on the topic, check out our OCPM in Action course and our Quick Start video.
+
+Please feel free to leave us your feedback on the next page.
+
+Want to dig deeper into the topic of this course? Join the Celonis Community to ask your product questions, hear about the latest product releases, and remain up-to-date by subscribing.
+
+We invite you to join our Celonis Academy Group to engage with your peers, get exclusive updates and answers directly from Academy experts, and stay connected!

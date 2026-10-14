@@ -1,0 +1,801 @@
+﻿========================================================================
+  CELONIS ACADEMY - ARCHITECT CUSTOM INTEGRATIONS IN ACTION FLOWS
+  Extracted: 2026-09-09 16:59  |  Personal study use only
+  Source: https://academy.celonis.com/learn/course/architect-custom-integrations-in-action-flows
+  Lessons: 8
+========================================================================
+
+########################################################################
+  LESSON 1 : Let's Stay Connected [09:00]
+########################################################################
+
+----- Page 1 -----
+
+Speaking a Universal Language [13:00]
+Let's Stay Connected [09:00]
+Welcome (back)!
+
+In your Action Flow journey so far, you’ve mastered the art of mapping data, handling errors, and navigating the logic of a single flow. You've become proficient with the "paved roads" of Action Flows - using pre-built connectors like Outlook or Slack, where Celonis has already done the heavy lifting of speaking their language.
+
+Next, we are going to expand your reach even further. You are ready to venture into the "universal" territory of integration. Imagine you need to connect to a niche ERP, a custom internal tool, or a specialized financial API where a pre-built module doesn't exist in Celonis Action Flows. To do this, you will recap and intensify how to use HTTP modules and will learn about Webhooks - your universal adaptors to trigger Action Flows "from the outside".
+
+By the end of this journey (on rather unpaved roads), you will be able to:
+
+Generate Webhook Listeners: Turn your Action Flow into a "receiver" that reacts in real-time when external systems push data to it.
+Master Custom Requests: Construct HTTP requests from scratch by interpreting technical API documentation.
+Secure Your Connections: Describe professional authentication methods like OAuth2.0
+Design Feedback Loops: Use the Webhook Response module to "talk back" to the system that triggered your flow.
+Prerequisites Check
+
+Before we start, ensure you are comfortable with basic data mapping and understand how arrays and collections work from the previous courses. More precisely, we recommend completing the following courses before you take on the journey of advanced connectivity:
+
+Introduction to Celonis Studio
+Introduction to Studio Assets
+Introduction to Action Flows
+Configure Action Flows
+
+
+
+
+You will furthermore benefit from having a basic understanding of REST APIs!
+
+All complete? Then here we go!
+
+----- Page 2 -----
+
+Speaking a Universal Language [13:00]
+Let's Stay Connected [09:00]
+Your Universal Adaptor to the Outside World
+
+If pre-built connectors are "ready-made meals," then HTTP and Webhooks are the "raw ingredients" that let you cook from scratch. Use them to build any integration you can imagine (as long as the required endpoints and notifications are available; comparable to having all the ingredients you need).
+
+Leaving the Paved Road
+
+Think of this transition as moving from a paved road to the wilderness.
+
+Pre-configured modules are the paved roads: they have handrails, signs, and a clear path.
+HTTP requests are the wide-open wilderness. There are no handrails here. To navigate successfully, you need a map and a compass. In the world of integration, your map is the API Documentation of the system you are talking to, and your compass is the proper use of your tools such as Headers, Methods, and Payloads.
+Why go Custom?
+
+You will choose to leave the paved road and use a universal adaptor (i.e., HTTP modules and Webhooks) when:
+
+No Connector Exists: You are connecting to a legacy system, a proprietary internal database, or a service that simply does not exist in the Action Flow's pre-built modules.
+Limitations in Pre-built Modules: A connector might have the "Update Record" action, but perhaps it doesn't support the specific custom field or "Deep Search" functionality you need.
+API Versioning: You need to use a brand-new version of an API that the standard connector doesn't support yet.
+
+We've already encountered this situation in the "Configure Action Flows" course when attempting to connect to the "CocktailDB". No connector or pre-built module existed, so we leveraged an HTTP module to make our API calls.
+
+The Core Concept: Requests and Responses
+
+Every time your Action Flow communicates with another system, it’s engaged in a Request/Response cycle. Think of it as a conversation:
+
+The Request: Your flow "knocks on the door" of the external system. It carries an address (the URL), a reason for being there (the Method, like GET or POST), and often a suitcase of data (the Body).
+The Response: The external system answers. It provides a Status Code (like the famous 200 for "OK" or 404 for "Not Found") and usually some information back to you in the form of a Payload.
+Webhooks: The "Call Me Back" Logic
+
+While HTTP modules are used when you want to ask for information (Polling), Webhooks are used when you want the external system to tell you when something happens.
+
+Instead of, for example, checking a database every hour to see if a new ticket was created, a Webhook allows the Support Portal to "ping" your Action Flow the very second a customer submits a request. It turns your flow from a "worker checking a list" into a "listener waiting for a signal."
+
+----- Page 3 -----
+
+Speaking a Universal Language [13:00]
+Let's Stay Connected [09:00]
+The Architecture of a Request
+
+When you leave the "paved road" of pre-built connectors, you are responsible for packaging your data so the receiving system can understand it. In the wilderness of HTTP, data isn't just "text" - it arrives in specific "containers."
+
+The Three Containers of an HTTP Request
+
+As an Action Flow builder, you have three primary ways to send information to an API. Choosing the right one depends on what the "Map" (the API Documentation) tells you to do.
+
+1. Headers: The "Instruction Manual"
+
+Before the receiving system even looks at your data, it reads the Headers. These are like the labels on the outside of a package. They don't contain the "goods," but they tell the system how to handle them.
+
+Content-Type: Tells the system what language you are speaking (e.g., "I am sending you JSON").
+Authorization: The "ID Badge" that proves you have permission to access the system.
+Context: Without the right headers, a system might receive your data but doesn't know how to "read" it.
+
+
+
+
+2. Query Strings: Data in the URL
+
+Sometimes, you only need to send a few simple parameters to "filter" a request. This data is attached directly to the end of the URL.
+
+The Format: It starts with a ? and uses & to separate different pieces of info.
+When to use it: Typically used in GET requests to find specific records (e.g., .../forecast?city=Aachen&units=metric).
+The Limitation: Since the data is part of the URL, it’s visible to everyone and has a size limit. You wouldn't use this for a password or a long paragraph of text.
+
+
+
+
+3. The Body (JSON): The "Suitcase"
+
+When you need to send complex, structured, or large amounts of data, you put it in the Body. The industry standard for this "suitcase" is JSON.
+
+The Format: It uses Keys (labels) and Values (data).
+{
+  "ticket_id": 4502,
+  "priority": "High",
+  "subject": "System Access Issue"
+}
+When to use it: Usually used in POST or PUT requests when you are creating or updating something.
+The Advantage: It’s hidden from the URL, more secure, and can hold thousands of lines of data.
+
+Format matters! Sending a JSON "Body" to a system that only listens for "Query Strings" is like trying to squeeze a parcel through a mail slot. Your first job is to check the documentation to see which "container" the API expects for that specific action.
+
+----- Page 4 -----
+
+Speaking a Universal Language [13:00]
+Let's Stay Connected [09:00]
+Push vs. Pull (optional)
+
+Every automated process has a "heartbeat" - the trigger that tells it to start. As an Action Flow builder, you decide how that heartbeat is generated. This choice determines how fast your data moves and how many "Execution Credits" you consume.
+
+Pull: The Scheduled "Check-in" (Polling)
+
+In a Polling strategy, your Action Flow is the proactive party. It "wakes up" based on a schedule you set (e.g., every 60 minutes) and reaches out to the external system.
+
+The Logic: "I’ll come to you."
+The Reality: Imagine you are waiting for a package. Polling is like walking down to your mailbox every hour to see if it’s there. Sometimes it is, but many times you’re just checking an empty box.
+
+Architect’s Tip: Use Polling when the external system is "old school" and doesn't support modern alerts, or when the data only needs to be updated in batches (like a nightly sync of exchange rates).
+
+Push: The Real-time "Alert" (Webhooks)
+
+In a Webhook strategy, the roles are reversed. Your Action Flow "sleeps" until the external system sends a signal, and the webhook serves as the interface to wake up the Action Flow.
+
+The Logic: "Don't call me, I'll call you."
+The Reality: This is like having a smart doorbell. You don't need to check the porch; your phone pings the exact second someone arrives.
+
+Architect’s tip: Use Webhooks whenever possible for event-driven processes. If a customer cancels an order or a server goes down, you want the flow to react now, not in 59 minutes when the next poll happens.
+
+Efficiency Comparison
+
+TOPIC	POLLING (PULL)	WEBHOOKS (PUSH)
+Reaction Time	Delayed (depends on schedule)	Instant / Real-time
+Efficiency	Lower (uses executions even if no data)	High (only runs when needed)
+Complexity	Simple to set up	Requires a unique "Listener" URL
+
+----- Page 5 -----
+
+Speaking a Universal Language [13:00]
+Let's Stay Connected [09:00]
+
+No topic content.
+
+########################################################################
+  LESSON 2 : Ready for Take Off [04:00]
+########################################################################
+
+----- Page 1 -----
+
+Speaking a Universal Language [13:00]
+Ready for Take Off [04:00]
+Let's Build a Currency Conversion Service
+
+It’s time to build and train your "map and compass" skills. Our goal for this course is to build a (Mini) Currency Conversion Service.
+
+In a first step, we are going to just build out the HTTP request to gather info in real time from a public API about the current currency conversion rate of given base and target currencies. We will leverage the Frankfurter API, which is, similar to the CocktailDB, an open and free to use service.
+
+👉 Please make sure to already open the Frankfurter API's documentation in another tab.
+
+Why the Frankfurter API? It is a reliable "wilderness" environment perfect for our training purposes. It doesn't have a pre-built Celonis connector, which means you will have to build the bridge yourself using the tools we've just discussed: Methods, Headers, and Payloads.
+
+To succeed, you’ll need to interpret its documentation to:
+
+Identify the correct Base URL.
+Define the Query Strings to specify which currencies you want to convert (e.g., GBP to EUR).
+Parse the JSON Response to extract the exact rate.
+
+
+
+
+Once we have the HTTP request perfectly configured, we will move on to step number two, which is turning our "pull"-style module into a "push"-ready service, leveraging the Webhook module. We will get to that in the next chapter.
+
+First up, though, let's make sure the machine's ready to fly!
+
+----- Page 2 -----
+
+Speaking a Universal Language [13:00]
+Ready for Take Off [04:00]
+Pre-Flight Checklist
+
+Access to Central Training Environment Required
+
+This course contains hands-on exercises that require access to this central Celonis training environment.
+
+Not sure if you have access? Click below and we'll either add you to the environment or show you how to access it. Please make sure to disable adblockers on this page if the button is not working for you.
+
+Add me or check my access
+
+As always, for our hands-on parts, make sure you have a proper structure in place in your training team to keep things organized. This means you can optionally create a new space in your training team's Studio and definitely a new package where you'll house your Mini Currency Conversion project.
+
+Inside your new package, also create a new (yet empty) Action Flow to work in for the remainder of this course. You can call it, for example, Currency Conversion Service.
+
+Tip: The Execution Type you choose should be "Automatic" since we'll want to trigger it via a Webhook later on.
+
+Crew, please take your seats. We're ready for takeoff.
+
+----- Page 3 -----
+
+Speaking a Universal Language [13:00]
+Ready for Take Off [04:00]
+
+No topic content.
+
+########################################################################
+  LESSON 3 : Foundations of HTTP [06:00]
+########################################################################
+
+----- Page 1 -----
+
+Outbound Connectivity | HTTP [13:00]
+Foundations of HTTP [06:00]
+Fetch a Converted Currency Value via HTTP
+
+As we have already established, our primary tool for "pulling" data into an Action Flow when no pre-built app is available is the HTTP - Make a Request module. While you’ve used this briefly before, we are now going to configure it with precision to talk to the Frankfurter API.
+
+Since there is no "handrail" here (i.e., no module which would naturally guide you through the required configuration parameters), you are responsible for translating the API documentation into the module's settings.
+
+👉 Your turn! Go ahead and add a new HTTP module to your Action Flow. Your goal: Have it convert £270 (Great British Pounds) into the equivalent amount in Euros!
+
+You find some hints below that build on top of each other. Expand them as you need them.
+
+Hint #1
+Hint #2
+Hint #3
+Solution
+
+Run your Action Flow once. Inspect the output - is it in line with your goal? What is today's exchange rate?
+
+Let's take a closer look at the response next.
+
+----- Page 2 -----
+
+Outbound Connectivity | HTTP [13:00]
+Foundations of HTTP [06:00]
+The Anatomy of a Response
+
+Every time your Action Flow "knocks on the door" of an API, the system answers with a Response. This response is made up of two vital parts: the Status Code and the Data Payload.
+
+
+
+
+1. The Status Code: The "Quick Report"
+
+The Status Code is a three-digit number that tells you at a glance if your request was successful or if something went wrong in the wilderness.
+
+2xx (Success): The most common is 200 OK. It means the bridge is working, and the data is on its way.
+4xx (Client Error): This means the mistake is on your end.
+400 Bad Request: You sent data in the wrong format.
+401 Unauthorized: You forgot your "ID badge" (Authentication).
+404 Not Found: You have the wrong "address" (URL).
+5xx (Server Error): This means the external system is having a bad day. It’s not your fault, but your flow will likely fail.
+2. The Data Payload (The Body)
+
+If the status is 200, the API will deliver the data you asked for. In the case of our Frankfurter API, the response arrives as a JSON object, as you can easily see in the response's header.
+
+The contents of the response we already saw, and you might still be familiar with it from when we pulled drink recipes from the CocktailDB.
+
+Parse Response - Yes or No?
+
+If you kept the "Parse response" option at its default, i.e., "No", your output will look rather raw, including all the structural elements (curly braces, quotation marks) of a JSON object. If you set it to "Yes", this will look a lot nicer to the human eye and will make our lives easier when further processing the HTTP module's output.
+
+If you've taken a look around the available tools in Action Flows already, perhaps you've come across the Parse JSON module, which has the same effect as the "Parse Response" option in the HTTP module. In our case, it might not necessarily make sense to choose the module over the configuration option.
+
+However, there can be use cases where you, for example, want to first modify the raw data string (e.g., appending a value) before parsing it. Here, the "Parse JSON" module may be of use.
+
+Best Practice Tip | When testing your flow, you should always check the Output tab of your HTTP module.
+
+Check the Status: Is it 200?
+Inspect the Body: Does the JSON contain the specific keys (like rates) that you need for your conversion?
+
+Mapping your next step depends entirely on your ability to read this response correctly.
+
+----- Page 3 -----
+
+Outbound Connectivity | HTTP [13:00]
+Foundations of HTTP [06:00]
+
+No topic content.
+
+########################################################################
+  LESSON 4 : Security and Authentication [07:00]
+########################################################################
+
+----- Page 1 -----
+
+Outbound Connectivity | HTTP [13:00]
+Security and Authentication [07:00]
+Handling the "Keys"
+
+In our previous exercise with the Frankfurter API, the "door" was wide open - no password required. However, most business systems (like SAP, Jira, or a private Banking API) are locked. They require a "Key" to prove who you are and what you are allowed to do. These follow global IT standards - not specific to Celonis - , but you need to know which module to grab depending on what the API asks for.
+
+Matching the (HTTP) Module to the Lock
+
+When you look at your "Map" (the API documentation), you will typically see one of three requests. Here is how you handle them in Action Flows:
+
+API Keys / Tokens
+Basic Auth
+OAuth 2.0
+
+Usually just a long string of text. You often send this in the Header section of the standard HTTP - Make a request module, especially when the API wants the key in a specific Header or Query String.
+
+If you want to store your key securely in a Connection object (best for shared flows), use the HTTP - "Make an API Key Auth request" module.
+
+The Golden Rule: Use Connections
+
+Regardless of the method you pick, aim to use a "Connection" whenever possible.
+
+Don't "Hardcode": Avoid typing keys directly into the module fields if a Connection is available.
+Centralized Control: By using a Connection, you store your "Key" in a secure vault. If you change your password, you update it once in the Connection settings, and every flow using it is instantly updated.
+
+----- Page 2 -----
+
+Outbound Connectivity | HTTP [13:00]
+Security and Authentication [07:00]
+Authentication, Authorization & Dynamic Connections
+
+While Authentication and Authorization are general IT concepts, understanding the difference is key to building a secure architecture in Celonis.
+
+The Definition
+Authentication (Identity): Proving who you are (e.g., "I am Nicole, here is my password/token").
+Authorization (Permission): Determining what you are allowed to do (e.g., "Nicole is allowed to read tickets, but not to act on them").
+The Error Decoder
+
+While building Action Flows, these terms help you debug instantly:
+
+401 Unauthorized: This is an Authentication failure. Your "key" is wrong, expired, or mistyped.
+403 Forbidden: This is an Authorization failure. Your "key" is valid, but you aren't allowed to perform that specific action or see that specific data.
+
+Keep in mind, we'll have an entire course coming up on Error Handling in Action Flows!
+
+
+
+
+Taking it Further: Static vs. (Personal) Dynamic Connections
+
+In Action Flows, your choice of Connection is actually a choice in how you handle Authorization:
+
+Static Connections (The Service Account)
+Personal Dynamic Connections (User-Level Authentication)
+
+
+
+
+To see Personal Dynamic Connections in action and how to create them, watch the video below:
+
+
+Video transcript
+
+Have you ever built an Action Flow, connected it to a View, and wondered: 'How do I make sure that a user who clicks this button uses their own account, rather than my one?' Using a single 'Master Connection' for everyone isn't just a security risk—it also ruins your audit trail. If every email or update looks like it came from you, it's impossible to track who actually initiated the action. Personal Dynamic Connections solve this by letting you build a single automation that adapts its permissions—and its identity—to whoever is clicking the button.
+
+To set one up, go to your module—let's use Gmail as an example—and click the three dots next to the Connection box. Select 'Create a dynamic connection'.
+
+Give your connection a name and set a Build-time value. This is a temporary bridge that allows you, the builder, to authenticate right now so you can test the flow and map your data fields. Don't worry—these specific credentials aren't saved when the flow is published. It’s purely for the configuration phase.
+
+Once you publish and link the flow to an Action in a View, the user takes over. When they click the button for the first time, they'll be prompted to provide their own authentication. Now, when the email is sent, it comes from their inbox, and the logs in the target system will correctly show their name, keeping your audit trails clean and accurate.
+
+Users stay in control. They can manage or revoke their stored credentials at any time by going to their Profile and selecting Personal Connections.
+
+As the builder, if you ever need to remove the dynamic requirement from the flow, just head to the Inputs tab in the top bar of the Action Flow editor. From here, you can delete the connection input entirely.
+
+Dynamic Connections bridge the gap between powerful automation, individual security, and accountability. Start building user-driven flows that are secure and fully traceable.
+
+
+
+
+Dynamic connections only make sense when the respective Action Flow is connected to an Action in one of your Celonis Views. The Action Flow, therefore, needs to be set to 'on demand' execution such that you see an option to create a dynamic connection.
+
+----- Page 3 -----
+
+Outbound Connectivity | HTTP [13:00]
+Security and Authentication [07:00]
+
+No topic content.
+
+########################################################################
+  LESSON 5 : From Pull to Push [07:00]
+########################################################################
+
+----- Page 1 -----
+
+Inbound Connectivity | Webhook [27:00]
+From Pull to Push [07:00]
+What are Webhooks?
+
+In the previous chapter, we built a "Pull" system. Your Action Flow had to manually go out and ask the Frankfurter API for data. In the professional world, we call this Polling.
+
+But what if you need to react the second an invoice is blocked, a ticket is created, or a user hits a button? You don't want to wait 15 minutes for the next "check." You want the system to tell you the moment it happens. This is where Webhooks come in.
+
+Think of a Webhook as a Reverse API:
+
+With an HTTP Request, you are the caller.
+With a Webhook, you are the receiver.
+
+When you add a Webhook module to the start of your flow, Celonis generates a unique, private URL. This URL acts as a "Digital Ear" that sits in the cloud, listening. The moment an external system sends a package of data to that URL, your Action Flow "wakes up" and starts running instantly.
+
+Why use Webhooks?
+
+Webhooks provide major architectural advantages:
+
+Zero Latency: There is no "wait time" between an event happening and your flow starting. It is near-instant.
+Efficiency: Your flow only consumes resources when there is actual work to do. You stop "wasting" runs on checking for data that hasn't changed.
+Scalability: Webhooks are built to handle high volumes of "pushes" from multiple sources without needing to manage complex schedules.
+Connectivity: It allows Celonis to "talk" to almost any system that can send an HTTP request, even if there isn't a pre-built connector.
+Webhooks in Disguise: "Watch" Modules
+
+You might have noticed that many pre-built app connectors in Celonis (like Jira, Salesforce, or Slack) don't call their triggers "Webhooks." Instead, they use terms like "Watch Records" or "New Event Trigger."
+
+It's important to know that many of these are essentially Webhooks in disguise. The pre-built module handles the complex URL generation and "handshake" with the other system for you, but the architectural logic is the same: the module sits and waits for a "Push" notification from the external app.
+
+When you DON'T need a Webhook
+
+There are two particular scenarios where you might be tempted to start your Action Flow with a Webhook module, but where it is actually not required! And that is when you want to connect an Action Flow to an Action inside a Celonis View (i.e., someone is clicking a button in a View which is expected to trigger the flow), or when Action Flows are a process step in Process Orchestrations.
+
+In these cases, the platform handles the connection internally and automatically - you can simply add the module that's supposed to take action right away!
+
+Enough talking about Webhook modules! Let's add our own one to our Action Flow!
+
+----- Page 2 -----
+
+Inbound Connectivity | Webhook [27:00]
+From Pull to Push [07:00]
+Add a Webhook Receiver Module
+
+To transform our flow from a manual tool into an automated listener, we need to add a Custom Webhook module. This module will act as the new "starting line" for our process.
+
+👉 Step 1: Give it a shot yourself! 
+
+Try adding the Custom Webhook module and making it "officially" the first module of the flow as you have learned it in the previous courses (no need yet to deal with its configuration details). Compare your solution once done.
+
+Solution
+
+Step 2: Generating the Unique Listener URL
+
+Once you have added the module, you need to "Create a Webhook."
+
+Click Add in the module settings.
+Give it a recognizable name (e.g., Currency_App_Receiver).
+Celonis will immediately generate a unique Webhook URL.
+
+This URL is the specific "address" where external systems will send data. It looks something like this:
+
+https://yourtrainingteam.training.celonis.cloud/ems-automation…
+
+
+
+
+Tip: Managing and Sunsetting Webhooks
+
+
+
+
+Step 3: Initializing the Webhook
+
+After creating the URL (the webhook), you’ll notice the module says "Celonis is now listening for data…" This is a crucial step. Celonis knows where the data is coming from, but it doesn't know what the data looks like yet.
+
+To "teach" the flow the data structure, you need to send a sample data set to that URL; either the professional way with a tool like Postman or just by simply opening another browser tab window and making the request from there.
+
+You will need to initialize the webhook with three parameters: the target currency, the base currency, and the amount.
+
+To do the "initialization", just add those parameters with a sample value as query strings to the URL.
+
+👉 Once again, give it a shot yourself! Then open the solution below.
+
+Solution
+
+Once the Webhook "hears" the test, you will see a "Successfully determined" message (the same time you see "accepted" in the tab) - no matter whether the data you have sent is in that sense "correct", i.e., whether these are a proper reflection of what you expect the Webhook to receive. In case something went wrong, you can always redetermine the data structure!
+
+By determining the data structure, Celonis automatically creates the data pills (variables) for the rest of your flow. For our app, once the Webhook receives a test payload containing amount, target, and base those fields become available for you to map into your HTTP module.
+
+----- Page 3 -----
+
+Inbound Connectivity | Webhook [27:00]
+From Pull to Push [07:00]
+
+No topic content.
+
+########################################################################
+  LESSON 6 : Dynamic Data Mapping [10:00]
+########################################################################
+
+----- Page 1 -----
+
+Inbound Connectivity | Webhook [27:00]
+Dynamic Data Mapping [10:00]
+Map the Payloads
+
+In the previous step, you initialized your Webhook. Celonis now knows to expect three specific data points: amount, target, and base.
+
+Currently, however, your HTTP module is still hardcoded - it’s likely still asking the Frankfurter API for the same fixed values you typed in during chapter 2. We now need to bridge the gap so the HTTP module uses whatever data the Webhook just received.
+
+From Static to Dynamic
+
+Mapping is the process of replacing hardcoded text with data pills. You have done this before, so we trust you can take this step on your own without a lot of handholding – give it a shot and compare your solution afterwards!
+
+Solution
+Handling "Missing" Data
+
+As someone architecting Action Flows, you should always keep the big picture in mind and think about what happens if a user (or an external system) forgets to send a value.
+
+Based on what you have learned about the Frankfurter API so far (feel free to revisit its documentation): What do you think will happen for the two requests below, respectively? (Think about it - or try it! - first, then expand)
+
+yourWebhook.url?target=CAD
+
+The Action Flow will execute successfully, returning the equivalent amount of 1 EUR in CAD (Canadian dollars). Keep in mind that, by default, the Frankfurter API assumes the base currency to be EUR and that it simply returns the currency exchange rate of the requested target currency for 1 EUR.
+
+Specifying a base currency and an amount is therefore not mandatory for the HTTP module to execute successfully.
+
+yourWebhook.url?base=CAD&amount=20
+
+The Action Flow will again execute successfully, which is mainly due to the flexibility of the Frankfurter API. It now returns the equivalent of 20 CAD in all the currencies it has access to, elegantly handling the fact that no target currency was specified (of course, this was the intention anyways to receive all those exchange rates, right? 😉).
+
+yourWebhook.url?base_value=CAD&value=20
+
+Looking at the execution history of our Action Flow, it again ran successfully! And that's despite us having sent parameter names that weren't even defined! The result of the webhook module is probably not what we have expected based on our request, though, since what we got are all the exchange rates equivalent to 1 EUR.
+
+This is not the Action Flow's fault, though; it (or rather the Frankfurter API) again gracefully handled the situation, acknowledging that in this case "no inputs" (or at least no relevant or mapped ones) have been sent over.
+
+It looks like our Action Flow is invincible - nothing seems to be able to break it… Which is not necessarily exactly right, as we saw in the last scenario. What is happening may rather be titled a silent error.
+
+Would Action Flow Inputs "fix" this?
+
+You might think: "I'll just add mandatory Scenario Inputs to force the flow to break if a parameter is missing!" Caution: This will cause every external Webhook call to fail.
+
+Why? Celonis expects Inputs to be passed via its own internal "form" (usually an Action Button in a View).
+
+Therefore... If you call the URL from a browser or Postman, the Input Validator says: "I don't see the official Celonis form data!" and kills the run before it even starts.
+
+Not to worry, though - we learned about other mechanisms, like for example filters and conditions before, which will lead to the desired result one way or another… even though we won't look at these options in detail now.
+
+----- Page 2 -----
+
+Inbound Connectivity | Webhook [27:00]
+Dynamic Data Mapping [10:00]
+Behind the Scenes: Webhook Metadata
+
+When you look at the output of your Webhook module, you’ll see an additional field other than just the parameters you initialized the webhook with: it's an output called Value which contains some information on Length, Codepage, and Checksum...
+
+If you see that value in your webhook output, it's not an error—it’s a confirmation of how your data traveled:
+
+Length: 0 – This confirms that the Body of the HTTP request was empty. This makes sense for us because we attached our data to the tail of the URL as query parameters.
+Codepage: Binary – This tells you the system is looking at the raw data "envelope." Since there’s no text in the body, it defaults to a binary check.
+Checksum: da39a3ee... – This is the "Famous Fingerprint." This specific SHA-1 hash is the mathematical signature for an empty string. If you see this exact code, it’s a pro-tip that no payload body was received.
+Why does this matter?
+
+Later in your career, you might work with Webhooks that receive large files or complex JSON bodies. In those cases, the Length and Checksum are your first line of defense to ensure the data wasn't corrupted during the "Push."
+
+----- Page 3 -----
+
+Inbound Connectivity | Webhook [27:00]
+Dynamic Data Mapping [10:00]
+Interpret API Documentation
+
+As your app grows, so will the requirements. A simple one-to-one conversion is great, but what if your user wants to see the value of their 270 GBP in both EUR and USD at the same time?
+
+Before you start adding new modules or complex logic, a professional builder always goes back to the Source of Truth: the API Documentation.
+
+Challenge: Multi-Currency Support
+
+Your task is to allow the flow to accept multiple target currencies in a single run.
+
+The Goal: Send one request and get multiple exchange rates back.
+The Hint: Take a close look at the Frankfurter API documentation regarding parameters. Do you need to change your Action Flow logic, or just how you "talk" to it?
+
+
+
+
+Solution
+Spotting the "Aliases"
+
+While scrolling through the Frankfurter documentation, did you notice anything odd about the parameter names?
+
+Up until now, we have been using from and to as the query parameter names in our HTTP module! While it doesn't matter what the parameters are called that we receive via the webhook, it does seem kind of odd that our query parameter names in the HTTP module obviously differ from what the documentation lists- and still work perfectly!
+
+base (instead of from)
+symbols (instead of to)
+
+
+
+
+Why does this matter? from and to are what we call Aliases. They are "friendly" names the developers added to make the API easier to use. However, aliases aren't always guaranteed to be supported forever, and they might not support every feature of the API.
+
+Best Practice: Stick to the documentation
+
+In professional integration architecture, the best practice is to always use the official parameter names defined in the documentation. This ensures your flow is "future-proof" and behaves exactly as the API creators intended.
+
+👉 Align with the Documentation
+
+It's time for a quick "clean up." Even though your flow is working, let's align it with the official Frankfurter API standard and update the Query String keys in your HTTP module to match (unless you did so from the beginning; in that case, well done!).
+
+Solution
+
+----- Page 4 -----
+
+Inbound Connectivity | Webhook [27:00]
+Dynamic Data Mapping [10:00]
+
+No topic content.
+
+########################################################################
+  LESSON 7 : Closing the Loop [10:00]
+########################################################################
+
+----- Page 1 -----
+
+Inbound Connectivity | Webhook [27:00]
+Closing the Loop [10:00]
+Add a Webhook Response Module
+
+If you trigger your current Webhook from a browser tab, you’ll see the word "Accepted" on a blank screen. In the world of Webhooks, this is the equivalent of a "Thumbs Up." It means Celonis received the data, but it doesn't tell the sender what happened next.
+
+To make our Currency Conversion Service useful, we need to send a Response back to that browser tab with the actual conversion results.
+
+To do this, we use the Webhook Response module.
+
+👉 Step 1: Give it a shot!
+
+Try to add the Webhook Response module to the end of your flow. Your goal is to make that browser tab display a simple sentence like: "Your converted value is [Value] [Currency]."
+
+Expand the hints below as you need them.
+
+Hint #1
+Hint #2
+Hint #3
+Solution
+Plain Text vs. Structured Data
+
+For now, we are returning Plain Text. It’s simple, readable, and proves the loop is closed. However, as you become a more advanced builder, you might want to return JSON or even HTML to create a beautifully formatted report or to allow another system to read your app's output automatically.
+
+Let's take a brief look at how to make our response page look more professional on the next page.
+
+----- Page 2 -----
+
+Inbound Connectivity | Webhook [27:00]
+Closing the Loop [10:00]
+Beautify your Webhook Response
+
+Since a Webhook response is often viewed in a browser, we can leverage HTML to create a structured, visually appealing result.
+
+Leveraging AI for UI
+
+You don't need to be a Front-End Developer to create a nice layout. This is a perfect use case for Generative AI.
+
+The Prompt: Try asking an AI (like Gemini or ChatGPT) something like:
+
+"Write a simple, clean HTML template for a currency conversion result. I need placeholders for: Base Currency, Target Currency, Original Amount, and Converted Amount. Use a 'Success' green color scheme and center the content."
+
+Once you have your code, you can paste it directly into the Body field of your Webhook Response module and swap the placeholders for your data pills.
+
+Professional Polish: The Content-Type Header
+
+If you paste your HTML code and run the flow, you'll likely notice it works immediately. Modern browsers are usually smart enough to see the HTML tags and render the page correctly.
+
+However, as a best practice, you shouldn't leave this to "guesswork." To ensure 100% compatibility across all browsers and devices, you should explicitly tell the receiver what kind of data you are sending:
+
+Open your Webhook Response module and click on Show advanced settings.
+Under the Headers section, click Add item.
+Key: Content-Type
+Value: text/html
+
+Adding the Content-Type header is a "fail-safe." It ensures that no matter what system is calling your Webhook, it knows exactly how to interpret the data you're sending back.
+
+(One) Solution
+
+----- Page 3 -----
+
+Inbound Connectivity | Webhook [27:00]
+Closing the Loop [10:00]
+Webhooks: The Big(ger) Picture
+
+Congratulations! You have officially "closed the loop" on your first custom integration. While we used a simple currency converter, the implications of what you just built are significant for enterprise-scale automation.
+
+While Action Flows have many "Watch" modules that monitor standard apps (like SAP or Salesforce), the Webhook module is your "Universal Adapter." It means your automations are no longer limited by what has been pre-built in the Celonis library.
+
+By using Webhooks, you can:
+
+Go Beyond the Library: Trigger flows from custom-built internal tools, niche software, or any platform that doesn't have a dedicated Celonis "Watch" module.
+Enable Event-Driven Ecosystems: Move from "polling" (regularly checking for changes) to a true "push" architecture, where an external system tells Celonis exactly when to start working.
+Control the Response: As you saw with our Currency Converter, you can send back specific data or even formatted HTML to provide a clear, readable result to whoever (or whatever) triggered the flow.
+Real-World Webhooks: Beyond the Browser
+
+In this lesson, we used the browser’s URL bar to trigger our flow. This procedure is usually done for testing purposes only, though. In a professional setup, a Webhook is a "silent listener" that connects two systems automatically.
+
+Typical real-world examples include:
+
+E-Commerce: A "New Order" event in a custom Shopify storefront sends a Webhook to Celonis to instantly check for inventory gaps or credit blocks.
+Customer Support: A "High Priority Ticket" created in Zendesk triggers a Webhook that prompts Celonis to analyze the customer's payment history and alert the agent in real-time.
+Legacy System Bridge: A custom internal database with no standard connector is programmed to "push" record updates to a Celonis Webhook for instant process monitoring.
+
+The "push" that a given system would give is equivalent to you hitting "Enter" in your browser tab's URL bar.
+
+Webhooks and Celonis-triggered Action Flows
+
+We mentioned it before, but perhaps it's worth reiterating: Action Flows, which are supposed to be triggered via a Celonis View (e.g., via an action button in a table) or in a Process Orchestration, do not require a webhook as a starting module. Instead, make sure to define proper inputs for your Action Flow, which can natively be mapped with variables and data from your Celonis View or Process Orchestration.
+
+With that established, let us take a concluding look at some additional design considerations when it comes to implementing the flow of data in between multiple systems and other methods than we did in the hands-on parts of this course.
+
+----- Page 4 -----
+
+Inbound Connectivity | Webhook [27:00]
+Closing the Loop [10:00]
+
+No topic content.
+
+########################################################################
+  LESSON 8 : Wrap Up [06:00]
+########################################################################
+
+----- Page 1 -----
+
+Next Steps with HTTP and Webhook Modules [06:00]
+Wrap Up [06:00]
+
+Let's see how well you've learned to handle a map and a compass!
+
+Start
+
+----- Page 2 -----
+
+Next Steps with HTTP and Webhook Modules [06:00]
+Wrap Up [06:00]
+Congratulations!
+
+Congratulations! You’ve moved from using pre-built integrations to building your own connectivity infrastructure!
+
+Specifically, you've successfully mastered:
+
+The Outbound Journey (HTTP): You learned how to consult official API documentation to fetch data you need, which can not be obtained through the pre-configured Celonis modules.
+The Inbound Journey (Webhooks): You built a "Digital Ear" that allows Celonis to react to real-world events the millisecond they happen.
+Security & Architecture: You mastered Dynamic Connections to keep credentials safe and learned when to use the Postcard Rule (Query Strings) versus the Sealed Envelope Rule (Request Body).
+Navigating Complex Data: You learned how to handle API responses where the information you need is "hidden" behind dynamic keys, using advanced mapping techniques to extract exactly the right output.
+Ready for the Next Level?
+
+We’ve mastered the path of data, but in the real world, the shape of data can get messy. What if you need to convert 50 currencies at once? Or what if you need to clean a complex list before sending it to SAP?
+
+To learn how to handle these advanced scenarios, your next stop in the training track is:
+
+Case Study: Advanced Data Restructuring in Action Flows
+
+In this upcoming case study, we return to the Currency Converter as our playground to master:
+
+Celonis Action Triggers: Reinforcing how to launch flows directly from your Studio Views.
+Iterators & Aggregators: Learning how to "loop" through large lists of data without breaking your flow.
+Advanced Data Wrangling: Techniques for transforming complex JSON structures into clean, usable business information.
+
+
+
+
+See you there!
+
+Your Celonis Academy team
+
+----- Page 3 -----
+
+Next Steps with HTTP and Webhook Modules [06:00]
+Wrap Up [06:00]
+
+How satisfied are you with the course?
+
+	★	★★	★★★	★★★★	★★★★★
+Please select a rating					
+
+What did you like most about this course?
+
+What would you improve about this course?
+
+
+⇨ If you have files or screenshots, please send them to academy@celonis.com.
+
+Complete Survey
+
+----- Page 4 -----
+
+Next Steps with HTTP and Webhook Modules [06:00]
+Wrap Up [06:00]
+
+No topic content.

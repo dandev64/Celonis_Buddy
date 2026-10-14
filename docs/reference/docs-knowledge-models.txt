@@ -1,0 +1,4385 @@
+﻿=== Celonis Docs: knowledge-models ===
+
+--- Knowledge Models ---
+https://docs.celonis.com/en/knowledge-models.html
+Celonis Product DocumentationStudioKnowledge Models
+Knowledge Models
+
+A Knowledge Model (KM) is a Studio package asset that stores and manages reusable business entity definitions, such as KPIs, variables, and attributes. Defining this logic centrally within a Knowledge Model lets you reference these entities across package assets and supply business logic and data to published applications.
+
+Knowledge Models connect your data models to user interfaces, transforming raw ingested data into accessible business metrics. When underlying data models change, the Knowledge Model automatically updates so those changes are reflected across all linked Views and published applications.
+
+Collapse all
+Knowledge Model entities
+
+The following business entities are stored and updated within a Knowledge Model.
+
+Filter
+
+Entity type
+
+	
+
+Description
+
+	
+
+Use case example
+
+	
+
+Link
+
+
+
+
+Action
+
+	
+
+Interface configuration linking buttons in Celonis Platform tables and Views directly to Action Flows.
+
+	
+
+Placing a manual Release Payment Block or Send Reminder button directly inside an operational table View.
+
+	
+
+Actions (legacy).
+
+
+
+
+Augmented attribute
+
+	
+
+Attribute that adds contextual information to source tables and is updated in real time without reloading the data model.
+
+	
+
+Allowing business users to input manual status notes or update risk categories directly from operational Views.
+
+	
+
+Augmented attributes
+
+
+
+
+Calculated attribute
+
+	
+
+Virtual columns created using PQL formulas that are evaluated at runtime and display calculated metrics in Views.
+
+	
+
+Calculating net payment terms or days overdue dynamically based on invoice baseline dates without re-ingesting data.
+
+	
+
+Calculated attributes
+
+
+
+
+Event log
+
+	
+
+Objects that capture activity table event sequences that are used to power case and process explorers inside Studio Views.
+
+	
+
+Mapping process event sequences (e.g., "Create Purchase Order" to "Receive Goods") for display in Process Explorer components.
+
+	
+
+Event logs (case-centric).
+
+
+
+
+Filter
+
+	
+
+Centralized PQL filter statements that apply logic across a specific component or all objects within the Knowledge Model.
+
+	
+
+Excluding cancelled purchase order line items consistently across all linked analytical components in a package.
+
+	
+
+Filters
+
+
+
+
+KPI
+
+	
+
+Quantifiable measures of performance over time that can be displayed in View components like charts and KPI cards and lists or referenced by other KPIs.
+
+	
+
+Tracking process performance indicators such as On-Time In-Full (OTIF) delivery rate or Automation rate across teams.
+
+	
+
+KPIs
+
+
+
+
+Record
+
+	
+
+Represents data model tables or objects with custom metadata (names, descriptions) and unique key column definitions.
+
+	
+
+Standardizing primary key structures for Purchase Orders or Sales Orders to link case-centric and object-centric tables.
+
+	
+
+Records
+
+
+
+
+Trigger
+
+	
+
+Logic that automatically detects record items matching defined criteria and triggers associated Action Flows.
+
+	
+
+Detecting high-value invoices that exceed credit thresholds to automatically execute an Action Flow for review.
+
+	
+
+Triggers
+
+
+
+
+Custom object (Legacy Views only)
+
+	
+
+Custom entities and attributes that are defined using YAML to extend legacy View components in Studio.
+
+	
+
+Defining custom YAML configuration schemas to extend specialized legacy View components.
+
+	
+
+Custom objects and attributes (legacy views only)
+
+
+
+
+Flag (Legacy Views only)
+
+	
+
+Objects that capture and highlight specific unwanted process behaviors (execution gaps) impacting KPIs.
+
+	
+
+Tagging and quantifying execution gaps, such as price changes occurring after purchase order creation.
+
+	
+
+Flags (legacy views only)
+
+
+
+
+Record identifier (Legacy Views only)
+
+	
+
+Defines unique entity keys using an individual column or a concatenation of columns from the underlying data model table.
+
+	
+
+Establishing unique key identification rules for a record (for example, combining PO_NUMBER and PO_ITEM as a compound key).
+
+	
+
+Record identifiers (legacy views only)
+
+
+
+
+Variable (Legacy Views only)
+
+	
+
+Centrally managed static or dynamic values referenced across multiple entities within the same Knowledge Model.
+
+	
+
+Storing a shared target threshold (such as a standard approval limit) referenced by multiple legacy View components.
+
+	
+
+Variables (Legacy Views)
+
+Related topics
+
+Creating Knowledge Models
+
+Modeling your data
+
+Asset-to-asset dependencies
+
+--- Relabeling events in the Knowledge Model ---
+https://docs.celonis.com/en/relabeling-events-in-the-knowledge-model.html
+Celonis Product DocumentationObjects and EventsModeling objects and eventsEventsRelabeling events in the Knowledge Model
+Relabeling events in the Knowledge Model
+
+In object-centric data models, a single table often captures a wide variety of change events. Relabeling these events within your Knowledge Model (KM) allows you to isolate and differentiate those changes using specific event attributes. This approach keeps your data transformation logic highly scalable, eliminating the need to duplicate complex SQL statements for every minor change variation.
+
+Relabel events in your Knowledge Model (KM) to differentiate a central change event using its specific attributes.
+
+Scale data transformation logic without writing manual SQL duplication for multiple change types.
+
+Create cleaner process variants in your downstream analytics.
+
+For more information about object-centric event logs, see: Event logs (object-centric).
+
+Collapse all
+Relabeling events
+
+To relabel events in the Knowledge Model (KM):
+
+Click Studio and then open the package containing the KM you want to create the event log in.
+
+Select the KM asset and then click Event Logs.
+
+Click Create Event Log, add a display name, and optionally a description.
+
+The system automatically generates an ID based on the display name for use in PQL statements. Modify this ID manually if your configuration requires a custom identifier.
+
+Select the lead object for the event log. The dropdown displays the objects available in your perspective.
+
+Select the events that are relevant for the process you are tracing. The dropdown lists all the events in your perspective.
+
+Configure dynamic events by appending event type attributes:
+
+Click the three dots by the name of an event type, and select Relabel event.
+
+Click Add attribute, and select an attribute from the list.
+
+The preview updates immediately to include the new attribute in the Activity Details column. Add multiple attributes across multiple events as required by your process scope.
+
+Tip
+
+Prone to Errors: Do not use numerical attributes. Numerical attributes generate a high volume of unique event variations, which decreases data model loading performance.
+
+Drag and drop attributes to arrange them. Celonis concatenates the attributes in your specified order.
+
+After adding the attributes, click Back.
+
+Choose your event log table settings, including:
+
+Activity column: Select the activity column to visualize in the Process Explorer. The system defaults to 'Activity'.
+
+Sorting column (optional): Configure a sorting column if your dataset includes activities with identical timestamps. Missing sorting configurations for identical timestamps cause inaccurate process graphs based on arbitrary implementation details.
+
+Verify the event log configuration using the generated table and graph previews.
+
+The system samples your data to display these previews.
+
+Click Save.
+
+Related topics
+
+Model with AI
+
+Object and Event IDs
+
+Objects and Events
+
+--- Creating Knowledge Models ---
+https://docs.celonis.com/en/creating-knowledge-models.html
+Celonis Product DocumentationStudioKnowledge ModelsCreating Knowledge Models
+Creating Knowledge Models
+
+A Knowledge Model (KM) is a Studio asset that defines the business logic and semantic layer for Celonis applications. By mapping raw Data Model tables to meaningful business entities and KPIs, the Knowledge Model ensures consistency and reusability across all package assets and components.
+
+You can create a Knowledge Model when creating a Studio package. Alternatively, you can add a Knowledge Model to an existing package.
+
+The Knowledge Model type depends on whether you create a model from scratch (Base type) or build on an existing model to customize content for specific use cases (Extension type).
+
+To understand how Studio assets are structured, see Workflow and content structure.
+
+Collapse all
+Creating a Knowledge Model with package creation
+
+You can create a Knowledge Model when creating a Studio package with either the View or Analysis initial content option selected. This creates a draft package with a Knowledge Model containing entities auto-generated from the associated Data Model.
+
+To create a Studio package from your Studio space:
+
+Click Create Package.
+
+Configure your package settings using the following fields:
+
+Package name: Enter an internal reference name for this package.
+
+Description: Enter optional context or details about the package purpose for team members.
+
+Initial content: Select View or Analysis.
+
+Data Model: Select the target Data Model for this package.
+
+Package key: Edit or copy the package key to grant external applications access to this package.
+
+Language: Select the default language for the package.
+
+Click Create.
+
+The system creates the package along with an initial Knowledge Model asset named after the selected Data Model.
+
+Click the Knowledge Model asset to view, edit, or create entities.
+
+Creating a Knowledge Model within an existing package
+
+You can create multiple Knowledge Models within an existing package:
+
+Click New asset - Knowledge Model.
+
+Configure your Knowledge Model using the following fields:
+
+Name: Enter an internal reference name for this Knowledge Model.
+
+Key: Enter the unique key used by other assets to reference this Knowledge Model.
+
+Data Model variable (optional): Select the variable referencing the data for this Knowledge Model. You can update or edit this variable after creation using the Data Model dropdown menu.
+
+Knowledge Model type: Select Base or Extend an existing KM. For details, see Knowledge Model types.
+
+Click Create.
+
+The Knowledge Model is created and added to the package.
+
+Knowledge Model types
+
+When creating a Knowledge Model, choose between two model types:
+
+Filter
+
+Knowledge Model type
+
+	
+
+Description
+
+	
+
+Use case
+
+
+
+
+Base
+
+	
+
+Automatically populates business entities with data from the Data Model while allowing custom KPI and record definitions.
+
+	
+
+Starting a new project with a specific Data Model, or building standalone, bespoke solutions.
+
+
+
+
+Extension
+
+	
+
+Acts as a child Knowledge Model that inherits logic from a parent Knowledge Model. Package dependencies allow reuse of global KPIs alongside location-specific attributes and records.
+
+	
+
+Maintaining core corporate standard data while enabling individual departments or regions to customize views without duplicating work. See Extending an existing Knowledge Model.
+
+Note
+
+You can create additional entities or edit existing entities in both Base and Extension Knowledge Models.
+
+Extending an existing Knowledge Model
+
+To extend an existing Knowledge Model in a package, click Settings - Extend.
+
+This opens the Create Knowledge Model view and automatically lists the parent package as a dependency.
+
+Click Add Dependencies to select additional Studio packages within your team (subject to user permissions). Adding package dependencies allows you to extend Views and Knowledge Models to reuse their underlying logic.
+
+Knowledge Model view options
+
+Use View Options in the Knowledge Model interface to control display settings for:
+
+Entities
+
+Table columns
+
+Hidden entities and table columns are omitted from the Knowledge Model interface display, but remain active within the Knowledge Model and any referencing Studio assets.
+
+Showing and hiding entities in the Knowledge Model interface
+
+To show or hide entities in the Knowledge Model interface:
+
+Open a Knowledge Model.
+
+Select View Options.
+
+In the horizontal tabs, select the entities you want to display or hide.
+
+Showing and hiding table columns in the Knowledge Model interface
+
+To show or hide table columns in the Knowledge Model interface:
+
+Open a Knowledge Model.
+
+Select View Options.
+
+Select Columns Display.
+
+Select the table columns you want to display or hide.
+
+Click Apply.
+
+Setting validation statuses in a Knowledge Model
+
+You can optionally set the validation status of Knowledge Model metrics, filters, and calculated attributes. This helps users understand the level of confidence they should have in those metrics, filters or calculated attributes. An internal note can also be added to provide additional context. Once a validation status is set for a metric, filter or calculated attribute in a Knowledge Model, the validation status will automatically update and be displayed for that metric, filter or calculated attribute everywhere that Knowledge Model is used.
+
+To set the status of of a Knowledge Model metric, filter or calculated attribute:
+
+Open a Knowledge Model in edit mode.
+
+Select the three-dot button.
+
+The Edit menu appears.
+
+Select Edit.
+
+Knowledge Edit Mode opens.
+
+Select a Validation Status and optionally add an Internal Note.
+
+For more information, see Knowledge Model validation statuses.
+
+Select Save.
+
+The Validation Status displays for the metric.
+
+Knowledge Model validation statuses
+
+The following validation statuses are available for Knowledge Model metrics, filters, and calculated attributes.
+
+Status
+
+	
+
+Description
+
+
+
+
+Validated
+
+	
+
+Validated and approved for us.
+
+
+
+
+In Review
+
+	
+
+Currently being reviewed. Should be used with caution.
+
+
+
+
+Deprecated
+
+	
+
+While this may still work, not recommended for use as it will be removed or replaced.
+
+
+
+
+Open
+
+	
+
+Under active development. May still change significantly.
+
+Knowledge Model best practice
+
+When Knowledge Models are very large, performance and editor load times may be negatively affected. Following these best practice guidelines will help you optimize your Knowledge Models.
+
+Note
+
+If your Knowledge Model exceeds the maximum recommended size, a warning will display in the Celonis Platform. While you can continue to use the Knowledge Model, its performance will not be optimal.
+
+Split large Knowledge Models into multiple smaller Knowledge Models based, for example, on individual use cases. You can use the KM base-extension mechanism to share commonly-used knowledge across these Knowledge Models.
+
+Replace duplicate PQL logic with KPIs or variables. This will also increase the maintainability of the PQL and make it easier to read business definitions.
+
+Delete any unused entries in your Knowledge Model.
+
+Related topics
+
+Knowledge Models
+
+Views
+
+Versioning and deploying packages
+
+--- Calculated attributes ---
+https://docs.celonis.com/en/knowledge-model---calculated-attributes.html
+Celonis Product DocumentationStudioKnowledge ModelsCalculated attributes
+Knowledge Model - Calculated Attributes
+
+Calculated attributes allow you to extend the physical tables (Records) of your Data Model by adding virtual columns directly within the Knowledge Model. Unlike standard attributes that pull data directly from your source system, calculated attributes use PQL (Process Query Language) to transform, aggregate, or categorize data at runtime.
+
+By defining these calculations in the Knowledge Model rather than in individual Views, you create a "single source of truth." This ensures that complex logic—such as custom date differences, string concatenations, or status bucketing—remains consistent across all Studio assets and analyses within your package.
+
+The key benefits of using calculated attributes include:
+
+Reusability: Define a calculation once and reference it across multiple components and Views.
+
+Flexibility: Perform logic that isn't present in your underlying Data Model without requiring a full data reload.
+
+Consistency: Centralize business logic to ensure all users see the same calculated values (e.g., "Net Order Value").
+
+Collapse all
+Creating calculated attributes in the Knowledge Model
+
+As calculated attributes based on tables in your Data Model, they are created from record attributes. For more information about record attributes, see: Records.
+
+To create a calculated attribute:
+
+Click Studio and then open the package containing the Knowledge Model (KM) you want to create the record in.
+
+Open the KM you want to create the calculated attribute for.
+
+Select Records and then open the record you want to associate your calculated attribute to.
+
+In this example, we're associating our calculated attribute with the Eban / EBAN record in our Data Model:
+
+Click Create Calculated Attribute, opening the PQL editor.
+
+Configure your calculated attribute using the following settings:
+
+Display Name: A human-readable label used in the user interface.
+
+Short Display Name: Shorter human readable label for the object shown automatically on the Views whenever the Display Name is truncated. Can contain max 20 characters.
+
+ID: A unique technical identifier used to reference this calculated attribute. Must be unique within all attributes in the KM.
+
+Description: A human-readable description for the calculated attribute.
+
+Internal Note: A field only visible within the Knowledge Model.
+
+PQL formula: This must reference the record ID and your attribute ID (configured above).
+
+Ensure that your PQL formula includes this:
+
+"recordID"."attributeID"
+
+Column configuration: Configure your virtual column type, format, and any associated units.
+
+Use the preview section to check that your calculated attribute is configured correctly and returning the desired results. If errors are displayed here, return to your PQL formula and correct them.
+
+Click Save.
+
+The calculated attribute is added to your Knowledge Model and available to use in your related content.
+
+Managing existing Knowledge Model objects
+
+You can manage existing Knowledge Model objects by clicking the Options icon:
+
+You then have the following options per object:
+
+Disable scope: By disabling the scope of an object, the object then can't be used anywhere within the package. This is a good option if you want to disable an object but delete it from your KM.
+
+Duplicate: This opens the create object window with the configuration of the object you are duplicating used as a template. When saving a duplicate object, the object ID must be unique.
+
+Delete: This deletes the object from the KM and any references to that object in existing content. When deleting an object, there is no undo or recovery option.
+
+Related topics
+
+Knowledge Models
+
+Views
+
+Versioning and deploying packages
+
+--- Event logs (case-centric) ---
+https://docs.celonis.com/en/knowledge-model---event-logs--case-centric-.html
+Celonis Product DocumentationStudioKnowledge ModelsEvent logs (case-centric)
+Knowledge Model - Event Logs (case-centric)
+
+Event Logs act as the bridge between your raw data and the visual process components in Celonis Studio. They transform the sequences of events stored in your Activity Tables into structured objects that the Knowledge Model (KM) can interpret.
+
+By defining an Event Log, you allow Studio to:
+
+Visualize processes: Populate the Process Explorer with activities and transitions based on your PQL logic.
+
+Drill into cases: Enable the Case Explorer to provide a granular view of individual process paths.
+
+Standardize KPIs: Attach KPI Views (like throughput time or frequency) directly to the process graph for immediate performance insights.
+
+Connect processes: Define Transitions between different event logs to see how cases flow across multiple business stages (e.g., from O2C to P2P).
+
+Essentially, while Activity Tables hold the data, the Event Log provides the metadata and context required to turn that data into an interactive process map.
+
+Collapse all
+Creating case-centric event logs in the Knowledge Model
+
+To create case-centric event logs in your KM:
+
+Click Studio and then open the package containing the KM you want to create the event log in.
+
+Open the KM asset.
+
+Click Event Logs and select Create Event Log.
+
+Configure your event log using the following settings:
+
+Display Name: A human-readable label used in the user interface.
+
+Short Display Name: Shorter human readable label for the object shown automatically on the Views whenever the Display Name is truncated. Can contain max 20 characters.
+
+ID: A unique technical identifier used to reference this event log. Must be unique within all attributes in the KM.
+
+Description: A human-readable description for the event log.
+
+Internal Note: A field only visible within the KM.
+
+PQL formula: Write the PQL reference for the activity table you want to show in your event log.
+
+Record: Select the record you want to associate with a profile View.
+
+Transition to other event log: See the possible transition between your current event log and another event log in your KM by adding an event log from the dropdown.
+
+Use the preview to check if your event log is working as desired. If not, re-configure your event log and try again.
+
+Click Save.
+
+The event log is added to your KM and can be used in the process explorer.
+
+Managing existing Knowledge Model objects
+
+You can manage existing Knowledge Model objects by clicking the Options icon:
+
+You then have the following options per object:
+
+Disable scope: By disabling the scope of an object, the object then can't be used anywhere within the package. This is a good option if you want to disable an object but delete it from your KM.
+
+Duplicate: This opens the create object window with the configuration of the object you are duplicating used as a template. When saving a duplicate object, the object ID must be unique.
+
+Delete: This deletes the object from the KM and any references to that object in existing content. When deleting an object, there is no undo or recovery option.
+
+Using event logs in the Process Explorer
+
+Event logs are used by components such as the Process Explorer. Event log metadata contains all the necessary configurations to visualise single or multiple processes in the process explorer. This includes:
+
+Event logs: Define the activities that should be visualized on the process graph. See: Event Logs
+
+Transitions: Define the relationships between different event logs. This is applicable when multiple event logs are visualized on the process graph. See: Transitions
+
+KPI Views: Define the KPIs that should be displayed on activities and connections in the process graph. See: KPI Views
+
+Event Logs
+
+Event logs can be created using either the Visual Editor or the Code Editor.
+
+Using the Visual Editor
+
+Using the Visual Editor, Event Logs can be created and edited from inside the Event Log tab in the KM. This tab contains all the Event Logs that exist in the KM. You can create a new Event Log by clicking on the plus button on the top right corner of the Event Log main list. This will lead you to the Event Log creation, which contains all Event Log associated value assignments.
+
+These associated value assignments are the following:
+
+General Settings:
+
+Display Name: A human-readable label used in the user interface.
+
+Short Display Name: Shorter human readable label for the object shown automatically on the Views whenever the Display Name is truncated. Can contain max 20 characters.
+
+ID: A unique technical identifier used to reference this Attribute. Must be unique within all attributes in the Record.
+
+Description: A human-readable description for the Attribute.
+
+Internal Note: A field only visible within the KM.
+
+Event Log Specific Fields:
+
+PQL Formula: Contains the PQL query that links an Activity Table to your Event Log. The PQL formula here is based on the ID for activity table in your Knowledge Model records, for example:
+
+"ACTIVITIES"."ACTIVITY_EN"
+
+This is created using the ID from the Event Log and the ID from the relevant record.
+
+Record: Connects a Record to the Event Log to link a profile View.
+
+In YAML, Event logs have the following value declaration format:
+
+ eventLogsMetadata:
+ eventLogs:
+   - id: O2C_EVENTLOG
+     displayName: Order Management
+     pql: '"O2C_ACTIVITY_TABLE"."ACTIVITY_EN"'
+     recordID: O2C_ACTIVITY_TABLE
+
+id: A unique technical identifier used to reference this Event Log. Must be unique within all Event Logs in the Record.
+
+displayName: A human-readable label used in the user interface.
+
+shortDisplayName: Shorter human readable label for the object shown automatically on the Views whenever the displayName is truncated. Can contain max 20 characters (optional)
+
+description: A human-readable description for the event log (optional)
+
+pql: Contains the PQL query that links an activity table to your event log.
+
+recordID: Is the id the Record connected to the event log to link a profile View.
+
+Transitions
+
+If multiple event logs are involved, the process explorer can display the transitions between the event logs. Transitions also can be defined in the KM using either the Visual Editor of the Code Editor.
+
+Using the Visual Editor
+
+Transition Specific Field Fields:
+
+Transition Name: With the name of the Event Logs that are connected through the transition.
+
+Transition Type: To specify the type of Transition that will be created between the Event Logs.
+
+Note
+
+The preview for your Event Log will only show a Transition if the selected Event Logs have cases that flow through both processes. If the Event Logs have no common cases, the preview will not show any connection between the Event Logs.
+
+Transitions are listed under a separate category in YML, which has the following declaration format:
+
+transitions:
+   - id: O2C_P2P
+     displayName: O2C to P2P
+     firstEventLogId: O2C_EVENTLOG
+     secondEventLogId: P2P_EVENTLOG
+
+id: A unique technical identifier used to reference this Event Log. Must be unique for all Event Logs in the KM.
+
+displayName: A human-readable label used in the user interface.
+
+shortDisplayName: Shorter human readable label for object shown on the Views whenever the displayName is truncated. Can contain max 20 characters (optional)
+
+firstEventLogId: With the ID of the first event log involved in the transition.
+
+secondEventLogId: With the ID of the second event log involved in the transition.
+
+KPI Views
+
+A KPI View is a collection of Activity and Connection KPIs shown on the process explorer. Multiple KPI Views can be created for an event log. Depending on the use case the appropriate KPI View can be picked by the end user for display on the process graph.
+
+The process explorer has five in-built KPI Views.
+
+Display Name
+
+	
+
+ID
+
+
+
+
+Case frequency
+
+	
+
+STANDARD_KPI_CASE_COUNT
+
+
+
+
+Activity frequency
+
+	
+
+STANDARD_KPI_ACTIVITY_COUNT
+
+
+
+
+Throughput Time (Average)
+
+	
+
+STANDARD_KPI_AVG_THROUGHPUT_TIME
+
+
+
+
+Throughput Time (Median)
+
+	
+
+STANDARD_KPI_MEDIAN_THROUGHPUT_TIME
+
+
+
+
+Throughput Time (Trimmed Mean)
+
+	
+
+STANDARD_KPI_TRIMMED_MEAN_THROUGHPUT_TIME
+
+Currently, KPI Views can only be created using the YAML editor. The below set of attributes and objects have to be defined for a KPI View.
+
+Each KPI View definition will have the three parts below:
+
+KPI View Overview definition
+
+Event Log KPIs definition
+
+Node and Edge KPI definition
+
+1. KPI View Overview definition
+
+The KPI Overview section contains general information about the KPI View. This section is used to provide details about the group of KPIs that are bundled together as one KPI View.
+
+Attribute
+
+	
+
+Required
+
+	
+
+Type
+
+	
+
+Description
+
+
+
+
+id
+
+	
+
+true
+
+	
+
+Free text
+
+	
+
+A technical identifier used for unique referencing of this KPI View.
+
+
+
+
+displayName
+
+	
+
+true
+
+	
+
+Free Text
+
+	
+
+A human-readable label used in the user interface.
+
+
+
+
+icon
+
+	
+
+false
+
+		
+
+To represent the KPI View in the KPI switcher of the process explorer
+
+
+
+
+description
+
+	
+
+false
+
+	
+
+Free Text
+
+	
+
+A human-readable description for the KPI View.
+
+
+
+
+internalNode
+
+	
+
+false
+
+	
+
+Free Text
+
+	
+
+A section that can be used by developers to add comments
+
+
+
+
+type
+
+	
+
+false
+
+	
+
+Options:
+
+INTERLEAVED/NON-INTERVEAVED
+
+	
+
+2. Event Log KPIs definition
+
+Each KPI View holds KPI definitions for multiple event logs (if multi event logs are used in the process explorer). The KPI definitions relevant for one event log are grouped together under one eventLogKPIs block.
+
+Attribute
+
+	
+
+Required
+
+	
+
+Type
+
+	
+
+Description
+
+
+
+
+id
+
+	
+
+true
+
+	
+
+Free text
+
+	
+
+A technical identifier used for unique referencing of this Event Log KPIs.
+
+
+
+
+eventLogId
+
+	
+
+true
+
+	
+
+ID of Event Log
+
+	
+
+The technical identifier of the event log while defining it in the Event Log section of the KM - Event Log Metadata
+
+
+
+
+displayName
+
+	
+
+true
+
+	
+
+Free Text
+
+	
+
+A human-readable label used in the user interface.
+
+
+
+
+internalNode
+
+	
+
+false
+
+	
+
+Free Text
+
+	
+
+A section that can be used by developers to add comments
+
+
+
+
+nodeKpiIds
+
+	
+
+false
+
+	
+
+KPI ID
+
+	
+
+Deprecated
+
+
+
+
+edgeKpiIds
+
+	
+
+false
+
+	
+
+KPI ID
+
+	
+
+Deprecated
+
+3. Node and Edge KPI definition
+
+Within each event log section of a KPI View, you can define the node (on activities) and edge (on connections) KPIs that should be visible. The below attributes are required to define the KPIs:
+
+Attribute
+
+	
+
+Required
+
+	
+
+Type
+
+	
+
+Description
+
+
+
+
+id
+
+	
+
+true
+
+	
+
+Free text
+
+	
+
+A technical identifier used for unique referencing of KPIs.
+
+
+
+
+kpiId
+
+	
+
+true
+
+	
+
+ID of KPI
+
+	
+
+The technical identifier of the KPI while defining it in the KM - KPI section
+
+
+
+
+icon
+
+	
+
+false
+
+		
+
+To represent the KPI on the node/edge in the process graph and the node/edge pop-ups when the user clicks on them.
+
+
+
+
+alertMetrics (object)
+
+	
+
+false
+
+	
+
+Object (see required attributes below)
+
+	
+
+To display alerts on activities and connections in the process graph.
+
+You can configure alerts on activities/connections which will be based on the KPIs in the KPI View. This will help the end user identify inefficiencies in the process without manually exploring the process by themselves.
+
+Attribute
+
+	
+
+Required
+
+	
+
+Type
+
+	
+
+Description
+
+
+
+
+Id
+
+	
+
+true
+
+	
+
+Free text
+
+	
+
+A technical identifier used for unique reference
+
+
+
+
+pql
+
+	
+
+true
+
+	
+
+PQL
+
+	
+
+The logic needed to apply alerts on the activities/connections should be defined here in PQL. The end user will see alerts based on numeric value computed.
+
+Note: As of now, only top 5 activities/connections with the highest value will have alerts.
+
+
+
+
+message
+
+	
+
+true
+
+	
+
+Free text
+
+	
+
+The message configured here will be displayed on the activities/connections where the alert is visible
+
+Related topics
+
+Knowledge Models
+
+Views
+
+Versioning and deploying packages
+
+--- Filters ---
+https://docs.celonis.com/en/knowledge-model---filters.html
+Celonis Product DocumentationStudioKnowledge ModelsFilters
+Knowledge Model - Filters
+
+Tip
+
+In addition to Knowledge Model filters, the Celonis Platform provides several ways to filter data directly within a View. These options let end users interact with the data without changing the underlying Knowledge Model.
+
+See Filtering Views.
+
+You can write a Filter Statement in PQL that is applied to a component within a Knowledge Model. You can also save Filter Statements as Global filters which means they will also be applied to all components referencing the Knowledge Model. Storing and maintaining filters in a Knowledge Model means they can be easily reused in View components and managed in one place.
+
+You can also apply individual filters at column level.
+
+Collapse all
+Creating filters in a Knowledge Model
+
+To create filters in a Knowledge Model:
+
+Open the Knowledge Model.
+
+Select Filters > Create Filter.
+
+Add your PQL filter statement to Filter Knowledge Edit Mode.
+
+Tip
+
+Add information about your filter in the Create Filter section. For more information, see Create filter fields.
+
+Select Save.
+
+The filter displays in the Knowledge Model.
+
+Create filter fields
+
+You should complete the following fields when creating a filter.
+
+Field
+
+	
+
+Description
+
+
+
+
+Name
+
+	
+
+A human-readable name.
+
+
+
+
+Short Name
+
+	
+
+A human-readable name which is displayed if the Display Name is truncated. Max 20 characters.
+
+
+
+
+ID
+
+	
+
+A technical identifier used as a unique reference for the filter.
+
+
+
+
+Description
+
+	
+
+A human-readable description for the filter.
+
+
+
+
+Validation Status
+
+	
+
+The status of the filter. For more information, see Setting validation statuses in a Knowledge Model.
+
+
+
+
+Internal Notes
+
+	
+
+Used for internal context only.
+
+
+
+
+Global Filter
+
+	
+
+Sets whether the filter is a global filter.
+
+Managing existing Knowledge Model objects
+
+You can manage existing Knowledge Model objects by clicking the Options icon:
+
+You then have the following options per object:
+
+Disable scope: By disabling the scope of an object, the object then can't be used anywhere within the package. This is a good option if you want to disable an object but delete it from your KM.
+
+Duplicate: This opens the create object window with the configuration of the object you are duplicating used as a template. When saving a duplicate object, the object ID must be unique.
+
+Delete: This deletes the object from the KM and any references to that object in existing content. When deleting an object, there is no undo or recovery option.
+
+Defining filters with YAML
+
+In YAML, filters are defined by using the following value declaration formats:
+
+- id: COUNTRY_FILTER
+  displayName: "Country filter"
+  description: "Filters down to DE and US data"
+  pql: FILTER "TABLE"."Country" IN ('DE','US')
+  global: true
+
+id: A unique technical identifier used to reference this filter. Must be unique within all filters in the Knowledge Model.
+
+displayName: A human-readable label used in the user interface.
+
+shortDisplayName (optional): Shorter human readable label for the object shown automatically on the Views whenever the displayName is truncated. Can contain a max of 20 characters.
+
+description (optional): A human-readable description for the flag.
+
+pql: Contains the PQL query that states the condition used to synthesize the data.
+
+global: Indicates whether the filter is a global filter that will be applied to the PQL of all the objects in the Knowledge Model. Standards PQL filter propagation applies.
+
+Related topics
+
+Knowledge Models
+
+Views
+
+Versioning and deploying packages
+
+--- KPIs ---
+https://docs.celonis.com/en/knowledge-model---kpi.html
+Celonis Product DocumentationStudioKnowledge ModelsKPIs
+Knowledge Model - KPI
+
+Key Performance Indicators (KPI) are a quantifiable measure of performance over time for a specific objective. KPIs can be displayed in Studio apps using components such as KPI List and charts, as well as being referenced from other KPIs. They can also take Knowledge Model (KM) variables, runtime Variables, or KPI parameters into account.
+
+An example of KPIs being used in a Studio View:
+
+Benefits of managing KPIs in the Knowledge Model
+
+Consider using Knowledge Model KPIs for the following reasons:
+
+Centralized management: Create a single source of truth where definitions and PQL formulas are reused across all Studio views and assets.
+
+Dynamic logic: Utilize parameters and variables to allow end-users to interactively update values within a formula.
+
+Reference tracking: Easily track where a KPI is used in the package and receive impact warnings before deleting or modifying assets.
+
+Integrated goal setting: Define default targets using PQL and control whether users can override these targets directly from the UI.
+
+Standardized formatting: Set universal units and display directions (e.g., Up/Down trend) to ensure consistent data visualization.
+
+Collapse all
+Creating KPIs in the Knowledge Model
+
+Within the KM, the KPI assets contains all KPI definitions including a human-readable name, its PQL formula, and a description.
+
+To create a KPI:
+
+Click Studio and then open the package containing the KM you want to create the KPI in.
+
+Open the KM you want to create the KPI for.
+
+Select KPIs and then click Create KPI.
+
+Configure your KPI value assignments and settings. For an overview of available value assignments and settings, see: KPI value assignments and settings.
+
+Click Save.
+
+The KPI is added to your KM and available to use in your related content.
+
+KPI usage and reference tracking
+
+Within your Knowledge Model, you can see where your KPIs are being used and referenced:
+
+View usage: This displays the Studio Views where this KPI is being used, with a shortcut to open the View provided. This doesn't display where the KPI is used within an Analysis or if it's included as part of an extended Knowledge Base.
+
+Entity references: This displays where the KPI is referenced in other business entities, such as calculated attributes, filters, and variables. This doesn't display where the KPI is referenced in extended Knowledge Models.
+
+When deleting KPIs, you'll also be warned if deleting the KPI impacts existing Views or entities:
+
+KPI value assignments and settings
+
+When configuring your KM KPIs, the following value assignments are available:
+
+Display Name: A human-readable label shown in the interface by default, unless a Short Display Name is specified.
+
+Short Display Name: A human-readable label shown in the interface when available. If not specified, the Display Name is used.
+
+ID: A technical identifier used for unique referencing of this KPI.
+
+Description: A human-readable description for the KPI.
+
+Internal Note: A human-readable description used for documentation of PQL.
+
+Allow other analysts to edit KPI from extension KM: Only available when editing a base KM, toggling this on allows other team members to edit this KPI when it is used in extension KM.
+
+PQL Formula: Refers to the value you want this KPI to reflect. This can be either a hard-coded number, a KPI formula, or a parameter. For more information, see: Writing PQL formulas for KPIs.
+
+Parameters: Using parameters enables part of the formula to be replaced by a value defined by the end-user. For more information, see: Referencing parameters in KPIs using PQL.
+
+Format: Defines the format in which the KPI should be presented (rounded, percentage, decimal, date, etc.) This can be selected from a dropdown list or input manually as text input.
+
+Unit: Symbol that will be attached to resulting KPI. Often used to represent add a currency symbol to the KPI.
+
+KPI Desired Direction: Defines the desired direction of the KPI's trend (Up or Down Trend).
+
+Default KPI Target: Sets a KPI target directly in the KM using a PQL statement.
+
+Allow users to update the target from Views: Toggle button to allow overwriting the Default Target from Views.
+
+Scope: Indicates where in the Package the KPI can be used. If a KPI's scope is disabled then the KPI cannot be accessed and used anywhere in a package.
+
+Managing existing Knowledge Model objects
+Managing existing Knowledge Model objects
+
+You can manage existing Knowledge Model objects by clicking the Options icon:
+
+You then have the following options per object:
+
+Disable scope: By disabling the scope of an object, the object then can't be used anywhere within the package. This is a good option if you want to disable an object but delete it from your KM.
+
+Duplicate: This opens the create object window with the configuration of the object you are duplicating used as a template. When saving a duplicate object, the object ID must be unique.
+
+Delete: This deletes the object from the KM and any references to that object in existing content. When deleting an object, there is no undo or recovery option.
+
+Writing PQL formulas for KPIs
+
+When creating or editing your KM KPIs, you can define the PQL formula for it. This uses the PQL editor, enabling you to translate process-related business questions into queries. This includes using runtime and KM variables, parameters, and KPI targets.
+
+Note
+
+KPIs and records cannot have comments at the end of the PQL statement in the editor window. If the final line of code is a comment, you will not be able to save the KPI/record and a syntax error will display in the Preview section at the bottom of the tab.
+
+Referencing variables in KPIs using PQL
+
+To reference variables in KPIs, use the following formats:
+
+Runtime variable:
+
+'${{my_runtime_var}}'
+
+Knowledge Model variable:
+
+'${my_km_var}'
+Referencing parameters in KPIs using PQL
+
+Parameters are used to abstract a part of the KPI's PQL formula. This enables part of the formula to be replaced by a value defined by the end-user. Parameter definition has the following arguments:
+
+Display Name: A human-readable label for the parameter.
+
+ID: A technical identifier used for unique referencing of this KPI.
+
+Default Value: Value which each of the parameters should have.
+
+Parameters can be referenced in PQL using its parameter placeholder, for example:
+
+{p1}
+{p2}
+{p3}
+Referencing KPI target values in KPIs using PQL
+
+You can define KPI target values directly in the KM by using a PQL statement. When using PQL to set targets, you can take advantage of dynamic and filterable values in the View, unlocking new use cases. Furthermore, you have the option to determine whether the target is editable by end-users within the View or not.
+
+Defining KPIs with YAML
+
+A KPI is specified within the KPIs segment in the KM and is defined by the following fields:
+
+Filter
+
+Field name
+
+	
+
+Description
+
+	
+
+Required?
+
+	
+
+Expected value
+
+
+
+
+id
+
+	
+
+A technical identifier that is used for unique referencing.
+
+	
+
+yes
+
+	
+
+Alphanumerical, no spaces
+
+
+
+
+displayName
+
+	
+
+A human-readable label that is used in the user interface.
+
+	
+
+yes
+
+	
+
+String
+
+
+
+
+description
+
+	
+
+A human-readable description.
+
+		
+
+String
+
+
+
+
+pql
+
+	
+
+The PQL query statement.
+
+	
+
+yes
+
+	
+
+String: PQL statement
+
+
+
+
+desiredDirection
+
+	
+
+Specifies the normative judgment of KPI developments. Is the KPI desired to INCREASE or DECREASE? If neither applies, NONE can be used.
+
+	
+
+no, only if used inside the anomaly component
+
+	
+
+One of the following values:
+
+INCREASE, DECREASE, NONE
+
+
+
+
+defaultTarget
+
+	
+
+Sets a KPI target directly in the KM using a PQL statement.
+
+	
+
+no
+
+	
+
+String: PQL statement
+
+
+
+
+allowTargetUpdate
+
+	
+
+Option to allow overwriting the Default Target from Views
+
+	
+
+no
+
+	
+
+Boolean: true/false
+
+
+
+
+unit
+
+	
+
+Specifies the unit of the KPI.
+
+	
+
+no
+
+	
+
+See Formats and Units.
+
+
+
+
+format
+
+	
+
+Specifies the display format of the KPI.
+
+	
+
+no
+
+	
+
+See Formats and Units.
+
+
+
+
+parameters
+
+	
+
+Specifies the list of (optional) required KPI parameters.
+
+A parameter definition consists of an id, a displayName and a defaultValue. The parameter can be referenced in the pql field via single curly brackets and its id. For instance, parameter param1 can be referenced in the pql statement via {param1}.
+
+The following example shows a KPI definition that sets up a parameterized KPI called 'RATIO' which defines a generic ratio calculation that accepts a single parameter called param1.
+
+- id: RATIO
+  displayName: Ratio
+  pql: SUM(CASE WHEN {p1} THEN 1.0 ELSE 0.0 END)/COUNT(ISNULL(CASE WHEN {p1} THEN 1.0 ELSE 0.0 END))
+  parameters:
+     - id: p1
+       displayName: "First parameter"
+           defaultValue: "# the value the parameter should have as the default'
+	
+
+no
+
+	
+
+List of parameter definitions
+
+Referencing KPIs from KPIs using YAML
+
+The following example shows how to use YAML to call a KPI inside another KPI. It also shows you how to create a parameterized KPI and call it inside another KPI:
+
+kpis:
+  - id: TOTAL_INVOICE_VALUE
+    displayName: Total Invoice Value
+    description: ""
+    pql: SUM(CASE WHEN "BKPF"."BELNR" IN ('9330002454','9330001796','9330002109')
+      THEN  "BSEG"."WRBTR_CONVERTED" * 0.3 WHEN MONTH("BKPF"."CPUDT") =  4 THEN
+      "BSEG"."WRBTR_CONVERTED"  * 3.1 ELSE "BSEG"."WRBTR_CONVERTED" END)
+    unit: ""
+    format: ""
+ 
+  #kpi calling the previous one
+  - id: "TOTAL_INVOICE_VALUE_CALL"
+    displayName: "Total Invoice Value Call"
+    description: ""
+    pql: KPI(TOTAL_INVOICE_VALUE)
+Parameterized KPIs using YAML
+
+The following example shows how to use YAML to call a KPI inside another KPI, or create a parameterized KPI and call it inside another KPI:
+
+kpis:
+  - id: TOTAL_INVOICE_VALUE
+    displayName: Total Invoice Value
+    description: ""
+    pql: SUM(CASE WHEN "BKPF"."BELNR" IN ('9330002454','9330001796','9330002109')
+      THEN  "BSEG"."WRBTR_CONVERTED" * 0.3 WHEN MONTH("BKPF"."CPUDT") =  4 THEN
+      "BSEG"."WRBTR_CONVERTED"  * 3.1 ELSE "BSEG"."WRBTR_CONVERTED" END)
+    unit: ""
+    format: ""
+
+  #kpi calling the previous one 
+  - id: "TOTAL_INVOICE_VALUE_CALL"
+    displayName: "Total Invoice Value Call"
+    description: ""
+    pql: KPI(TOTAL_INVOICE_VALUE)
+
+  # kpi defined with a parameter
+  - id: TOTAL_INVOICE_VALUE_Param
+    displayName: Total Invoice Value_Param
+    description: ""
+    pql: SUM("BSEG"."WRBTR_CONVERTED" * {p1} )
+    parameters:
+      - id: Factor
+        displayName: Factor Value
+        defaultValue: 10
+
+  # calling the KPI with parameter value 
+  - id: TOTAL_INVOICE_VALUE_Param_Use
+    displayName: Total Invoice Value_Param
+    description: ""
+    pql: KPI(TOTAL_INVOICE_VALUE_Param, 50)kpis:
+  # kpi defined with a parameter
+  - id: TOTAL_INVOICE_VALUE_Param
+    displayName: Total Invoice Value_Param
+    description: ""
+    pql: SUM("BSEG"."WRBTR_CONVERTED" * {p1} )
+    parameters:
+      - id: Factor
+        displayName: Factor Value
+        defaultValue: 10
+ 
+  # calling the KPI with parameter value
+  - id: TOTAL_INVOICE_VALUE_Param_Use
+    displayName: Total Invoice Value_Param
+    description: ""
+    pql: KPI(TOTAL_INVOICE_VALUE_Param, 50)
+Setting KPI parameters from a View
+
+The following example is based on a KPI list:
+
+      - show: true
+        kpi: TOTAL_INVOICE_VALUE_Param
+        order: 100
+        kpiParams: 
+            - id: Factor # This ID must match KPI parameter ID defined in KM
+              value: "50"
+Related topics
+
+Knowledge Models
+
+Views
+
+Versioning and deploying packages
+
+--- Records ---
+https://docs.celonis.com/en/knowledge-model---records.html
+Celonis Product DocumentationStudioKnowledge ModelsRecords
+Knowledge Model - Records
+
+Important
+
+Custom records and customized auto-generated attributes are not supported in new Views or in the new PQL editor. This is because auto-generated attributes from the data model are used to represent tables and columns and these auto-generated attributes cannot be edited. Any new columns you add to these tables will be used for calculated attributes only. For more information about new Views, see Enahanced Studio experience (2024-05-13).
+
+Records serve as the essential bridge between raw data and business logic. While a standard Data Model table contains technical rows and columns, a Record transforms that data into a structured, human-readable business entity—such as an "Invoice," "Purchase Order," or "Support Ticket."
+
+Think of a Record as the "Source of Truth" for a specific business object. It doesn't just point to data; it defines how that data should be interpreted, visualized, and acted upon across the entire Celonis platform.
+
+Defining and managing your Records within the KM provides several strategic advantages over using raw tables:
+
+Business abstraction: Records replace cryptic database table names with clear, Display Names and Descriptions, making it easier for non-technical users to build and understand Views.
+
+Centralized logic: By defining Attributes and PQL Formulas at the Record level, you ensure consistency. If a calculation for "Net Value" changes, you update it once in the Record rather than in every individual component or skill.
+
+Advanced modeling: Records allow for Augmented Attributes (data that doesn't exist in the source system, like "Status" or "Assigned Team") and Flags to highlight specific business anomalies.
+
+AI readiness: Well-documented Records are the foundation for AI tools. Using the Check AI Readiness feature ensures your metadata is descriptive enough for tools like Process Copilot to accurately interpret and analyze your process data.
+
+Reusability: Once a Record is defined, it becomes a plug-and-play asset for Action Flows, Studio Views, and Skills, drastically reducing development time for new applications.
+
+Collapse all
+Creating records in the Knowledge Model
+
+Within the Knowledge Model, the records assets include a human-readable name, an ID, its PQL formula, and a description.
+
+To create a record:
+
+Click Studio and then open the package containing the Knowledge Model you want to create the record in.
+
+Open the KM you want to create the record for.
+
+Select Records and then click Create Record.
+
+Configure your record using the following settings:
+
+Display Name: A human-readable label used in the user interface.
+
+Short Display Name: Shorter human readable label for the object shown automatically on the Views whenever the Display Name is truncated. Can contain max 20 characters.
+
+ID: A unique technical identifier used to reference this record. Must be unique within all Records in the KM.
+
+Description: A human-readable description for the record.
+
+Internal Note: A field only visible within the KM.
+
+PQL Formula: Contains the reference to the table in the data model that will be represented in the record.
+
+Click Save.
+
+The record is added to your KM and available to use in your related content.
+
+Check the AI readiness of Knowledge Model attributes
+
+The Check AI Readiness button is used to scan your Knowledge Models and check if they ready to be used with AI tools such as Process Copilot or Insight Explorer. These scans check the record attributes in your Knowledge Models for issues such as missing descriptions, duplicate entries, outdated attributes, and other problems. These issues could potentially cause issues with your AI tools if they are analyzing inconsistent or incomplete data which can impact the quality of your outputs.
+
+If any errors or warnings are detected by the scan, the AI Issues column displays icons indicating the total number of errors (red icon) and warnings (yellow icon) for each record. You can hover over any warning or error icon to see a description of the issue and then select the Click to edit link to open this knowledge item in the Knowledge Model to resolve the issue.
+
+Once the issues have been resolved, saving the Knowledge Model will update the icons on the Records tab.
+
+Managing existing Knowledge Model objects
+
+You can manage existing Knowledge Model objects by clicking the Options icon:
+
+You then have the following options per object:
+
+Disable scope: By disabling the scope of an object, the object then can't be used anywhere within the package. This is a good option if you want to disable an object but delete it from your KM.
+
+Duplicate: This opens the create object window with the configuration of the object you are duplicating used as a template. When saving a duplicate object, the object ID must be unique.
+
+Delete: This deletes the object from the KM and any references to that object in existing content. When deleting an object, there is no undo or recovery option.
+
+Defining Records with YAML
+
+A record configuration can range from a simple PQL Query to an advanced, customized scheme to retrieve and provide information.
+
+- id: INVOICE
+  displayName: Invoice
+  description: ""
+  pql: BKPF
+  identifier:
+    - id: CASE_KEY_ID
+      displayName: Identifier
+      description: ""
+      pql: '"BKPF"."MANDT"'
+  attributes:
+    - id: Client_ID
+      displayName: client_id
+      description: ""
+      pql: '"BKPF"."MANDT"'
+      columnType: INTEGER
+      unit: ""
+      format: ""
+  augmentedAttributes:
+    - id: STATUS
+      displayName: Invoice Status
+      description: ""
+      columnType: STRING
+      possibleValues:
+        - OPEN
+        - IN_PROGRESS
+        - CLOSED
+      defaultValue: OPEN
+      unit: ""
+      format: ""
+  flags:
+    - id: LOW_INVOICE_VALUE
+      displayName: Low Invoice Value
+      description: ""
+      pql: DAYS_BETWEEN  ( ROUND_DAY("BKPF"."BLDAT") ,
+            PU_LAST(BSEG,ROUND_DAY("_CEL_AP_ACTIVITIES"."EVENTTIME"),
+            "_CEL_AP_ACTIVITIES"."ACTIVITY_EN"=  'Due Date passed' ))
+            < 15 AND DAYS_BETWEEN  ( ROUND_DAY("BKPF"."BLDAT") ,
+            PU_LAST(BSEG,ROUND_DAY("_CEL_AP_ACTIVITIES"."EVENTTIME"),
+            "_CEL_AP_ACTIVITIES"."ACTIVITY_EN"=  'Due Date passed' )) >= 0
+
+Let's have a more detailed look at the attributes:
+
+Field name
+
+	
+
+Description
+
+
+
+
+id
+
+	
+
+Defines the id of the record, needs to be unique.
+
+
+
+
+displayName
+
+	
+
+Defines the name of the record, should be descriptive.
+
+
+
+
+description
+
+	
+
+Possibility to add a short description of the record.
+
+
+
+
+pql
+
+	
+
+Here the PQL query gets defined.
+
+
+
+
+identifier
+
+	
+
+Defines which element gets used as a unique identifier of the record consists of:
+
+id
+
+displayName
+
+description (optional)
+
+PQL
+
+
+
+
+attributes
+
+	
+
+Defines attributes of the record using PQL queries, consists of:
+
+id
+
+displayName
+
+description (optional)
+
+PQL
+
+columnType
+
+unit and format (optional)
+
+
+
+
+unit
+
+	
+
+Defines the unit of the attribute (e.g. $).
+
+
+
+
+format
+
+	
+
+Defines the format of the attribute.
+
+
+
+
+augmentedAttributes
+
+	
+
+Defines advanced attributes of a record that go beyond querying information from the data model, consists of:
+
+id
+
+displayName
+
+description (optional)
+
+columnType
+
+unit and format (optional)
+
+possibleValues
+
+defaultValue
+
+
+
+
+flags
+
+	
+
+A flag is an attribute of a Record. Record attributes such as the vendor's name can be defined as the root cause feature of a flag. This flag can then be called by an Anomaly. Consists of:
+
+id
+
+displayName
+
+description (optional)
+
+pql
+
+Related topics
+
+Knowledge Models
+
+Views
+
+Versioning and deploying packages
+
+--- YAML definitions ---
+https://docs.celonis.com/en/knowledge-model---yaml-definitions.html
+Celonis Product DocumentationStudioKnowledge ModelsYAML definitions
+Knowledge Model - YAML definitions
+
+Yet Another Markup Language (YAML) is a standardized, human-readable general-purpose markup language that provides a way of describing and annotating data. Advanced users can define and configure Knowledge Models using YAML.
+
+Collapse all
+Knowledge Model meta information
+
+A Knowledge Model is represented in YAML by a number of different segments, as shown in this example:
+
+1   kind: BASE
+2   metadata: 
+3     key: ACCOUNTS_PAYABLE_OPERATIONAL_APP_DEMO_EXTENSION 
+4     displayName: AP Operational App Demo Extension 
+5     version: 2.0.9
+6   dataModelId: ${{demo-ap-execution-app}}
+
+Primitive
+
+	
+
+Description
+
+
+
+
+kind (required)
+
+	
+
+Indicates whether the current Knowledge Model is an independent Knowledge Model (BASE) or an extension of an existing Knowledge Model (EXTENSION).
+
+
+
+
+metadata (required)
+
+	
+
+Contains information required by Studio such as a unique key to reference the Knowledge Model and a human-readable display name.
+
+
+
+
+dataModelID (required)
+
+	
+
+Used to reference the Data Model that contains the underlying data. You can add theData Model's runtime variable in this field using the ${{variable-key}} notation.
+
+Each Knowledge Model can use a single Data Model at any one time. To access data from multiple Data Models, either switch between Data Models using runtime Variables or use multiple Knowledge Models within a single View (one Data Model per component).
+
+YAML cheat sheet
+
+For further information on YAML, check out the official website here.
+
+YAML relies on indentation for structure, so correct indentation is very important.
+
+Inline comments with a leading # are not supported in YAML. However, every Knowledge Model object has a field called 'internalNote' which can be used for documentation and comments. For example:
+
+kpis: 
+  - id: _open_invoices 
+        displayName: "# Open Invoices" 
+        description: Open Invoices 
+        internalNote: This is my documentation for complicated things which is not visible to business users. 
+        pql: COUNT(DISTINCT "RSEG"."_CASE_KEY")
+
+Scalars are defined using a colon and a space.
+
+Examples:
+
+id: OTD_KPI 
+displayName: "On-Time Delivery KPI" 
+order: 100
+
+The preferred way to define lists of values is by Block Format (separating the list items by hyphens).
+
+Example:
+
+kpis: 
+  - id: OTD_KPI 
+  # remaining fields of the KPI definition 
+  - id: AUTOMATION_RATE_KPI 
+  # remaining fields of the KPI definition 
+  - id: REWORK_RATE_KPI 
+  # remaining fields of the KPI definition
+
+Strings such as PQL statements can be denoted in five ways:
+
+Plain Scalar
+
+displayName: On-Time-Delivery
+
+Attention: Plain scalar without (double) quotes can conflict with YAML syntax. We strongly encourage you not to use plain scalars for strings such as PQL statements.
+
+Single Quoted (' ')
+
+Single quotes in the string itself need to be escaped by doubling it (' is escaped as '')
+
+displayName: 'On-Time-Delivery'
+
+Double Quoted (" ")
+
+Double quotes in the string itself need to be escaped using a backslash (" is escaped as \"). Furthermore, only double-quoted strings may contain escape sequences like \n for a new line.
+
+displayName: "On-Time-Delivery"
+
+Since double quotes are both YAML primitives and PQL primitives, you might encounter situations where the YAML parser has difficulty disambiguating double quotes correctly.
+
+Literal Block Scalar (|)
+
+The content of a literal block scalar starts after the pipe symbol in a new line and needs to be intended.
+
+description: | 
+  This is 
+  a 
+  multiline text
+
+Folded Block Scalar (>)
+
+The content of a folded block scalar starts after the > sign
+
+description: > 
+  This is a long line 
+  split into short lines
+
+A Knowledge Model parses the PQL as written in the YAML with the following rules:
+
+All new lines are rewritten as if they were single spaces.
+
+The YAML block is indented by two spaces.
+
+All new lines at the end are stripped.
+
+To learn more about multiline YAML, check out https://yaml-multiline.info/
+
+Related topics
+
+Knowledge Models
+
+Views
+
+Versioning and deploying packages
+
+--- Custom objects and attributes (legacy views only) ---
+https://docs.celonis.com/en/knowledge-model---custom-objects-and-custom-attributes--legacy-views-only-.html
+Celonis Product DocumentationStudioKnowledge ModelsCustom objects and attributes (legacy views only)
+Knowledge Model - Custom Objects and Custom Attributes (legacy Views only)
+
+Note
+
+Custom objects and custom attributes can only be used with legacy Views in Studio and aren't supported in the new Studio experience. We recommend migrating away from Legacy Views and taking advantage of the enhanced features offered by our Studio Views experience.
+
+For more information about legacy Views, see: Studio feature availability matrix.
+
+You can define custom objects and custom attributes in your KM using YAML to extend your legacy View components. These can only be used in legacy Views within Studio when the complementing View components know how to read them, with anything else limited to the KM.
+
+Custom Objects make use of Custom Attributes (customAttributes) which can hold arbitrary information.
+
+Collapse all
+Display rules
+
+Display content rules are visual customizations of Studio components based on boolean conditions.
+
+Display content rules apply a specific visual style to an object based on a specific logic. This logic is defined by users and contains a condition usually applied to a value. If the condition described in the logic is met, the style of the object can be changed. This means adding an icon or an avatar, adding borders or background colors, or changing the style of the object’s font.
+
+Display content rules can be applied to the KPI Lists, Attribute Lists, Tables and in some cases, to Histogram components within Views. Display content rules must be first created in the Knowledge Model in order to be accessible from inside the View Components. In order to apply a display content rule to an object, the display rule must be added in the Styling rule dropdown for the object.
+
+Display Content Rules are composed of three parts:
+
+Naming: Shows what the display content rule is called and what its ID is:
+
+Logic: Contains the boolean statement that must be true for the display content rule to be implemented. This logic has two components:
+
+Comparator: Condition that will be tested against the value for the Display Content Rule to be activated. Some comparators can be used together to create more complex logical rules.
+
+Value: Value against which the condition must be fulfilled for the Display Content Rule to be activated. The format the value must be in depends on the selected comparator.
+
+The following comparators can be used in Display Content Rules:
+
+Filter
+
+Comparator
+
+	
+
+Evaluates to TRUE if…
+
+	
+
+Data Type
+
+
+
+
+“IS_EMPTY”
+
+	
+
+The object the rule is applied to is empty. Does not need to be compared to a value.
+
+	
+
+Int | float | date | string
+
+
+
+
+“IS_NOT_EMPTY’
+
+	
+
+The object the rule is applied to is not empty. Does not need to be compared to a value.
+
+	
+
+Int | float | date | string
+
+
+
+
+“TEXT_CONTAINS”
+
+	
+
+The text of the object the rule is applied to contains the text in the value operator.
+
+	
+
+string
+
+
+
+
+“TEST_DOES_NOT_CONTAIN”
+
+	
+
+The text of the object the rule is applied to does not contain the text in the value operator.
+
+	
+
+string
+
+
+
+
+“TEXT_STARTS_WITH”
+
+	
+
+The text of the object the rule is applied to starts with the character(s) specified in the value operator.
+
+	
+
+string
+
+
+
+
+“TEXT_ENDS_WITH”
+
+	
+
+The text of the object the rule is applied to ends with the character(s) specified in the value operator.
+
+	
+
+string
+
+
+
+
+“TEXT_IS_EXACTLY”
+
+	
+
+The text of the object the rule is applied to is exactly the same as the one specified in the value operator. This operator is case sensitive.
+
+	
+
+string
+
+
+
+
+“DATE_IS”
+
+	
+
+The date of the object the rule is applied to is exactly the same as the one specified in the value operator.
+
+	
+
+date
+
+
+
+
+“DATE_IS_BEFORE”
+
+	
+
+The date of the object the rule is applied to is before the one specified in the value operator.
+
+	
+
+date
+
+
+
+
+“DATE_IS_AFTER”
+
+	
+
+The date of the object the rule is applied to is after the one specified in the value operator.
+
+	
+
+date
+
+
+
+
+“GREATER_THAN”
+
+	
+
+The value stated in the rule is greater than the the object the style is applied to.
+
+	
+
+Int | float | date
+
+
+
+
+“GRATER_THAN_OR_EQUAL”
+
+	
+
+The value stated in the rule is greater than or equal to the the object the style is applied to.
+
+	
+
+Int | float | date
+
+
+
+
+“LESS_THAN”
+
+	
+
+The value stated in the rule is less than the the object the style is applied to.
+
+	
+
+Int | float | date
+
+
+
+
+“LESS_THAN_OR_EQUAL”
+
+	
+
+The value stated in the rule is less than or equal to the the object the style is applied to.
+
+	
+
+Int | float | date
+
+
+
+
+“EQUAL”
+
+	
+
+The value stated in the rule is equal to the the object the style is applied to.
+
+	
+
+Int | float | date | string
+
+
+
+
+“NOT_EQUAL”
+
+	
+
+The value stated in the rule is not equal to the the object the style is applied to.
+
+	
+
+Int | float | date | string
+
+
+
+
+“BETWEEN”
+
+	
+
+The value of the object the styling rule is applied to is between the values stated in the rule. These values can be stated as [value1, value2].
+
+	
+
+Int | float | date
+
+
+
+
+“NOT_BETWEEN”
+
+	
+
+The value of the object the styling rule is applied to is not between the values stated in the rule. These values can be stated as [value1, value2].
+
+	
+
+Int | float | date
+
+Tip
+
+When building a rule with more than one comparator, make sure that your conditions are mutually exclusive so that your desired style is applied to the correct value. 
+
+Tip
+
+Conditions are evaluated in the same order they are listed within the rule. 
+
+Style: Visual changes executed to the object once the logic in the display content rule is applied. There are four types of style changes:
+
+Icon: Adds an icon next to the object’s content.
+
+Avatar: Adds an icon with the first character of the value the style is applied on.
+
+Font: Changes the format of the object’s font.
+
+Background/Borders: Changes the look of the object background or adds borders to the object.
+
+The following styling options are available in combination with the following components:
+
+Filter
+
+YAML operator
+
+	
+
+Description
+
+	
+
+Options
+
+	
+
+KPI List
+
+	
+
+Attribute List
+
+	
+
+Table
+
+	
+
+Histogram
+
+
+
+
+iconName
+
+	
+
+Specifies the icon that should be added to the rule.
+
+	
+
+ 
+
+	
+
+Yes
+
+	
+
+Yes
+
+	
+
+Yes
+
+	
+
+No
+
+
+
+
+iconSize
+
+	
+
+Defines the size of the icon.
+
+	
+
+px size
+
+Note
+
+Max size varies based on component.
+
+	
+
+Yes
+
+	
+
+Yes
+
+	
+
+Yes
+
+	
+
+No
+
+
+
+
+iconFont
+
+	
+
+Defines if icon specified under iconName should show its iconFont version.
+
+	
+
+TRUE|FALSE
+
+	
+
+Yes
+
+	
+
+Yes
+
+	
+
+Yes
+
+	
+
+No
+
+
+
+
+avatar
+
+	
+
+Adds an avatar to the cell the value is expressed in.
+
+	
+
+true | false
+
+	
+
+Yes
+
+	
+
+Yes
+
+	
+
+Yes
+
+	
+
+No
+
+
+
+
+avatarSize
+
+	
+
+Defines the size of the avatar.
+
+	
+
+xs | sm | md | lg | xl
+
+Note
+
+Max size varies based on component.
+
+	
+
+Yes
+
+	
+
+Yes
+
+	
+
+Yes
+
+	
+
+No
+
+
+
+
+avatarURL
+
+	
+
+Indicates the direct web address of the image file being used as the profile picture or avatar.
+
+	
+
+Valid URL
+
+Note
+
+Must be used with an attribute that contains the UserName value.
+
+	
+
+Yes
+
+	
+
+Yes
+
+	
+
+Yes
+
+	
+
+No
+
+
+
+
+avatarColor
+
+	
+
+Defines the color of the avatar.
+
+	
+
+Hex of CSS color
+
+	
+
+Yes
+
+	
+
+Yes
+
+	
+
+Yes
+
+	
+
+No
+
+
+
+
+iconPosition
+
+	
+
+Defines where the icon will be located in regards to the value.
+
+	
+
+LEFT | RIGHT | ONLY_ICON
+
+	
+
+Yes
+
+	
+
+Yes
+
+	
+
+Yes
+
+	
+
+No
+
+
+
+
+label
+
+	
+
+Applies style only to the value of object instead of the cell the object is in.
+
+	
+
+true | false
+
+	
+
+Yes
+
+	
+
+Yes
+
+	
+
+Yes
+
+	
+
+No
+
+
+
+
+backgroundColor
+
+	
+
+Defines the background color of the cell the value is in.
+
+This must be configured in the following format (replacing the HEX value for the color of your choice):
+
+"#FE4854"
+
+	
+
+Hex of CSS color
+
+	
+
+Yes
+
+	
+
+Yes
+
+	
+
+Yes
+
+	
+
+Yes
+
+
+
+
+textColor
+
+	
+
+Defines the text color of the value.
+
+	
+
+Hex of CSS color
+
+	
+
+Yes
+
+	
+
+Yes
+
+	
+
+Yes
+
+	
+
+No
+
+
+
+
+border
+
+	
+
+Defines the border width, style and color properties.
+
+	
+
+Border Options
+
+	
+
+Yes
+
+	
+
+Yes
+
+	
+
+Yes
+
+	
+
+No
+
+
+
+
+borderRadius
+
+	
+
+Defines the width of the radius applied to the border corners to make them rounded.
+
+	
+
+px size
+
+	
+
+Yes
+
+	
+
+Yes
+
+	
+
+Yes
+
+	
+
+No
+
+
+
+
+fontSize
+
+	
+
+Defines the size of the font the value is expressed in.
+
+	
+
+px size
+
+	
+
+Yes
+
+	
+
+Yes
+
+	
+
+Yes
+
+	
+
+No
+
+
+
+
+fontItalic
+
+	
+
+Applies italics to the font the value is expressed in.
+
+	
+
+TRUE | FALSE
+
+	
+
+Yes
+
+	
+
+Yes
+
+	
+
+Yes
+
+	
+
+No
+
+
+
+
+fontWeight
+
+	
+
+Applies bolding to the font the value is expressed in.
+
+	
+
+ 
+
+	
+
+Yes
+
+	
+
+Yes
+
+	
+
+Yes
+
+	
+
+No
+
+YAML examples of display rules
+
+One comparator example:
+
+customObjects: 
+  - id: DISPLAY_RULE_1
+    displayName: Display rule 1
+    customAttributes:
+      - comparator: GREATER_THAN_OR_EQUAL     # comparator is used to compare value from ``DISPLAY_RULE.customAttributes.value`` to the value from PQL
+        value: 1000       # value to compare. In case you use the comparator BETWEEN, you would define the value as such: '[8,15]'
+        style: #styles to change the cell's appearance
+          textColor: green #CCS collar or HEX code
+          backgroundColor: "#FE4854"
+          fontSize: 16px
+          fontItalic: false
+          fontWeight: bold
+
+Two comparator example:
+
+customObjects: 
+ - id: DISPLAY_RULE_4
+    displayName: Display rule 2
+    customAttributes:
+      - comparator: LESS_THAN
+        value: 1000 
+        style:
+          textColor: red
+          backgroundColor:"#FE4854"
+          fontSize: 16px
+          fontItalic: true
+          fontWeight: bold
+      - comparator: GREATER_THAN_OR_EQUAL
+        value: 1000
+        style:
+          textColor: green
+          backgroundColor: "#FE4854"
+          fontSize: 16px
+          fontItalic: false
+          fontWeight: bold
+Dropdown item and breakdown components
+
+Dropdown item components can be used to define breakdown items for your dropdown.
+
+YAML example
+
+customObjects: 
+  - id: TIME_DROPDOWN
+    displayName: Time Dropdown
+    customAttributes:
+      list:
+        - name: DAY
+        - name: WEEK
+        - name: MONTH
+Priority switcher
+
+The priority switcher allows you to set a Priority KPI as a company or department goal and pass it over as input for other components, e.g. to sort tasks and actions. As an example, task lists can be sorted according to the main objective to optimize towards. This objective is defined in form of a KPI that should change over time to a certain direction.
+
+If the Priority Switcher is implemented in a View, it is displayed next to the title of the View.
+
+In the priorities section of your record, add one or arbitrary priorities. Make sure that you are connecting the priority to an existing KPI. This link makes sure that the priority icon is displayed on a KPI. In case you don't want this link, you can enter a dummy KPI.
+
+Priority switcher YAML example
+
+records:
+  - id: INVOICE
+    displayName: Invoice
+    priorities:
+    - id: CASH_DISCOUNT_PRIORITIZATION
+      displayName: Cash Discount
+      pql: CASE WHEN "BSEG"."BELNR" IN ('0120205969', '9330002454', '5110056998',
+            '5110055916', '5110055917', '5110052424', '5110056999', '5110052423')
+            THEN 'Urgent' WHEN DAYS_BETWEEN(TO_TIMESTAMP(  '10012020'
+            ,'MMDDYYYY'), ADD_MONTHS(PU_MIN("BSEG",
+            "_CEL_AP_ACTIVITIES"."EVENTTIME", "_CEL_AP_ACTIVITIES"."ACTIVITY_EN" =
+            'Cash Discount Due Date passed'),6)) < 0 THEN 'Low' WHEN
+            DAYS_BETWEEN(TO_TIMESTAMP(  '10012020' ,'MMDDYYYY'),
+            ADD_MONTHS(PU_MIN("BSEG", "_CEL_AP_ACTIVITIES"."EVENTTIME",
+            "_CEL_AP_ACTIVITIES"."ACTIVITY_EN" = 'Cash Discount Due Date
+            passed'),6)) < 5 AND DAYS_BETWEEN(TO_TIMESTAMP(  '10012020'
+            ,'MMDDYYYY'), ADD_MONTHS(PU_MIN("BSEG",
+            "_CEL_AP_ACTIVITIES"."EVENTTIME", "_CEL_AP_ACTIVITIES"."ACTIVITY_EN" =
+            'Cash Discount Due Date passed'),6)) >= 0 THEN 'Low' ELSE 'Medium' END
+      kpi: LOST_CASH_DISCOUNT
+
+KPIs need to be activated to be displayed in the Priority Switcher. To do this, add the customAttribute "active: true". This will make the KPI selectable in the priority switcher.
+
+YAML example
+
+kpis:
+  - id: LOST_CASH_DISCOUNT
+    displayName: Lost Cash Discount
+    customAttributes:
+        absoluteCalculation: true
+        active: true #required Defines if the KPI should be considered by the Priority Switcher
+    pql: ( SUM(CASE WHEN MONTH("BKPF"."CPUDT") = 4 THEN "BSEG"."SKFBT_CONVERTED" *
+        "BSEG"."ZBD1P"*1.1 * 0.01 ELSE "BSEG"."SKFBT_CONVERTED" *
+        "BSEG"."ZBD1P"*0.01 END) - SUM(CASE WHEN "BSEG"."ZBD1P" > 0 AND
+        "BSEG"."SKFBT_CONVERTED" > 0 THEN  "BSEG"."SKNTO_CONVERTED" ELSE NULL END)
+        ) * 2
+    filterIds: []
+    format: $.3s
+    breakdowns: []
+    aggregations: []
+    parameters: []
+    desiredDirection: DECREASE
+    priority: false
+    type: KPI
+Recommendation list
+
+Use the Recommendation component on Views to list out different recommendations on how to improve a KPI. Details about the recommended improvement measures can be provided in Profile Views.
+
+Recommendation List Components are defined in the customAttribute section in KPIs.
+
+YAML example
+
+kpis: 
+  - id: TOTAL_REVENUE
+        displayName: Total Revenue
+        customAttributes:
+        recommendations:
+          - id: RECOMMANDATION_REVENUE
+                displayName: High volume of outstanding order shipments
+                filter: CASE
+                firstKpi: null
+                secondKpi: null
+                process: RM
+          - id: RECOMMANDATION_REVENUE_2
+                displayName: High inventory for low-demand products
+                filter: CASE
+                firstKpi: null
+                secondKpi: null
+                process: RM
+Related topics
+
+Knowledge Models
+
+Views
+
+Versioning and deploying packages
+
+--- Flags (legacy views only) ---
+https://docs.celonis.com/en/knowledge-model---flags--legacy-views-only-.html
+Celonis Product DocumentationStudioKnowledge ModelsFlags (legacy views only)
+Knowledge Model - Flags (legacy views only)
+
+Note
+
+Flags can only be used with legacy Views in Studio and aren't supported in the new Studio experience. We recommend migrating away from Legacy Views and taking advantage of the enhanced features offered by our Studio Views experience.
+
+For more information about legacy Views, see: Studio feature availability matrix.
+
+When you discover unwanted behavior in your process that impacts business goals (KPIs), you can flag and capture those instances within Celonis. This enables you to identify which execution gaps have to be tackled. These execution gaps are captured as flag objects within the Knowledge Model (KM). Flags are a boolean attritbute that use TRUE or FALSE statements to evaluate underlying data in your KM records.
+
+With the Execution Gap List component, you can give your users an overview of how the flags they have defined in their KM impact certain KPIs. See: Configuring an execution gap list in legacy views.
+
+Collapse all
+Before you begin
+
+For flags to work correctly you must meet the following prerequisites:
+
+The flag must be assigned to a record in the KM.
+
+The underlying record must have an identifier defined. You are prompted to create a record identifier when creating a flag if one isn't already defined.
+
+Creating flags in the Knowledge Model
+
+To create flags in the KM:
+
+Click Studio and then open the package containing the KM you want to create the flag in.
+
+Open the KM asset.
+
+Click Flags and select Create Flag.
+
+Configure your flag using the following settings:
+
+Record: Select the record you want to assign this flag to. See: Records.
+
+Identifier: Select the identifier assign to the record selected above. If no identifier exists, create one. See: Record identifiers (legacy views only).
+
+Display Name: A human-readable label used in the user interface.
+
+Short Display Name: Shorter human readable label for the object shown automatically on the Views whenever the Display Name is truncated. Can contain max 20 characters.
+
+ID: A unique technical identifier used to reference this flag. Must be unique within all attributes in the KM.
+
+Description: A human-readable description for the flag.
+
+Internal Note: A field only visible within the KM.
+
+Flag statement: Use the PQL editor to create your flag statement. Flags are a boolean attritbute that use TRUE or FALSE statements to evaluate underlying data in your KM records.
+
+Impacted KPIs: Add the KPIs that are impacted by this flag to calculate the impact. You can display the relationship and the calculated impact for each KPI on a View within the Execution Gap component.
+
+Click Flag Preview and / or Impact Calculation to ensure that your flag works as expected. If not, re-configure the flag and try again.
+
+Click Save.
+
+The flag is assigned to your KM record and available to use in your related content.
+
+Managing existing Knowledge Model objects
+
+You can manage existing Knowledge Model objects by clicking the Options icon:
+
+You then have the following options per object:
+
+Disable scope: By disabling the scope of an object, the object then can't be used anywhere within the package. This is a good option if you want to disable an object but delete it from your KM.
+
+Duplicate: This opens the create object window with the configuration of the object you are duplicating used as a template. When saving a duplicate object, the object ID must be unique.
+
+Delete: This deletes the object from the KM and any references to that object in existing content. When deleting an object, there is no undo or recovery option.
+
+Defining flags using YAML
+
+In YAML, flag objects have the following value declaration format:
+
+records:
+  - id: O2C_ACTIVITY_TAB
+    flags:
+      - id: sales_order_automation
+        displayName: Sales Order Automation
+        pql: "\"O2C_ACTIVITY_TABLE\".\"ACTIVITY_EN\" = 'Create Sales Order'"
+
+id: A unique technical identifier used to reference this flag. Must be unique within all flags in the Record.
+
+displayName: A human-readable label used in the user interface.
+
+description (optional): A human-readable description for the flag.
+
+pql: Contains the PQL query that will flag specific rows of your Record if they meet the condition described in this field.
+
+You can also add KPIs that will be impacted by the flags in your Knowledge Model by creating new anomalies. These are added in the anomalies section of the Knowledge Model and have the following value declaration format:
+
+anomalies:
+  - id: sales_order_automation_ANOMALY
+    displayName: Sales Order Automation
+    flag: sales_order_automation
+    kpiIds: []
+    kpis:
+      - id: o2c_automation_rate_undefined
+        kpiId: o2c_automation_rate
+    knowledgeObjectId: O2C_ACTIVITY_TABLE_ANOMALY
+    type: ANOMALY
+
+id: Is the unique identifier for the anomaly. Must be unique among all anomalies within the Knowledge Model.
+
+displayName: A human-readable label used in the user interface.
+
+description(optional): A human-readable description for the impacted KPI.
+
+flag: The ID of the flag that will be used with this anomaly.
+
+Kpiids (deprecated): Impacted KPI <kpiIds is only used by the deprecated anomaly list component>
+
+kpis: List of KPIs impacted in this anomaly, where each of these KPIs has:
+
+id: A unique identifier for the KPI in the anomaly.
+
+kpiId: Id of the KPI impacted in this anomaly.
+
+impactCalculation (optional): The KPI used for the custom impact calculation. Field only needs to be included if the impact calculation will differ from the default method. To learn more about the impact calculation methods you can review the Execution Gap List documentation.
+
+knowledgeObjectId: Discloses the ID of the Record that contains the flag. This Record ID is used to link the Execution Gap List to a profile view.
+
+type: Contains the type of object.
+
+Note
+
+The KPIs referenced inside the anomaly section must have 'desiredDirection' set. This is used to understand if the impact is positive or negative.
+
+Example of configuring flags using YAML
+
+An example configuration for late entered invoices could be defined as the following:
+
+anomalies:
+ - id: LATE_ENTERED_INVOICES
+   displayName: "Anomaly: Invoices entered late"
+   description: "This Anomaly displays Invoices that were entered late"
+   flag: FLAG_LATE_ENTERED_INVOICES
+   kpis: 
+     - kpiId: KPI_ON_TIME_PAYMENT
+       impactCalculation: IMPACT_FOR_PERCENTAGES   
+   knowledgeObjectId: "INVOICE"
+
+This anomaly calls the flag FLAG_LATE_ENTERED_INVOICES which was defined inside the Record INVOICE.
+
+records:     
+    - id: INVOICE     
+      displayName: Invoice     
+      flags:     
+        - id: LATE_ENTERED_INVOICES     
+        displayName: Late Entered Invoices
+        pql: DAYS_BETWEEN("BKPF"."BLDAT", ROUND_DAY(PU_MIN(BSEG,     ROUND_DAY("_CEL_AP_ACTIVITIES".EVENTTIME),"_CEL_AP_ACTIVITIES"."ACTIVITY_EN" IN ('Enter in Cockpit')))) > 10           
+
+In the definition for a KPI that will be used with a flag, you can specify up to three special pql parameters with the keywords: global, flagged and nonFlagged. These will be populated by the Execution Gap List with the following values:
+
+Global: Populated with the unfiltered value of the selected KPI in the execution gap list component.
+
+Flagged: Populated with the value of the KPI when filtering only on Records that have been flagged with the anomaly.
+
+nonFlagged: Populated with the value of the KPI when filtering on Records that have not been flagged with the anomaly.
+
+And the YAML example for this is:
+
+kpis:
+  - id: IMPACT_FOR_PERCENTAGES
+    displayName: Impact for percentages
+    format: "+.0%"
+    pql: "CASE WHEN {p2} > 0.0 THEN ({p2} - {p1}) / {p1} ELSE 0.0 END"
+    parameters:
+      - id: global 
+        displayName: global
+        defaultValue: 100
+      - id: flagged                            
+        displayName: flagged
+        defaultValue: 75
+
+As mentioned above, the Execution Gap List Component is used to display the flags: you have created impact certain KPIs. Here is a minimal YAML configuration of such a component within a View:
+
+  - id: Execution Gaps
+    type: execution-gap-list
+    settings:
+      kpi: "KPI_ON_TIME_PAYMENT"
+Related topics
+
+Knowledge Models
+
+Views
+
+Versioning and deploying packages
+
+--- Record identifiers (legacy views only) ---
+https://docs.celonis.com/en/knowledge-model---record-identifiers--legacy-views-only-.html
+Celonis Product DocumentationStudioKnowledge ModelsRecord identifiers (legacy views only)
+Knowledge Model - Record identifiers (legacy views only)
+
+Note
+
+Record identifiers can only be used with legacy Views in Studio and aren't supported in the new Studio experience. We recommend migrating away from Legacy Views and taking advantage of the enhanced features offered by our Studio Views experience.
+
+For more information about legacy Views, see: Studio feature availability matrix.
+
+In addition to record, you can also create record identifiers. Identifiers define which columns from the Data Model table are used as a record's unique name. These can be an individual columns or a concatenation of columns within the Data Model table (with a maximum number of columns that can be concatenated to form an identifier being six).
+
+Record identifiers have multiple uses, including:
+
+Referencing unique data points with augmented attributes.
+
+Enabling table selections within Views.
+
+Adding a new profile View by referencing a record.
+
+For more information about creating records: Records.
+
+Collapse all
+Creating record identifiers in the Knowledge Model
+
+When an identifier is created, it is stored within a record within the KM:
+
+Click Studio and then open the package containing the KM you want to create the record identifier in.
+
+Open the KM you want to create the record for.
+
+Select Records and then click the record you want to create the identifier for.
+
+In this example, the Eban record is selected:
+
+Click Create Identifier.
+
+Configure your identifier using the following settings:
+
+Display Name: A human-readable label used in the user interface.
+
+Short Display Name: Shorter human readable label for the object shown automatically on the Views whenever the Display Name is truncated. Can contain max 20 characters.
+
+ID: A unique technical identifier used to reference this Record. Must be unique within all Records in the KM.
+
+Description: A human-readable description for the Record.
+
+Internal Note: A field only visible within the KM.
+
+PQL Formula: Contains the reference to the table in the data model that will be represented in the record identifier.
+
+Click Save.
+
+The identifier is now assigned to the record.
+
+Managing existing Knowledge Model objects
+
+You can manage existing Knowledge Model objects by clicking the Options icon:
+
+You then have the following options per object:
+
+Disable scope: By disabling the scope of an object, the object then can't be used anywhere within the package. This is a good option if you want to disable an object but delete it from your KM.
+
+Duplicate: This opens the create object window with the configuration of the object you are duplicating used as a template. When saving a duplicate object, the object ID must be unique.
+
+Delete: This deletes the object from the KM and any references to that object in existing content. When deleting an object, there is no undo or recovery option.
+
+Adding an identifier to a record in a SAP table
+
+If you want to add an Identifier to a Record that uses an SAP table, you can check the following website to find the set of Data Model Table columns that form the table’s Identifier (e.g. for the BKPF table). The blue highlighted columns form the unique identifier.
+
+Example:
+
+This results in the following PQL query:
+
+"BKPF"."MANDT" || "BKPF"."BUKRS" || "BKPF"."BELNR" || "BKPF"."GJAHR"
+Using record identifiers in YAML
+
+YAML declarations of Identifiers follow this format:
+
+- id: INVOICE
+  displayName: Invoice
+  description: ""
+  pql: BKPF
+  identifier:
+    - id: CASE_KEY_ID
+      displayName: Identifier
+      description: ""
+      pql: '"BKPF"."MANDT
+
+id: A unique technical identifier used to reference this Identifier.
+
+displayName: A human-readable label used in the user interface.
+
+description: A human-readable description for the Identifiers.
+
+internalNote: A field only visible within the Knowledge Model.
+
+pql: A field that contains the PQL reference to the Data Model Table columns that make up the Record’s Identifier.
+
+Related topics
+
+Knowledge Models
+
+Views
+
+Versioning and deploying packages
+
+--- Variables (Legacy Views) ---
+https://docs.celonis.com/en/knowledge-model---variables.html
+Celonis Product DocumentationStudioKnowledge ModelsVariables (Legacy Views)
+Knowledge Model Variables (Legacy Views)
+
+Note
+
+Legacy Knowledge Model variables only work with legacy Studio Views. To access enhanced capabilities, migrate your workflows to current Studio Views. For details, see Studio feature availability matrix.
+
+Legacy Knowledge Model variables centralize values, enabling consistent references across multiple entities within a single Knowledge Model.
+
+Reference variables in PQL fields using syntax:
+
+${variable_ID}
+Collapse all
+Variable Scopes and Types
+
+Configure legacy variables independently across packages and Views based on scope requirements:
+
+Legacy package variables: Centrally manage values referenced across an entire package. For details, see Variables.
+
+Legacy View variables: Centrally manage values referenced across specific View components and assets. For details, see Legacy view variables.
+
+Creating Legacy Knowledge Model Variables
+
+In Studio, open the package containing the target Knowledge Model.
+
+Open the Knowledge Model, select Variables, and click Create Variable.
+
+Configure the variable settings:
+
+Display Name: Enter a descriptive label for the user interface.
+
+Short Display Name: Enter a shortened label for Views when the Display Name is truncated (maximum 20 characters).
+
+ID: Enter a unique technical identifier. This ID must be unique across all attributes in the Knowledge Model.
+
+Description: Enter an optional internal description.
+
+Internal Note: Enter internal notes visible only in the Knowledge Model configuration view.
+
+Value: Enter the default value populated when referencing this variable.
+
+Click Save.
+
+The variable is saved and available across related Knowledge Model assets.
+
+Managing existing Knowledge Model objects
+
+You can manage existing Knowledge Model objects by clicking the Options icon:
+
+You then have the following options per object:
+
+Disable scope: By disabling the scope of an object, the object then can't be used anywhere within the package. This is a good option if you want to disable an object but delete it from your KM.
+
+Duplicate: This opens the create object window with the configuration of the object you are duplicating used as a template. When saving a duplicate object, the object ID must be unique.
+
+Delete: This deletes the object from the KM and any references to that object in existing content. When deleting an object, there is no undo or recovery option.
+
+Defining Legacy Knowledge Model Variables in YAML
+Filter
+
+Field name
+
+	
+
+Description
+
+	
+
+Required?
+
+	
+
+Expected value
+
+
+
+
+id
+
+	
+
+Technical identifier used for unique referencing.
+
+	
+
+Yes
+
+	
+
+Alphanumeric, no spaces.
+
+
+
+
+displayName
+
+	
+
+Human-readable label displayed in the user interface.
+
+	
+
+Yes
+
+	
+
+String
+
+
+
+
+description
+
+	
+
+Human-readable description of the variable purpose.
+
+	
+
+No
+
+	
+
+String
+
+
+
+
+value
+
+	
+
+Default value populated upon referencing the variable.
+
+	
+
+Yes
+
+	
+
+Arbitrary
+
+YAML Definition Example
+
+The following YAML snippet defines a variable named LIMIT_ORDERS to manage maximum order thresholds centrally. Reference this variable in any Knowledge Model PQL field using ${LIMIT_ORDERS}:
+
+- id: LIMIT_ORDERS
+  displayName: Maximum amount of orders
+  description: ""
+  value: 500
+Related topics
+
+Knowledge Models
+
+Views
+
+Versioning and deploying packages
+
+--- Enhanced Knowledge Model variables ---
+https://docs.celonis.com/en/creating-and-managing-enhanced-knowledge-model-variables.html
+Celonis Product DocumentationStudioViewsEnhanced variablesEnhanced Knowledge Model variables
+Creating and managing enhanced Knowledge Model variables
+
+Enhanced Knowledge Model variables let you centrally define data logic and values that automatically populate across all Views connected to that Knowledge Model. Use these variables across View components, such as buttons, KPI lists, tables, and dropdown selectors, to maintain consistent metric definitions across your analysis.
+
+Enhanced Knowledge Model variables can be created either directly in the Knowledge Model or using the PQL editor.
+
+Collapse all
+Creating enhanced Knowledge Model variables within a View
+
+To create enhanced Knowledge Model variables within a View:
+
+Open the PQL editor using one of the following methods:
+
+Click PQL editor directly.
+
+Add data to a component setting (such as a table column).
+
+In the Knowledge Model variable section, select Add.
+
+Enter a variable name, select a variable type, and optionally enter a description.
+
+Key: Enter a unique ID so components across your View can reference the variable. Avoid using special characters.
+
+Reference your variable key in your View using the following syntax:
+
+${KEY}
+
+Type: Choose between string (text), number (#), boolean (true / false), and object.
+
+For object variables, see: Object variables.
+
+Default Value (optional): Enter the fallback value referenced unless overridden.
+
+Optional: Enable Advanced Options to configure variable descriptions and scope settings.
+
+Description: Provide additional context for your team where needed.
+
+Variable Scope: Select whether to save the variable at the View level, within the Knowledge Model (accessible to all linked Views), or across all assets in the package.
+
+User Scope: Specify whether the variable is specific to your account or shared with all team members.
+
+Click Save.
+
+Your enhanced Knowledge Model variables display in the variables menu for all Studio assets using this Knowledge Model.
+
+Editing or deleting enhanced Knowledge Model variables
+
+Click Edit next to an existing variable to modify its parameters or remove it.
+
+Enhanced variable use case example using an input box
+
+An input box saves a value that is entered manually by a user, with that value then used throughout your View. You can save the input value as either a View variable or a Knowledge Model variable. This variable can then be used in other components to adjust the View, based on the manual value entered by the user.
+
+In this example, the input box allows users to enter the minimum net value:
+
+This input box example is configured by saving the user input as a Knowledge Model variable. In this case, the variable is a number type:
+
+${minimum_value_threshold_unbilledcurrency)
+
+This variable can then be used in other components, such as a text box:
+
+The published version of the app displays the value entered (10):
+
+Related topics
+
+Configuring an input box for legacy views
+
+Enhanced variables
+
+Enhanced View variables
+
+--- Link an Analysis to a Knowledge Model ---
+https://docs.celonis.com/en/link-an-analysis-to-a-knowledge-model.html
+Celonis Product DocumentationStudioAnalysisLink an Analysis to a Knowledge Model
+Link an Analysis to a Knowledge Model
+
+Analysis - Maintenance only
+
+Effective August 1st 2025, Analysis features can no longer be purchased as part of a Celonis Platform license. Celonis continues to maintain Analysis (by fixing bugs and ensuring that performance remains strong) but no further feature development will take place.
+
+You can migrate your existing Analysis assets to our enhanced Studio Views, giving you access to our intuitive View creation capabilities. To learn how to migrate your existing Analysis to Studio Views, head to: Migrating Analysis to Views.
+
+And for an overview of our enhanced Studio features, see: Studio feature availability matrix.
+
+Global Filters from Knowledge Model into Analysis
+
+Global filters in the Knowledge Model are applied as filters in Studio Analysis as well. These filters behave the same way as Load Script in the Analysis. If Load Script already exists for an Analysis, the global filter along with the Load Script filter will be collaboratively applied.
+
+You can link your analysis assets to the Knowledge Models that are created in a package in the Celonis Platform Studio.
+
+Linking the analysis asset to a Knowledge Model
+
+Open the Settings of the analysis asset.
+
+Select the Knowledge Model option and click the dropdown to see the Knowledge Models you can select.
+
+Select a Knowledge Model and click Update.
+
+Accessing linked Knowledge Model KPIs and local analysis KPIs
+
+Note
+
+Currently, Knowledge Model KPIs are read-only. If you want to change the Knowledge Model KPIs, you need to go to the respective Knowledge Model. You can change local KPIs inside the analysis.
+
+Open the analysis asset.
+
+Go to the analysis settings and select Saved formulas.
+
+In Saved formulas, you can view all the KPIs that are imported from the linked Knowledge Model as well as local KPIs.
+
+When creating components in the analysis, you can distinguish between local KPIs and KPIs imported from the Knowledge Model.
+
+--- Creating an Action in the Knowledge Model ---
+https://docs.celonis.com/en/creating-an-action-in-the-knowledge-model.html
+Celonis Product DocumentationAutomationActionsActions (legacy)Creating an Action in the Knowledge Model
+Creating an Action in the Knowledge Model
+
+Legacy Actions
+
+You're viewing documentation for record-based legacy type Actions. If you're already using our enhanced Studio experience, we recommend using Tasks, which allow for running user-triggered automation from your Studio Views. See Tasks.
+
+Actions allow you to run selected Action Flows directly from different Celonis Platform (Celonis Platform) Views and components. Once you’ve created an Action you can add it to the Celonis Platform interface as an Action button.
+
+Collapse all
+Before you begin
+
+To be effective, the Action must be connected to an Action Flow. For that reason, you must have the Action Flow created before you start creating your Actions. Additionally, your Action Flow must meet the following requirements:
+
+The Action Flow must be published.
+
+The Action Flow must be active.
+
+The Action Flow must be scheduled to run “On demand”.
+
+For step-by-step instructions on how to create Action Flows that meet Actions’ criteria, see Creating Action Flows for manual triggering.
+
+There must be at least one Record with the identifier available in your Knowledge Model.
+
+Creating an Action in the KM
+
+To create an Action in the Knowledge Model:
+
+Go to your Knowledge Model.
+
+From the left-hand side menu, select Actions.
+
+A list of Actions available in the Knowledge Model
+
+Click Create Action.
+
+Select Create Action using Action Flows.
+
+Go through the Action creation process:
+
+Note
+
+When selecting Records, you can only use Records with a defined Record Identifier.
+
+Click Save.
+
+You’ve created your Action. The Action is stored in the Knowledge Model and can be used in form of a button in Celonis Platform Tables, and Profiles Views.
+
+Related topics
+
+Adding Actions to Studio components
+
+Action Engine
+
+--- Knowledge Model ---
+https://docs.celonis.com/en/knowledge-model-1672036.html
+Celonis Product DocumentationBusiness ApplicationsAccounts Payable AppsParked & Blocked Invoices AppParked & Blocked App ConfigurationKnowledge Model
+Knowledge Models in the Parked & Blocked Invoice app
+
+The App comes with one Knowledge Model (KM) called “Knowledge Model - SAP FI & MM”.
+
+Note
+
+The KM is pointing to the Base KMs stored in the Marketplace. You will not be able to update the Base KM. You can overwrite the PQL, names, formatting, etc. using the KM’s visual editor. If you prefer working with the YAML Editor, copy the IDs from the Base KMs (see final model) and overwrite them in the KMs that are accessible to you in the YAML Editor.
+
+To start with, go to the AP KM package and open the Knowledge Model (it should be the only asset inside the app). Go through the Variables section in the View mode and validate whether the input used for the variables is correct. To view all variables in use, navigate to the Variables section of the KM. For the apps, only non-auto generated configurations are used, so you can disable the auto generated definitions .
+
+Tip
+
+You can see which objects refer to a variable by copying the Variable ID, going into the YAML Editor’s View mode (“Final Model without variable replacement”) and search for the copied variable.
+
+--- Local Adjustments to the Knowledge Model ---
+https://docs.celonis.com/en/local-adjustments-to-the-knowledge-model.html
+Celonis Product DocumentationBusiness ApplicationsAccounts Payable AppsPayment Term CheckerLocal Adjustments to the Knowledge Model
+Local Adjustments to the Knowledge Model
+
+There are several formulas that need to be adjusted based on your environment:
+
+Invoice Status Filters
+
+There are two filters that use the augmented attribute for invoice status: FILTER_AccDocItem_OpenInvoices and FILTER_AccDocItem_ResolvedInvoices. Each of these filters references the knowledge model key of the local payment term checker. However, this knowledge model key may be different from that local knowledge model key in your package.
+
+Click on the options for the knowledge model in your Payment Term Checker package. Select Key and copy the key into your clipboard.
+
+Then, update the knowledge model variable VAR_KNOWLEDGE_MODEL_KEY. Paste the local knowledge model key into the value of the variable.
+
+--- Setting the Knowledge Model Key variable for the case-centric Open Credit Memo app ---
+https://docs.celonis.com/en/setting-the-knowledge-model-key-variable-for-the-case-centric-open-credit-memo-app.html
+Celonis Product DocumentationBusiness ApplicationsAccounts Payable AppsOpen Credit Memo app - case-centricInstalling the case-centric Open Credit Memo appSetting the Knowledge Model Key variable for the case-centric Open Credit Memo app
+Setting the Knowledge Model Key variable for the case-centric Open Credit Memo app
+
+In the Open Credit Memo app’s Knowledge Model "Open Credit Memo Knowledge Model", set the value of the Knowledge Model Key variable to the key for your local app installation. Setting the value of the Knowledge Model Key variable lets you have multiple copies of the app if you need them. The key is used to identify the right augmented attributes when apps are sharing a data model and using the same augmented attribute IDs.
+
+The default Knowledge Model Key variable value for the case-centric Open Credit Memo app is credit-memo-aging-store.aging-credit-memo-knowledge-model.
+
+Here’s how to set the Knowledge Model Key variable:
+
+In the Celonis navigation menu, select Studio.
+
+Find the Open Credit Memo app in your Studio space navigation.
+
+Expand the package’s structure using the arrow.
+
+Go to the Knowledge Models folder and find “Open Credit Memo Knowledge Model”.
+
+Click the context menu (the three vertical dots) by the Knowledge Model’s name.
+
+Select Key, and copy the key to your clipboard. This is the Knowledge Model key for your local app installation.
+
+Click the Knowledge Model’s name in the navigation to open the visual editor, and select the Variables section of the visual editor.
+
+Click the row with the Knowledge Model Key variable to edit it. For the Open Credit Memo app, the ID of the Knowledge Model Key variable is VAR_CONSTANT_KnowledgeModelKey.
+
+Paste the key that you copied for your local app installation, into the value of the Knowledge Model Key variable, and click Save.
+
+--- Setting the Knowledge Model Key variable for the object-centric Open Credit Memo app ---
+https://docs.celonis.com/en/setting-the-knowledge-model-key-variable-for-the-object-centric-open-credit-memo-app.html
+Celonis Product DocumentationBusiness ApplicationsAccounts Payable AppsOpen Credit Memo app - object-centricInstalling the object-centric Open Credit Memo appSetting the Knowledge Model Key variable for the object-centric Open Credit Memo app
+Setting the Knowledge Model Key variable for the object-centric Open Credit Memo app
+
+In the Open Credit Memo app’s Knowledge Model “OCM - Knowledge Model”, set the value of the Knowledge Model Key variable to the key for your local app installation.
+
+Setting the value of the Knowledge Model Key variable lets you have multiple copies of the app if you need them. The key is used to identify the right augmented attributes when apps are sharing a data model and using the same augmented attribute IDs. The default Knowledge Model Key variable value for the object-centric Open Credit Memo app is accounts-payable-open-credit-memos-ocpm-store.ap-open-credit-memo-knowledge-model-ocpm.
+
+Here’s how to set the Knowledge Model Key variable:
+
+In the Celonis navigation menu, select Studio.
+
+Find the Open Credit Memo app in your Studio space navigation.
+
+Expand the package’s structure using the arrow.
+
+Go to the Knowledge Models folder and find the app’s knowledge model, “OCM - Knowledge Model”.
+
+Click the context menu (the three vertical dots) by the Knowledge Model’s name.
+
+Select Key, and copy the key to your clipboard. This is the Knowledge Model key for your local app installation.
+
+Click the Knowledge Model’s name in the navigation to open the visual editor, and select the Variables section of the visual editor.
+
+Click the row with the Knowledge Model Key variable to edit it. For the Open Credit Memo app, the ID of the Knowledge Model Key variable is AP_Variable_Input_OpenCreditMemoAppKnowledgeModelKey.
+
+Paste the key that you copied for your local app installation, into the value of the Knowledge Model Key variable, and click Save.
+
+--- Setting the Knowledge Model Key variable for the case-centric Baseline Date Optimizer app ---
+https://docs.celonis.com/en/setting-the-knowledge-model-key-variable-for-the-case-centric-baseline-date-optimizer-app.html
+Celonis Product DocumentationBusiness ApplicationsAccounts Payable AppsBaseline Date Optimizer app - case-centricInstalling the case-centric Baseline Date Optimizer appSetting the Knowledge Model Key variable for the case-centric Baseline Date Optimizer app
+Setting the Knowledge Model Key variable for the case-centric Baseline Date Optimizer app
+
+In the Baseline Date Optimizer app’s Knowledge Model "Baseline Date Optimizer - Knowledge Model", set the value of the Knowledge Model Key variable to the key for your local app installation. Setting the value of the Knowledge Model Key variable lets you have multiple copies of the app if you need them. The key is used to identify the right augmented attributes when apps are sharing a data model and using the same augmented attribute IDs.
+
+The default Knowledge Model Key variable value for the case-centric Baseline Date Optimizer app is ap-baseline-date-optimizer-store.baseline-date-optimizer-knowledge-model.
+
+Here’s how to set the Knowledge Model Key variable:
+
+In the Celonis navigation menu, select Studio.
+
+Find the Baseline Date Optimizer app in your Studio space navigation.
+
+Expand the package’s structure using the arrow.
+
+Go to the Knowledge Models folder and find “Baseline Date Optimizer - Knowledge Model”.
+
+Click the context menu (the three vertical dots) by the Knowledge Model’s name.
+
+Select Key, and copy the key to your clipboard. This is the Knowledge Model key for your local app installation.
+
+Click the Knowledge Model’s name in the navigation to open the visual editor, and select the Variables section of the visual editor.
+
+Click the row with the Knowledge Model Key variable to edit it. For the Baseline Date Optimizer app, the ID of the Knowledge Model Key variable is AP_Variable_Input_BaselineDateOptimizationAppKnowledgeModelKey.
+
+Paste the key that you copied for your local app installation, into the value of the Knowledge Model Key variable, and click Save.
+
+--- Setting the Knowledge Model Key variable for the case-centric Unshipped Orders app ---
+https://docs.celonis.com/en/setting-the-knowledge-model-key-variable-for-the-case-centric-unshipped-orders-app.html
+Celonis Product DocumentationBusiness ApplicationsOrder Management AppsUnshipped Orders app - case-centricInstalling the case-centric Unshipped Orders appSetting the Knowledge Model Key variable for the case-centric Unshipped Orders app
+Setting the Knowledge Model Key variable for the case-centric Unshipped Orders app
+
+In the Unshipped Orders app’s Knowledge Model, set the value of the Knowledge Model Key variable to the key for your local app installation.
+
+Setting the value of the Knowledge Model Key variable lets you have multiple copies of the app if you need them. The key is used to identify the right augmented attributes when apps are sharing a data model and using the same augmented attribute IDs. The default Knowledge Model Key variable value for the Unshipped Orders app is knowledge-model.
+
+Here’s how to set the Knowledge Model Key variable:
+
+In the Celonis navigation menu, select Studio.
+
+Find the Unshipped Orders app in your Studio space navigation.
+
+Expand the package’s structure using the arrow.
+
+Go to the Knowledge Models folder and find “Knowledge Model”.
+
+Click the context menu (the three vertical dots) by the Knowledge Model’s name.
+
+Select Key, and copy the key to your clipboard. This is the Knowledge Model key for your local app installation.
+
+Click the Knowledge Model’s name in the navigation to open the visual editor, and select the Variables section of the visual editor.
+
+Click the row with the Knowledge Model Key variable to edit it. For the Unshipped Orders app, the ID of the Knowledge Model Key variable is VARIABLE_KNOWLEDGE_MODEL_KEY.
+
+Paste the key that you copied for your local app installation, into the value of the Knowledge Model Key variable.
+
+Click Save to save your change.
+
+--- Setting the Knowledge Model Key variable for the case-centric Shipped Not Invoiced app ---
+https://docs.celonis.com/en/setting-the-knowledge-model-key-variable-for-the-case-centric-shipped-not-invoiced-app.html
+Celonis Product DocumentationBusiness ApplicationsOrder Management AppsShipped Not Invoiced app - case-centricInstalling the case-centric Shipped Not Invoiced appSetting the Knowledge Model Key variable for the case-centric Shipped Not Invoiced app
+Setting the Knowledge Model Key variable for the case-centric Shipped Not Invoiced app
+
+In the Shipped Not Invoiced app’s Knowledge Models, set the value of the Knowledge Model Key variable to the key for your local app installation. You’ll need to set the value of the Knowledge Model Key variable in both “Knowledge Model” and “Knowledge Model - User Guide”.
+
+Setting the value of the Knowledge Model Key variable lets you have multiple copies of the app if you need them. The key is used to identify the right augmented attributes when apps are sharing a data model and using the same augmented attribute IDs. The default Knowledge Model Key variable values for the case-centric Shipped Not Invoiced app are:
+
+order-management-shipped-not-invoiced-store.knowledge-model-shipped-not-invoiced for “Knowledge Model”
+
+order-management-shipped-not-invoiced-store.knowledge-model-shipped-not-invoiced-documentation for “Knowledge Model - User Guide”
+
+Here’s how to set the Knowledge Model Key variables:
+
+In the Celonis navigation menu, select Studio.
+
+Find the Shipped Not Invoiced app in your Studio space navigation.
+
+Expand the package’s structure using the arrow.
+
+Go to the Knowledge Models folder and find “Knowledge Model”.
+
+Click the context menu (the three vertical dots) by the Knowledge Model’s name.
+
+Select Key, and copy the key to your clipboard. This is the Knowledge Model key for your local app installation.
+
+Click the Knowledge Model’s name in the navigation to open the visual editor, and select the Variables section of the visual editor.
+
+Click the row with the Knowledge Model Key variable to edit it. For the Shipped Not Invoiced app, the ID of the Knowledge Model Key variable is VAR_KNOWLEDGE_MODEL_KEY.
+
+Paste the key that you copied for your local app installation, into the value of the Knowledge Model Key variable, and click Save.
+
+Repeat the steps for “Knowledge Model - User Guide”, which is in the folder User Guide > Knowledge Models.
+
+--- Setting the Knowledge Model Key variable for the object-centric Open Purchase Order Management app ---
+https://docs.celonis.com/en/setting-the-knowledge-model-key-variable-for-the-object-centric-open-purchase-order-management-app.html
+Celonis Product DocumentationBusiness ApplicationsProcurement AppsOpen Purchase Order Management app - object-centricInstalling the object-centric Open Purchase Order Management appSetting the Knowledge Model Key variable for the object-centric Open Purchase Order Management app
+Setting the Knowledge Model Key variable for the object-centric Open Purchase Order Management app
+
+In the Open Purchase Order Management app’s Knowledge Model “OCPM KM”, set the value of the Knowledge Model Key variable to the key for your local app installation.
+
+Setting the value of the Knowledge Model Key variable lets you have multiple copies of the app if you need them. The key is used to identify the right augmented attributes when apps are sharing a data model and using the same augmented attribute IDs. The default Knowledge Model Key variable value for the object-centric Open Purchase Order Management app is ocpm-km.
+
+Here’s how to set the Knowledge Model Key variable:
+
+In the Celonis navigation menu, select Studio.
+
+Find the Open Purchase Order Management app in your Studio space navigation.
+
+Expand the package’s structure using the arrow.
+
+Go to the Knowledge Models folder and find the app’s knowledge model, “OCPM KM”.
+
+Click the context menu (the three vertical dots) by the Knowledge Model’s name.
+
+Select Key, and copy the key to your clipboard. This is the Knowledge Model key for your local app installation.
+
+Click the Knowledge Model’s name in the navigation to open the visual editor, and select the Variables section of the visual editor.
+
+Click the row with the Knowledge Model Key variable to edit it. For the Open Purchase Order Management app, the ID of the Knowledge Model Key variable is VAR_KNOWLEDGE_MODEL_KEY.
+
+Paste the key that you copied for your local app installation, into the value of the Knowledge Model Key variable, and click Save.
+
+--- Knowledge Model Configuration ---
+https://docs.celonis.com/en/knowledge-model-configuration.html
+Celonis Product DocumentationBusiness ApplicationsSustainability AppsShipping Emissions Reduction AppApp Implementation GuideCarbon Engine SetupKnowledge Model Configuration
+Knowledge Model Configuration
+
+ 
+
+By moving the carbon engine from the MLWB to the centralized backend version, it is necessary to configure your user-specific parameters in the app knowledge model. The following parameters needs to be set, before the emission calculation can be executed:
+
+Carbon Engine API Key
+
+Celonis API Token
+
+Celonis URL
+
+Data Pool ID
+
+Data Model ID
+
+Space ID
+
+Package ID
+
+Knowledge Model ID
+
+ 
+
+For this purpose, copy the entire following yaml configuration to the "variables" section in your knowledge model:
+
+  - displayName: Endpoint URL for our carbon engine 
+
+    id: VAR_CARBON_ENGINE_ENDPOINT_URL 
+
+    value: https://beta4.api.climatiq.io/freight/intermodal 
+
+  - displayName: API key for our carbon engine 
+
+    id: VAR_CARBON_ENGINE_API_KEY 
+
+    value: Bearer <YOUR_CLIMATIQ_API_KEY> 
+
+  - displayName: Celonis API token required for triggering the emission calcluation 
+
+    id: VAR_CELONIS_API_TOKEN 
+
+    value: <YOUR_PERSONAL_API_KEY> 
+
+  - description: "Example: https://companyA.eu-1.celonis.cloud/" 
+
+    displayName: Your Celonis Platform team URL 
+
+    id: VAR_CELONIS_URL 
+
+    value: <YOUR_CELONIS_URL> 
+
+  - displayName: ID of the data pool the app is using 
+
+    id: VAR_DATA_POOL_ID 
+
+    value: <YOUR_DATA_POOL_ID> 
+
+  - displayName: ID of the data model the app is using 
+
+    id: VAR_DATA_MODEL_ID 
+
+    value: <YOUR_DATA_MODEL_ID> 
+
+  - displayName: ID of the space where the application is stored 
+
+    id: VAR_SPACE_ID 
+
+    value: <YOUR_SPACE_ID> 
+
+  - displayName: ID of the app package 
+
+    id: VAR_PACKAGE_ID 
+
+    value: <YOUR_PACKAGE_ID> 
+
+  - displayName: ID of the app knowledge model 
+
+    id: VAR_KNOWLEDGE_MODEL_ID 
+
+    value: <YOUR_KNOWLEDGE_MODEL_ID> 
+
+  - id: VAR_CONFIG_TEST_DEPARTURE_CITY 
+
+    displayName: VAR_CONFIG_TEST_DEPARTURE_CITY 
+
+    value: ${{RT_VAR_CONFIG_TEST_DEPARTURE_CITY}} 
+
+  - id: VAR_BENCHMARKING_TRANSPORT_A_EXISTING_CONFIG_DEPARTURE_LOCATION 
+
+    displayName: VAR_BENCHMARKING_TRANSPORT_A_EXISTING_CONFIG_DEPARTURE_LOCATION 
+
+    value: ${{RT_VAR_BENCHMARKING_TRANSPORT_A_EXISTING_CONFIG_DEPARTURE_LOCATION}} 
+
+  - id: VAR_BENCHMARKING_TRANSPORT_A_EXISTING_CONFIG_ARRIVAL_LOCATION 
+
+    displayName: VAR_BENCHMARKING_TRANSPORT_A_EXISTING_CONFIG_ARRIVAL_LOCATION 
+
+    value: ${{RT_VAR_BENCHMARKING_TRANSPORT_A_EXISTING_CONFIG_ARRIVAL_LOCATION}} 
+
+  - id: VAR_BENCHMARKING_TRANSPORT_A_EXISTING_CONFIG_SHIPPING_TYPE 
+
+    displayName: VAR_BENCHMARKING_TRANSPORT_A_EXISTING_CONFIG_SHIPPING_TYPE 
+
+    value: ${{RT_VAR_BENCHMARKING_TRANSPORT_A_EXISTING_CONFIG_SHIPPING_TYPE}} 
+
+  - id: VAR_BENCHMARKING_TRANSPORT_B_EXISTING_CONFIG_DEPARTURE_LOCATION 
+
+    displayName: VAR_BENCHMARKING_TRANSPORT_B_EXISTING_CONFIG_DEPARTURE_LOCATION 
+
+    value: ${{RT_VAR_BENCHMARKING_TRANSPORT_B_EXISTING_CONFIG_DEPARTURE_LOCATION}} 
+
+  - id: VAR_BENCHMARKING_TRANSPORT_B_EXISTING_CONFIG_ARRIVAL_LOCATION 
+
+    displayName: VAR_BENCHMARKING_TRANSPORT_B_EXISTING_CONFIG_ARRIVAL_LOCATION 
+
+    value: ${{RT_VAR_BENCHMARKING_TRANSPORT_B_EXISTING_CONFIG_ARRIVAL_LOCATION}} 
+
+  - id: VAR_BENCHMARKING_TRANSPORT_B_EXISTING_CONFIG_SHIPPING_TYPE 
+
+    displayName: VAR_BENCHMARKING_TRANSPORT_B_EXISTING_CONFIG_SHIPPING_TYPE 
+
+    value: ${{RT_VAR_BENCHMARKING_TRANSPORT_B_EXISTING_CONFIG_SHIPPING_TYPE}} 
+
+  - id: VAR_BENCHMARKING_TRANSPORT_A_NEW_CONFIG_DEPARTURE_LOCATION 
+
+    displayName: VAR_BENCHMARKING_TRANSPORT_A_NEW_CONFIG_DEPARTURE_LOCATION 
+
+    value: ${{RT_VAR_BENCHMARKING_TRANSPORT_A_NEW_CONFIG_DEPARTURE_LOCATION}} 
+
+  - id: VAR_BENCHMARKING_TRANSPORT_A_NEW_CONFIG_ARRIVAL_LOCATION 
+
+    displayName: VAR_BENCHMARKING_TRANSPORT_A_NEW_CONFIG_ARRIVAL_LOCATION 
+
+    value: ${{RT_VAR_BENCHMARKING_TRANSPORT_A_NEW_CONFIG_ARRIVAL_LOCATION}} 
+
+  - id: VAR_BENCHMARKING_TRANSPORT_A_NEW_CONFIG_SHIPPING_TYPE 
+
+    displayName: VAR_BENCHMARKING_TRANSPORT_A_NEW_CONFIG_SHIPPING_TYPE 
+
+    value: ${{RT_VAR_BENCHMARKING_TRANSPORT_A_NEW_CONFIG_SHIPPING_TYPE}} 
+
+  - id: VAR_BENCHMARKING_TRANSPORT_B_NEW_CONFIG_DEPARTURE_LOCATION 
+
+    displayName: VAR_BENCHMARKING_TRANSPORT_B_NEW_CONFIG_DEPARTURE_LOCATION 
+
+    value: ${{RT_VAR_BENCHMARKING_TRANSPORT_B_NEW_CONFIG_DEPARTURE_LOCATION}} 
+
+  - id: VAR_BENCHMARKING_TRANSPORT_B_NEW_CONFIG_ARRIVAL_LOCATION 
+
+    displayName: VAR_BENCHMARKING_TRANSPORT_B_NEW_CONFIG_ARRIVAL_LOCATION 
+
+    value: ${{RT_VAR_BENCHMARKING_TRANSPORT_B_NEW_CONFIG_ARRIVAL_LOCATION}} 
+
+  - id: VAR_BENCHMARKING_TRANSPORT_B_NEW_CONFIG_SHIPPING_TYPE 
+
+    displayName: VAR_BENCHMARKING_TRANSPORT_B_NEW_CONFIG_SHIPPING_TYPE 
+
+    value: ${{RT_VAR_BENCHMARKING_TRANSPORT_B_NEW_CONFIG_SHIPPING_TYPE}} 
+
+  - id: VAR_BENCHMARKING_TRANSPORT_A_NEW_CONFIG_EMISSIONS 
+
+    displayName: VAR_BENCHMARKING_TRANSPORT_A_NEW_CONFIG_EMISSIONS 
+
+    value: "0" 
+
+  - id: VAR_BENCHMARKING_TRANSPORT_A_NEW_CONFIG_DISTANCE 
+
+    displayName: VAR_BENCHMARKING_TRANSPORT_A_NEW_CONFIG_DISTANCE 
+
+    value: "0" 
+
+  - id: VAR_BENCHMARKING_TRANSPORT_A_NEW_CONFIG_ERROR_MESSAGE 
+
+    displayName: VAR_BENCHMARKING_TRANSPORT_A_NEW_CONFIG_ERROR_MESSAGE 
+
+    value: "'No error'" 
+
+  - id: VAR_BENCHMARKING_TRANSPORT_B_NEW_CONFIG_EMISSIONS 
+
+    displayName: VAR_BENCHMARKING_TRANSPORT_B_NEW_CONFIG_EMISSIONS 
+
+    value: "0" 
+
+  - id: VAR_BENCHMARKING_TRANSPORT_B_NEW_CONFIG_DISTANCE 
+
+    displayName: VAR_BENCHMARKING_TRANSPORT_B_NEW_CONFIG_DISTANCE 
+
+    value: "0" 
+
+  - id: VAR_BENCHMARKING_TRANSPORT_B_NEW_CONFIG_ERROR_MESSAGE 
+
+    displayName: VAR_BENCHMARKING_TRANSPORT_B_NEW_CONFIG_ERROR_MESSAGE 
+
+    value: "'No error'" 
+
+  - id: VAR_LAST_EMISSION_CALC_TIME 
+
+    displayName: VAR_LAST_EMISSION_CALC_TIME 
+
+    value: "'1900-01-01 23:59:59'" 
+
+  - id: VAR_TEST_ST_CONFIG_DISTANCE 
+
+    displayName: VAR_TEST_ST_CONFIG_DISTANCE 
+
+    value: "0" 
+
+  - id: VAR_TEST_ST_CONFIG_EMISSIONS 
+
+    displayName: VAR_TEST_ST_CONFIG_EMISSIONS 
+
+    value: "0" 
+
+  - id: VAR_TEST_ST_CONFIG_ERROR_MESSAGE 
+
+    displayName: VAR_TEST_ST_CONFIG_ERROR_MESSAGE 
+
+    value: "'No error'" 
+
+  - id: VAR_BENCHMARKING_TRANSPORT_A_NEW_CONFIG_ROUTE_LAST_CALC 
+
+    displayName: VAR_BENCHMARKING_TRANSPORT_A_NEW_CONFIG_ROUTE_LAST_CALC 
+
+    value: "'undefined'" 
+
+  - id: VAR_BENCHMARKING_TRANSPORT_A_NEW_CONFIG_SHIPPING_TYPE_LAST_CALC 
+
+    displayName: VAR_BENCHMARKING_TRANSPORT_A_NEW_CONFIG_SHIPPING_TYPE_LAST_CALC 
+
+    value: "'None'" 
+
+  - id: VAR_BENCHMARKING_TRANSPORT_B_NEW_CONFIG_ROUTE_LAST_CALC 
+
+    displayName: VAR_BENCHMARKING_TRANSPORT_B_NEW_CONFIG_ROUTE_LAST_CALC 
+
+    value: "'undefined'" 
+
+  - id: VAR_BENCHMARKING_TRANSPORT_B_NEW_CONFIG_SHIPPING_TYPE_LAST_CALC 
+
+    displayName: VAR_BENCHMARKING_TRANSPORT_B_NEW_CONFIG_SHIIPPING_TYPE_LAST_CALC 
+
+    value: "'None'" 
+
+  - id: VAR_LAST_EMISSION_CALC_COUNT_ROUTES 
+
+    displayName: VAR_LAST_EMISSION_CALC_COUNT_ROUTES 
+
+    value: "0" 
+
+  - id: VAR_TEST_ST_CONFIG_LAST_SHIPPING_TYPE 
+
+    displayName: VAR_TEST_ST_CONFIG_LAST_SHIPPING_TYPE 
+
+    value: "'None'" 
+
+Notice
+
+Make sure that you copy/paste the all variables your knowledge model. 
+
+Notice
+
+The keyword "Bearer" in the variable VAR_CARBON_ENGINE_API_KEY must not be removed.
+
+ 
+
+Carbon Engine API Key 
+
+In the knowledge model search for <YOUR_CLIMATIQ_API_KEY>, please replace it by your Climatiq API key which you have received from us.
+
+Celoins Team URL 
+
+In the knowledge model search for <YOUR_CELONIS_TEAM_URL>, please replace it by your Celonis Platform-team URL (like "https://companyA.eu-1.celonis.cloud/").
+
+Celonis API Token 
+
+This application token is needed to trigger the carbon engine via an action flow. The best way to do so is by going to your Celonis profile and clicking on “Edit profile”. 
+
+In the section “API-Keys”, input a “New API Key Name” like “Emission Calculation” and click on “Create API KEY”. Copy this key to your clipboard.
+
+In the knowledge model search for <YOUR_PERSONAL_API_KEY>, please replace it by the newly created user application key.
+
+Data Pool ID 
+
+Navigate to the data pool you are using for the app. Copy the id from the URL. 
+
+Example:
+
+https://your_team.eu-1.celonis.cloud/integration/ui/pools/0baf644f-b9b7-4ca2-b375-9f875828a969
+
+In the studio knowledge model search for <VAR_DATA_POOL_ID>. Replace it by the copied ID.
+
+Data Model ID 
+
+Navigate to the data model you are using for the app. Copy the id from the URL.
+
+Example:
+
+https://your_team.eu-1.celonis.cloud/integration/ui/pools/0baf644f-b9b7-4ca2-b375-9f875828a969/data-configuration/process-data-models/141d3e14-8854-411c-8f30-0083a6c3f4df?tab=data-model
+
+In the studio knowledge model search for <VAR_DATA_MODEL_ID>. Replace it by the copied ID.
+
+Space ID 
+
+Navigate to the space in which the app is located. Copy the id from the URL. 
+
+Example:
+
+https://sustainability-dev.beta.celonis.cloud/package-manager/ui/studio/ui/spaces/92650a1a-6f0e-48e3-ae10-06b984d75780/nodes/8deb29ae-3615-4d6f-b84b-0c4d4af98b45
+
+In the studio knowledge model search for <YOUR_SPACE_ID>. Replace it by the copied ID.
+
+Package ID 
+
+Navigate to the settings of your app. Copy the id from the URL. 
+
+Example:
+
+https://sustainability-dev.beta.celonis.cloud/package-manager/ui/studio/ui/spaces/92650a1a-6f0e-48e3-ae10-06b984d75780/nodes/4c1c8985-6ad5-46c2-b38b-61aeaef4c53a/settings?tab=GENERAL
+
+In the knowledge model search for <YOUR_PACKAGE_ID>. Replace it by the copied ID.
+
+Knowledge Model ID 
+
+Navigate to the knowledge model of your app. Copy the id from the URL. 
+
+Example:
+
+https://sustainability-dev.beta.celonis.cloud/package-manager/ui/studio/ui/spaces/92650a1a-6f0e-48e3-ae10-06b984d75780/nodes/3813376e-b5f5-474d-bfaa-4c73bec5e38d
+
+In the knowledge model search for <YOUR_KNOWLEDGE_MODEL_ID>. Replace it by the copied ID.
+
+--- Knowledge Model ---
+https://docs.celonis.com/en/knowledge-model-1675518.html
+Celonis Product DocumentationBusiness ApplicationsSustainability AppsSustainable Spend Management AppInstalling the Sustainable Spend Management app in StudioKnowledge Model
+Knowledge Models in the Sustainable Spend Management app
+
+The app uses the Purchase to Pay KM Sustainability Extension. This KM depends on the KM existing in the Procurement Starter Kit.
+
+Action: Install the Procurement Starter Kit. Once it is installed, open the Settings of the App to add a dependency to this Procurement Starter Kit.
+
+Publish the package (even if there are no changes visible) and you should be able to see the views working.
+
+
